@@ -1,10 +1,10 @@
 <?php
 
-require('includes.php');
+require('includes/includes.php');
 
 analyze_user();
 
-require('prints.php');
+require('includes/prints.php');
 
 print_head();
 print_body();
