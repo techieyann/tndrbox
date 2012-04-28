@@ -1,0 +1,16 @@
+<?php
+
+require('includes.php');
+
+analyze_user();
+
+print_head();
+print_body();
+print_foot();
+
+function print_body()
+{
+
+}
+
+?>
