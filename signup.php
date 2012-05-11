@@ -29,7 +29,7 @@ function print_body()
 		if(strcmp($_GET['error'],"captcha")==0)
 		  {
 			echo "
-		<p class=\"red-text\">Please try the captcha again, robot.Xo</p>";
+		<p class=\"red-text\">The captcha tricked you again, robot.</p>";
 		  }
 		elseif(strcmp($_GET['error'],"email")==0)
 		  {
@@ -44,7 +44,7 @@ function print_body()
 		elseif(strcmp($_GET['error'],"password")==0)
 		  {
 			echo "
-		<p class=\"red-text\">Please use a password with TBD</p>";
+		<p class=\"red-text\">Password requires TBD</p>";
 		  }
 	  }
 
@@ -59,17 +59,19 @@ function print_body()
 					<td>Password</td>
 					<td><input required type=\"password\" name=\"pass\" id=\"pass\" maxlength=\"16\"></td>
 				</tr>
-				<tr>";
+				<tr>
+					<td colspan=2>";
 
   require_once('includes/recaptchalib.php');
   $publickey = "6LchVNESAAAAAMenf3lTWgj00YzeyK-hRKS_bozg";
   echo recaptcha_get_html($publickey);
 
 	echo "
+					</td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type=\"submit\" value=\"Login\"></td>
+					<td style=\"text-align:right\"><input type=\"submit\" value=\"Login\"></td>
 				</tr>
 			</table>
 		</form>";
