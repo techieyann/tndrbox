@@ -1,19 +1,8 @@
 <?php
-/***********************************************
-file: validate_login.php
-creator: Ian McEachern
-
-This script checks if the email is formatted 
-before accessing the database, and then checks 
-the username password combination. If correct,
-it sets a cookie on the user with validated 
-login via a session id number.
- ***********************************************/
-
 	require('../includes/includes.php');
 	require('../includes/db_interface.php');
 
-	$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+	connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 	
 	$email = sanitize($_POST['email']);
@@ -47,5 +36,5 @@ login via a session id number.
 	{
  		header("location:/login?error=match");
 	}
-	disconnect_from_db($link);
+	
 ?>

@@ -1,15 +1,4 @@
 <?php
-/***********************************************
-file: validate_login.php
-creator: Ian McEachern
-
-This script checks if the email is formatted 
-before accessing the database, and then checks 
-the username password combination. If correct,
-it sets a cookie on the user with validated 
-login via a session id number.
- ***********************************************/
-
 	require('../includes/includes.php');
 	require('../includes/db_interface.php');
 
@@ -20,15 +9,33 @@ login via a session id number.
 
 	if(preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $email, $matches) == 0)
 	{
-		print($matches);
-		header("location:/login?error=email");
+		header("location:/signup?error=email");
+		disconnect_from_db($link);
+		exit;
 	}
-
-	$password = md5(sanitize($_POST['pass']));
-
 	
-	$query = "SELECT id FROM members WHERE email = '$email' AND password = '$password'";
-	$result = query_db($query);
+
+$query = "SELECT FROM members WHERE email = '$email'";
+$result = query_db($query);
+if(mysql_num_rows($result) != 0)
+  {
+	header("location:/signup?error=dup");
+	disconnect_from_db($link);
+	exit;	
+  }
+
+	$password = sanitize($_POST['pass']);
+//password check
+if(false)
+  {
+	header("location:/signup?error=password");
+	disconnect_from_db($link);
+	exit;
+  }	
+	
+
+$query = "INSERT INTO members ( 'email', 'password') VALUES ('$email','$password')";
+$result = query_db($query);
 	if(mysql_num_rows($result) == 1)
 	{
 		$member = mysql_fetch_array($result);

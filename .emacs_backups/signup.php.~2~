@@ -1,16 +1,11 @@
 <?php
-/***********************************************
-file: login.php
-creator: Ian McEachern
 
-This file presents a login dialogue and parses 
-error messages
- ***********************************************/
 require('includes/includes.php');
 
 analyze_user();
 
 require('includes/prints.php');
+
 
 print_head();
 print_body();
@@ -18,8 +13,8 @@ print_foot();
 
 function print_body()
 {
-	echo "
-	<div id=\"login\" class=\"note\">";
+  	echo "
+	<div id=\"signup\" class=\"content-pane\">";
 	
 	if(isset($_GET['error']))
 	  {
@@ -30,15 +25,20 @@ function print_body()
 			echo "
 		<p class=\"red-text\">That email format was not recognized</p>";
 		  }
-		if(strcmp($_GET['error'],"match")==0)
+		if(strcmp($_GET['error'],"dup")==0)
 		  {
 			echo "
-		<p class=\"red-text\">Incorrect email/password combination</p>";
+		<p class=\"red-text\">That email is already in use</p>";
+		  }
+		if(strcmp($_GET['error'],"password")==0)
+		  {
+			echo "
+		<p class=\"red-text\">Please use a password with TBD</p>";
 		  }
 	  }
 
 	echo "
-		<form name=\"\" action=\"scripts/validate_login.php\" method=\"post\">
+		<form name=\"\" action=\"scripts/new_user.php\" method=\"post\">
 			<table>
 				<tr>
 					<td>Email</td>
@@ -54,7 +54,5 @@ function print_body()
 				</tr>
 			</table>
 		</form>
-	</div>";
 }
-
 ?>

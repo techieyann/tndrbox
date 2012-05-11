@@ -1,11 +1,4 @@
 <?php
-/***********************************************
-file: .php
-creator: Ian McEachern
-
-About this file
- ***********************************************/
-
 
 require('includes/includes.php');
 

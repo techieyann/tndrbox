@@ -1,6 +1,15 @@
 <?php
 
-require('includes.php');
+/***********************************************
+file: new-post.php
+creator: Ian McEachern
+
+This file displays a form for creating a new
+posting
+ ***********************************************/
+
+require('includes/includes.php');
+require('includes/prints.php');
 
 print_head();
 print_body();
