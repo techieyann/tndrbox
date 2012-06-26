@@ -1,21 +1,25 @@
 <?php
 /***********************************************
-file: .php
+file: home.php
 creator: Ian McEachern
 
-About this file
+This file is the default page for logged in
+users. Redirects to index.php if user is not
+logged in.
  ***********************************************/
 
 
 require('includes/includes.php');
-require('includes/db_interface.php');
 
-$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
-disconnect_from_db($link);
+
+if($GLOBALS['logged_in'] == false)
+{
+	header("location:/");
+	exit;
+}
 
 require('includes/prints.php');
-
 
 print_head();
 print_body();
@@ -25,6 +29,7 @@ function print_body()
 {
   echo "
 	<div id=\"\" class =\"content-pane\">
+	logged in!
 	</div>";
 }
 ?>

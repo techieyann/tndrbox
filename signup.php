@@ -44,7 +44,12 @@ function print_body()
 		elseif(strcmp($_GET['error'],"password")==0)
 		  {
 			echo "
-		<p class=\"red-text\">Password requires TBD</p>";
+		<p class=\"red-text\">Passwords do not match</p>";
+		  }
+		elseif(strcmp($_GET['error'],"db")==0)
+		  {
+			echo "
+		<p class=\"red-text\">Sorry, there was a database error</p>";
 		  }
 	  }
 
@@ -57,7 +62,11 @@ function print_body()
 				</tr>
 				<tr>
 					<td>Password</td>
-					<td><input required type=\"password\" name=\"pass\" id=\"pass\" maxlength=\"16\"></td>
+					<td><input required type=\"password\" name=\"pass1\" id=\"pass1\" maxlength=\"16\"></td>
+				</tr>
+				<tr>
+					<td>Re-enter</td>
+					<td><input required type=\"password\" name=\"pass2\" id=\"pass2\" maxlength=\"16\"></td>
 				</tr>
 				<tr>
 					<td colspan=2>";

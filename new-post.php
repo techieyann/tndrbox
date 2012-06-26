@@ -19,47 +19,32 @@ function print_body()
 {
   echo "
 	<div id=\"new-post\" class =\"content-pane\">
-		<form name=\"new-post-form\" action=\"/scripts/new-post-script.php\" method=\"post\">
+		<form name=\"new-post-form\" action=\"scripts/new_post.php\" method=\"post\">
 			<table>
 				<tr>
 					<td>Title</td>
 					<td>:</td>
 					<td><input type=\"text\" name=\"title\" id=\"title\"></td>
-
-					<td>Tagline</td>
-					<td>:</td>
-					<td><input type=\"text\" name=\"tagline\" id=\"tagline\"></td>
-				</tr>
-				<tr>
-					<td rowspan=2>Date</td>
-					<td rowspan=2>:</td>
-					<td rowspan=2><input type=\"date\" name=\"date\" id=\"date\"></td>
-			 		<td>Clock-in</td>
-		   			<td>:</td>
-	   				<td><input type=\"time\" name=\"time-start\" id=\"time-start\"></td>
-   				</tr>
-		  		<tr>
-					<td>Clock-out</td>
-					<td>:</td>
-					<td><input type=\"time\" name=\"time-fin\" id=\"time-fin\"></td>
 				</tr>
 				<tr>
 					<td>Description</td>
 					<td>:</td>
-					<td colspan=4><textarea name=\"tagline\" cols=70 rows=4>Default Values...</textarea></td>
+					<td colspan=4><textarea name=\"description\" cols=70 rows=4>Default Values...</textarea></td>
 				</tr>
 				<tr>
 					<td>Tags</td>
 					<td>:</td>
-					<td><input type=\"text\" name=\"tags\" id=\"tags\"></td>
+					<td><input type=\"text\" name=\"tag1\" id=\"tag1\"></td>
+					<td><input type=\"text\" name=\"tag2\" id=\"tag2\"></td>
+					<td><input type=\"text\" name=\"tag3\" id=\"tag3\"></td>
 				</tr>
 				<tr>
 					<td>Publish Date</td>
 					<td>:</td>
-					<td><input type=\"text\" name=\"publish-date\" id=\"publish-date\"></td>
+					<td><input type=\"text\" name=\"publish_date\" id=\"publish_date\"></td>
 					<td>Publish Time</td>
 					<td>:</td>
-					<td><input type=\"time\" name=\"publish-time\" id=\"publish-time\"></td>
+					<td><input type=\"time\" name=\"publish_time\" id=\"publish_time\"></td>
 				</tr>
 				<tr>
 					<td colspan=6><input type=\"submit\" value=\"Submit\"></td>

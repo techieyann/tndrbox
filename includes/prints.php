@@ -26,9 +26,19 @@ function print_head()
 <html>
 
 <head>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\" media=\"all\">
 </head>
 
-<body>";
+<body>
+<div id=\"header-fullwidth\">
+		     <div id=\"header-wrap\">
+                     	  <a href=\"/\" id=\"tndrbox-logo\"></a>
+		     
+			  <ul id =\"main-nav\"> 
+			  </ul>
+                     </div><!-- #header-wrap -->
+                </div><!-- #header-fullwidth -->
+		<div id=\"content-wrap\">";
 
 }
 

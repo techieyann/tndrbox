@@ -1,13 +1,9 @@
 <?php
 /***********************************************
-file: validate_login.php
+file: new_business.php
 creator: Ian McEachern
 
-This script checks if the email is formatted 
-before accessing the database, and then checks 
-the username password combination. If correct,
-it sets a cookie on the user with validated 
-login via a session id number.
+This script creates a new business.
  ***********************************************/
 
 	require('../includes/includes.php');
@@ -40,7 +36,7 @@ login via a session id number.
 		
 		$cookie_val = $username.",".$session_id;
 
-		setcookie("login", $cookie_val, time()+(3600*8), "/");
+		setcookie("info", $cookie_val, time()+(3600*8), "/");
    		header("location:/home");
 	}
 	else
