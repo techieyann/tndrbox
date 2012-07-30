@@ -44,7 +44,7 @@ else //check the rest of the content
 	}
 	
 	//email unique-ness check
-	$query = "SELECT FROM members WHERE email = '$email'";
+	$query = "SELECT id FROM members WHERE email = '$email'";
 	$result = query_db($query);
 	if(mysql_num_rows($result) != 0)
 	  {
@@ -65,9 +65,31 @@ else //check the rest of the content
 	
 	//hash the password
 	$md5_pass = md5($pass1);
+	
+	$name = sanitize($_POST['name']);
+	//check for business name uniqueness
+	$query = "SELECT id FROM business WHERE name = '$name'";
+	$result = query_db($query);
+	if(mysql_num_rows($result) != 0)
+	  {
+		header("location:/signup?error=bus_dup");
+		disconnect_from_db($link);
+		exit;	
+	  }
+	
+	//create new business and get the id
+	$query = "INSERT INTO business (name) VALUES ('$name')";
+	$result = query_db($query);
+	if(mysql_num_rows($result) == 1)
+	  {
+		$query = "SELECT id FROM business WHERE name='$name'";
+		$result = query_db($query);
+		$business = mysql_fetch_array($result);
+		$b_id = $business['id'];
+	  }
 
 	//create new user and log them in
-	$query = "INSERT INTO members ( 'email', 'password') VALUES ('$email','$md5_pass')";
+	$query = "INSERT INTO members (email, password, b_id) VALUES ('$email','$md5_pass', '$b_id')";
 	$result = query_db($query);
 	if(mysql_num_rows($result) == 1)
 	{
@@ -81,7 +103,7 @@ else //check the rest of the content
 		$cookie_val = $username.",".$session_id;
 
 		setcookie("info", $cookie_val, time()+(3600*8), "/");
-   		header("location:/settings");
+   		header("location:/new-business");
 	}
 	else
 	{

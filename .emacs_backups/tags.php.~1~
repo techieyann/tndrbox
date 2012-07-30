@@ -1,11 +1,10 @@
 <?php
 /***********************************************
-file: index.php
+file: tags.php
 creator: Ian McEachern
 
-This is the default page. It displays the most
-relevant data based on the function scrape_tags()
-in includes.php.
+This file displays either the most popular tags,
+or the postings of a specific tag.
  ***********************************************/
 require('includes/includes.php');
 require('includes/db_interface.php');
@@ -17,11 +16,12 @@ analyze_user();
 
 //set variables
 //body
-$id = $GLOBALS['id'];
-$result = scrape_tags();
-while($post = mysql_fetch_array($result))
+$id = $GLOBALS['b_id'];
+$get_tag_set = false;
+if(isset($_GET['tag']))
 {
-	$postings[$post['id']] = $post;
+	$get_tag_set = true;
+	$tag_id = sanitize($_GET['tag']);
 }
 
 //head
@@ -29,7 +29,8 @@ $GLOBALS['header_html_title'] = "tndrbox - ";
 $GLOBALS['header_scripts'] = "";
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
-$GLOBALS['header_selected_page'] = "landing";
+$GLOBALS['header_selected_page'] = "tags";
+
 require('includes/prints.php');
 
 print_head();
@@ -40,13 +41,15 @@ disconnect_from_db();
 
 function print_body()
 {
-  global $postings;
   echo "
 	<div id=\"\" class =\"content-pane\">";
-	$i = 0;
-	foreach($postings as $post)
+	if($get_tag_set)
 	{
-		extract($post);
+		$query = "SELECT * FROM postings WHERE tag1='$tag_id' OR tag2='$tag_id' OR tag3='$tag_id' LIMIT 20"
+		$result = query_db($query)
+		while($post = mysql_fetch_array($result)
+		{
+			extract($post);
 		$query = "SELECT tag FROM tags WHERE id='$tag_1' AND id='$tag_2' AND id='$tag_3'";
 		$tags_result = query_db($query);
 		$j = 0;
@@ -84,8 +87,21 @@ function print_body()
 					</ul>
 				</div>
 			</div>";		
+		}
 	}
-
+	else
+	{
+		$query = "SELECT * FROM tags ORDER BY tag LIMIT 50";
+		$result = query_db($query);
+		while($present_tag = mysql_fetch_array($result))
+		{
+			extract($present_tag);
+			echo "
+			<a href=\"tags?tag=$id\">
+			$tag
+			</a><br>";
+		}	
+	}	
   echo "
 	</div>";
 }

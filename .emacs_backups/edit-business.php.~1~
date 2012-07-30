@@ -11,18 +11,6 @@ require('includes/db_interface.php');
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();
-//verify_logged_in();
-
-//set variables
-//body
-$id = $GLOBALS['b_id'];
-
-//head
-$GLOBALS['header_html_title'] = "tndrbox - ";
-$GLOBALS['header_scripts'] = "";
-$GLOBALS['header_title'] = "";
-$GLOBALS['header_body_includes'] = "";
-$GLOBALS['header_selected_page'] = "";
 
 require('includes/prints.php');
 

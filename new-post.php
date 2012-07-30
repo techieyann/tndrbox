@@ -7,13 +7,20 @@ creator: Ian McEachern
 This file displays a form for creating a new
 posting
  ***********************************************/
-
 require('includes/includes.php');
+require('includes/db_interface.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+analyze_user();
+
 require('includes/prints.php');
 
 print_head();
 print_body();
 print_foot();
+
+disconnect_from_db();
 
 function print_body()
 {

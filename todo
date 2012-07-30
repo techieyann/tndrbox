@@ -1,0 +1,11 @@
+-chron job to call update_posting_db
+-autofill for tag fields (javascript)
+-security for new signups
+-css styling
+-tag list javascript
+=-header & footer code
+=-create old_postings table
+=-copy images into source code tree
+-initialize git tree
+-implement & test
+-debugging

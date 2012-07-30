@@ -1,21 +1,33 @@
 <?php
 /***********************************************
-file: home.php
+file: business.php
 creator: Ian McEachern
 
-This file is the default page for logged in
-users. Redirects to index.php if user is not
-logged in.
+This file outputs the active posting for a given
+business and the relevant business data.
  ***********************************************/
-
-
 require('includes/includes.php');
 require('includes/db_interface.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();
-verify_logged_in();
+//verify_logged_in();
+
+//set variables
+//body
+$b_flag = false;
+if(isset($_GET['b_id']))
+{
+	$b_id = sanitize($_GET['b_id']);
+	$b_flag = true;
+}
+
+//head
+$GLOBALS['header_html_title'] = "tndrbox - ";
+$GLOBALS['header_scripts'] = "";
+$GLOBALS['header_title'] = "";
+$GLOBALS['header_body_includes'] = "";
 
 require('includes/prints.php');
 
@@ -27,9 +39,11 @@ disconnect_from_db();
 
 function print_body()
 {
-	echo "
+  echo "
 	<div id=\"\" class =\"content-pane\">";
-
+	
+	if($b_flag == true)
+	{
 	//print business info
 	$b_id = $GLOBALS['b_id'];
  	$query = "SELECT * FROM business where id='$b_id'";
@@ -39,7 +53,6 @@ function print_body()
 		extract($result);
 		echo "
 		<div id=\"bar_info\">
-			<a href=\"/edit-business.php?name=$name&address=$address&city=$city&state=$state&zip=$zip&number=$number&url=$url&hours=$hours\">Edit</a>
 		      <table width=\"95%\"><tr>
 		      	     <td><h2>";
 		if($url != "")
@@ -96,13 +109,11 @@ function print_body()
 			</tr></table>
 			</div>
 		</div>";
-	}
-  	//print business posting queue limit 5
-	$query = "SELECT * FROM postings WHERE b_id='$b_id' LIMIT 5 ORDER BY posting_time ASC";
+
+  	//print active business posting
+	$query = "SELECT * FROM postings WHERE b_id='$b_id' LIMIT 1 ORDER BY posting_time ASC";
 	$result = query_db($query);
-	$i = 0;
-	while($posting = mysql_fetch_array($result))
-	  {
+	$posting = mysql_fetch_array($result);
 		extract($posting);
 		$query = "SELECT tag FROM tags WHERE id='$tag_1' AND id='$tag_2' AND id='$tag_3'";
 		$tags_result = query_db($query);
@@ -123,15 +134,12 @@ function print_body()
 			  }
 		  }
 		echo "
-			<div id=\"posting_border_".$i++."\">
-				<div class=\"posting-$i-title\">$title</div>
-				<div class=\"posting-$i-time\">$posting_time</div>
-				<div class=\"posting-$i-edit\">
-					<a href=\"/edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
-				</div>
-				<div class=\"posting-$i-data\">
+			<div id=\"posting_border_1\">
+				<div class=\"posting-1-title\">$title</div>
+				<div class=\"posting-1-time\">$posting_time</div>
+				<div class=\"posting-1-data\">
 					<img src=\"$photo\" alt=\"photo for $title\" class=\"posting-image\">
-					<div class=\"posting-$i-blurb\">
+					<div class=\"posting-1-blurb\">
 						$blurb
 					</div>
 					<ul>
@@ -142,6 +150,61 @@ function print_body()
 				</div>
 			</div>";
 	  }
+	  else
+	  {
+		$b_flag = false;
+	  }
+	  if($b_flag == false)
+	  {
+	       	$db_query = "SELECT name, id, logo  FROM businesses ORDER BY name";
+		$result = query_db($db_query);
+		echo "
+		     <table width=\"100%\">";
+		
+		$count=0;
+		
+		while($business = mysql_fetch_array($result))
+		{
+				if($count == 0)
+				{
+					echo "
+			<tr>";
+				}
+				extract($business);
+				echo "
+				<td align=\"center\">
+				<br>
+		     		<a href=\"?id=".$id."\" title=\"".$name."\">";
+				if($logo == "")
+				{
+					echo "
+	     	     		<div class=\"bus_button\">
+				 <span>".$name."</span>
+		     		</div>";
+				}
+		     	  	else
+				{
+					echo "
+				<img src=\"images/".$logo."\" alt=\"".$name."\" border=\"0\" width=\"200\">";
+				}
+				echo "</a><br>
+				</td>";
+
+				if(++$count == 4)
+				{
+					$count = 0;
+					echo "
+			</tr>";
+				} 	
+		}
+		if($count != 0)
+		{
+			echo "
+			</tr>";
+		}
+		echo "
+		     </table>";
+	} 	
 	echo "	
 	</div>";
 }

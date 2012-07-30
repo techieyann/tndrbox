@@ -21,12 +21,14 @@ access the metadata variables.
 function print_head()
 {
 	echo "
-<!--DOCTYPE HTML-->
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
+\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 
 <html>
 
 <head>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\" media=\"all\">
+<title>".$GLOBALS['header_html_title']."</title>
 </head>
 
 <body>
@@ -35,6 +37,43 @@ function print_head()
                      	  <a href=\"/\" id=\"tndrbox-logo\"></a>
 		     
 			  <ul id =\"main-nav\"> 
+			  <li";
+	if($GLOBALS['header_selected_page'] == "business")
+	{
+		echo " id=\"nav-selected\"";
+	}
+	echo "><a href=\"business\">Businesses</a></li>
+			  <li";
+	if($GLOBALS['header_selected_page'] == "tags")
+	{
+		echo " id=\"nav-selected\"";
+	}
+	echo "><a href=\"tags\">Tags</a></li>
+			  <li";
+	if($GLOBALS['header_selected_page'] == "about")
+	{
+		echo " id=\"nav-selected\"";
+	}
+	echo "><a href=\"about\">About</a></li>
+			  <li";
+	if($GLOBALS['logged_in'] == false)
+	{
+		if($GLOBALS['header_selected_page'] == "login")
+		{
+			echo " id=\"nav-selected\"";
+		}
+		echo "><a href=\"login\">Login</a></li>";
+	}
+	else
+	{
+		if($GLOBALS['header_selected_page'] == "home")
+		{
+			echo " id=\"nav-selected\"";
+		}
+		echo "><a href=\"login\">Settings</a></li>
+		     <li><a href=\"login\">Logout</a></li>";
+	}
+	echo "	
 			  </ul>
                      </div><!-- #header-wrap -->
                 </div><!-- #header-fullwidth -->
@@ -44,10 +83,15 @@ function print_head()
 
 function print_foot()
 {
-  global $version;
   echo "
-
-<footer>version $version</footer>
+</div>
+<div id=\"footer\">
+	<a href=\"#header-fullwidth\">
+	   <img id=\"footer-icon\" src=\"images/footer-logo.png\" alt=\"footer-logo\" width=\"50\" height=\"62\">
+	</a>
+	<br>
+	version ".$GLOBALS['version']."
+</div>
 
 </body>
 

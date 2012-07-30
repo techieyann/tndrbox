@@ -8,10 +8,7 @@ recaptcha and parses error messages
  ***********************************************/
 require('includes/includes.php');
 
-analyze_user();
-
 require('includes/prints.php');
-
 
 print_head();
 print_body();
@@ -20,7 +17,7 @@ print_foot();
 function print_body()
 {
   	echo "
-	<div id=\"signup\" class=\"content-pane\">";
+	<div id=\"notice\" class=\"content-pane\">";
 	
 	if(isset($_GET['error']))
 	  {
@@ -40,6 +37,11 @@ function print_body()
 		  {
 			echo "
 		<p class=\"red-text\">That email is already in use</p>";
+		  }
+		elseif(strcmp($_GET['error'],"bus_dup")==0)
+		  {
+			echo "
+		<p class=\"red-text\">That business name is already taken</p>";
 		  }
 		elseif(strcmp($_GET['error'],"password")==0)
 		  {
@@ -84,6 +86,5 @@ function print_body()
 				</tr>
 			</table>
 		</form>";
-
 }
 ?>

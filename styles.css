@@ -64,6 +64,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 	background: #0f0e0e;
 	height: 60px;
 	border-bottom: 1px solid #535353;
+	min-width: 940px;
 }
 
 

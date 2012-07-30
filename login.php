@@ -8,7 +8,8 @@ error messages
  ***********************************************/
 require('includes/includes.php');
 
-analyze_user();
+$GLOBALS['header_html_title'] = "tndrbox - Login";
+$GLOBALS['header_selected_page'] = "login";
 
 require('includes/prints.php');
 
@@ -19,7 +20,7 @@ print_foot();
 function print_body()
 {
 	echo "
-	<div id=\"login\" class=\"note\">";
+	<div class=\"content-pane\" id=\"notice\">";
 	
 	if(isset($_GET['error']))
 	  {

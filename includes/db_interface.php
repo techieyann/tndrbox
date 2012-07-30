@@ -11,12 +11,12 @@ function connect_to_db($username, $password, $database)
 {
 	$connection = mysql_connect("localhost", $username, $password) or die(mysql_error());
         mysql_select_db($database) or die(mysql_error());
-	return $connection;
+	$GLOBALS['link'] = $connection;
 }
 
-function disconnect_from_db($connection)
+function disconnect_from_db()
 {
-	mysql_close($connection) or die(mysql_error());
+	mysql_close($GLOBALS['link']) or die(mysql_error());
 }
 
 function query_db($query)
