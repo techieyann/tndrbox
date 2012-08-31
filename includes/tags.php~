@@ -15,28 +15,26 @@ function.
 
 function increment_tag($tag_id)
 {
-	$query = "SELECT num_ref FROM tags WHERE id='$tag_id'";
+	$query = "SELECT num_ref FROM tags WHERE id='$id'";
 	$result = query_db($query);
-	$res = mysql_fetch_array($result);
-	extract($res);
+	extract($result);
 	if(isset($num_ref))
 	{
 		$num_ref++;
-		$query = "UPDATE tags SET num_ref=$num_ref WHERE id=$tag_id";
+		$query = "UPDATE postings SET num_ref=$num_ref WHERE id=$tags_id";
 		$result = query_db($query);
 	}
 }
 
 function decrement_tag($tag_id)
 {
-	$query = "SELECT num_ref FROM tags WHERE id='$tag_id'";
+	$query = "SELECT num_ref FROM tags WHERE id='$id'";
 	$result = query_db($query);
-	$res = mysql_fetch_array($result);
-	extract($res);
+	extract($result);
 	if(isset($num_ref))
 	{
 		$num_ref--;
-		$query = "UPDATE tags SET num_ref=$num_ref WHERE id=$tag_id";
+		$query = "UPDATE postings SET num_ref=$num_ref WHERE id=$tags_id";
 		$result = query_db($query);
 	} 
 }
@@ -47,8 +45,7 @@ function get_tag($tag)
 	{
 		$query = "SELECT tag FROM tags WHERE id=$tag";
 		$result = query_db($query);
-		$res = mysql_fetch_array($result);
-		return $res['tag'];
+		return $result['tag'];
 	}
 	else
 	{
@@ -80,8 +77,7 @@ function add_tag($tag)
 		$result = query_db($query);
 		$query = "SELECT id FROM tags WHERE tag='$tag'";
 		$result = query_db($query);
-		$res = mysql_fetch_array($result);
-		extract($res);
+		extract($result);
 		}
 	  else
 		{

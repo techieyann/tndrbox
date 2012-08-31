@@ -14,7 +14,7 @@ $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();	
 
-$name = sanitize($_POST['name']);
+$b_id = sanitize($_GET['b_id']);
 
 $tag1 = sanitize($_POST['tag1']);
 $tag2 = sanitize($_POST['tag2']);
@@ -31,10 +31,19 @@ $zip = sanitize($_POST['zip']);
 $lat = 0;
 $lon = 0;
 
-$query = "INSERT INTO business (name, tag1, tag2, address, city, state,
-       	 zip, lat, lon) VALUES ('$name', '$tag1_id', '$tag2_id',
-	 '$address', '$city', '$state', '$zip', '$lat', '$lon')";
-query_db($query);
+$query = "UPDATE business SET tag_1='$tag1_id', tag_2='$tag2_id',
+		 address='$address', city='$city', state='$state',
+       	 zip=$zip, lat=$lat, lon=$lon WHERE id=$b_id";
+$result = query_db($query);
 
+
+if($result)
+  {
+	header("location:/home");
+  }
+else
+  {
+header("location:/");	
+  }
 disconnect_from_db($link);
 ?>

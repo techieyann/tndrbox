@@ -33,10 +33,15 @@ disconnect_from_db();
 
 function print_body()
 {
-	global $title, $blurb, $tag1, $tag2, $tag3, $publish_date, $publish_time;
+	global $title, $blurb, $tag_1, $tag_2, $tag_3, $publish_date, $publish_time, $error;
 
   echo "
-	<div id=\"edit-post\" class =\"content-pane\">
+	<div id=\"edit-post\" class =\"content-pane\">";
+if($error == 1)
+{
+	echo "<p>Please make sure your data is formatted correctly</p>";
+}	
+echo "
 		<form name=\"edit-post-form\" action=\"scripts/edit_post.php\" method=\"post\">
 			<table>
 				<tr>

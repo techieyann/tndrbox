@@ -13,7 +13,11 @@ require('../includes/tags.php');
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();
-	
+verify_logged_in();
+
+$business_id=$GLOBALS['b_id'];
+$author_id=$GLOBALS['m_id'];
+
 $title = sanitize($_POST['title']);
 $desc = sanitize($_POST['description']);
 
@@ -34,11 +38,18 @@ $time = sanitize($_POST['publish_time']);
 //mysql datetime format: 'YYYY-MM-DD HH:MM:SS'
 $post_datetime = "$date $time";
 	
-$query = "INSERT INTO postings (title, blurb, photo, tag1, tag2, tag3, 
+$query = "INSERT INTO postings (title, blurb, tag_1, tag_2, tag_3, 
        	 posting_time, b_id, a_id) VALUES ('$title', '$desc', $tag1_id, 
-	 $tag2_id, $tag3_id, $post_datetime, $business_id, $author_id)";
-query_db($query);
-
+	 $tag2_id, $tag3_id, '$post_datetime', $business_id, $author_id)";
+$result = query_db($query);
+if($result)
+{
+	header("location:/home");
+}
+else
+{
+	header("location:/edit-post.php?error=1&title=$title&blurb=$desc&tag1=$tag1&tag2=$tag2&tag3=$tag3&date=$date&time=$time");
+}
 disconnect_from_db($link);
 
 ?>

@@ -37,14 +37,24 @@ disconnect_from_db();
 
 function print_body()
 {
-	global $id, $nickname, $username, $name, $address, $city, $state, $zip, $number, $url, $hours;
+  global $id, $nickname, $username, $name, $address, $city, $state, $zip, $number, $url, $hours, $tag_1, $tag_2;
 	echo "
 		<table class=\"content-pane\" id=\"notice\">
-			<form name=\"$id\" method=\"post\" action=\"scripts/bar_update.php?id=$id\">
+			<form name=\"$id\" method=\"post\" action=\"scripts/edit_business.php?id=$id\">
 			<tr>
 				<td>Name</td>
 				<td>:</td>
 				<td><input type=\"text\" name=\"name\" id=\"name\" value=\"$name\" maxlength=\"50\"></td>
+			</tr>
+			<tr>
+				<td>Tag 1</td>
+				<td>:</td>
+				<td><input type=\"text\" name=\"tag_1\" id=\"tag_1\" value=\"$tag_1\" maxlength=\"100\"></td>
+			</tr>
+			<tr>
+				<td>Tag 2</td>
+				<td>:</td>
+				<td><input type=\"text\" name=\"tag_2\" id=\"tag_2\" value=\"$tag_2\" maxlength=\"100\"></td>
 			</tr>
 			<tr>
 				<td>Address</td>

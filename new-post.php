@@ -49,8 +49,7 @@ function print_body()
 					<td>Publish Date</td>
 					<td>:</td>
 					<td><input type=\"text\" name=\"publish_date\" id=\"publish_date\"></td>
-					<td>Publish Time</td>
-					<td>:</td>
+					<td>Publish Time :</td>
 					<td><input type=\"time\" name=\"publish_time\" id=\"publish_time\"></td>
 				</tr>
 				<tr>

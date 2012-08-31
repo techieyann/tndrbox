@@ -1,11 +1,15 @@
 -chron job to call update_posting_db
 -autofill for tag fields (javascript)
--security for new signups
+-security for new signups //maybe
 -css styling
 -tag list javascript
-=-header & footer code
-=-create old_postings table
-=-copy images into source code tree
 -initialize git tree
--implement & test
+-geolocation script
+
+
 -debugging
+
+--edit_user script needs to be more discriminatory
+--tags links are doing nothing
+--postings display mysql error
+--business info doesnt display tags

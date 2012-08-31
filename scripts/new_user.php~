@@ -97,8 +97,6 @@ else //check the rest of the content
 		$member = mysql_fetch_array($result);
 		$session_id = rand(100,9999);
 		$member_id = $member['id'];
-		$query = "UPDATE business SET admin_id='$member_id' WHERE id = '$b_id'";
-		$result = query_db($query);
 
 		$query = "UPDATE members SET s_id='$session_id' WHERE id = '$member_id'";
 		$result = query_db($query);

@@ -1,9 +1,9 @@
 <?php
 /***********************************************
-file: edit_post.php
+file: new_post.php
 creator: Ian McEachern
 
-This script edits an existing posting.
+This script creates a new posting.
  ***********************************************/
 
 require('../includes/includes.php');
@@ -13,11 +13,7 @@ require('../includes/tags.php');
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();
-
-$post_id = sanitize($_GET['p_id']);
-$query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE id='$post_id'";
-$result = query_db($query);
-
+	
 $title = sanitize($_POST['title']);
 $desc = sanitize($_POST['description']);
 
@@ -25,33 +21,9 @@ $tag1 = sanitize($_POST['tag1']);
 $tag2 = sanitize($_POST['tag2']);
 $tag3 = sanitize($_POST['tag3']);
 
-if(strcmp($tag1,$tag_1) != 0)
-{ 
-	$tag1_id = add_tag($tag1);
-	decrement_tag($tag_1);
-}
-else
-{
-	$tag1_id = $tag_1;
-}
-if(strcmp($tag2,$tag_2) != 0)
-{ 
-	$tag2_id = add_tag($tag2);
-	decrement_tag($tag_2);
-}
-else
-{
-	$tag2_id = $tag_2;
-}
-if(strcmp($tag3,$tag_3) != 0)
-{ 
-	$tag3_id = add_tag($tag3);
-	decrement_tag($tag_3);
-}
-else
-{
-	$tag3_id = $tag_3;
-}
+$tag1_id = add_tag($tag1);
+$tag2_id = add_tag($tag2);
+$tag3_id = add_tag($tag3);
 
 //$price = sanitize($_POST['price']);
 //$number = sanitize($_POST['quantity']);
@@ -62,13 +34,11 @@ $time = sanitize($_POST['publish_time']);
 //mysql datetime format: 'YYYY-MM-DD HH:MM:SS'
 $post_datetime = "$date $time";
 	
-$query = "UPDATE postings set title='$title', blurb='$blurb', 
-       	 tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id', 
-       	 posting_time='$post_datetime', a_id='$user_id'
-	 WHERE id='$post_id'";
+$query = "INSERT INTO postings (title, blurb, photo, tag1, tag2, tag3, 
+       	 posting_time, b_id, a_id) VALUES ('$title', '$desc', $tag1_id, 
+	 $tag2_id, $tag3_id, $post_datetime, $business_id, $author_id)";
 query_db($query);
 
-header("location:home");
 disconnect_from_db($link);
 
 ?>

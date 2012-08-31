@@ -71,7 +71,7 @@ function print_head()
 			echo " id=\"nav-selected\"";
 		}
 		echo "><a href=\"home\">Settings</a></li>
-		     <li><a href=\"scripts/logout\">Logout</a></li>";
+		     <li><a href=\"login\">Logout</a></li>";
 	}
 	echo "	
 			  </ul>

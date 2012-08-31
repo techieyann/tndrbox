@@ -71,6 +71,10 @@ function print_body()
 					<td><input required type=\"password\" name=\"pass2\" id=\"pass2\" maxlength=\"16\"></td>
 				</tr>
 				<tr>
+					<td>Business Name</td>
+					<td><input required type=\"text\" name=\"name\" id=\"name\" maxlength=\"100\"></td>
+				</tr>
+				<tr>
 					<td colspan=2>";
 
   require_once('includes/recaptchalib.php');

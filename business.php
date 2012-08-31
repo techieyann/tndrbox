@@ -4,10 +4,13 @@ file: business.php
 creator: Ian McEachern
 
 This file outputs the active posting for a given
-business and the relevant business data.
+business and the relevant business data. Or if
+no business is selected shows a list of 
+businesses.
  ***********************************************/
 require('includes/includes.php');
 require('includes/db_interface.php');
+require('includes/tags.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
@@ -40,6 +43,8 @@ disconnect_from_db();
 
 function print_body()
 {
+  global $b_flag;
+
   echo "
 	<div id=\"\" class =\"content-pane\">";
 	
@@ -51,7 +56,12 @@ function print_body()
  	$result = query_db($query);
   	if(mysql_num_rows($result)==1)
   	{
-		extract($result);
+	  $business = mysql_fetch_array($result);
+		extract($business);
+		
+		$tag1 = get_tag($tag_1);
+		$tag2 = get_tag($tag_2);
+
 		echo "
 		<div id=\"bar_info\">
 		      <table width=\"95%\"><tr>
@@ -81,6 +91,9 @@ function print_body()
 			}
 		}
 		echo "</h2>
+			<br>
+		     <a href=\"tags?tag=$tag_1\">$tag1</a>
+		     <a href=\"tags?tag=$tag_2\">$tag2</a>
 			<br><h3>$address<br>";
 		echo "
 			$city, $state, $zip<br><br>";
@@ -95,7 +108,7 @@ function print_body()
 		echo "
 			</td>
 			<td style=\"text-align:right\">";
-		if($lat == "" || $lon == "")
+		if($lat == "" ||$lat==0 || $lon == "" || $lon==0)
 		{
 			echo "
 			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$address $city $state $zip&zoom=16&size=300x400&markers=color:red|$address $city $state $zip&sensor=false\">";
@@ -112,11 +125,13 @@ function print_body()
 		</div>";
 
   	//print active business posting
-	$query = "SELECT * FROM postings WHERE b_id='$b_id' LIMIT 1 ORDER BY posting_time ASC";
+	$query = "SELECT * FROM postings WHERE b_id=$b_id ORDER BY posting_time ASC LIMIT 1";
 	$result = query_db($query);
-	$posting = mysql_fetch_array($result);
+	if(mysql_num_rows($result) != 0)
+	{
+		$posting = mysql_fetch_array($result);
 		extract($posting);
-		$query = "SELECT tag FROM tags WHERE id='$tag_1' AND id='$tag_2' AND id='$tag_3'";
+		$query = "SELECT tag FROM tags WHERE id='$tag_1' OR id='$tag_2' OR id='$tag_3'";
 		$tags_result = query_db($query);
 		$j = 0;
 		while($tag = mysql_fetch_array($tags_result))
@@ -135,7 +150,7 @@ function print_body()
 			  }
 		  }
 		echo "
-			<div id=\"posting_border_1\">
+			<br><div id=\"posting_border_1\" class=\"content-pane\">
 				<div class=\"posting-1-title\">$title</div>
 				<div class=\"posting-1-time\">$posting_time</div>
 				<div class=\"posting-1-data\">
@@ -144,20 +159,18 @@ function print_body()
 						$blurb
 					</div>
 					<ul>
-						<li><a href=\"tags?id=$tag_1\">$tags[$tag_1]</a></li>
-						<li><a href=\"tags?id=$tag_2\">$tags[$tag_2]</a></li>
-						<li><a href=\"tags?id=$tag_3\">$tags[$tag_3]</a></li>
+						<li><a href=\"tags?tag=$tag_1\">$tags[$tag_1]</a></li>
+						<li><a href=\"tags?tag=$tag_2\">$tags[$tag_2]</a></li>
+						<li><a href=\"tags?tag=$tag_3\">$tags[$tag_3]</a></li>
 					</ul>
 				</div>
 			</div>";
 	  }
-	  else
-	  {
-		$b_flag = false;
 	  }
+	}
 	  if($b_flag == false)
 	  {
-	       	$db_query = "SELECT name, id, logo  FROM businesses ORDER BY name";
+	       	$db_query = "SELECT name, id, logo  FROM business ORDER BY name";
 		$result = query_db($db_query);
 		echo "
 		     <table width=\"100%\">";
@@ -175,7 +188,7 @@ function print_body()
 				echo "
 				<td align=\"center\">
 				<br>
-		     		<a href=\"?id=".$id."\" title=\"".$name."\">";
+		     		<a href=\"?b_id=".$id."\" title=\"".$name."\">";
 				if($logo == "")
 				{
 					echo "
@@ -203,7 +216,7 @@ function print_body()
 			echo "
 			</tr>";
 		}
-	  }
+	  
 		echo "
 		     </table>";
 	} 	
