@@ -31,8 +31,6 @@ $md5_pass = md5($pass1);
 $query = "UPDATE members SET password='$md5_pass' WHERE id='$user_id'";
 query_db($query);
 
-header("location:../home");	
-
 disconnect_from_db($link);
 
 ?>

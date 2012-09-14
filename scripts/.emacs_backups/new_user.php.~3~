@@ -22,9 +22,7 @@ $resp = recaptcha_check_answer ($privatekey,
 
 if (!$resp->is_valid) //recaptcha failed
   {
-	
-	header("location:../signup?error=captcha");
-	
+	header("location/signup?error=captcha");
 	exit;	    
   } 
 else //check the rest of the content
@@ -108,11 +106,11 @@ else //check the rest of the content
 		$cookie_val = $email.",".$session_id;
 
 		setcookie("login", $cookie_val, time()+(3600*8), "/");
-   		header("location:../new-business");
+   		header("location:/new-business");
 	}
 	else
 	{
- 		header("location:../login?error=db");
+ 		header("location:/login?error=db");
 	}
 	disconnect_from_db($link);
   }

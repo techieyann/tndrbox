@@ -44,7 +44,7 @@ function print_body()
   echo "
 	<div id=\"\" class =\"content-pane\">
 		<p>Please enter your business' information.</p>
-		<form name=\"\" action=\"scripts/new_business.php?id=$id\" method=\"post\">
+		<form name=\"\" action=\"scripts/edit_business.php?id=$id\" method=\"post\">
 			<table>
 				<tr>
 					<td>Business Name</td>

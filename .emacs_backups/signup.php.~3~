@@ -10,14 +10,6 @@ require('includes/includes.php');
 
 require('includes/prints.php');
 
-//head
-$GLOBALS['header_html_title'] = "tndrbox - Signup";
-$GLOBALS['header_scripts'] = "";
-$GLOBALS['header_title'] = "";
-$GLOBALS['header_body_includes'] = "";
-$GLOBALS['header_selected_page'] = "";
-
-
 print_head();
 print_body();
 print_foot();

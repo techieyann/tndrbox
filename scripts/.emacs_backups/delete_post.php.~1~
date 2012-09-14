@@ -27,7 +27,7 @@ if(mysql_num_rows($result) == 1)
 	
 	$query = "DELETE FROM postings WHERE id='$post_id'";
 	query_db($query);
-	header("location:../home");
+	header("location:home");
 }
 else
 {

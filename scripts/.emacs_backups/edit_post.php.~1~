@@ -68,7 +68,7 @@ $query = "UPDATE postings set title='$title', blurb='$blurb',
 	 WHERE id='$post_id'";
 query_db($query);
 
-header("location:../home");
+header("location:home");
 disconnect_from_db($link);
 
 ?>

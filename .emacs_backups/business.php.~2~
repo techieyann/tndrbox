@@ -64,7 +64,6 @@ function print_body()
 
 		echo "
 		<div id=\"bar_info\">
-			<div id=\"shareNice\"></div>
 		      <table width=\"95%\"><tr>
 		      	     <td><h2>";
 		if($url != "")

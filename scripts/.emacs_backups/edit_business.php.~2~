@@ -72,11 +72,11 @@ $result = query_db($query);
 
 if($result)
   {
-	header("location:../home");	
+	header("location:/home");	
   }
 else
   {
-	header("location:../edit-business?id=$b_id");
+	header("location:/edit-business?id=$b_id");
   }
 
 disconnect_from_db($link);
