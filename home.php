@@ -37,12 +37,74 @@ disconnect_from_db();
 
 function print_body()
 {
-        echo "
-        <div id=\"\" class =\"content-pane\">";
+
 
         //print business info
         $b_id = $GLOBALS['b_id'];
-        $query = "SELECT * FROM business where id=$b_id";
+        
+
+       
+        //print business posting queue limit 5
+        $query = "SELECT * FROM postings WHERE b_id=$b_id";
+        $result = query_db($query);
+
+        if($posting = mysql_fetch_array($result))
+          {
+                extract($posting);
+                $query = "SELECT tag FROM tags WHERE id='$tag_1' OR id='$tag_2' OR id='$tag_3'";
+                $tags_result = query_db($query);
+                $j = 0;
+                while($tag = mysql_fetch_array($tags_result))
+                  {
+                        if(++$j == 1)
+                          {
+                                $tags[$tag_1] = $tag['tag']; 
+                          }
+                        else if($j == 2)
+                          {
+                                $tags[$tag_2] = $tag['tag'];
+                          }
+                        else if($j == 3)
+                          {
+                                $tags[$tag_3] = $tag['tag'];
+                          }
+                  }
+                echo "
+                        <br>
+                        <div id=\"posting_border\" class=\"content-pane\">
+								
+    <a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-dnt=\"true\" data-count=\"none\" data-url=\"http://tndrbox.com/business?id=$b_id\" data-lang=\"en\">Tweet</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"https://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>
+
+                                <div class=\"posting-title\">$title</div>
+                                <div class=\"posting-edit\">
+                                        <a href=\"/edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3\">Edit</a>
+                                </div>
+                                <div class=\"posting-delete\">
+                                        <a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
+                                </div>
+                                <div class=\"posting-data\">
+                                        <img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
+                                        <div class=\"posting-blurb\">
+                                                $blurb
+                                        </div>
+                                        <ul>
+                                                <li><a href=\"tags?tag=$tag_1\">$tags[$tag_1]</a></li>
+                                                <li><a href=\"tags?tag=$tag_2\">$tags[$tag_2]</a></li>
+                                                <li><a href=\"tags?tag=$tag_3\">$tags[$tag_3]</a></li>
+                                        </ul>
+                                </div>
+                        </div>";
+          }
+
+
+ echo "<h3 id=\"tagline-left\">Add a <a href=\"/new-post\">New posting</a></h3><br><br>";
+
+
+        echo "
+        <div id=\"\" class =\"content-pane\">";
+$query = "SELECT * FROM business where id=$b_id";
         $result = query_db($query);
         if(mysql_num_rows($result)==1)
         {
@@ -104,56 +166,6 @@ function print_body()
                         </div>
                 </div>";
         }
-
-        echo "<h3 id=\"tagline-left\">Add a <a href=\"/new-post\">New posting</a></h3><br><br>";
-        //print business posting queue limit 5
-        $query = "SELECT * FROM postings WHERE b_id=$b_id";
-        $result = query_db($query);
-
-        if($posting = mysql_fetch_array($result))
-          {
-                extract($posting);
-                $query = "SELECT tag FROM tags WHERE id='$tag_1' OR id='$tag_2' OR id='$tag_3'";
-                $tags_result = query_db($query);
-                $j = 0;
-                while($tag = mysql_fetch_array($tags_result))
-                  {
-                        if(++$j == 1)
-                          {
-                                $tags[$tag_1] = $tag['tag']; 
-                          }
-                        else if($j == 2)
-                          {
-                                $tags[$tag_2] = $tag['tag'];
-                          }
-                        else if($j == 3)
-                          {
-                                $tags[$tag_3] = $tag['tag'];
-                          }
-                  }
-                echo "
-                        <br>
-                        <div id=\"posting_border\" class=\"content-pane\">
-                                <div class=\"posting-title\">$title</div>
-                                <div class=\"posting-edit\">
-                                        <a href=\"/edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3\">Edit</a>
-                                </div>
-                                <div class=\"posting-delete\">
-                                        <a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
-                                </div>
-                                <div class=\"posting-data\">
-                                        <img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
-                                        <div class=\"posting-blurb\">
-                                                $blurb
-                                        </div>
-                                        <ul>
-                                                <li><a href=\"tags?tag=$tag_1\">$tags[$tag_1]</a></li>
-                                                <li><a href=\"tags?tag=$tag_2\">$tags[$tag_2]</a></li>
-                                                <li><a href=\"tags?tag=$tag_3\">$tags[$tag_3]</a></li>
-                                        </ul>
-                                </div>
-                        </div>";
-          }
 
                 echo "
         </div>";

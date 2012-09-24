@@ -45,13 +45,56 @@ function print_body()
 {
   global $b_flag;
 
-  echo "
-	<div id=\"\" class =\"content-pane\">";
-	
+ 
 	if($b_flag == true)
 	{
-	//print business info
+
 	$b_id = $GLOBALS['b_id'];
+  	//print active business posting
+	$query = "SELECT * FROM postings WHERE b_id=$b_id";
+	$result = query_db($query);
+	if(mysql_num_rows($result) != 0)
+	{
+		$posting = mysql_fetch_array($result);
+		extract($posting);
+		$query = "SELECT tag FROM tags WHERE id='$tag_1' OR id='$tag_2' OR id='$tag_3'";
+		$tags_result = query_db($query);
+		$j = 0;
+		while($tag = mysql_fetch_array($tags_result))
+		  {
+			if(++$j == 1)
+			  {
+				$tags[$tag_1] = $tag['tag']; 
+			  }
+			else if($j == 2)
+			  {
+				$tags[$tag_2] = $tag['tag'];
+			  }
+			else if($j == 3)
+			  {
+				$tags[$tag_3] = $tag['tag'];
+			  }
+		  }
+		echo "
+			<br><div id=\"posting_border_1\" class=\"content-pane\">
+				<div class=\"posting-1-title\">$title</div>
+				<div class=\"posting-1-data\">
+					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
+					<div class=\"posting-1-blurb\">
+						$blurb
+					</div>
+					<ul>
+						<li><a href=\"tags?tag=$tag_1\">$tags[$tag_1]</a></li>
+						<li><a href=\"tags?tag=$tag_2\">$tags[$tag_2]</a></li>
+						<li><a href=\"tags?tag=$tag_3\">$tags[$tag_3]</a></li>
+					</ul>
+				</div>
+			</div>";
+	}
+ echo "
+	<div id=\"\" class =\"content-pane\">";
+	
+	//print business info
  	$query = "SELECT * FROM business where id='$b_id'";
  	$result = query_db($query);
   	if(mysql_num_rows($result)==1)
@@ -117,48 +160,6 @@ data-share-label=\"\"></div>
 			</tr></table>
 			</div>
 		</div>";
-
-  	//print active business posting
-	$query = "SELECT * FROM postings WHERE b_id=$b_id ORDER BY posting_time ASC LIMIT 1";
-	$result = query_db($query);
-	if(mysql_num_rows($result) != 0)
-	{
-		$posting = mysql_fetch_array($result);
-		extract($posting);
-		$query = "SELECT tag FROM tags WHERE id='$tag_1' OR id='$tag_2' OR id='$tag_3'";
-		$tags_result = query_db($query);
-		$j = 0;
-		while($tag = mysql_fetch_array($tags_result))
-		  {
-			if(++$j == 1)
-			  {
-				$tags[$tag_1] = $tag['tag']; 
-			  }
-			else if($j == 2)
-			  {
-				$tags[$tag_2] = $tag['tag'];
-			  }
-			else if($j == 3)
-			  {
-				$tags[$tag_3] = $tag['tag'];
-			  }
-		  }
-		echo "
-			<br><div id=\"posting_border_1\" class=\"content-pane\">
-				<div class=\"posting-1-title\">$title</div>
-				<div class=\"posting-1-data\">
-					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
-					<div class=\"posting-1-blurb\">
-						$blurb
-					</div>
-					<ul>
-						<li><a href=\"tags?tag=$tag_1\">$tags[$tag_1]</a></li>
-						<li><a href=\"tags?tag=$tag_2\">$tags[$tag_2]</a></li>
-						<li><a href=\"tags?tag=$tag_3\">$tags[$tag_3]</a></li>
-					</ul>
-				</div>
-			</div>";
-	  }
 	  }
 	}
 	  if($b_flag == false)
