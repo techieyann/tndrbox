@@ -38,7 +38,7 @@ disconnect_from_db();
 
 function print_body()
 {
-	global $title, $blurb, $tag1, $tag2, $tag3, $error;
+  global $p_id, $title, $blurb, $tag1, $tag2, $tag3, $error;
 
   echo "
 	<div id=\"edit-post\" class =\"content-pane\">";
@@ -48,7 +48,7 @@ if($error == 1)
 }	
 echo "
 		<table>
-		<form name=\"edit-post-form\" action=\"scripts/edit_post.php\" method=\"post\">
+		<form name=\"edit-post-form\" action=\"scripts/edit_post.php?p_id=$p_id\" method=\"post\">
 		  
 				<tr>
 					<td>Title</td>
@@ -82,9 +82,9 @@ echo "
 					<td colspan=6><input type=\"submit\" value=\"Submit\"></td>
 				</tr>
 		</form>
-		<form name=\"image_$id\" method=\"post\" enctype=\"multipart/form-data\" action=\"scripts/image_upload.php?p_id=$id\">
+		<form name=\"image_$p_id_upload\" method=\"post\" enctype=\"multipart/form-data\" action=\"scripts/image_upload.php?p_id=$p_id\">
 			<tr>
-				<td>Logo</td>
+				<td>Image</td>
 				<td>:</td>
 				<td>
 				<input type=\"file\" name=\"image_upload\" id=\"image_upload\">
@@ -92,7 +92,7 @@ echo "
 			</tr>
 			<tr>
 				<td colspan=\"3\">
-				Note: filesize must be <60Kb
+				Note: filesize must be <240Kb
 				</td>
 			</tr>
 			<tr>

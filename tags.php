@@ -125,8 +125,8 @@ function print_body()
 		  }
 		echo "
 			<br><div id=\"posting_border_".$i++."\" class=\"content-pane\">
-				<div class=\"posting-$i-title\">$title from <a href=\"business?b_id=$b_id\">$name</a></div>
-				<div class=\"posting-$i-time\">$posting_time</div>";
+				<div class=\"posting-$i-title\">$title from <a href=\"business?b_id=$b_id\">$name</a></div>";
+		//				<div class=\"posting-$i-time\">$posting_time</div>";
 		if(isset($GLOBALS['m_id']))
 		{
 			if($a_id == $GLOBALS['m_id'])
@@ -139,7 +139,7 @@ function print_body()
 		}
 		echo "
 				<div class=\"posting-$i-data\" >
-					<img src=\"$photo\" alt=\"photo for $title\" class=\"posting-image\">
+					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
 					<div class=\"posting-$i-blurb\">
 						$blurb
 					</div>

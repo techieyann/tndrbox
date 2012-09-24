@@ -146,9 +146,8 @@ data-share-label=\"\"></div>
 		echo "
 			<br><div id=\"posting_border_1\" class=\"content-pane\">
 				<div class=\"posting-1-title\">$title</div>
-				<div class=\"posting-1-time\">$posting_time</div>
 				<div class=\"posting-1-data\">
-					<img src=\"$photo\" alt=\"photo for $title\" class=\"posting-image\">
+					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
 					<div class=\"posting-1-blurb\">
 						$blurb
 					</div>

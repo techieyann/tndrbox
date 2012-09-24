@@ -15,8 +15,12 @@ $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 verify_logged_in();
 
+
+
 $business_id=$GLOBALS['b_id'];
 $author_id=$GLOBALS['m_id'];
+
+push_old_post($business_id);
 
 $title = sanitize($_POST['title']);
 $desc = sanitize($_POST['description']);
