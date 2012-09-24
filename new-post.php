@@ -44,14 +44,16 @@ function print_body()
 					<td><input type=\"text\" name=\"tag1\" id=\"tag1\"></td>
 					<td><input type=\"text\" name=\"tag2\" id=\"tag2\"></td>
 					<td><input type=\"text\" name=\"tag3\" id=\"tag3\"></td>
-				</tr>
-				<tr>
+				</tr>";
+  /*				<tr>
 					<td>Publish Date</td>
 					<td>:</td>
 					<td><input type=\"text\" name=\"publish_date\" id=\"publish_date\"></td>
 					<td>Publish Time :</td>
 					<td><input type=\"time\" name=\"publish_time\" id=\"publish_time\"></td>
 				</tr>
+  */
+				echo "
 				<tr>
 					<td colspan=6><input type=\"submit\" value=\"Submit\"></td>
 				</tr>

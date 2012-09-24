@@ -64,33 +64,26 @@ function print_body()
 
 		echo "
 		<div id=\"bar_info\">
-			<div id=\"shareNice\"></div>
+			<div id=\"shareNice\" data-services=\"facebook.com,digg.com,email,delicious.com,reddit.com,twitter.com,plus.google.com\"
+data-color-scheme=\"black\" 
+data-share-label=\"\"></div>
 		      <table width=\"95%\"><tr>
 		      	     <td><h2>";
+		$ending_string = "";
 		if($url != "")
 		{
 			echo "<a href=\"http://$url\">";
-			if($logo != "")
-			{
-				echo "<img src=\"images/$logo\" width=\"300\" title=\"$name\" alt=\"$name\">";
-			}
-			else
-			{
-				echo $name;
-			}
-			echo "</a>";
+			$ending_string = "</a>";
 		}
-		else
-		{
-			if($logo != "")
-			{
-				echo "<img src=\"images/$logo\" width=\"300\" title=\"$name\" alt=\"$name\">";
-			}
-			else
-			{
-				echo $name;
-			}
-		}
+		if($logo != "")
+	    {
+	 		echo "<img src=\"images/logos/$logo\" width=\"300\" title=\"$name\" alt=\"$name\">";
+	   	}
+	   	else
+	   	{
+	   		echo $name;
+	   	}
+	   	echo $ending_string;
 		echo "</h2>
 			<br>
 		     <a href=\"tags?tag=$tag_1\">$tag1</a>
@@ -200,7 +193,7 @@ function print_body()
 		     	  	else
 				{
 					echo "
-				<img src=\"images/".$logo."\" alt=\"".$name."\" border=\"0\" width=\"200\">";
+				<img src=\"images/logos/".$logo."\" alt=\"".$name."\" border=\"0\" width=\"200\">";
 				}
 				echo "</a><br>
 				</td>";

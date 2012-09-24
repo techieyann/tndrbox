@@ -1,0 +1,41 @@
+<?php
+        require('../includes/includes.php');
+        require('../includes/db_interface.php');
+
+        $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+		analyze_user();
+		verify_logged_in();	
+
+		$b_id = sanitize($_GET['id']);        
+
+		if($member['bar_id'] == $id || $member['bar_id'] == 0)
+		{
+			if($_FILES['logo_upload']['error'] > 0)
+            {
+              	echo "Error: ".$_FILES['logo_upload']['error'];
+                header("location:/home.php");
+            }
+            else
+            {
+				extract($_FILES['logo_upload']);
+				if(strcmp("image", substr($type,0,5)) == 0)
+				{
+					
+					if($size < (60*1024))
+					{
+						if(move_uploaded_file($tmp_name, "../images/logos/".$name))
+						{
+							$query = "UPDATE bars SET
+			       	 	  	       	       logo='".$name."'
+						       	       WHERE id='".$id."'";
+					  	       	query_db($query);
+						}
+					}
+				}
+			}
+		}
+
+        header("location:/logged_in".$admin_tag."#info");
+
+?>

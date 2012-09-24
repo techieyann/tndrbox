@@ -19,34 +19,34 @@ $b_id = sanitize($_GET['id']);
 $query = "SELECT tag_1, tag_2 FROM business WHERE id='$b_id'";
 $result = query_db($query);
 $tag_ids = mysql_fetch_array($result);
-$tag_1_id = $tag_ids['tag_1'];
-$tag_2_id = $tag_ids['tag_2'];
+$old_tag1_id = $tag_ids['tag_1'];
+$old_tag2_id = $tag_ids['tag_2'];
 
 $name = sanitize($_POST['name']);
 
-$tag1 = sanitize($_POST['tag_1']);
-$tag2 = sanitize($_POST['tag_2']);
+$new_tag1 = sanitize($_POST['tag_1']);
+$new_tag2 = sanitize($_POST['tag_2']);
 
-$tag_1 = get_tag($tag_1_id);
-if(strcmp($tag1, $tag_1) == 0)
+$old_tag1 = get_tag($old_tag1_id);
+if(strcmp($new_tag1, $old_tag1) == 0)
 {
-	$tag1_id = $tag_1_id;
+	$new_tag1_id = $old_tag1_id;
 }
 else
 {
-	$tag1_id = add_tag($tag1);
-	decrement_tag($tag_1_id);
+	$new_tag1_id = add_tag($new_tag1);
+	decrement_tag($old_tag1_id);
 }
 
-$tag_2 = get_tag($tag_2_id);
-if(strcmp($tag2, $tag_2) == 0)
+$old_tag2 = get_tag($old_tag2_id);
+if(strcmp($new_tag2, $old_tag2) == 0)
 {
-	$tag2_id = $tag_2_id;
+	$new_tag2_id = $old_tag2_id;
 }
 else
 {
-	$tag2_id = add_tag($tag2);
-	decrement_tag($tag_2_id);
+	$new_tag2_id = add_tag($new_tag2);
+	decrement_tag($old_tag2_id);
 }
 
 	$address = sanitize($_POST['address']);
@@ -63,8 +63,8 @@ else
 
 
 
-$query = "UPDATE business SET name='$name', tag_1='$tag1_id', 
-       	 tag_2='$tag2_id', address='$address', city='$city',
+$query = "UPDATE business SET name='$name', tag_1='$new_tag1_id', 
+       	 tag_2='$new_tag2_id', address='$address', city='$city',
 		state='$state', zip='$zip', lat='$lat', lon='$lon',
 		url='$url', number='$number', hours='$hours'
 		WHERE id='$b_id'";

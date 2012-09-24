@@ -55,30 +55,21 @@ function print_body()
                         <a href=\"/edit-business.php?name=$name&tag_1=$tag1&tag_2=$tag2&address=$address&city=$city&state=$state&zip=$zip&number=$number&url=$url&hours=$hours\">Edit</a>
                       <table width=\"95%\"><tr>
                              <td><h2>";
-                if($url != "")
+                $string_ender ="";
+				if($url != "")
                 {
                         echo "<a href=\"http://$url\">";
-                        if($logo != "")
-                        {
-                                echo "<img src=\"images/$logo\" width=\"300\" title=\"$name\" alt=\"$name\">";
-                        }
-                        else
-                        {
-                                echo $name;
-                        }
-                        echo "</a>";
+						$string_ender = "</a>";
+				}
+                if($logo != "")
+                {
+						echo "<img src=\"images/logos/$logo\" width=\"300\" title=\"$name\" alt=\"$name\">";
                 }
                 else
                 {
-                        if($logo != "")
-                        {
-                                echo "<img src=\"images/$logo\" width=\"300\" title=\"$name\" alt=\"$name\">";
-                        }
-                        else
-                        {
-                                echo $name;
-                        }
+                        echo $name;
                 }
+                echo $string_ender;
                 echo "</h2>
                      <br>
                      <a href=\"tags?tag=$tag_1\">$tag1</a>
@@ -116,10 +107,10 @@ function print_body()
 
         echo "<h3 id=\"tagline-left\">Add a <a href=\"/new-post\">New posting</a></h3><br><br>";
         //print business posting queue limit 5
-        $query = "SELECT * FROM postings WHERE b_id=$b_id ORDER BY posting_time ASC LIMIT 5";
+        $query = "SELECT * FROM postings WHERE b_id=$b_id";
         $result = query_db($query);
-        $i = 0;
-        while($posting = mysql_fetch_array($result))
+
+        if($posting = mysql_fetch_array($result))
           {
                 extract($posting);
                 $query = "SELECT tag FROM tags WHERE id='$tag_1' OR id='$tag_2' OR id='$tag_3'";
@@ -142,18 +133,17 @@ function print_body()
                   }
                 echo "
                         <br>
-                        <div id=\"posting_border_".$i++."\" class=\"content-pane\">
-                                <div class=\"posting-$i-title\">$title</div>
-                                <div class=\"posting-$i-time\">$posting_time</div>
-                                <div class=\"posting-$i-edit\">
-                                        <a href=\"/edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
+                        <div id=\"posting_border\" class=\"content-pane\">
+                                <div class=\"posting-title\">$title</div>
+                                <div class=\"posting-edit\">
+                                        <a href=\"/edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3\">Edit</a>
                                 </div>
-                                <div class=\"posting-$i-delete\">
+                                <div class=\"posting-delete\">
                                         <a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
                                 </div>
-                                <div class=\"posting-$i-data\">
-                                        <img src=\"$photo\" alt=\"photo for $title\" class=\"posting-image\">
-                                        <div class=\"posting-$i-blurb\">
+                                <div class=\"posting-data\">
+                                        <img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
+                                        <div class=\"posting-blurb\">
                                                 $blurb
                                         </div>
                                         <ul>

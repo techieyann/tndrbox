@@ -116,6 +116,33 @@ function print_body()
 		      		<td style=\"border-bottom: solid 1px black;\" align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Upload\"></td>
 			</tr>
 			</form>
+			<form name=\"\" method=\"post\" action=\"scripts/edit_user.php?id=$id\">
+			<tr>
+				<td>e-mail</td>
+				<td>:</td>
+				<td><input type=\"text\" name=\"email\" id=\"email\" value=\"$email\" maxlength=\"60\"></td>
+			</tr>
+			<tr>
+				<td>Nickname</td>
+				<td>:</td>
+				<td><input type=\"text\" name=\"nickname\" id=\"username\" value=\"$nickname\" maxlength=\"50\"></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td>:</td>
+				<td><input type=\"password\" name=\"pass1\" id=\"pass1\" maxlength=\"50\"></td>
+			</tr>
+			<tr>
+				<td>Confirm</td>
+				<td>:</td>
+				<td><input type=\"password\" name=\"pass2\" id=\"pass2\" maxlength=\"50\"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+		      		<td align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Update\"></td>
+			</tr>
+			</form>
 		</table>";
 
 }

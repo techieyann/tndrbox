@@ -73,7 +73,7 @@ function print_body()
 		     	  	else
 				{
 					echo "
-				<img src=\"images/".$logo."\" alt=\"".$name."\" border=\"0\" width=\"200\">";
+				<img src=\"images/logos/".$logo."\" alt=\"".$name."\" border=\"0\" width=\"200\">";
 				}
 				echo "</a><br>
 				</td>";
