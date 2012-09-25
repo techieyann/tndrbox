@@ -79,7 +79,7 @@ function print_body()
 
                                 <div class=\"posting-title\">$title</div>
                                 <div class=\"posting-edit\">
-                                        <a href=\"/edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3\">Edit</a>
+                                        <a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3\">Edit</a>
                                 </div>
                                 <div class=\"posting-delete\">
                                         <a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
@@ -99,7 +99,7 @@ function print_body()
           }
 
 
- echo "<h3 id=\"tagline-left\">Add a <a href=\"/new-post\">New posting</a></h3><br><br>";
+ echo "<h3 id=\"tagline-left\">Add a <a href=\"new-post\">New posting</a></h3><br><br>";
 
 
         echo "
@@ -114,7 +114,7 @@ $query = "SELECT * FROM business where id=$b_id";
                 $tag2 = get_tag($tag_2);
                 echo "
                 <div id=\"business_info\">
-                        <a href=\"/edit-business.php?name=$name&tag_1=$tag1&tag_2=$tag2&address=$address&city=$city&state=$state&zip=$zip&number=$number&url=$url&hours=$hours\">Edit</a>
+                        <a href=\"edit-business.php?name=$name&tag_1=$tag1&tag_2=$tag2&address=$address&city=$city&state=$state&zip=$zip&number=$number&url=$url&hours=$hours\">Edit</a>
                       <table width=\"95%\"><tr>
                              <td><h2>";
                 $string_ender ="";
