@@ -80,7 +80,7 @@ function print_body()
 		{
 			echo "		
 		<div class=\"posting-$i-edit\">
-					<a href=\"/edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
+					<a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
 				</div>
 		<div class=\"posting-$i-delete\">
 					<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>

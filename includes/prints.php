@@ -39,7 +39,7 @@ function print_head()
 <body>
 <div id=\"header-fullwidth\">
 		     <div id=\"header-wrap\">
-                     	  <a href=\"/\" id=\"tndrbox-logo\"></a>
+                     	  <a href=\"index\" id=\"tndrbox-logo\"></a>
 		     
 			  <ul id =\"main-nav\"> 
 			  <li";

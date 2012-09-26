@@ -12,7 +12,7 @@
 			if($_FILES['image_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['image_upload']['error'];
-                header("location:/home");
+                header("location:../home");
             }
             else
             {
@@ -36,6 +36,6 @@
 			}
 		
 
-		header("location:/home");
+		header("location:../home");
 		disconnect_from_db($link);
 ?>

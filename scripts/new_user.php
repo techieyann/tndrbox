@@ -40,7 +40,7 @@ else //check the rest of the content
 	//email format check ~[text]@[text].[txt]
 	if(preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $email, $matches) == 0)
 	{
-		header("location:/signup?error=email");
+		header("location:../signup?error=email");
 		disconnect_from_db($link);
 		exit;
 	}
@@ -50,7 +50,7 @@ else //check the rest of the content
 	$result = query_db($query);
 	if(mysql_num_rows($result) != 0)
 	  {
-		header("location:/signup?error=dup");
+		header("location:../signup?error=dup");
 		disconnect_from_db($link);
 		exit;	
 	  }
@@ -60,7 +60,7 @@ else //check the rest of the content
 
 	if(strcmp($pass1,$pass2) != 0 || $pass1 =="")
 	  {
-		header("location:/signup?error=password");
+		header("location:../signup?error=password");
 		disconnect_from_db($link);
 		exit;
 	  }	
@@ -74,7 +74,7 @@ else //check the rest of the content
 	$result = query_db($query);
 	if(mysql_num_rows($result) != 0)
 	  {
-		header("location:/signup?error=bus_dup");
+		header("location:../signup?error=bus_dup");
 		disconnect_from_db($link);
 		exit;	
 	  }

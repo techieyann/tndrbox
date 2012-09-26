@@ -110,18 +110,19 @@ function print_body()
 		$j = 0;
 		while($tag = mysql_fetch_array($tags_result))
 		  {
-			if(++$j == 1)
+			if($j == 0)
 			  {
 				$tags[$tag_1] = $tag['tag']; 
 			  }
-			else if($j == 2)
+			else if($j == 1)
 			  {
 				$tags[$tag_2] = $tag['tag'];
 			  }
-			else if($j == 3)
+			else if($j == 2)
 			  {
 				$tags[$tag_3] = $tag['tag'];
 			  }
+			$j++;
 		  }
 		echo "
 			<br><div id=\"posting_border_".$i++."\" class=\"content-pane\">
@@ -133,7 +134,7 @@ function print_body()
 			{
 			echo "		
 		<div class=\"posting-$i-edit\">
-					<a href=\"/edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
+					<a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
 				</div>";
 			}
 		}
@@ -155,7 +156,7 @@ function print_body()
 	}
 	else
 	{
-		$query = "SELECT * FROM tags WHERE num_ref>0 ORDER BY tag LIMIT 50";
+		$query = "SELECT * FROM tags WHERE num_ref>0 ORDER BY num_ref LIMIT 50";
 		$result = query_db($query);
 		echo "
 		<table class=\"content-pane\" id=\"tag-list\" cellspacing=\"0\">

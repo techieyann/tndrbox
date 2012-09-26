@@ -21,7 +21,7 @@ login via a session id number.
 	if(preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $email, $matches) == 0)
 	{
 		print($matches);
-		header("location:/login?error=email");
+		header("location:../login?error=email");
 	}
 
 	$password = md5(sanitize($_POST['pass']));
@@ -41,11 +41,11 @@ login via a session id number.
 		$cookie_val = $email.",".$session_id;
 
 		setcookie("login", $cookie_val, time()+(3600*8), "/");
-   		header("location:/home");
+   		header("location:../home");
 	}
 	else
 	{
- 		header("location:/login?error=match");
+ 		header("location:../login?error=match");
 	}
 	disconnect_from_db($link);
 ?>

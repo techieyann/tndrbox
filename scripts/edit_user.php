@@ -19,7 +19,7 @@ $pass2 = sanitize($_POST['pass2']);
 
 if(strcmp($pass1,$pass2) != 0 || $pass1 =="")
 {
-	header("location:/signup?error=password");
+	header("location:../signup?error=password");
 	disconnect_from_db($link);
 	exit;
 }	
