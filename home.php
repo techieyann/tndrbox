@@ -51,24 +51,11 @@ function print_body()
         if($posting = mysql_fetch_array($result))
           {
                 extract($posting);
-                $query = "SELECT tag FROM tags WHERE id='$tag_1' OR id='$tag_2' OR id='$tag_3'";
-                $tags_result = query_db($query);
-                $j = 0;
-                while($tag = mysql_fetch_array($tags_result))
-                  {
-                        if(++$j == 1)
-                          {
-                                $tags[$tag_1] = $tag['tag']; 
-                          }
-                        else if($j == 2)
-                          {
-                                $tags[$tag_2] = $tag['tag'];
-                          }
-                        else if($j == 3)
-                          {
-                                $tags[$tag_3] = $tag['tag'];
-                          }
-                  }
+                
+			$tags[1] = get_tag($tag_1); 
+		$tags[2] = get_tag($tag_2); 
+		$tags[3] = get_tag($tag_3);
+
                 echo "
                         <br>
                         <div id=\"posting_border\" class=\"content-pane\">
@@ -90,9 +77,9 @@ function print_body()
                                                 $blurb
                                         </div>
                                         <ul>
-                                                <li><a href=\"tags?tag=$tag_1\">$tags[$tag_1]</a></li>
-                                                <li><a href=\"tags?tag=$tag_2\">$tags[$tag_2]</a></li>
-                                                <li><a href=\"tags?tag=$tag_3\">$tags[$tag_3]</a></li>
+                                                <li><a href=\"tags?tag=$tag_1\">$tags[1]</a></li>
+                                                <li><a href=\"tags?tag=$tag_2\">$tags[2]</a></li>
+                                                <li><a href=\"tags?tag=$tag_3\">$tags[3]</a></li>
                                         </ul>
                                 </div>
                         </div>";
