@@ -18,14 +18,48 @@ analyze_user();
 
 //set variables
 //body
-$result = scrape_tags();
-while($post = mysql_fetch_array($result))
+
+
+$get_tag_set = false;
+$set_tag = "Welcome";
+if(isset($_GET['tag']))
 {
-	$postings[$post['id']] = $post;
+	$get_tag_set = true;
+	$set_tag_id = sanitize($_GET['tag']);
+	$set_tag = get_tag($set_tag_id);
+	$query = "SELECT * FROM postings WHERE tag_1='$set_tag_id' OR tag_2='$set_tag_id' OR tag_3='$set_tag_id' LIMIT 20";
+	$result = query_db($query);
+	$i=0;
+	while($post = mysql_fetch_array($result))
+	{
+		$postings[$i++] = $post;
+	}
+	$query = "SELECT id FROM business WHERE tag_1='$set_tag_id' OR tag_2='$set_tag_id' LIMIT 20";
+   	$result = query_db($query);
+   	while($business = mysql_fetch_array($result))
+   	  {
+   		$query = "SELECT * FROM postings WHERE b_id=".$business['id'];
+		  $post_result = query_db($query);  
+		$postings[$i++] = mysql_fetch_array($post_result);
+   	  }
+		
 }
+else
+  {
+	$result = scrape_tags();
+	while($post = mysql_fetch_array($result))
+	{
+		$postings[$post['id']] = $post;
+	}
+  }
+
+$query = "SELECT * FROM tags WHERE num_ref>0 ORDER BY num_ref DESC, tag LIMIT 50";
+$tags_result = query_db($query);
+
+
 
 //head
-$GLOBALS['header_html_title'] = "tndrbox - ";
+$GLOBALS['header_html_title'] = "tndrbox - $set_tag";
 $GLOBALS['header_scripts'] = "";
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
@@ -40,54 +74,31 @@ disconnect_from_db();
 
 function print_body()
 {
-  global $postings;
+  global $postings, $get_tag_set, $set_tag_id, $set_tag, $set_tag_postings_result, $tags_result;
   echo "
+	<div id=\"\" class =\"meta-pane\">";
+  if($get_tag_set)
+	{
+		echo "
+		<h3>$set_tag</h3>";
+	}
+  while($present_tag = mysql_fetch_array($tags_result))
+	{
+	  extract($present_tag);
+		echo "
+		<a href=\"index?tag=$id\">$tag</a>($num_ref) ";
+	}
+  echo "
+	</div>
 	<div id=\"\" class =\"content-pane\">";
 	$i = 0;
-	foreach($postings as $post)
-	{
-		extract($post);
-
-		$query = "SELECT name FROM business WHERE id='$b_id'";
-		$b_result = query_db($query);
-		$b_name = mysql_fetch_array($b_result);
-		$name = $b_name['name'];
-
-		$tags[1] = get_tag($tag_1); 
-		$tags[2] = get_tag($tag_2); 
-		$tags[3] = get_tag($tag_3);
-
-		echo "
-			<div id=\"posting_border_".$i++."\">
-				<div class=\"posting-$i-title\">$title from <a href=\"business?b_id=$b_id\">$name</a></div>";
-		//				<div class=\"posting-$i-time\">$posting_time</div>";
-	if(isset($GLOBALS['m_id']))
-	{
-		if($a_id == $GLOBALS['m_id'])
+	if(isset($postings))
+	  {
+		foreach($postings as $post)
 		{
-			echo "		
-		<div class=\"posting-$i-edit\">
-					<a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
-				</div>
-		<div class=\"posting-$i-delete\">
-					<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
-				</div>";
+			print_mini_post($post, "-".++$i);		
 		}
-	}
-		echo "
-				<div class=\"posting-$i-data\">
-					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
-					<div class=\"posting-$i-blurb\">
-						$blurb
-					</div>
-					<ul>
-						<li><a href=\"tags?tag=$tag_1\">$tags[1]</a></li>
-						<li><a href=\"tags?tag=$tag_2\">$tags[2]</a></li>
-						<li><a href=\"tags?tag=$tag_3\">$tags[3]</a></li>
-					</ul>
-				</div>
-			</div>";		
-	}
+	  }
 
   echo "
 	</div>";

@@ -131,20 +131,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 /* keep tagline and white bg w/rounded corners for internal content */
 
 .content-pane {
-	width: 620px;
-	float: right;
-	background: #f8f8f8;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
-	-moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
-	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
-}
-
-.meta-pane {
-	width: 300px;
-	float: left;
+	width: 940px;
 	background: #f8f8f8;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -219,17 +206,6 @@ div#result a
     text-decoration:underline;
 }
 
-#static-map
-{
-	//display:none;
-}
-
-#business-address:hover > #static-map
-{
-	display:inline;
-	
-}
-
 .autocomplete { border:1px solid #999; background:#eee; cursor:default; text-align:left; max-height:500px; overflow:auto; margin-top:6px; padding-left:6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; }
 .autocomplete .selected { background:#fcc; }
 .autocomplete div { padding:2px 5px; white-space:nowrap; overflow:hidden; }
@@ -237,7 +213,7 @@ div#result a
 
 /*Button (no logo)*/
 
-div.business_button
+div.bar_button
 {
     background:#fa8f28;
     color:white;
@@ -264,13 +240,13 @@ div.business_button
 
 }
 
-div.business_button>span
+div.bar_button>span
 {
     line-height:15px;
     vertical-align:middle;
 }
 
-div.business_button a
+div.bar_button a
 {
     color:#800b0d;
 }
@@ -406,7 +382,6 @@ div.business_button a
 #footer {
 	padding: 20px 0;
 	text-align: center;
-	clear: both;
 }
 
 

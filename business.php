@@ -54,32 +54,19 @@ function print_body()
 	$query = "SELECT * FROM postings WHERE b_id=$b_id";
 	$result = query_db($query);
 	if(mysql_num_rows($result) != 0)
-	{
-		$posting = mysql_fetch_array($result);
-		extract($posting);
-		
-		$tags[1] = get_tag($tag_1); 
-		$tags[2] = get_tag($tag_2); 
-		$tags[3] = get_tag($tag_3);
-
+	{	
 		echo "
-			<br><div id=\"posting_border_1\" class=\"content-pane\">
-				<div class=\"posting-1-title\">$title</div>
-				<div class=\"posting-1-data\">
-					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
-					<div class=\"posting-1-blurb\">
-						$blurb
-					</div>
-					<ul>
-						<li><a href=\"tags?tag=$tag_1\">$tags[1]</a></li>
-						<li><a href=\"tags?tag=$tag_2\">$tags[2]</a></li>
-						<li><a href=\"tags?tag=$tag_3\">$tags[3]</a></li>
-					</ul>
-				</div>
-			</div>";
+	<div id=\"\" class=\"content-pane\">
+		<div id=\"shareNice\" data-services=\"facebook.com,digg.com,email,delicious.com,reddit.com,twitter.com,plus.google.com\"
+data-color-scheme=\"black\" 
+data-share-label=\"\"></div>";
+		$posting = mysql_fetch_array($result);
+		print_formatted_post($posting);
+		echo "
+	</div>";
 	}
  echo "
-	<div id=\"\" class =\"content-pane\">";
+	<div id=\"\" class =\"meta-pane\">";
 	
 	//print business info
  	$query = "SELECT * FROM business where id='$b_id'";
@@ -94,11 +81,8 @@ function print_body()
 
 		echo "
 		<div id=\"bar_info\">
-			<div id=\"shareNice\" data-services=\"facebook.com,digg.com,email,delicious.com,reddit.com,twitter.com,plus.google.com\"
-data-color-scheme=\"black\" 
-data-share-label=\"\"></div>
-		      <table width=\"95%\"><tr>
-		      	     <td><h2>";
+			
+			<h2>";
 		$ending_string = "";
 		if($url != "")
 		{
@@ -116,13 +100,7 @@ data-share-label=\"\"></div>
 	   	echo $ending_string;
 		echo "</h2>
 			<br>
-		     <a href=\"tags?tag=$tag_1\">$tag1</a>
-		     <a href=\"tags?tag=$tag_2\">$tag2</a>
-			<br><h3>$address<br>";
-		echo "
-			$city, $state, $zip<br><br>";
-		echo "
-			$number</h3><br>";
+			$number</div><br>";
 		$hours = explode(",", $hours);
 		foreach($hours as $line)
 		{
@@ -130,8 +108,11 @@ data-share-label=\"\"></div>
 			$line<br>";
 		}
 		echo "
-			</td>
-			<td style=\"text-align:right\">";
+			<br><h3><a id=\"business-address\" href=\"http://maps.google.com/?q=$address $city $state $zip\">
+			$address<br>
+			$city, $state, $zip
+			</a></h3><br><br>";
+		echo "<div id=\"static-map\">";
 		if($lat == "" ||$lat==0 || $lon == "" || $lon==0)
 		{
 			echo "
@@ -142,9 +123,8 @@ data-share-label=\"\"></div>
 			echo "
 			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$lat,$lon&zoom=16&size=300x400&markers=color:red|$lat,$lon&sensor=false\">";    
 		}
+		
 		echo "
-			</td>
-			</tr></table>
 			</div>
 		</div>";
 	  }

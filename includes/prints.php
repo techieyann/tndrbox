@@ -49,12 +49,6 @@ function print_head()
 	}
 	echo "><a href=\"business\">Businesses</a></li>
 			  <li";
-	if($GLOBALS['header_selected_page'] == "tags")
-	{
-		echo " id=\"nav-selected\"";
-	}
-	echo "><a href=\"tags\">Tags</a></li>
-			  <li";
 	if($GLOBALS['header_selected_page'] == "about")
 	{
 		echo " id=\"nav-selected\"";
