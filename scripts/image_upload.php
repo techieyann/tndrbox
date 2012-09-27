@@ -20,7 +20,7 @@
 				if(strcmp("image", substr($type,0,5)) == 0)
 				{
 					
-					if($size < (60*1024))
+					if($size < (240*1024))
 					{
 					  $ext = substr($type,6);
 									
