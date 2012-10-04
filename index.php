@@ -20,6 +20,17 @@ analyze_user();
 //body
 
 
+if(isset($_GET['p']))
+  {
+	$p_id = sanitize($_GET['p']);
+	$query = "SELECT b_id FROM postings WHERE id=$p_id";
+	$result = query_db($query);
+	$business = mysql_fetch_array($result);
+	$b_id = $business['b_id'];
+	header("location:/business?b_id=$b_id");
+	exit;
+  }
+
 $get_tag_set = false;
 $set_tag = "Welcome";
 if(isset($_GET['tag']))

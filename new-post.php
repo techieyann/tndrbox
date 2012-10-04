@@ -14,6 +14,14 @@ connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();
 
+//head
+$GLOBALS['header_html_title'] = "tndrbox - ";
+$GLOBALS['header_scripts'] = "";
+$GLOBALS['header_title'] = "";
+$GLOBALS['header_body_includes'] = "";
+$GLOBALS['header_selected_page'] = "business";
+
+
 require('includes/prints.php');
 
 print_head();
@@ -25,25 +33,25 @@ disconnect_from_db();
 function print_body()
 {
   echo "
-	<div id=\"new-post\" class =\"content-pane\">
+	<div id=\"new-post\" class =\"main-content-pane\" style=\"width:65%; margin:0px auto; padding:10px;\">
 		<form name=\"new-post-form\" action=\"scripts/new_post.php\" method=\"post\">
 			<table>
 				<tr>
 					<td>Title</td>
 					<td>:</td>
-					<td><input type=\"text\" name=\"title\" id=\"title\"></td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"title\" id=\"title\"></td>
 				</tr>
 				<tr>
 					<td>Description</td>
 					<td>:</td>
-					<td colspan=4><textarea name=\"description\" cols=70 rows=4>Default Values...</textarea></td>
+					<td colspan=4><textarea name=\"description\" cols=60 rows=4 maxlength=255></textarea></td>
 				</tr>
 				<tr>
 					<td>Tags</td>
 					<td>:</td>
-					<td><input type=\"text\" name=\"tag1\" id=\"tag1\"></td>
-					<td><input type=\"text\" name=\"tag2\" id=\"tag2\"></td>
-					<td><input type=\"text\" name=\"tag3\" id=\"tag3\"></td>
+					<td><input type=\"text\" size=8 name=\"tag1\" id=\"tag1\"></td>
+					<td><input type=\"text\" size=8 name=\"tag2\" id=\"tag2\"></td>
+					<td><input type=\"text\" size=8 name=\"tag3\" id=\"tag3\"></td>
 				</tr>";
   /*				<tr>
 					<td>Publish Date</td>

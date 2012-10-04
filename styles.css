@@ -154,6 +154,17 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
 }
 
+.main-content-pane {
+	width: 940px;
+	background: #f8f8f8;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
+	-moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
+	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
+}
+
 #info{
     width:900px;
     padding:20px;

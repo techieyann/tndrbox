@@ -97,22 +97,9 @@ function print_formatted_post($post, $div_id="")
    	echo "
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
-					$title from <a href=\"business?b_id=$b_id\">$name</a>
-				</div>";
-//				<div class=\"posting-$i-time\">$posting_time</div>";
-	if(isset($GLOBALS['m_id']))
-	{
-		if($a_id == $GLOBALS['m_id'])
-		{
-			echo "		
-		<div id=\"posting-edit$div_id\" class=\"posting-edit\">
-		<a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
-		</div>
-		<div id=\"posting-delete$div_id\" class=\"posting-delete\">
-		<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
-		</div>";
-		}
-	}
+					$title
+				</div>
+				<div class=\"posting-time$div_id\">$posting_time</div>";
 		echo "
 				<div id=\"posting-data$div_id\" class=\"posting-data\">
 					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
@@ -151,8 +138,8 @@ function print_mini_post($post, $div_id="")
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
 					<a href=\"business?b_id=$b_id\">$title from $name</a>
-				</div>";
-//				<div class=\"posting-$i-time\">$posting_time</div>";
+				</div>
+				<div class=\"posting-time$div_id\">$posting_time</div>";
 	if(isset($GLOBALS['m_id']))
 	{
 		if($a_id == $GLOBALS['m_id'])

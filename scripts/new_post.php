@@ -1,4 +1,4 @@
-<?php
+3<?php
 /***********************************************
 file: new_post.php
 creator: Ian McEachern
@@ -43,8 +43,8 @@ $tag3_id = add_tag($tag3);
 //$post_datetime = "$date $time";
 	
 $query = "INSERT INTO postings (title, blurb, tag_1, tag_2, tag_3, 
-       	  b_id, a_id) VALUES ('$title', '$desc', $tag1_id, 
-	 $tag2_id, $tag3_id, $business_id, $author_id)";
+       	  b_id, a_id, posting_time) VALUES ('$title', '$desc', $tag1_id, 
+	 $tag2_id, $tag3_id, $business_id, $author_id, CURRENT_TIMESTAMP)";
 $result = query_db($query);
 if($result)
 {

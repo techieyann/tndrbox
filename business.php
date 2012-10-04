@@ -56,12 +56,14 @@ function print_body()
 	if(mysql_num_rows($result) != 0)
 	{	
 		echo "
-	<div id=\"\" class=\"content-pane\">
+	<div id=\"post\" class=\"content-pane\">
 		<div id=\"shareNice\" data-services=\"facebook.com,digg.com,email,delicious.com,reddit.com,twitter.com,plus.google.com\"
 data-color-scheme=\"black\" 
 data-share-label=\"\"></div>";
 		$posting = mysql_fetch_array($result);
 		print_formatted_post($posting);
+		echo "
+			<div class=\"fb-comments\" data-href=\"http://tndrbox.com/business?b_id=$b_id\" data-num-posts=\"4\"  data-width=\"620\" data-colorscheme=\"light\"></div>";
 		echo "
 	</div>";
 	}
@@ -80,7 +82,7 @@ data-share-label=\"\"></div>";
 		$tag2 = get_tag($tag_2);
 
 		echo "
-		<div id=\"bar_info\">
+		<div id=\"business_info\">
 			
 			<h2>";
 		$ending_string = "";

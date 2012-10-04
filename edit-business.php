@@ -17,8 +17,8 @@ verify_logged_in();
 //set variables
 //body
 $id = $GLOBALS['b_id'];
-$nickname = $GLOBALS['nickname'];
-$username = $GLOBALS['username'];
+//$nickname = $GLOBALS['nickname'];
+//$username = $GLOBALS['username'];
 extract($_GET);
 
 //head
@@ -39,7 +39,7 @@ function print_body()
 {
   global $id, $nickname, $username, $name, $address, $city, $state, $zip, $number, $url, $hours, $tag_1, $tag_2;
 	echo "
-		<table class=\"content-pane\" id=\"notice\">
+		<table class=\"main-content-pane\" id=\"notice\">
 			<form name=\"$id\" method=\"post\" action=\"scripts/edit_business.php?id=$id\">
 			<tr>
 				<td>Name</td>

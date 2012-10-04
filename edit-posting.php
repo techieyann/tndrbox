@@ -41,7 +41,7 @@ function print_body()
   global $p_id, $title, $blurb, $tag1, $tag2, $tag3, $error;
 
   echo "
-	<div id=\"edit-post\" class =\"content-pane\">";
+	<div id=\"edit-post\"  class =\"main-content-pane\" style=\"width:65%; margin:0px auto; padding:10px;\">";
 if($error == 1)
 {
 	echo "<p>Please make sure your data is formatted correctly</p>";
@@ -53,19 +53,19 @@ echo "
 				<tr>
 					<td>Title</td>
 					<td>:</td>
-					<td><input type=\"text\" name=\"title\" id=\"title\" value=\"$title\"></td>
+					<td colspan=4><input type=\"text\"  size=40 maxlength=50 name=\"title\" id=\"title\" value=\"$title\"></td>
 				</tr>
 				<tr>
 					<td>Description</td>
 					<td>:</td>
-					<td colspan=4><textarea name=\"description\" cols=70 rows=4>$blurb</textarea></td>
+					<td colspan=4><textarea name=\"description\" cols=60 rows=4>$blurb</textarea></td>
 				</tr>
 				<tr>
 					<td>Tags</td>
 					<td>:</td>
-					<td><input type=\"text\" name=\"tag1\" id=\"tag1\" value=\"$tag1\"></td>
-					<td><input type=\"text\" name=\"tag2\" id=\"tag2\" value=\"$tag2\"></td>
-					<td><input type=\"text\" name=\"tag3\" id=\"tag3\" value=\"$tag3\"></td>
+					<td><input type=\"text\" size=8 name=\"tag1\" id=\"tag1\" value=\"$tag1\"></td>
+					<td><input type=\"text\" size=8 name=\"tag2\" id=\"tag2\" value=\"$tag2\"></td>
+					<td><input type=\"text\" size=8 name=\"tag3\" id=\"tag3\" value=\"$tag3\"></td>
 				</tr>";
 /*
  				<tr>
@@ -82,7 +82,9 @@ echo "
 					<td colspan=6><input type=\"submit\" value=\"Submit\"></td>
 				</tr>
 		</form>
-		<form name=\"image_$p_id_upload\" method=\"post\" enctype=\"multipart/form-data\" action=\"scripts/image_upload.php?p_id=$p_id\">
+		</table>
+		<table>
+		<form name=\"image_".$p_id."_upload\" method=\"post\" enctype=\"multipart/form-data\" action=\"scripts/image_upload.php?p_id=$p_id\">
 			<tr>
 				<td>Image</td>
 				<td>:</td>
