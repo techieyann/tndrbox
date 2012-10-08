@@ -315,7 +315,6 @@ div.business_button a
 
 /* ------------------ BEER ------------------ */
 	
-	
 #beer-list td,
 #beer-list th {
 	padding: 8px 10px;
@@ -381,7 +380,7 @@ div.business_button a
     text-align:center;
 }
 	
-#brewery-list td,
+#tag-list td,
 #tag-list th {
 	padding: 8px 10px;
 	font-size: 15px;

@@ -88,11 +88,6 @@ function print_body()
   global $postings, $get_tag_set, $set_tag_id, $set_tag, $set_tag_postings_result, $tags_result;
   echo "
 	<div id=\"\" class =\"meta-pane\">";
-  if($get_tag_set)
-	{
-		echo "
-		<h3>$set_tag</h3>";
-	}
   while($present_tag = mysql_fetch_array($tags_result))
 	{
 	  extract($present_tag);
@@ -101,14 +96,28 @@ function print_body()
 	}
   echo "
 	</div>
-	<div id=\"\" class =\"content-pane\">";
+	<div id=\"beer-list\" class =\"content-pane\">";
 	$i = 0;
 	if(isset($postings))
 	  {
+		echo " <table width=\"100%\">";
+		  if($get_tag_set)
+			{
+				echo "
+				<tr><th>$set_tag</th></tr>";
+			}
 		foreach($postings as $post)
 		{
-			print_mini_post($post, "-".++$i);		
+		  echo "<tr";
+		  if($i%2==0)
+			{
+			  echo " class=\"alt\"";
+			}
+			echo "><td>";
+			print_mini_post($post, "-".++$i);
+			echo "</td></tr>";		
 		}
+		echo "</table>";
 	  }
 
   echo "
