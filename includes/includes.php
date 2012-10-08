@@ -139,7 +139,7 @@ function print_mini_post($post, $div_id="")
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
 					<a href=\"business?b_id=$b_id\">$title from $name</a>
 				</div>
-				<div class=\"posting-time$div_id\">$posting_time</div>";
+				<div id=\"posting-time$div_id\" class=\"posting-time\">$posting_time</div>";
 	if(isset($GLOBALS['m_id']))
 	{
 		if($a_id == $GLOBALS['m_id'])
