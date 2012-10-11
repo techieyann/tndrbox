@@ -60,6 +60,9 @@ function print_body()
 		$posting = mysql_fetch_array($result);
 		print_formatted_post($posting);
 		echo "
+		   	<div id=\"shareNice\" data-services=\"facebook.com,digg.com,email,delicious.com,reddit.com,twitter.com,plus.google.com\"
+data-color-scheme=\"black\" 
+data-share-label=\"\"></div>
 			<div class=\"fb-comments\" data-href=\"http://tndrbox.com/?p=".$posting['id']."\" data-num-posts=\"4\"  data-width=\"620\" data-colorscheme=\"light\"></div>";
 		echo "
 	</div>";
@@ -107,12 +110,11 @@ function print_body()
 			$line<br>";
 		}
 		echo "
-			<br><h3><a id=\"business-address\" href=\"http://maps.google.com/?q=$address, $city, $state $zip\">
+			<br><h3><a id=\"business-address\" href=\"http://maps.google.com/?q=$address $city $state $zip\">
 			$address<br>
 			$city, $state, $zip
 			</a></h3><br><br>";
-		echo "<div id=\"static-map\">
-				<a href=\"http://maps.google.com/?q=$address, $city, $state $zip\">";
+		echo "<div id=\"static-map\">";
 		if($lat == "" ||$lat==0 || $lon == "" || $lon==0)
 		{
 			echo "
@@ -124,7 +126,7 @@ function print_body()
 			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$lat,$lon&zoom=16&size=300x400&markers=color:red|$lat,$lon&sensor=false\">";    
 		}
 		
-		echo "</a>
+		echo "
 			</div>
 		</div>";
 	  }

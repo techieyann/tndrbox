@@ -77,14 +77,17 @@ function print_body()
 				</tr>
 				<tr>
 				<td>Number</td>
+				<td>:</td>
 				<td><input type=\"text\" name=\"number\" id=\"number\"  maxlength=\"12\"></td>
 			</tr>
 		      	<tr>
 				<td>URL</td>
+				<td>:</td>
 				<td><input type=\"text\" name=\"url\" id=\"url\"  maxlength=\"50\"></td>
 			</tr>
 			<tr>
 				<td>Hours</td>
+				<td>:</td>
 				<td><input type=\"text\" name=\"hours\" id=\"hours\"  maxlength=\"100\"></td>
 			</tr>
 				<tr>

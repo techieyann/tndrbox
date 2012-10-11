@@ -140,7 +140,6 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 	-webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
 	-moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
-	margin-bottom:5px;
 }
 
 .meta-pane {
@@ -154,7 +153,6 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 	-webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
 	-moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
-	margin-bottom:5px;
 }
 
 .main-content-pane {
@@ -172,17 +170,18 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 margin:5px;
 }
 
+.posting-border ul {
+float:left;
+}
 
-
+.posting-border li {
+float:right;
+margin-right:10px;
+}
 
 .posting-meta{
 float:right;
 width:33%;
-}
-
-.posting-content{
-float:left;
-width:60%;
 }
 .posting-title{
 float:left;
@@ -203,23 +202,6 @@ float:right;
 width:45%;
 float:left;
 }
-.posting-tags{
-width:45%;
-float:left;
-}
-.posting-border li{
-float:right;
-margin-right:5px;
-}
-
-
-
-#share-buttons{
-width:45%;
-text-align:center;
-float:left;
-}
-
 
 #info{
     width:900px;

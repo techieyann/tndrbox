@@ -28,11 +28,6 @@ function print_head()
 
 <head>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\" media=\"all\">
-<script src=\"http://sharenice.org/code.js\" type=\"text/javascript\"></script>
-      <link type=\"text/css\" rel=\"stylesheet\" href=\"http://sharenice.org/main.css\" />   
-      <!--[if IE 6]>
-        <link type=\"text/css\" rel=\"stylesheet\" href=\"http://sharenice.org/ie6.css\" >  
-      <![endif]-->      
 <title>".$GLOBALS['header_html_title']."</title>
 </head>
 
@@ -105,9 +100,124 @@ function print_foot()
 	version ".$GLOBALS['version']."
 </div>
 
+<script type='text/javascript' src='http://w.sharethis.com/button/buttons.js'></script>
+<script type='text/javascript'>
+	stLight.options({
+		publisher:'b1a20a12-bf34-4af5-b4f2-5f09117df5e5',
+	});
+</script>
+
 </body>
 
 </html>";
+}
+
+function print_formatted_post($post, $div_id="")
+{
+	extract($post);
+	$query = "SELECT name, tag_1, tag_2 FROM business WHERE id='$b_id'";
+   	$result = query_db($query);
+   	$business_result = mysql_fetch_array($result);
+   	$name = $business_result['name'];
+	$tag_4 = $business_result['tag_1'];
+	$tag_5 = $business_result['tag_2'];
+
+   	$tags[1] = get_tag($tag_1); 
+   	$tags[2] = get_tag($tag_2); 
+   	$tags[3] = get_tag($tag_3);
+	$tags[4] = get_tag($tag_4);
+	$tags[5] = get_tag($tag_5);
+
+   	echo "
+			<div id=\"posting-border$div_id\" class=\"posting-border\">
+				<div id=\"posting-title$div_id\" class=\"posting-title\">
+					$title
+				</div>
+				<div class=\"posting-time$div_id\">$posting_time</div>";
+		echo "
+				<div id=\"posting-data$div_id\" class=\"posting-data\">
+					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
+					<div id=\"share-buttons\">
+			<span class='st_email_custom' st_url=\"tndrbox.com/?p=$id\" st_title='tndrbox - $title'>
+				<img src='images/email.png'>
+			</span>
+			<span class='st_twitter_custom' st_url=\"tndrbox.com/?p=$id\" st_title='tndrbox - $title'>
+				<img src='images/twitter.png'>
+			</span>
+		    <span class='st_facebook_custom' st_url=\"tndrbox.com/?p=$id\" st_title='tndrbox - $title'>
+				<img src='images/facebook.png'>
+			</span>
+			</div>
+					<div id=\"posting-blurb$div_id\" class=\"posting-blurb\">
+						$blurb
+					
+					</div>
+				</div>
+				<div class=\"posting-tags\">
+				<ul>
+						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>
+						<li><a href=\"index?tag=$tag_2\">$tags[2]</a></li>
+						<li><a href=\"index?tag=$tag_3\">$tags[3]</a></li>
+						<li><a href=\"index?tag=$tag_4\">$tags[4]</a></li>
+						<li><a href=\"index?tag=$tag_5\">$tags[5]</a></li>
+					</ul>
+				</div>
+			</div>";
+}
+
+function print_mini_post($post, $div_id="")
+{
+	extract($post);
+	$query = "SELECT name, tag_1, tag_2 FROM business WHERE id='$b_id'";
+   	$result = query_db($query);
+   	$business_result = mysql_fetch_array($result);
+   	$name = $business_result['name'];
+	$tag_4 = $business_result['tag_1'];
+	$tag_5 = $business_result['tag_2'];
+
+   	$tags[1] = get_tag($tag_1); 
+   	$tags[2] = get_tag($tag_2); 
+   	$tags[3] = get_tag($tag_3);
+	$tags[4] = get_tag($tag_4);
+	$tags[5] = get_tag($tag_5);
+
+   	echo "
+			
+			<div id=\"posting-border$div_id\" class=\"posting-border\">
+				<div id=\"posting-content$div_id\" class=\"posting-content\">
+				<div id=\"posting-title$div_id\" class=\"posting-title\">
+					<a href=\"business?b_id=$b_id\">$title from $name</a>
+				</div>";
+	
+		echo substr($blurb, 0, 100);
+		echo "...
+				</div>
+				<div id=\"posting-meta$div_id\" class=\"posting-meta\">
+				<div id=\"posting-time$div_id\" class=\"posting-time\">$posting_time</div>
+					<ul>
+						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>
+						<li><a href=\"index?tag=$tag_2\">$tags[2]</a></li>
+						<li><a href=\"index?tag=$tag_3\">$tags[3]</a></li>
+						<li><a href=\"index?tag=$tag_4\">$tags[4]</a></li>
+						<li><a href=\"index?tag=$tag_5\">$tags[5]</a></li>
+					</ul>";
+				if(isset($GLOBALS['m_id']))
+	{
+		if($a_id == $GLOBALS['m_id'])
+		{
+			echo "		
+		<div id=\"posting-edit$div_id\" class=\"posting-edit\">
+		<a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
+		</div>
+		<div id=\"posting-delete$div_id\" class=\"posting-delete\">
+		<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
+		</div>";
+		}
+	}
+	echo "
+				</div>
+				</div>
+			</div>";
 }
 
 ?>

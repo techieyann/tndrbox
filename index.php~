@@ -87,28 +87,14 @@ function print_body()
 {
   global $postings, $get_tag_set, $set_tag_id, $set_tag, $set_tag_postings_result, $tags_result;
   echo "
-	<div id=\"\" class =\"meta-pane\">
-	<table width=\"100%\">";
-$i=0;
+	<div id=\"\" class =\"meta-pane\">";
   while($present_tag = mysql_fetch_array($tags_result))
 	{
-	if($i++==0)
-	{
-		echo "
-		<tr>";
-	}
 	  extract($present_tag);
 		echo "
-		<td><a href=\"index?tag=$id\">$tag</a>($num_ref)</td> ";
-	if($i%2==0)
-	{
-		$i=0;
-		echo "
-		</tr>";	
-	}
+		<a href=\"index?tag=$id\">$tag</a>($num_ref) ";
 	}
   echo "
-       </table>
 	</div>
 	<div id=\"beer-list\" class =\"content-pane\">";
 	$i = 0;

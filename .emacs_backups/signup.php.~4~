@@ -25,7 +25,7 @@ print_foot();
 function print_body()
 {
   	echo "
-	<div id=\"notice\" class=\"main-content-pane\">";
+	<div id=\"notice\" class=\"content-pane\">";
 	
 	if(isset($_GET['error']))
 	  {
