@@ -1,9 +1,10 @@
 <?php
 /***********************************************
-file: edit-posting.php
+file: edit-old-posting.php
 creator: Ian McEachern
 
-This file displays a dialogue for editing a post.
+This file displays a dialogue for editing an old
+post and setting it as the current one.
  ***********************************************/
 require('includes/includes.php');
 require('includes/db_interface.php');
@@ -48,7 +49,7 @@ if($error == 1)
 }	
 echo "		
 
-		<form name='edit-post-form' enctype='multipart/form-data' action='scripts/edit_post.php?p_id=$p_id' method='post'>
+		<form name='edit-post-form' enctype='multipart/form-data' action='scripts/edit_old_post.php?p_id=$p_id' method='post'>
 		<table>	  
 				<tr>
 					<td>Title</td>
@@ -78,7 +79,8 @@ echo "
 				</tr>
 */
 echo "
-			<tr>
+		
+		<tr>
 				<td>Image</td>
 				<td>:</td>
 				<td colspan=4>
@@ -96,6 +98,7 @@ echo "
 				<td></td>
 		      		<td colspan=4 align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Submit\"></td>
 			</tr>
+
 			</table>
 			</form>
 	</div>";

@@ -36,6 +36,6 @@
 			}
 		
 
-		header("location:../home");
+		HEADER("location:../home");
 		disconnect_from_db($link);
 ?>

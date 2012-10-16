@@ -1,9 +1,10 @@
-3<?php
+<?php
 /***********************************************
-file: new_post.php
+file: edit_old_post.php
 creator: Ian McEachern
 
-This script creates a new posting.
+This script edits an old post and makes it the 
+current posting.
  ***********************************************/
 
 require('../includes/includes.php');
@@ -13,14 +14,14 @@ require('../includes/tags.php');
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();
-verify_logged_in();
-
 
 
 $business_id=$GLOBALS['b_id'];
-$author_id=$GLOBALS['m_id'];
-
 push_old_post($business_id);
+
+$post_id = sanitize($_GET['p_id']);
+$query = "SELECT tag_1, tag_2, tag_3 FROM old_postings WHERE id='$post_id'";
+$result = query_db($query);
 
 $title = sanitize($_POST['title']);
 $desc = sanitize($_POST['description']);
@@ -29,9 +30,33 @@ $tag1 = sanitize($_POST['tag1']);
 $tag2 = sanitize($_POST['tag2']);
 $tag3 = sanitize($_POST['tag3']);
 
-$tag1_id = add_tag($tag1);
-$tag2_id = add_tag($tag2);
-$tag3_id = add_tag($tag3);
+if(strcmp($tag1,$tag_1) != 0)
+{ 
+	$tag1_id = add_tag($tag1);
+	decrement_tag($tag_1);
+}
+else
+{
+	$tag1_id = $tag_1;
+}
+if(strcmp($tag2,$tag_2) != 0)
+{ 
+	$tag2_id = add_tag($tag2);
+	decrement_tag($tag_2);
+}
+else
+{
+	$tag2_id = $tag_2;
+}
+if(strcmp($tag3,$tag_3) != 0)
+{ 
+	$tag3_id = add_tag($tag3);
+	decrement_tag($tag_3);
+}
+else
+{
+	$tag3_id = $tag_3;
+}
 
 //$price = sanitize($_POST['price']);
 //$number = sanitize($_POST['quantity']);
@@ -42,23 +67,9 @@ $tag3_id = add_tag($tag3);
 //mysql datetime format: 'YYYY-MM-DD HH:MM:SS'
 //$post_datetime = "$date $time";
 
-			
-		
-	
-$query = "INSERT INTO postings (title, blurb, tag_1, tag_2, tag_3, 
-       	  b_id, a_id, posting_time) VALUES ('$title', '$desc', $tag1_id, 
-	 $tag2_id, $tag3_id, $business_id, $author_id, CURRENT_TIMESTAMP)";
-$result = query_db($query);
 
-if($result)
-{
-
-	$query = "SELECT id FROM postings WHERE b_id='$business_id'";
-	$result = query_db($query);
-	$post = mysql_fetch_array($result);
-	$post_id = $post['id'];
-
-	if($_FILES['image_upload']['error'] > 0)
+$image_upload_flag = false;
+			if($_FILES['image_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['image_upload']['error'];
                 header("location:../home");
@@ -75,20 +86,34 @@ if($result)
 									
 						if(move_uploaded_file($tmp_name, "../images/posts/img_$post_id.$ext"))
 						{
-							$query = "UPDATE postings SET
-			       	 	  	       	       photo='img_$post_id.$ext'
-						       	       WHERE id='$post_id'";
-					  	       	query_db($query);
+							$image_upload_flag = true;
 						}
 					}
 				}
 			}
-	header("location:../home");
-}
-else
+
+$query = "INSERT INTO postings (SELECT * FROM old_postings WHERE id=$post_id)";
+query_db($query);
+
+$query = "DELETE FROM old_postings WHERE id=$post_id";
+query_db($query);
+
+$query = "UPDATE postings set title='$title', blurb='$desc', 
+       	 tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id', 
+       	 posting_time=CURRENT_TIMESTAMP, a_id='$user_id'";
+
+if($image_upload_flag == true)
 {
-	header("location:../edit-post.php?error=1&title=$title&blurb=$desc&tag1=$tag1&tag2=$tag2&tag3=$tag3");
+	$query = $query.", photo='img_$post_id.$ext'";
 }
+$query = $query."
+	 WHERE id='$post_id'";
+query_db($query);
+
+
+
+
+header("location:../home");
 disconnect_from_db($link);
 
 ?>

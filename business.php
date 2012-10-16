@@ -140,12 +140,19 @@ function print_body()
 		
 		while($business = mysql_fetch_array($result))
 		{
-				if($count == 0)
+			extract($business);
+			$query = "SELECT id FROM postings WHERE b_id=$id";
+			$result = query_db($query);
+			if(mysql_num_rows($result) == 0)
+			{
+				break;
+			}	
+			if($count == 0)
 				{
 					echo "
 			<tr>";
 				}
-				extract($business);
+				
 				echo "
 				<td align=\"center\">
 				<br>

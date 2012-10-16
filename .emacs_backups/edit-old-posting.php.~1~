@@ -78,23 +78,24 @@ echo "
 				</tr>
 */
 echo "
+		</table>
+		<table>
 			<tr>
 				<td>Image</td>
 				<td>:</td>
-				<td colspan=4>
+				<td>
 				<input type=\"file\" name=\"image_upload\" id=\"image_upload\">
 				</td>
 			</tr>
 			<tr>
-				<td></td>
-				<td colspan=5 style=\"border-bottom: solid 1px black;\">
-				Note: filesize must be less than 240Kb
+				<td colspan=\"3\">
+				Note: filesize must be <240Kb
 				</td>
 			</tr>
 			<tr>
-				<td><a href='home' style='text-decoration:none'><input type='button' name='cancel' value='Cancel'></a></td>
 				<td></td>
-		      		<td colspan=4 align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Submit\"></td>
+				<td></td>
+		      		<td style=\"border-bottom: solid 1px black;\" align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Submit\"></td>
 			</tr>
 			</table>
 			</form>

@@ -40,7 +40,7 @@ function print_body()
   global $id, $nickname, $username, $name, $address, $city, $state, $zip, $number, $url, $hours, $tag_1, $tag_2;
 	echo "
 		<table class=\"main-content-pane\" id=\"notice\">
-			<form name=\"$id\" method=\"post\" action=\"scripts/edit_business.php?id=$id\">
+			<form name=\"$id\" enctype=\"multipart/form-data\" method=\"post\" action=\"scripts/edit_business.php?id=$id\">
 			<tr>
 				<td>Name</td>
 				<td>:</td>
@@ -92,13 +92,6 @@ function print_body()
 				<td><input type=\"text\" name=\"hours\" id=\"hours\" value=\"$hours\" maxlength=\"100\"></td>
 			</tr>
 			<tr>
-				<td></td>
-				<td></td>
-		      		<td style=\"border-bottom: solid 1px black;\" align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Update\"></td>
-			</tr>
-			</form>
-			<form name=\"logo_$id\" method=\"post\" enctype=\"multipart/form-data\" action=\"scripts/logo_upload.php?id=$id\">
-			<tr>
 				<td>Logo</td>
 				<td>:</td>
 				<td>
@@ -106,14 +99,15 @@ function print_body()
 				</td>
 			</tr>
 			<tr>
-				<td colspan=\"3\">
+				<td></td>
+				<td colspan=2 style=\"border-bottom: solid 1px black;\">
 				Note: filesize must be <60Kb
 				</td>
 			</tr>
 			<tr>
+				<td><a href='home' style='text-decoration:none'><input type='button' name='cancel' value='Cancel'></a></td>
 				<td></td>
-				<td></td>
-		      		<td style=\"border-bottom: solid 1px black;\" align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Upload\"></td>
+		      		<td align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Upload\"></td>
 			</tr>
 			</form>
 		</table>";

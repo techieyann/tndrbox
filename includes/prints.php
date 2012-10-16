@@ -112,6 +112,37 @@ function print_foot()
 </html>";
 }
 
+function print_formatted_time($time)
+{
+//YYYY-MM-DD hh:mm:ss -> hh:mm(am/pm) MM/DD/YY
+
+//Hour formatting
+$hours = substr($time,11,2);
+$pmam = "am ";
+if($hours > 12)
+{
+	$hours -= 12;
+	$pmam = "pm ";
+}
+
+//Minute extraction
+$minutes = substr($time,14,2);
+
+//Month extraction
+$month = substr($time,5,2);
+
+//Day extraction
+$day = substr($time,8,2);
+
+//Year extraction
+$year = substr($time,2,2);
+
+//Output
+echo $hours.":".$minutes.$pmam.$month."/".$day."/".$year;
+
+
+}
+
 function print_formatted_post($post, $div_id="")
 {
 	extract($post);
@@ -133,26 +164,23 @@ function print_formatted_post($post, $div_id="")
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
 					$title
 				</div>
-				<div class=\"posting-time$div_id\">$posting_time</div>";
-		echo "
+				<div class=\"posting-time$div_id\">";
+		print_formatted_time($posting_time);
+		echo "</div>
 				<div id=\"posting-data$div_id\" class=\"posting-data\">
 					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
-					<div id=\"share-buttons\">
-			<span class='st_email_custom' st_url=\"tndrbox.com/?p=$id\" st_title='tndrbox - $title'>
-				<img src='images/email.png'>
-			</span>
-			<span class='st_twitter_custom' st_url=\"tndrbox.com/?p=$id\" st_title='tndrbox - $title'>
-				<img src='images/twitter.png'>
-			</span>
-		    <span class='st_facebook_custom' st_url=\"tndrbox.com/?p=$id\" st_title='tndrbox - $title'>
-				<img src='images/facebook.png'>
-			</span>
-			</div>
+					
 					<div id=\"posting-blurb$div_id\" class=\"posting-blurb\">
 						$blurb
 					
 					</div>
 				</div>
+					<div id=\"share-buttons\">
+			<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-dnt=\"true\" data-count=\"none\" data-url=\"http://tndrbox.com/?p=$id\" data-lang=\"en\">Tweet</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"https://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>
+	<div class=\"fb-like\" data-href=\"http://tndrbox.com/?p=$id\" data-send=\"false\" data-show-faces=\"false\" data-layout=\"button\" data-action=\"recommend\"></div>	
+			</div>
 				<div class=\"posting-tags\">
 				<ul>
 						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>
@@ -193,7 +221,9 @@ function print_mini_post($post, $div_id="")
 		echo "...
 				</div>
 				<div id=\"posting-meta$div_id\" class=\"posting-meta\">
-				<div id=\"posting-time$div_id\" class=\"posting-time\">$posting_time</div>
+				<div id=\"posting-time$div_id\" class=\"posting-time\">";
+		print_formatted_time($posting_time);
+		echo "</div>
 					<ul>
 						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>
 						<li><a href=\"index?tag=$tag_2\">$tags[2]</a></li>
@@ -201,13 +231,13 @@ function print_mini_post($post, $div_id="")
 						<li><a href=\"index?tag=$tag_4\">$tags[4]</a></li>
 						<li><a href=\"index?tag=$tag_5\">$tags[5]</a></li>
 					</ul>";
-				if(isset($GLOBALS['m_id']))
+	if(isset($GLOBALS['m_id']))
 	{
 		if($a_id == $GLOBALS['m_id'])
 		{
 			echo "		
 		<div id=\"posting-edit$div_id\" class=\"posting-edit\">
-		<a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3&posting_time=$posting_time\">Edit</a>
+		<a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3\">Edit</a>
 		</div>
 		<div id=\"posting-delete$div_id\" class=\"posting-delete\">
 		<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
@@ -216,6 +246,29 @@ function print_mini_post($post, $div_id="")
 	}
 	echo "
 				</div>
+				</div>
+			</div>";
+}
+
+function print_old_post($post, $div_id="")
+{
+	extract($post);
+   	echo "
+			
+			<div id=\"posting-border$div_id\" class=\"posting-border\">
+				<div id=\"posting-content$div_id\" class=\"posting-content\">
+				<div id=\"posting-title$div_id\" class=\"posting-title\">
+					$title
+				</div>";
+	
+		echo substr($blurb, 0, 100);
+		echo "...
+				</div>
+				<div id=\"posting-meta$div_id\" class=\"posting-meta\">
+				<div id=\"posting-time$div_id\" class=\"posting-time\">";
+		print_formatted_time($posting_time);
+		echo "</div>
+				<a href='edit-old-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3'>Make current post</a>
 				</div>
 			</div>";
 }

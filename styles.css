@@ -146,7 +146,6 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 .meta-pane {
 	width: 300px;
 	float: left;
-	padding:5px;
 	background: #f8f8f8;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -187,6 +186,7 @@ width:60%;
 .posting-title{
 float:left;
 font-size:25px;
+margin-bottom:10px;
 }
 .posting-time{
 float:right;
@@ -345,57 +345,57 @@ div.business_button a
 
 /* ------------------ BEER ------------------ */
 	
-#beer-list td,
-#beer-list th {
+.list td,
+.list th {
 	padding: 8px 10px;
 	font-size: 15px;
 }
 
-#beer-list td{
+.list td{
 	border-right: 1px solid #e5e5e5;
 	border-bottom: 1px solid #aeaeae;
 }
 
-#beer-list th{
+.list th{
 	background: #fff0a8;
 	border-right: 1px solid #f0b756;
 	border-bottom: 3px solid #ff8b00;
 }
 
-#beer-list th a {
+.list th a {
 	color: #c36a03;
 }
 
-#beer-list td a {
+.list td a {
 	color: #800b0d;
 }
 
-#beer-list .alt {
+.list .alt {
 	background: #fff9e2;
 }
 
 
 /* fix to keep final underline from hanging over border raidus */
 
-#beer-list tr:last-child td:first-child {
+.list tr:last-child td:first-child {
 	-moz-border-radius-bottomleft:5px;
 	-webkit-border-bottom-left-radius:5px;
 	border-bottom-left-radius:5px
 }
 	
-#beer-list tr:last-child td:last-child {
+.list tr:last-child td:last-child {
 	-moz-border-radius-bottomright:5px;
 	-webkit-border-bottom-right-radius:5px;
 	border-bottom-right-radius:5px;
 }
 
-#beer-list tr:first-child th:first-child {
+.list tr:first-child th:first-child {
 	-moz-border-radius-topleft:5px;
 	-webkit-border-top-left-radius:5px;
 	border-top-left-radius:5px
 }
 	
-#beer-list tr:first-child th:last-child {
+.list tr:first-child th:last-child {
 	-moz-border-radius-topright:5px;
 	-webkit-border-top-right-radius:5px;
 	border-top-right-radius:5px;

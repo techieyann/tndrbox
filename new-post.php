@@ -33,8 +33,8 @@ disconnect_from_db();
 function print_body()
 {
   echo "
-	<div id=\"new-post\" class =\"main-content-pane\" style=\"width:65%; margin:0px auto; padding:10px;\">
-		<form name=\"new-post-form\" action=\"scripts/new_post.php\" method=\"post\">
+	<div id='new-post' class ='main-content-pane' style='width:65%; margin:0px auto; padding:10px;'>
+		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php' method='post'>
 			<table>
 				<tr>
 					<td>Title</td>
@@ -63,10 +63,25 @@ function print_body()
   */
 				echo "
 				<tr>
-					<td colspan=6><input type=\"submit\" value=\"Submit\"></td>
-				</tr>
+				<td>Image</td>
+				<td>:</td>
+				<td colspan=4>
+				<input type=\"file\" name=\"image_upload\" id=\"image_upload\">
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan=5 style=\"border-bottom: solid 1px black;\">
+				Note: filesize must be less than 240Kb
+				</td>
+			</tr>
+			<tr>
+				<td><a href='home' style='text-decoration:none'><input type='button' name='cancel' value='Cancel'></a></td>
+				<td></td>
+		      		<td colspan=4 align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Submit\"></td>
+			</tr>
 			</table>
-		</form>
+			</form>
 	</div>";
 }
 ?>

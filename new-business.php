@@ -42,9 +42,9 @@ function print_body()
   $name = $res['name'];
 
   echo "
-	<div id=\"\" class =\"content-pane\">
+	<div id=\"\" class =\"main-content-pane\">
 		<p>Please enter your business' information.</p>
-		<form name=\"\" action=\"scripts/new_business.php?id=$id\" method=\"post\">
+		<form name='' enctype='multipart/form-data' action='scripts/new_business.php?id=$id' method='post'>
 			<table>
 				<tr>
 					<td>Business Name</td>
@@ -87,10 +87,23 @@ function print_body()
 				<td>Hours</td>
 				<td><input type=\"text\" name=\"hours\" id=\"hours\"  maxlength=\"100\"></td>
 			</tr>
-				<tr>
-					<td></td>
-					<td style=\"text-align:right\"><input type=\"submit\" value=\"Submit\"></td>
-				</tr>
+			<tr>
+				<td>Logo</td>
+				<td>:</td>
+				<td>
+				<input type=\"file\" name=\"logo_upload\" id=\"logo_upload\" size=\"10\">
+				</td>
+			</tr>
+			<tr>
+				<td colspan=\"3\">
+				Note: filesize must be <60Kb
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+		      		<td style=\"border-bottom: solid 1px black;\" align=\"right\"><input type=\"submit\" name=\"submit\" value=\"Upload\"></td>
+			</tr>
 			</table>
 		</form>
 	</div>";

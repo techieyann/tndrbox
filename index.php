@@ -110,7 +110,7 @@ $i=0;
   echo "
        </table>
 	</div>
-	<div id=\"beer-list\" class =\"content-pane\">";
+	<div id='' class ='content-pane list'>";
 	$i = 0;
 	if(isset($postings))
 	  {
