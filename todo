@@ -12,7 +12,6 @@
 
 -nate
 Add/Edit Item Page
-- there is no way of indicating when an event is happening.
 -  there should be a cancel, or back-to-dashboard link
 - form validation should NOT be server-side. that should be JS at best, php at worst.
 
