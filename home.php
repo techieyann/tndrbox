@@ -148,19 +148,22 @@ Current Posting: <a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&p
 
         echo "</td></tr>";
      }
-	echo "
-		<tr><th>Previous Postings:</th></tr>";
-	$i=0;
-	foreach($old_postings as $old_post)
+	if($old_postings_flag)
 	{
-		echo "<tr";
-		if($i%2==0)
+		echo "
+		<tr><th>Previous Postings:</th></tr>";
+		$i=0;
+		foreach($old_postings as $old_post)
 		{
-			  echo " class=\"alt\"";
+			echo "<tr";
+			if($i%2==0)
+			{
+				  echo " class=\"alt\"";
+			}
+			echo "><td>";
+			print_old_post($old_post, "-".++$i);
+			echo "</td></tr>";	
 		}
-		echo "><td>";
-		print_old_post($old_post, "-".++$i);
-		echo "</td></tr>";	
 	}
 	echo "
 	</table>
