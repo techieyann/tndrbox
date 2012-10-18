@@ -15,8 +15,13 @@ $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 
 $post_id = sanitize($_GET['p_id']);
+$user_id = $GLOBALS['m_id'];
+
 $query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE id='$post_id'";
 $result = query_db($query);
+$tags = mysql_fetch_array($result);
+extract($tags);
+
 
 $title = sanitize($_POST['title']);
 $desc = sanitize($_POST['description']);
@@ -64,6 +69,7 @@ else
 
 
 $image_upload_flag = false;
+
 			if($_FILES['image_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['image_upload']['error'];
@@ -100,7 +106,7 @@ $query = $query."
 	 WHERE id='$post_id'";
 query_db($query);
 
-header("location:../home");
+//header("location:../home");
 disconnect_from_db($link);
-
+return;
 ?>

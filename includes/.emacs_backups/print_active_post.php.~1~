@@ -1,0 +1,50 @@
+<?php
+
+
+$query = "SELECT name, tag_1, tag_2 FROM business WHERE id='$b_id'";
+   	$result = query_db($query);
+   	$business_result = mysql_fetch_array($result);
+   	$name = $business_result['name'];
+	$tag_4 = $business_result['tag_1'];
+	$tag_5 = $business_result['tag_2'];
+
+   	$tags[1] = get_tag($tag_1); 
+   	$tags[2] = get_tag($tag_2); 
+   	$tags[3] = get_tag($tag_3);
+	$tags[4] = get_tag($tag_4);
+	$tags[5] = get_tag($tag_5);
+
+   	echo "
+			<div id=\"posting-border$div_id\" class=\"posting-border\">
+				<div id=\"posting-title$div_id\" class=\"posting-title\">
+					$title
+				</div>
+				<div class=\"posting-time$div_id\">";
+		print_formatted_time($posting_time);
+		echo "</div>
+				<div id=\"posting-data$div_id\" class=\"posting-data\">
+					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
+					
+					<div id=\"posting-blurb$div_id\" class=\"posting-blurb\">
+						$blurb
+					
+					</div>
+				</div>
+					<div id=\"share-buttons\">
+			<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-dnt=\"true\" data-count=\"none\" data-url=\"http://tndrbox.com/?p=$id\" data-lang=\"en\">Tweet</a>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"https://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>
+	<div class=\"fb-like\" data-href=\"http://tndrbox.com/?p=$id\" data-send=\"false\" data-show-faces=\"false\" data-layout=\"button\" data-action=\"recommend\"></div>	
+			</div>
+				<div class=\"posting-tags\">
+				<ul>
+						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>
+						<li><a href=\"index?tag=$tag_2\">$tags[2]</a></li>
+						<li><a href=\"index?tag=$tag_3\">$tags[3]</a></li>
+						<li><a href=\"index?tag=$tag_4\">$tags[4]</a></li>
+						<li><a href=\"index?tag=$tag_5\">$tags[5]</a></li>
+					</ul>
+				</div>
+			</div>";
+
+?>

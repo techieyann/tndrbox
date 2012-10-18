@@ -58,7 +58,77 @@ if($i>0)
 }
 //head
 $GLOBALS['header_html_title'] = "tndrbox - ".$posting['title'];
-$GLOBALS['header_scripts'] = "";
+
+$GLOBALS['header_scripts'] = " <script type='text/javascript'>                                         
+$(document).ready(function(){
+	
+	$('#edit-posting-form').hide();
+
+   $('a#edit-posting').click(function(e){
+	e.preventDefault();
+     $('#posting-border').animate({ height: 'hide'}, 'slow');
+	 $('#edit-posting-form').animate({ height: 'show'}, 'slow');
+   });
+
+   $('#cancel-button').click(function(){
+     $('#posting-border').animate({ height: 'show'}, 'slow');
+	 $('#edit-posting-form').animate({ height: 'hide'}, 'slow');
+   });
+
+	$('a[id^=make-current]').click(function(e){
+		e.preventDefault();
+		$('a').find('[id^=make-current]').each(function(i){
+			$(this).append('test' + i);
+		});
+	});
+
+	$('.error').hide();  
+
+	$('#submit').click(function() {  
+    // validate and process form here  
+    $('.error').hide();  
+      var title = $('input#title').val();  
+        if (title == '') {  
+      $('#title_error').show();  
+      $('input#title').focus();  
+      return false;  
+    }  
+		var desc = $('input#description').val();  
+        if (desc == '') {  
+      $('#desc_error').show();  
+      $('input#description').focus();  
+      return false;  
+    }  
+        var tag1 = $('input#tag1').val();  
+        if (tag1 == '') {  
+      $('#tag_error').show();  
+      $('input#tag1').focus();  
+      return false;  
+    }  
+		var tag2 = $('input#tag2').val();  
+        if (tag2 == '') {  
+      $('tr#tag_error').show();  
+      $('input#tag2').focus();  
+      return false;
+    }  
+
+	var tag3 = $('input#tag3').val();  
+        if (tag3 == '') {  
+      $('label#tag_error').show();  
+      $('input#tag3').focus();  
+      return false;  
+    } 
+
+	$('#edit-post-form').ajaxForm(function() { 
+		$('#posting-border').load('home.php #posting-border');
+		$('#posting-border').animate({ height: 'show'}, 'slow');
+		$('#edit-posting-form').animate({ height: 'hide'}, 'slow');
+    }); 
+});
+
+ });                                     
+ </script>    ";
+
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
 $GLOBALS['header_selected_page'] = "home";
@@ -139,13 +209,13 @@ echo "
 		extract($posting);
         echo "       
 				<tr><th>
-Current Posting: <a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3\">Edit</a>
+Current Posting: <a id='edit-posting' href=''>Edit</a>
 		|
 		<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
 		</th></tr>
 		<tr><td>";
 		print_formatted_post($posting);
-
+		print_edit_post_form($posting);
         echo "</td></tr>";
      }
 	if($old_postings_flag)

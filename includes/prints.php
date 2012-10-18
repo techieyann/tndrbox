@@ -27,7 +27,12 @@ function print_head()
 <html>
 
 <head>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\" media=\"all\">
+<link rel='stylesheet' type='text/css' href='styles.css' media='all'>
+<script src='includes/jquery.js' type='text/javascript'></script>
+<script src='includes/jquery.form.js' type='text/javascript'></script>
+".$GLOBALS['header_scripts']."
+
+
 <title>".$GLOBALS['header_html_title']."</title>
 </head>
 
@@ -193,6 +198,82 @@ function print_formatted_post($post, $div_id="")
 			</div>";
 }
 
+
+function print_edit_post_form($post, $div_id="")
+{
+extract($post);
+$tag1 = get_tag($tag_1);
+$tag2 = get_tag($tag_2);
+$tag3 = get_tag($tag_3);
+
+echo "
+	<div id=\"edit-posting-form\">	
+
+		<form id='edit-post-form' name='edit-post-form' enctype='multipart/form-data' action='scripts/edit_post.php?p_id=$id' method='post'>
+		<table>	  
+				<tr>
+					<td>Title</td>
+					<td>:</td>
+					<td colspan=4><input type=\"text\"  size=40 maxlength=50 name=\"title\" id=\"title\" value=\"$title\"></td>
+				</tr>
+				<tr class='error' id='title_error'>
+				<td></td><td></td>
+				<td>This field is required.</td>  
+				</tr>
+				<tr>
+					<td>Description</td>
+					<td>:</td>
+					<td colspan=4><textarea name=\"description\" id='description' cols=60 rows=4>$blurb</textarea></td>
+				</tr>
+				<tr class='error' id='desc_error'>
+				<td></td><td></td>
+				<td>This field is required.</td>  
+				</tr>
+				<tr>
+					<td>Tags</td>
+					<td>:</td>
+					<td><input type=\"text\" size=8 name=\"tag1\" id=\"tag1\" value=\"$tag1\"></td>
+					<td><input type=\"text\" size=8 name=\"tag2\" id=\"tag2\" value=\"$tag2\"></td>
+					<td><input type=\"text\" size=8 name=\"tag3\" id=\"tag3\" value=\"$tag3\"></td>
+				</tr>
+				<tr class='error' id='tag_error'>
+				<td></td><td></td>
+				<td>This field is required.</td>  
+				</tr>";
+/*
+ 				<tr>
+					<td>Publish Date</td>
+					<td>:</td>
+					<td><input type=\"text\" name=\"publish_date\" id=\"publish_date\" value=\"$publish_date\"></td>
+					<td>Publish Time</td>
+					<td>:</td>
+					<td><input type=\"time\" name=\"publish_time\" id=\"publish_time\" value=\"$publish_time\"></td>
+				</tr>
+*/
+echo "
+			<tr>
+				<td>Image</td>
+				<td>:</td>
+				<td colspan=4>
+				<input type=\"file\" name=\"image_upload\" id=\"image_upload\">
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan=5 style=\"border-bottom: solid 1px black;\">
+				Note: filesize must be less than 240Kb
+				</td>
+			</tr>
+			<tr>
+				<td><input type='button' id='cancel-button' name='cancel' value='Cancel'></td>
+				<td></td>
+		      		<td colspan=4 align=\"right\"><input type=\"submit\" id='submit' name=\"submit\" value=\"Submit\"></td>
+			</tr>
+			</table>
+			</form>
+	</div>";
+}
+
 function print_mini_post($post, $div_id="")
 {
 	extract($post);
@@ -268,7 +349,7 @@ function print_old_post($post, $div_id="")
 				<div id=\"posting-time$div_id\" class=\"posting-time\">";
 		print_formatted_time($posting_time);
 		echo "</div>
-				<a href='edit-old-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3'>Make current post</a>
+				<a id='make-current$div_id' href=''>Make current post</a>
 				</div>
 			</div>";
 }
