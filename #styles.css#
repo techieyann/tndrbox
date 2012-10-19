@@ -185,6 +185,7 @@ float:left;
 width:60%;
 word-wrap:break-word;
 }
+
 .posting-title{
 float:left;
 font-size:25px;

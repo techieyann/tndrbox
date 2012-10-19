@@ -29,7 +29,6 @@ function print_head()
 <head>
 <link rel='stylesheet' type='text/css' href='styles.css' media='all'>
 <script src='includes/jquery.js' type='text/javascript'></script>
-<script src='includes/jquery.form.js' type='text/javascript'></script>
 ".$GLOBALS['header_scripts']."
 
 
@@ -148,6 +147,116 @@ echo $hours.":".$minutes.$pmam.$month."/".$day."/".$year;
 
 }
 
+function print_edit_business_form($business)
+{
+extract($business);
+
+$tag_1 = get_tag($tag_1);
+$tag_2 = get_tag($tag_2);
+
+echo "
+	<div id='edit-business'>
+		<table width='100%'>
+			<form name=\"$id\" id='edit-business-form' enctype=\"multipart/form-data\" method=\"post\" action=\"scripts/edit_business.php?id=$id\">
+			<tr>
+				<th><a id='edit-business-cancel' href=''>Cancel</a></th>
+			</tr>
+			<tr>
+				<td>Name</td>
+			</tr>
+			<tr class='error' id='name_error'>
+				<td>This field is required.</td>  
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"name\" id=\"name\" value=\"$name\" maxlength=\"50\"></td>
+			</tr>
+			<tr>
+				<td>Tag 1</td>
+			</tr>
+			<tr class='error' id='tag_1_error'>
+				<td>This field is required.</td>  
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"tag_1\" id=\"tag_1\" value=\"$tag_1\" maxlength=\"100\"></td>
+			</tr>
+			<tr>
+				<td>Tag 2</td>
+			</tr>
+			<tr class='error' id='tag_2_error'>
+				<td>This field is required.</td>  
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"tag_2\" id=\"tag_2\" value=\"$tag_2\" maxlength=\"100\"></td>
+			</tr>
+			<tr>
+				<td>Address</td>
+			</tr>
+			<tr class='error' id='address_error'>
+				<td>This field is required.</td>  
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"address\" id=\"address\" value=\"$address\" maxlength=\"255\"></td>
+			</tr>
+		    <tr>
+				<td>City</td>
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"city\" id=\"city\" value=\"$city\" maxlength=\"50\"></td>
+			</tr>
+			<tr>
+				<td>State</td>
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"state\" id=\"state\" value=\"$state\" maxlength=\"2\"></td>
+			</tr>
+			<tr>
+				<td>Zip</td>
+			</tr>
+			<tr class='error' id='zip_error'>
+				<td>This field is required.</td>  
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"zip\" id=\"zip\" value=\"$zip\" maxlength=\"5\"></td>
+			</tr>
+			<tr>
+				<td>Number</td>
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"number\" id=\"number\" value=\"$number\" maxlength=\"12\"></td>
+			</tr>
+		    <tr>
+				<td>URL</td>
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"url\" id=\"url\" value=\"$url\" maxlength=\"50\"></td>
+			</tr>
+			<tr>
+				<td>Hours</td>
+			</tr>
+			<tr>
+				<td><input type=\"text\" name=\"hours\" id=\"hours\" value=\"$hours\" maxlength=\"100\"></td>
+			</tr>
+			<tr>
+				<td>Logo</td>
+			</tr>
+			<tr>
+				<td>
+				<input type=\"file\" name=\"logo_upload\" id=\"logo_upload\" size=\"10\">
+				</td>
+			</tr>
+			<tr>
+				<td style=\"border-bottom: solid 1px black;\">
+				Note: filesize must be <60Kb
+				</td>
+			</tr>
+			<tr>
+		      	<td align=\"right\"><input type=\"submit\" id='edit-business-submit' name=\"submit\" value=\"Upload\"></td>
+			</tr>
+			</form>
+		</table>
+	</div>";
+}
+
 function print_formatted_post($post, $div_id="")
 {
 	extract($post);
@@ -173,7 +282,7 @@ function print_formatted_post($post, $div_id="")
 		print_formatted_time($posting_time);
 		echo "</div>
 				<div id=\"posting-data$div_id\" class=\"posting-data\">
-					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\">
+					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\" width='300px'>
 					
 					<div id=\"posting-blurb$div_id\" class=\"posting-blurb\">
 						$blurb
@@ -198,6 +307,72 @@ function print_formatted_post($post, $div_id="")
 			</div>";
 }
 
+function print_add_post_form()
+{
+echo "
+	<div id='add-posting-form'>
+		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php' method='post'>
+			<table>
+				<tr>
+					<td>Title</td>
+					<td>:</td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"title\" id=\"title\"></td>
+				</tr>
+				<tr class='error' id='title_error'>
+				<td></td><td></td>
+				<td>This field is required.</td>  
+				</tr>
+				<tr>
+					<td>Description</td>
+					<td>:</td>
+					<td colspan=4><textarea name=\"description\" cols=60 rows=4 maxlength=255></textarea></td>
+				</tr>
+				<tr class='error' id='desc_error'>
+				<td></td><td></td>
+				<td>This field is required.</td>  
+				</tr>
+				<tr>
+					<td>Tags</td>
+					<td>:</td>
+					<td><input type=\"text\" size=8 name=\"tag1\" id=\"tag1\"></td>
+					<td><input type=\"text\" size=8 name=\"tag2\" id=\"tag2\"></td>
+					<td><input type=\"text\" size=8 name=\"tag3\" id=\"tag3\"></td>
+				</tr>
+				<tr class='error' id='tag_error'>
+				<td></td><td></td>
+				<td>This field is required.</td>  
+				</tr>";
+  /*				<tr>
+					<td>Publish Date</td>
+					<td>:</td>
+					<td><input type=\"text\" name=\"publish_date\" id=\"publish_date\"></td>
+					<td>Publish Time :</td>
+					<td><input type=\"time\" name=\"publish_time\" id=\"publish_time\"></td>
+				</tr>
+  */
+				echo "
+				<tr>
+				<td>Image</td>
+				<td>:</td>
+				<td colspan=4>
+				<input type=\"file\" name=\"image_upload\" id=\"image_upload\">
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan=5 style=\"border-bottom: solid 1px black;\">
+				Note: filesize must be less than 240Kb
+				</td>
+			</tr>
+			<tr>
+				<td><input type='button' id='add-cancel-button' name='cancel' value='Cancel'></td>
+				<td></td>
+		      		<td colspan=4 align=\"right\"><input type=\"submit\" id='add-submit' name=\"submit\" value=\"Submit\"></td>
+			</tr>
+			</table>
+			</form>
+	</div>";
+}
 
 function print_edit_post_form($post, $div_id="")
 {
@@ -214,7 +389,7 @@ echo "
 				<tr>
 					<td>Title</td>
 					<td>:</td>
-					<td colspan=4><input type=\"text\"  size=40 maxlength=50 name=\"title\" id=\"title\" value=\"$title\"></td>
+					<td colspan=4><input type=\"text\"  size=40 maxlength=50 name=\"title\" id=\"edit-title\" value=\"$title\"></td>
 				</tr>
 				<tr class='error' id='title_error'>
 				<td></td><td></td>
@@ -223,7 +398,7 @@ echo "
 				<tr>
 					<td>Description</td>
 					<td>:</td>
-					<td colspan=4><textarea name=\"description\" id='description' cols=60 rows=4>$blurb</textarea></td>
+					<td colspan=4><textarea name=\"description\" id='edit-description' cols=60 rows=4>$blurb</textarea></td>
 				</tr>
 				<tr class='error' id='desc_error'>
 				<td></td><td></td>
@@ -232,9 +407,9 @@ echo "
 				<tr>
 					<td>Tags</td>
 					<td>:</td>
-					<td><input type=\"text\" size=8 name=\"tag1\" id=\"tag1\" value=\"$tag1\"></td>
-					<td><input type=\"text\" size=8 name=\"tag2\" id=\"tag2\" value=\"$tag2\"></td>
-					<td><input type=\"text\" size=8 name=\"tag3\" id=\"tag3\" value=\"$tag3\"></td>
+					<td><input type=\"text\" size=8 name=\"tag1\" id=\"edit-tag1\" value=\"$tag1\"></td>
+					<td><input type=\"text\" size=8 name=\"tag2\" id=\"edit-tag2\" value=\"$tag2\"></td>
+					<td><input type=\"text\" size=8 name=\"tag3\" id=\"edit-tag3\" value=\"$tag3\"></td>
 				</tr>
 				<tr class='error' id='tag_error'>
 				<td></td><td></td>
@@ -260,14 +435,15 @@ echo "
 			</tr>
 			<tr>
 				<td></td>
-				<td colspan=5 style=\"border-bottom: solid 1px black;\">
+				<td></td>
+				<td colspan=4 style=\"border-bottom: solid 1px black;\">
 				Note: filesize must be less than 240Kb
 				</td>
 			</tr>
 			<tr>
-				<td><input type='button' id='cancel-button' name='cancel' value='Cancel'></td>
+				<td><input type='button' id='edit-cancel-button' name='cancel' value='Cancel'></td>
 				<td></td>
-		      		<td colspan=4 align=\"right\"><input type=\"submit\" id='submit' name=\"submit\" value=\"Submit\"></td>
+		      		<td colspan=4 align=\"right\"><input type=\"submit\" id='edit-submit' name=\"submit\" value=\"Submit\"></td>
 			</tr>
 			</table>
 			</form>

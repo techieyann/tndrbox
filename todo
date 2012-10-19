@@ -1,4 +1,4 @@
--chron job to call update_posting_db
+
 -autofill for tag fields (javascript)
 -security for new signups //maybe
 -css styling
@@ -6,17 +6,8 @@
 -initialize git tree
 -geolocation script
 
-
-
-
-
--nate
-Add/Edit Item Page
--  there should be a cancel, or back-to-dashboard link
-- form validation should NOT be server-side. that should be JS at best, php at worst.
-
-Dashboard - Entry
-- delete post works, but takes you to this white screen that you need to navigate away from yourself. At the very least this should kick you back to the dashboard after the entry is deleted.
+-edit business jquery bug
+-make current post needs to be fixed
 
 
 

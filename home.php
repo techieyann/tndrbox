@@ -28,9 +28,8 @@ $query = "SELECT * FROM business where id=$b_id";
         {
 		  $business_flag = 1;
           $business = mysql_fetch_array($result);
-          extract($business);
-			$tag1 = get_tag($tag_1);
-                $tag2 = get_tag($tag_2);
+			$tag1 = get_tag($business['tag_1']);
+            $tag2 = get_tag($business['tag_2']);
 		}
 $query = "SELECT * FROM postings WHERE b_id=$b_id";
 $result = query_db($query);
@@ -59,75 +58,8 @@ if($i>0)
 //head
 $GLOBALS['header_html_title'] = "tndrbox - ".$posting['title'];
 
-$GLOBALS['header_scripts'] = " <script type='text/javascript'>                                         
-$(document).ready(function(){
-	
-	$('#edit-posting-form').hide();
-
-   $('a#edit-posting').click(function(e){
-	e.preventDefault();
-     $('#posting-border').animate({ height: 'hide'}, 'slow');
-	 $('#edit-posting-form').animate({ height: 'show'}, 'slow');
-   });
-
-   $('#cancel-button').click(function(){
-     $('#posting-border').animate({ height: 'show'}, 'slow');
-	 $('#edit-posting-form').animate({ height: 'hide'}, 'slow');
-   });
-
-	$('a[id^=make-current]').click(function(e){
-		e.preventDefault();
-		$('a').find('[id^=make-current]').each(function(i){
-			$(this).append('test' + i);
-		});
-	});
-
-	$('.error').hide();  
-
-	$('#submit').click(function() {  
-    // validate and process form here  
-    $('.error').hide();  
-      var title = $('input#title').val();  
-        if (title == '') {  
-      $('#title_error').show();  
-      $('input#title').focus();  
-      return false;  
-    }  
-		var desc = $('input#description').val();  
-        if (desc == '') {  
-      $('#desc_error').show();  
-      $('input#description').focus();  
-      return false;  
-    }  
-        var tag1 = $('input#tag1').val();  
-        if (tag1 == '') {  
-      $('#tag_error').show();  
-      $('input#tag1').focus();  
-      return false;  
-    }  
-		var tag2 = $('input#tag2').val();  
-        if (tag2 == '') {  
-      $('tr#tag_error').show();  
-      $('input#tag2').focus();  
-      return false;
-    }  
-
-	var tag3 = $('input#tag3').val();  
-        if (tag3 == '') {  
-      $('label#tag_error').show();  
-      $('input#tag3').focus();  
-      return false;  
-    } 
-
-	$('#edit-post-form').ajaxForm(function() { 
-		$('#posting-border').load('home.php #posting-border');
-		$('#posting-border').animate({ height: 'show'}, 'slow');
-		$('#edit-posting-form').animate({ height: 'hide'}, 'slow');
-    }); 
-});
-
- });                                     
- </script>    ";
+$GLOBALS['header_scripts'] = " <script src='includes/jquery.form.js' type='text/javascript'></script>
+<script src='includes/home.js' type='text/javascript'></script>";
 
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
@@ -143,17 +75,18 @@ disconnect_from_db();
 
 function print_body()
 {
-  global $b_id, $business_flag, $id, $name, $logo, $lat, $lon, $photo, $url, $tag1, $tag2, $address, $city, $state, $zip, $number, $url, $hours, $posting, $post_flag, $old_postings_flag, $old_postings;
-
+  global $b_id, $business_flag, $business, $tag1, $tag2, $posting, $post_flag, $old_postings_flag, $old_postings;
+	extract($business);
 echo "
-			<h3 class=\"content-pane\" style=\"text-align:center; filter:alpha(opacity=50);opacity:.5;\">Add a <a href=\"new-post\">new posting</a></h3>
+			<div  id='add-post-header' class=\"content-pane\" style=\"text-align:center; filter:alpha(opacity=50);opacity:.5;\"><h3>Add a <a id='add-posting' href=''>new posting</a></h3></div>
 		<div class='meta-pane list'>";
 		if($business_flag == 1)
 		  {
                 echo "
-                <div id='business-info'>
-			<table>
-			<tr><th><a href=\"edit-business.php?name=$name&tag_1=$tag1&tag_2=$tag2&address=$address&city=$city&state=$state&zip=$zip&number=$number&url=$url&hours=$hours\">Edit Profile</a></th></tr>
+			<div id='business-info'>
+			<table width='100%'>
+			<tr><th><a id='edit-business-link' href=''>Edit Profile</a></th></tr>
+
 			<tr><td>
 			<h2>";
 		$ending_string = "";
@@ -197,27 +130,31 @@ echo "
 			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$lat,$lon&zoom=16&size=275x400&markers=color:red|$lat,$lon&sensor=false\">";    
 		}
 		echo "</div>
-		</td></tr></table>
-		</div></div>";
+		</td></tr></table></div>";
+	print_edit_business_form($business);
+	echo "</div>";
 }
 
 	echo "
-                 <div id='postings-old-and-new' class='content-pane list'>
+                 <div id='postings-old-and-new' class='content-pane list'>";
+	print_add_post_form();
+	echo "
 				<table>";
+
 	if($post_flag == 1)
 	{
 		extract($posting);
         echo "       
-				<tr><th>
+				<tr><th> <div id='edit-delete-current-post'>
 Current Posting: <a id='edit-posting' href=''>Edit</a>
 		|
 		<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
-		</th></tr>
+		</div></th></tr>
 		<tr><td>";
 		print_formatted_post($posting);
 		print_edit_post_form($posting);
+	}
         echo "</td></tr>";
-     }
 	if($old_postings_flag)
 	{
 		echo "
