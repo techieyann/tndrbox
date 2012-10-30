@@ -325,7 +325,7 @@ echo "
 				<tr>
 					<td>Description</td>
 					<td>:</td>
-					<td colspan=4><textarea name=\"description\" cols=60 rows=4 maxlength=255></textarea></td>
+					<td colspan=4><textarea name=\"description\" cols=50 rows=5 maxlength=255></textarea></td>
 				</tr>
 				<tr class='error' id='desc_error'>
 				<td></td><td></td>
@@ -398,7 +398,7 @@ echo "
 				<tr>
 					<td>Description</td>
 					<td>:</td>
-					<td colspan=4><textarea name=\"description\" id='edit-description' cols=60 rows=4>$blurb</textarea></td>
+					<td colspan=4><textarea name=\"description\" id='edit-description' cols=50 rows=5>$blurb</textarea></td>
 				</tr>
 				<tr class='error' id='desc_error'>
 				<td></td><td></td>
