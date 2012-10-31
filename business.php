@@ -9,7 +9,6 @@ no business is selected shows a list of
 businesses.
  ***********************************************/
 require('includes/includes.php');
-require('includes/db_interface.php');
 require('includes/tags.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);

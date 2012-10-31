@@ -7,7 +7,6 @@ This file displays a dialogue for editing an old
 post and setting it as the current one.
  ***********************************************/
 require('includes/includes.php');
-require('includes/db_interface.php');
 require('includes/tags.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);

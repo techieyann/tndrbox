@@ -6,7 +6,6 @@ creator: Ian McEachern
 About this file
  ***********************************************/
 require('includes/includes.php');
-require('includes/db_interface.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
