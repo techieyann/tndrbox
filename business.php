@@ -141,8 +141,8 @@ function print_body()
 		{
 			extract($business);
 			$query = "SELECT id FROM postings WHERE b_id=$id";
-			$result = query_db($query);
-			if(mysql_num_rows($result) == 0)
+			$post_result = query_db($query);
+			if(mysql_num_rows($post_result) == 0)
 			{
 				continue;
 			}	

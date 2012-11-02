@@ -79,7 +79,6 @@ $GLOBALS['header_scripts'] = "
 <script src='js/jquery.form.js' type='text/javascript'></script>
 <script src='js/jquery-ui.js'></script>
 <script src='js/home.js' type='text/javascript'></script>";
-
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
 $GLOBALS['header_selected_page'] = "home";
