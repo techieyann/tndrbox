@@ -30,7 +30,7 @@ if (!$resp->is_valid) //recaptcha failed
 else //check the rest of the content
   {
 	require('../includes/includes.php');
-	require('../includes/db_interface.php');
+
 
 	//connect to the database
 	$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);

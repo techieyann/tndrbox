@@ -7,7 +7,7 @@ This script edits an existing posting.
  ***********************************************/
 
 require('../includes/includes.php');
-require('../includes/db_interface.php');
+
 require('../includes/tags.php');
 
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
@@ -29,6 +29,11 @@ $desc = sanitize($_POST['description']);
 $tag1 = sanitize($_POST['tag1']);
 $tag2 = sanitize($_POST['tag2']);
 $tag3 = sanitize($_POST['tag3']);
+
+$date = sanitize($_POST['date']);
+$address = sanitize($_POST['address']);
+$url = sanitize($_POST['url']);
+
 
 if(strcmp($tag1,$tag_1) != 0)
 { 
@@ -95,7 +100,8 @@ $image_upload_flag = false;
 		
 	
 $query = "UPDATE postings set title='$title', blurb='$desc', 
-       	 tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id', 
+       	 tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id',
+date='$date', alt_address='$address', url='$url',
        	 posting_time=CURRENT_TIMESTAMP, a_id='$user_id'";
 
 if($image_upload_flag == true)

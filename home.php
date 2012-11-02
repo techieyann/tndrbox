@@ -44,7 +44,7 @@ $query = "SELECT * FROM postings WHERE b_id=$b_id";
 $result = query_db($query);
 $post_flag = 0;
 
-//If there wasn't a business, mysql_fetch_array() would fail
+//If there wasn't a posting (or business), mysql_fetch_array() would fail
 if($posting = mysql_fetch_array($result))
   {
 	if( mysql_num_rows($result) != 0)
@@ -75,8 +75,10 @@ $GLOBALS['header_html_title'] = "tndrbox - ".$posting['title'];
 
 //include jquery form application (jquery.form.js) and specialized javascript for this page (home.js)
 $GLOBALS['header_scripts'] = "
-<script src='includes/jquery.form.js' type='text/javascript'></script>
-<script src='includes/home.js' type='text/javascript'></script>";
+<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
+<script src='js/jquery.form.js' type='text/javascript'></script>
+<script src='js/jquery-ui.js'></script>
+<script src='js/home.js' type='text/javascript'></script>";
 
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";

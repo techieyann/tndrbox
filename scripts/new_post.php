@@ -7,7 +7,7 @@ This script creates a new posting.
  ***********************************************/
 
 require('../includes/includes.php');
-require('../includes/db_interface.php');
+
 require('../includes/tags.php');
 
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
@@ -33,6 +33,10 @@ $tag1_id = add_tag($tag1);
 $tag2_id = add_tag($tag2);
 $tag3_id = add_tag($tag3);
 
+$date = sanitize($_POST['date']);
+$address = sanitize($_POST['address']);
+$url = sanitize($_POST['url']);
+
 //$price = sanitize($_POST['price']);
 //$number = sanitize($_POST['quantity']);
 
@@ -45,9 +49,12 @@ $tag3_id = add_tag($tag3);
 			
 		
 	
-$query = "INSERT INTO postings (title, blurb, tag_1, tag_2, tag_3, 
+$query = "INSERT INTO postings (title, blurb, tag_1, tag_2, tag_3,
+date, alt_address, url, 
        	  b_id, a_id, posting_time) VALUES ('$title', '$desc', $tag1_id, 
-	 $tag2_id, $tag3_id, $business_id, $author_id, CURRENT_TIMESTAMP)";
+	 $tag2_id, $tag3_id, 
+'$date', '$address', '$url',
+$business_id, $author_id, CURRENT_TIMESTAMP)";
 $result = query_db($query);
 
 if($result)

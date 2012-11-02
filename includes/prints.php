@@ -27,8 +27,8 @@ function print_head()
 <html>
 
 <head>
-<link rel='stylesheet' type='text/css' href='styles.css' media='all'>
-<script src='includes/jquery.js' type='text/javascript'></script>
+<link rel='stylesheet' type='text/css' href='css/styles.css' media='all'>
+<script src='js/jquery.js' type='text/javascript'></script>
 ".$GLOBALS['header_scripts']."
 
 
@@ -276,7 +276,16 @@ function print_formatted_post($post, $div_id="")
    	echo "
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
-					$title
+					$title";
+	if($date != "")
+	  {
+	    echo " on $date";
+	  }
+	if($alt_address != "")
+	  {
+	    echo " at $alt_address";
+	  }
+	echo "
 				</div>
 				<div class=\"posting-time$div_id\">";
 		print_formatted_time($posting_time);
@@ -287,7 +296,15 @@ function print_formatted_post($post, $div_id="")
 					<div id=\"posting-blurb$div_id\" class=\"posting-blurb\">
 						$blurb
 					
-					</div>
+					</div>";
+		if($url != "")
+		  {
+		    echo "
+<div id='posting-purchase$div_id' class='posting-purchase'>
+<a href='http://$url'><img src='images/purchase.png'></a>
+</div>";
+		  }
+echo "
 				</div>
 					<div id=\"share-buttons\">
 			<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-dnt=\"true\" data-count=\"none\" data-url=\"http://tndrbox.com/?p=$id\" data-lang=\"en\">Tweet</a>
@@ -317,6 +334,21 @@ echo "
 					<td>Title</td>
 					<td>:</td>
 					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"title\" id=\"title\"></td>
+				</tr>
+<tr>
+					<td>Date</td>
+					<td>:</td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"date\" id=\"date\"></td>
+				</tr>
+<tr>
+					<td>Address</td>
+					<td>:</td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=250 name=\"address\" id=\"address\"></td>
+<tr>
+					<td>Purchase URL</td>
+					<td>:</td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=100 name=\"url\" id=\"url\"></td>
+				</tr>
 				</tr>
 				<tr class='error' id='title_error'>
 				<td></td><td></td>
@@ -395,6 +427,21 @@ echo "
 				<td></td><td></td>
 				<td>This field is required.</td>  
 				</tr>
+<tr>
+					<td>Date</td>
+					<td>:</td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"date\" id=\"date\" value=\"$date\"></td>
+				</tr>
+<tr>
+					<td>Address</td>
+					<td>:</td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=250 name=\"address\" id=\"address\" value=\"$alt_address\"></td>
+<tr>
+					<td>Purchase URL</td>
+					<td>:</td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=100 name=\"url\" id=\"url\" value=\"$url\"></td>
+				</tr>
+
 				<tr>
 					<td>Description</td>
 					<td>:</td>
@@ -471,7 +518,12 @@ function print_mini_post($post, $div_id="")
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
 				<div id=\"posting-content$div_id\" class=\"posting-content\">
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
-					<a href=\"business?b_id=$b_id\">$title from $name</a>
+					<a href=\"business?b_id=$b_id\">$title from $name";
+	if($date != "")
+	  {
+	    echo " on $date";
+	  }
+	echo "</a>
 				</div>";
 	
 		echo substr($blurb, 0, 100);
@@ -515,7 +567,12 @@ function print_old_post($post, $div_id="")
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
 				<div id=\"posting-content$div_id\" class=\"posting-content\">
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
-					$title
+					$title";
+	if($date != "")
+	  {
+	    echo " on $date";
+	  }
+	echo "
 				</div>";
 	
 		echo substr($blurb, 0, 100);

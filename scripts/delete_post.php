@@ -7,7 +7,7 @@ This script deletes a posting and maintains the
 validity of the tags database.
  ***********************************************/
 require('../includes/includes.php');
-require('../includes/db_interface.php');
+
 require('../includes/tags.php');
 	
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);

@@ -9,6 +9,9 @@ error messages
 require('includes/includes.php');
 
 $GLOBALS['header_html_title'] = "tndrbox - Login";
+$GLOBALS['header_scripts'] = "";
+$GLOBALS['header_title'] = "";
+$GLOBALS['header_body_includes'] = "";
 $GLOBALS['header_selected_page'] = "login";
 
 require('includes/prints.php');

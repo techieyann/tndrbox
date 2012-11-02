@@ -1,0 +1,32 @@
+<?php
+/***********************************************
+file: tag_search.php
+creator: Ian McEachern
+
+This is the php script used to search through 
+the database for matching tags when a user 
+enters values into a tag field.
+ ***********************************************/
+
+require('includes.php');
+require('tags.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+$search = sanitize($_GET['q']);
+$return_str = ""
+if(strlen($search) > 1)
+  {
+	$query = "SELECT tag FROM tags WHERE tag LIKE '%$search%' ORDER BY num_ref DESC";
+	$result = query_db($query);
+	while($current_tag = mysql_fetch_array($result))
+	  {
+		$return_str = $return_str.$current_tag['tag']."<br>";
+	  }
+	disconnect_from_db();
+	return $return_str;
+  }
+
+disconnect_from_db();
+
+?>
