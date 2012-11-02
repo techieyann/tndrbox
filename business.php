@@ -144,7 +144,7 @@ function print_body()
 			$result = query_db($query);
 			if(mysql_num_rows($result) == 0)
 			{
-				break;
+				continue;
 			}	
 			if($count == 0)
 				{
