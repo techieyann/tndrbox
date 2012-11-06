@@ -1,21 +1,11 @@
 
--autofill for tag fields (javascript)
 -security for new signups //maybe
 -css styling
--tag list javascript
 -initialize git tree
 -geolocation script
 
--edit business jquery bug
+
 -make current post needs to be fixed
--loginpage throwing php error
-
-
-
-
--debugging
-
---edit_user script needs to be more discriminatory
---tags links are doing nothing
---postings display mysql error
---business info doesnt display tags
+-home.js needs optimizing
+-signup process needs optimizing
+-edit_user script needs to be more discriminatory

@@ -263,7 +263,10 @@ function print_formatted_post($post, $div_id="")
 	$query = "SELECT name, tag_1, tag_2 FROM business WHERE id='$b_id'";
    	$result = query_db($query);
    	$business_result = mysql_fetch_array($result);
-   	$name = $business_result['name'];
+
+	$date = format_date($id);
+
+	$name = $business_result['name'];
 	$tag_4 = $business_result['tag_1'];
 	$tag_5 = $business_result['tag_2'];
 
@@ -430,16 +433,16 @@ echo "
 <tr>
 					<td>Date</td>
 					<td>:</td>
-					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"date\" id=\"date\" value=\"$date\"></td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"date\" id=\"edit-date\" value=\"$date\"></td>
 				</tr>
 <tr>
 					<td>Address</td>
 					<td>:</td>
-					<td colspan=3><input type=\"text\" size=40 maxlength=250 name=\"address\" id=\"address\" value=\"$alt_address\"></td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=250 name=\"address\" id=\"edit-address\" value=\"$alt_address\"></td>
 <tr>
 					<td>Purchase URL</td>
 					<td>:</td>
-					<td colspan=3><input type=\"text\" size=40 maxlength=100 name=\"url\" id=\"url\" value=\"$url\"></td>
+					<td colspan=3><input type=\"text\" size=40 maxlength=100 name=\"url\" id=\"edit-url\" value=\"$url\"></td>
 				</tr>
 
 				<tr>
@@ -503,6 +506,9 @@ function print_mini_post($post, $div_id="")
 	$query = "SELECT name, tag_1, tag_2 FROM business WHERE id='$b_id'";
    	$result = query_db($query);
    	$business_result = mysql_fetch_array($result);
+
+	$date = format_date($id);
+
    	$name = $business_result['name'];
 	$tag_4 = $business_result['tag_1'];
 	$tag_5 = $business_result['tag_2'];
@@ -562,6 +568,9 @@ function print_mini_post($post, $div_id="")
 function print_old_post($post, $div_id="")
 {
 	extract($post);
+
+	$date = format_date($id);
+
    	echo "
 			
 			<div id=\"posting-border$div_id\" class=\"posting-border\">

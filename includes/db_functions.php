@@ -74,4 +74,12 @@ function push_old_post($b_id)
   query_db($query);
 }
 
+function format_date($id)
+{
+	$query = "SELECT DATE_FORMAT(date, '%D %M, %Y') FROM postings WHERE id=$id";
+	$result = query_db($query);
+	$formatted_date = mysql_fetch_array($result);
+	return $formatted_date[0];
+}
+
 ?>

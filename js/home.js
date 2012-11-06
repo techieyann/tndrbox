@@ -197,4 +197,7 @@ $('#edit-tag1').autocomplete({source:'includes/tag_search.php'});
 $('#edit-tag2').autocomplete({source:'includes/tag_search.php'});
 $('#edit-tag3').autocomplete({source:'includes/tag_search.php'});
 
+	$('#date').datepicker();
+	$('#edit-date').datepicker();
+
  });
