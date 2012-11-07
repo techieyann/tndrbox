@@ -33,11 +33,7 @@ $tag1_id = add_tag($tag1);
 $tag2_id = add_tag($tag2);
 $tag3_id = add_tag($tag3);
 
-$js_date = sanitize($_POST['date']);
-
-$date = substr($js_date, 6, 4);
-$date = $date."-".substr($js_date, 0, 2);
-$date = $date."-".substr($js_date, 3, 2);
+$date = sanitize($_POST['date']);
 
 $address = sanitize($_POST['address']);
 $url = sanitize($_POST['url']);
@@ -93,8 +89,8 @@ if($result)
 					}
 				}
 			}
-	return;
-	//header("location:../home");
+	//return;
+	header("location:../home");
 }
 else
 {

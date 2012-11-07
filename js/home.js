@@ -200,4 +200,7 @@ $('#edit-tag3').autocomplete({source:'includes/tag_search.php'});
 	$('#date').datepicker();
 	$('#edit-date').datepicker();
 
+$( "#date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+$( "#edit-date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+
  });
