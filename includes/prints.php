@@ -103,14 +103,6 @@ function print_foot()
 	<br>
 	version ".$GLOBALS['version']."
 </div>
-
-<script type='text/javascript' src='http://w.sharethis.com/button/buttons.js'></script>
-<script type='text/javascript'>
-	stLight.options({
-		publisher:'b1a20a12-bf34-4af5-b4f2-5f09117df5e5',
-	});
-</script>
-
 </body>
 
 </html>";
@@ -277,6 +269,7 @@ function print_formatted_post($post, $div_id="")
 	$tags[5] = get_tag($tag_5);
 
    	echo "
+			<h3>Current Posting</h3>
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
 					$title";
@@ -330,6 +323,7 @@ echo "
 function print_add_post_form()
 {
 echo "
+	<h3>Add New Post</h3>
 	<div id='add-posting-form'>
 		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php' method='post'>
 			<table>
@@ -417,6 +411,7 @@ $tag2 = get_tag($tag_2);
 $tag3 = get_tag($tag_3);
 
 echo "
+	<h3>Edit Current Post</h3>
 	<div id=\"edit-posting-form\">	
 
 		<form id='edit-post-form' name='edit-post-form' enctype='multipart/form-data' action='scripts/edit_post.php?p_id=$id' method='post'>
@@ -550,10 +545,7 @@ function print_mini_post($post, $div_id="")
 	{
 		if($a_id == $GLOBALS['m_id'])
 		{
-			echo "		
-		<div id=\"posting-edit$div_id\" class=\"posting-edit\">
-		<a href=\"edit-posting.php?p_id=$id&title=$title&blurb=$blurb&photo=$photo&tag_1=$tag_1&tag_2=$tag_2&tag_3=$tag_3\">Edit</a>
-		</div>
+			echo "
 		<div id=\"posting-delete$div_id\" class=\"posting-delete\">
 		<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
 		</div>";
@@ -572,7 +564,9 @@ function print_old_post($post, $div_id="")
 	$date = format_date($id);
 
    	echo "
-			
+			<h3>$title posted @ ";
+	print_formatted_time($posting_time);
+	echo "</h3>
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
 				<div id=\"posting-content$div_id\" class=\"posting-content\">
 				<div id=\"posting-title$div_id\" class=\"posting-title\">

@@ -144,7 +144,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 }
 
 .meta-pane {
-	width: 300px;
+	width: 290px;
 	float: left;
 	background: #f8f8f8;
 	-webkit-border-radius: 5px;
@@ -154,6 +154,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 	-moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, .8);
 	margin-bottom:5px;
+	padding:5px;
 }
 
 .main-content-pane {
@@ -213,8 +214,6 @@ float:left;
 float:right;
 margin-right:5px;
 }
-
-
 
 #share-buttons{
 width:45%;

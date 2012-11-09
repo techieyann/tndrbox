@@ -54,7 +54,7 @@ if($posting = mysql_fetch_array($result))
   }
 
 //(3) Retrieve old postings data
-$query = "SELECT * FROM old_postings WHERE b_id=$b_id";
+$query = "SELECT * FROM old_postings WHERE b_id=$b_id ORDER BY posting_time DESC";
 $result = query_db($query);
 $old_postings_flag = false;
 $i = 0;
@@ -97,7 +97,6 @@ function print_body()
   global $b_id, $business_flag, $business, $tag1, $tag2, $posting, $post_flag, $old_postings_flag, $old_postings;
   extract($business);
   echo "
-	<div  id='add-post-header' class=\"content-pane\" style=\"text-align:center; filter:alpha(opacity=50);opacity:.5;\"><h3>Add a <a id='add-posting' href=''>new posting</a></h3></div>
 	<div class='meta-pane list'>";
   if($business_flag == 1)
 	{
@@ -117,7 +116,7 @@ function print_body()
 		}
 		if($logo != "")
 	    {
-	 		echo "<img src=\"images/logos/$logo\" width=\"275\" title=\"$name\" alt=\"$name\">";
+	 		echo "<img src=\"images/logos/$logo\" width=\"265\" title=\"$name\" alt=\"$name\">";
 	   	}
 	   	else
 	   	{
@@ -142,12 +141,12 @@ function print_body()
 		if($lat == "" ||$lat==0 || $lon == "" || $lon==0)
 		{
 			echo "
-			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$address $city $state $zip&zoom=16&size=275x400&markers=color:red|$address $city $state $zip&sensor=false\">";
+			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$address $city $state $zip&zoom=16&size=265x400&markers=color:red|$address $city $state $zip&sensor=false\">";
 		}
 		else
 		{
 			echo "
-			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$lat,$lon&zoom=16&size=275x400&markers=color:red|$lat,$lon&sensor=false\">";    
+			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$lat,$lon&zoom=16&size=265x400&markers=color:red|$lat,$lon&sensor=false\">";    
 		}
 		echo "</div>
 		</td></tr></table></div>";
@@ -156,44 +155,24 @@ function print_body()
 }
 
 	echo "
-                 <div id='postings-old-and-new' class='content-pane list'>";
+                 <div id='post-accordion' class='content-pane list'>";
 	print_add_post_form();
-	echo "
-				<table>";
-
 	if($post_flag == 1)
 	{
 		extract($posting);
-        echo "       
-				<tr><th> <div id='edit-delete-current-post'>
-Current Posting: <a id='edit-posting' href=''>Edit</a>
-		|
-		<a href=\"scripts/delete_post.php?p_id=$id\">Delete</a>
-		</div></th></tr>
-		<tr><td>";
 		print_formatted_post($posting);
-		print_edit_post_form($posting);
+		print_edit_post_form($posting);	
 	}
-        echo "</td></tr>";
 	if($old_postings_flag)
 	{
-		echo "
-		<tr><th>Previous Postings:</th></tr>";
 		$i=0;
 		foreach($old_postings as $old_post)
 		{
-			echo "<tr";
-			if($i%2==0)
-			{
-				  echo " class=\"alt\"";
-			}
-			echo "><td>";
 			print_old_post($old_post, "-".++$i);
-			echo "</td></tr>";	
 		}
 	}
 	echo "
-	</table>
+	</div>
 	</div>";
 
 }

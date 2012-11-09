@@ -89,7 +89,7 @@ function print_body()
 		}
 		if($logo != "")
 	    {
-	 		echo "<img src=\"images/logos/$logo\" width=\"300\" title=\"$name\" alt=\"$name\">";
+	 		echo "<img src=\"images/logos/$logo\" width=\"275\" title=\"$name\" alt=\"$name\">";
 	   	}
 	   	else
 	   	{
@@ -115,12 +115,12 @@ function print_body()
 		if($lat == "" ||$lat==0 || $lon == "" || $lon==0)
 		{
 			echo "
-			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$address $city $state $zip&zoom=16&size=300x400&markers=color:red|$address $city $state $zip&sensor=false\">";
+			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$address $city $state $zip&zoom=16&size=275x400&markers=color:red|$address $city $state $zip&sensor=false\">";
 		}
 		else
 		{
 			echo "
-			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$lat,$lon&zoom=16&size=300x400&markers=color:red|$lat,$lon&sensor=false\">";    
+			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$lat,$lon&zoom=16&size=275x400&markers=color:red|$lat,$lon&sensor=false\">";    
 		}
 		
 		echo "</a>

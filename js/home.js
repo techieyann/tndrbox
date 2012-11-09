@@ -24,9 +24,7 @@ $(document).ready(function(){
    });
 
    $('#add-cancel-button').click(function(){
-     $('#posting-border').animate({ height: 'show'}, 'slow');
-	 $('#add-posting-form').animate({ height: 'hide'}, 'slow');
-	 $('#edit-delete-current-post').animate({ height: 'show'}, 'slow');
+       $('#post-accordion').accordion('option', 'active', 1);
    });	
 
 
@@ -197,10 +195,12 @@ $('#edit-tag1').autocomplete({source:'includes/tag_search.php'});
 $('#edit-tag2').autocomplete({source:'includes/tag_search.php'});
 $('#edit-tag3').autocomplete({source:'includes/tag_search.php'});
 
-	$('#date').datepicker();
-	$('#edit-date').datepicker();
-
+$('#date').datepicker();
+$('#edit-date').datepicker();
 $( "#date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 $( "#edit-date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+	$('#post-accordion').accordion({heightStyle:'content', active:1});
+
 
  });
