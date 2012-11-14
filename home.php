@@ -155,12 +155,17 @@ function print_body()
 }
 
 	echo "
-                 <div id='post-accordion' class='content-pane list'>";
+                 <div id='post-accordion' class='content-pane list'>
+					<h3>Add New Post</h3>";
 	print_add_post_form();
 	if($post_flag == 1)
 	{
+		echo "
+					<h3>Current Posting</h3>";
 		extract($posting);
 		print_formatted_post($posting);
+		echo "
+					<h3>Edit Current Post</h3>";
 		print_edit_post_form($posting);	
 	}
 	if($old_postings_flag)

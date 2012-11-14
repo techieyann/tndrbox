@@ -148,7 +148,7 @@ $tag_2 = get_tag($tag_2);
 
 echo "
 	<div id='edit-business'>
-		<table width='100%'>
+		<table width=100%>
 			<form name=\"$id\" id='edit-business-form' enctype=\"multipart/form-data\" method=\"post\" action=\"scripts/edit_business.php?id=$id\">
 			<tr>
 				<th><a id='edit-business-cancel' href=''>Cancel</a></th>
@@ -269,7 +269,6 @@ function print_formatted_post($post, $div_id="")
 	$tags[5] = get_tag($tag_5);
 
    	echo "
-			<h3>Current Posting</h3>
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
 				<div id=\"posting-title$div_id\" class=\"posting-title\">
 					$title";
@@ -323,7 +322,6 @@ echo "
 function print_add_post_form()
 {
 echo "
-	<h3>Add New Post</h3>
 	<div id='add-posting-form'>
 		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php' method='post'>
 			<table>
@@ -411,7 +409,6 @@ $tag2 = get_tag($tag_2);
 $tag3 = get_tag($tag_3);
 
 echo "
-	<h3>Edit Current Post</h3>
 	<div id=\"edit-posting-form\">	
 
 		<form id='edit-post-form' name='edit-post-form' enctype='multipart/form-data' action='scripts/edit_post.php?p_id=$id' method='post'>
