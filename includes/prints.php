@@ -21,8 +21,7 @@ access the metadata variables.
 function print_head()
 {
 	echo "
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
-\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+<!DOCTYPE html>
 
 <html>
 
@@ -32,6 +31,7 @@ function print_head()
 <!-- Bootstrap -->
 <link href='css/bootstrap.min.css' rel='stylesheet' media='screen'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
 <link rel='stylesheet' type='text/css' href='css/styles.css' media='all'>
 ".$GLOBALS['header_scripts']."
 
@@ -60,7 +60,7 @@ function print_head()
 				<span class='icon-bar'></span>
 				<span class='icon-bar'></span>
 			</a>
-			<a href='index' class='brand'>Tndrbox</a>
+			<a href='index' id='tndrbox-logo' class='brand'></a>
 		    <div class='nav-collapse collapse'>
 				<ul id='main-nav' class='nav pull-right'> 
 					<li";

@@ -1,6 +1,6 @@
 <?php
 /***********************************************
-file: .php
+file: about.php
 creator: Ian McEachern
 
 About this file
@@ -14,7 +14,6 @@ analyze_user();
 
 //set variables
 //body
-$id = $GLOBALS['b_id'];
 
 //head
 $GLOBALS['header_html_title'] = "tndrbox - About";
