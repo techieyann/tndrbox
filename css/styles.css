@@ -43,13 +43,9 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 	height:20px;
 }
 
-/* login page */
-#signin-form
+/*body styles*/
+.content
 {
-		padding:20px;
-		float:none;
-		max-width:220px;
-		margin:0 auto;
 	    background-color: #fff;
         border: 1px solid #e5e5e5;
         -webkit-border-radius: 5px;
@@ -58,6 +54,14 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
         -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
                 box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+/* login page */
+#signin-form
+{
+		padding:20px;
+		float:none;
+		max-width:220px;
+		margin:0 auto;
 }
 
 /*ajax responses*/

@@ -24,7 +24,7 @@ function print_body()
 {
 	echo "
 	<div class='container'>
-	<div id='signin-form'>";
+	<div id='signin-form' class='content'>";
 	if(isset($_GET['error']))
 	  {
 		if(strcmp($_GET['error'],"email")==0)

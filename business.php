@@ -23,8 +23,27 @@ if(isset($_GET['b_id']))
 {
 	$b_id = sanitize($_GET['b_id']);
 	$b_flag = true;
+	$query = "SELECT * FROM postings WHERE b_id=$b_id";
+	$result = query_db($query);
+	$active_post_flag = false;
+	if(mysql_num_rows($result)==1)
+	{
+		$active_post_flag = true;
+		$posting = mysql_fetch_array($result);
+	}
+	$query = "SELECT * FROM business where id='$b_id'";
+ 	$result = query_db($query);
+	$business_flag = false;
+  	if(mysql_num_rows($result)==1)
+  	{
+		$business_flag = true;
+		$business = mysql_fetch_array($result);
+	}
 }
-
+else
+{
+	
+}
 //head
 $GLOBALS['header_html_title'] = "tndrbox - ";
 $GLOBALS['header_scripts'] = "";
@@ -42,43 +61,42 @@ disconnect_from_db();
 
 function print_body()
 {
-  global $b_flag;
-
- 
+  global $b_flag, $b_id, $active_post_flag, $posting, $business_flag, $business;
+	
 	if($b_flag == true)
 	{
-
-	$b_id = $GLOBALS['b_id'];
   	//print active business posting
-	$query = "SELECT * FROM postings WHERE b_id=$b_id";
-	$result = query_db($query);
-	if(mysql_num_rows($result) != 0)
-	{	
-		echo "
-	<div id=\"post\" class=\"content-pane\">";
-		$posting = mysql_fetch_array($result);
+		if($active_post_flag == true)
+		{
+			echo "
+	<div class='row'>
+		<div class='span8 content' id='post'>";
 		print_formatted_post($posting);
 		echo "
 			<div class=\"fb-comments\" data-href=\"http://tndrbox.com/?p=".$posting['id']."\" data-num-posts=\"4\"  data-width=\"620\" data-colorscheme=\"light\"></div>";
 		echo "
+		</div>
+		<div class='span3 offset1 content'>
+			Related posts...
+		</div>
 	</div>";
 	}
  echo "
-	<div id=\"\" class =\"meta-pane\">";
+	<div class='row'>
+		<div class='span4 content'>
+			Event Information
+		</div>";
 	
 	//print business info
- 	$query = "SELECT * FROM business where id='$b_id'";
- 	$result = query_db($query);
-  	if(mysql_num_rows($result)==1)
-  	{
-	  $business = mysql_fetch_array($result);
+ if($business_flag = true)
+   {
 		extract($business);
 		
 		$tag1 = get_tag($tag_1);
 		$tag2 = get_tag($tag_2);
 
 		echo "
-		<div id=\"business_info\">
+		<div id='business_info' class='span7 offset1 content'>
 			
 			<h2>";
 		$ending_string = "";
@@ -98,7 +116,7 @@ function print_body()
 	   	echo $ending_string;
 		echo "</h2>
 			<br>
-			$number</div><br>";
+			$number<br>";
 		$hours = explode(",", $hours);
 		foreach($hours as $line)
 		{
