@@ -66,23 +66,26 @@ function print_body()
 	if($b_flag == true)
 	{
   	//print active business posting
+		echo "
+	<div class='container-fluid'>";
 		if($active_post_flag == true)
 		{
 			echo "
-	<div class='row'>
-		<div class='span8 content' id='post'>";
+	<div class='row-fluid'>
+		<div class='span9 content' id='post'>";
 		print_formatted_post($posting);
-		echo "
-			<div class=\"fb-comments\" data-href=\"http://tndrbox.com/?p=".$posting['id']."\" data-num-posts=\"4\"  data-width=\"620\" data-colorscheme=\"light\"></div>";
+				echo "
+			<div class='fb-comments' data-href='http://tndrbox.com/?p=".$posting['id']."' data-num-posts='4' data-width='500px' data-colorscheme='light'></div>";
 		echo "
 		</div>
-		<div class='span3 offset1 content'>
+		<div class='span3 content'>
 			Related posts...
 		</div>
 	</div>";
 	}
  echo "
-	<div class='row'>
+	<br>
+	<div class='row-fluid'>
 		<div class='span4 content'>
 			Event Information
 		</div>";
@@ -96,7 +99,7 @@ function print_body()
 		$tag2 = get_tag($tag_2);
 
 		echo "
-		<div id='business_info' class='span7 offset1 content'>
+		<div id='business_info' class='span8 content'>
 			
 			<h2>";
 		$ending_string = "";
