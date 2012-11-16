@@ -27,8 +27,11 @@ function print_head()
 <html>
 
 <head>
-<link rel='stylesheet' type='text/css' href='css/styles.css' media='all'>
+
 <script src='js/jquery.js' type='text/javascript'></script>
+<!-- Bootstrap -->
+<link href='css/bootstrap.min.css' rel='stylesheet' media='screen'>
+<link rel='stylesheet' type='text/css' href='css/styles.css' media='all'>
 ".$GLOBALS['header_scripts']."
 
 
@@ -103,6 +106,8 @@ function print_foot()
 	<br>
 	version ".$GLOBALS['version']."
 </div>
+<!--Bootstrap-->
+<script src='js/bootstrap.min.js'></script>
 </body>
 
 </html>";
@@ -148,7 +153,7 @@ $tag_2 = get_tag($tag_2);
 
 echo "
 	<div id='edit-business'>
-		<table width=100%>
+		<table>
 			<form name=\"$id\" id='edit-business-form' enctype=\"multipart/form-data\" method=\"post\" action=\"scripts/edit_business.php?id=$id\">
 			<tr>
 				<th><a id='edit-business-cancel' href=''>Cancel</a></th>
@@ -322,83 +327,78 @@ echo "
 function print_add_post_form()
 {
 echo "
-	<div id='add-posting-form'>
-		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php' method='post'>
-			<table>
-				<tr>
-					<td>Title</td>
-					<td>:</td>
-					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"title\" id=\"title\"></td>
-				</tr>
-<tr>
-					<td>Date</td>
-					<td>:</td>
-					<td colspan=3><input type=\"text\" size=40 maxlength=50 name=\"date\" id=\"date\"></td>
-				</tr>
-<tr>
-					<td>Address</td>
-					<td>:</td>
-					<td colspan=3><input type=\"text\" size=40 maxlength=250 name=\"address\" id=\"address\"></td>
-<tr>
-					<td>Purchase URL</td>
-					<td>:</td>
-					<td colspan=3><input type=\"text\" size=40 maxlength=100 name=\"url\" id=\"url\"></td>
-				</tr>
-				</tr>
-				<tr class='error' id='title_error'>
-				<td></td><td></td>
-				<td>This field is required.</td>  
-				</tr>
-				<tr>
-					<td>Description</td>
-					<td>:</td>
-					<td colspan=4><textarea name=\"description\" cols=50 rows=5 maxlength=255></textarea></td>
-				</tr>
-				<tr class='error' id='desc_error'>
-				<td></td><td></td>
-				<td>This field is required.</td>  
-				</tr>
-				<tr>
-					<td>Tags</td>
-					<td>:</td>
-					<td><input type=\"text\" size=8 name=\"tag1\" id=\"tag1\"></td>
-					<td><input type=\"text\" size=8 name=\"tag2\" id=\"tag2\"></td>
-					<td><input type=\"text\" size=8 name=\"tag3\" id=\"tag3\"></td>
-				</tr>
-				<tr class='error' id='tag_error'>
-				<td></td><td></td>
-				<td>This field is required.</td>  
-				</tr>";
-  /*				<tr>
-					<td>Publish Date</td>
-					<td>:</td>
-					<td><input type=\"text\" name=\"publish_date\" id=\"publish_date\"></td>
-					<td>Publish Time :</td>
-					<td><input type=\"time\" name=\"publish_time\" id=\"publish_time\"></td>
-				</tr>
-  */
-				echo "
-				<tr>
-				<td>Image</td>
-				<td>:</td>
-				<td colspan=4>
-				<input type=\"file\" name=\"image_upload\" id=\"image_upload\">
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td colspan=5 style=\"border-bottom: solid 1px black;\">
-				Note: filesize must be less than 240Kb
-				</td>
-			</tr>
-			<tr>
-				<td><input type='button' id='add-cancel-button' name='cancel' value='Cancel'></td>
-				<td></td>
-		      		<td colspan=4 align=\"right\"><input type=\"submit\" id='add-submit' name=\"submit\" value=\"Submit\"></td>
-			</tr>
-			</table>
-			</form>
-	</div>";
+		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php' method='post' class='form-horizontal'>
+
+			<div class='control-group'>
+				<label class='control-label' for='title'>
+					Title *
+				</label>
+				<div class='controls'>
+					<input type='text' maxlength=50 name='title' id='title' placeholder='Insert title here...' class='input-xlarge'>
+					<span class='error help-inline' id='title-error'>
+						This field is required.	
+					</span>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='date'>Date</label>
+				<div class='controls'>
+					<input type='text' name='date' id='date' placeholder='Click to add date...' class='input-medium'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='address'>Address</label>
+					<div class='controls'>
+						<input type='text' maxlength=250 name='address' id='address' placeholder='Insert address of event here...' class='input-xlarge'>
+					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='url'>Purchase URL</label>
+					<div class='controls'>
+					    <input type='text' maxlength=250 name='url' id='url' placeholder='Do not include \"http://\"' class='input-large'>
+					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='description'>
+					Description * 
+					<div class='error' id='desc_error'>
+						This field is required.
+					</div>
+				</label>
+					<div class='controls'>
+					    <textarea name='description' rows=5 maxlength=255 placeholder='Do not include \"http://\"' class='input-xlarge'></textarea>
+					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='tag1'>
+					Tags * 
+					<div class='error' id='tag_error'>
+						This field is required.
+					</div>
+				</label>
+					<div class='controls-row'>
+					    <input type='text' name='tag1' id='tag1' placeholder='Tag 1' class='span2'>
+						<input type='text' name='tag2' id='tag2' placeholder='Tag 2' class='span2'>
+						<input type='text' name='tag3' id='tag3' placeholder='Tag 3' class='span2'>
+					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='image_upload'>Image</label>
+					<div class='controls'>
+						<input type='file' name='image_upload' id='image_upload' class='input-xlarge'>
+					</div>
+			</div>
+
+				
+				<button type='button' class='btn' id='add-cancel-button'>Cancel</button>
+				<button type='submit' class='btn btn-primary' id='add-submit'>Submit</button>
+			</form>";
 }
 
 function print_edit_post_form($post, $div_id="")

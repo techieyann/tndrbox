@@ -200,7 +200,7 @@ $('#edit-date').datepicker();
 $( "#date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 $( "#edit-date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 
-	$('#post-accordion').accordion({heightStyle:'content', active:1});
+$('#post-accordion').accordion({heightStyle:'content', active:1});
 
 
  });
