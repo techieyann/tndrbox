@@ -1,27 +1,3 @@
-/* -------------------- RESET --------------------- */
-body, html, div, blockquote, img, label, h1, h2, h3, h4, h5, h6, pre, ul, ol, li, dl, dt, dd, textarea, a, fieldset, th, td 
-{margin: 0; padding: 0; border: 0; outline: none;}  
-/*removed form, p,  and input reset...*/
-
-body {background: url(images/bg-tile.png) #323232;}
-
-.clearboth {clear: both;}
-.floatright {float: right;}
-.floatleft {float: left;}
-
-ul, ol {list-style: none;}  
-
-a  { 
-color: red; 
-text-decoration: none;
--webkit-transition: color 0.4s;
--moz-transition: color 0.4s;
--o-transition: color 0.4s;
-transition: color 0.4s;
-
-}  
-a:hover {text-decoration: underline;}   
-
 /* ------------------ GLOBAL STYLES ------------------ */
 
 /*TYPOGRAPHY*/
@@ -56,7 +32,6 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 #content-wrap,
 #footer{ 
 	margin: 0 auto; 
-	width: 940px; 
 	text-align: left;
 } 
 
