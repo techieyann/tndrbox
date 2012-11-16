@@ -28,13 +28,12 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 
 /*POSITIONING*/
 
-#header-wrap,
-#content-wrap,
 #footer{ 
 	margin: 0 auto; 
-	text-align: left;
-} 
-
+	padding: 20px 0;
+	text-align: center;
+	clear: both;
+}
 
 /* header styles */
 
@@ -44,9 +43,25 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 	height:20px;
 }
 
+/* login page */
+#signin-form
+{
+		padding:20px;
+		float:none;
+		max-width:220px;
+		margin:0 auto;
+	    background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
 
 /*ajax responses*/
-div#result
+#result
 {
     position:relative;
     margin:auto;
@@ -54,14 +69,14 @@ div#result
     width:400px;
 }
 
-div#result a
+#result a
 {
     color:#800b0d;
     padding:2px;
     text-decoration:underline;
 }
 
-
+/*autocomplete div styling*/
 .autocomplete { border:1px solid #999; background:#eee; cursor:default; text-align:left; max-height:500px; overflow:auto; margin-top:6px; padding-left:6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; }
 .autocomplete .selected { background:#fcc; }
 .autocomplete div { padding:2px 5px; white-space:nowrap; overflow:hidden; }
@@ -81,19 +96,9 @@ div.business_button
     font-family:arial;
     font-size:15px;
     overflow:clip;
-    -moz-border-top-left-radius:    5px;
-    -webkit-border-top-left-radius: 5px;
-    border-top-left-radius:         5px;
-    -moz-border-bottom-left-radius:    5px;
-    -webkit-border-bottom-left-radius: 5px;
-    border-bottom-left-radius:         5px;
-    -moz-border-top-right-radius:    5px;
-    -webkit-border-top-right-radius: 5px;
-    border-top-right-radius:         5px;
-    -moz-border-bottom-right-radius:    5px;
-    -webkit-border-bottom-right-radius: 5px;
-    border-bottom-right-radius:         5px;
-
+    -moz-border-radius:    5px;
+    -webkit-border-radius: 5px;
+    border-radius:         5px;
 }
 
 div.business_button>span
@@ -105,17 +110,6 @@ div.business_button>span
 div.business_button a
 {
     color:#800b0d;
-}
-
-
-
-
-
-/* -- footer -- */
-#footer {
-	padding: 20px 0;
-	text-align: center;
-	clear: both;
 }
 
 

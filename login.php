@@ -23,41 +23,30 @@ print_foot();
 function print_body()
 {
 	echo "
-	<div class=\"main-content-pane\" id=\"notice\">";
-	
+	<div class='container'>
+	<div id='signin-form'>";
 	if(isset($_GET['error']))
 	  {
-		echo "
-		<h3 class=\"red-text\">Please try again:</h3>";
 		if(strcmp($_GET['error'],"email")==0)
 		  {
 			echo "
-		<p class=\"red-text\">That email format was not recognized</p>";
+		<h5 class='text-error'>That email format was not recognized</h5>";
 		  }
 		if(strcmp($_GET['error'],"match")==0)
 		  {
 			echo "
-		<p class=\"red-text\">Incorrect email/password combination</p>";
+		<h5 class='text-error'>Incorrect email/password combination</h5>";
 		  }
 	  }
 
 	echo "
-		<form name=\"\" action=\"scripts/validate_login.php\" method=\"post\">
-			<table>
-				<tr>
-					<td>Email</td>
-					<td><input required type=\"text\" name=\"email\" id=\"email\" maxlength=\"50\"></td>
-				</tr>
-				<tr>
-					<td>Password</td>
-					<td><input required type=\"password\" name=\"pass\" id=\"pass\" maxlength=\"16\"></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type=\"submit\" value=\"Login\"></td>
-				</tr>
-			</table>
+		<form name='signin-form' action='scripts/validate_login.php' method='post' class='form'>
+  	  		<input required type='text' name='email' id='email' maxlength=50 placeholder='Email Address...'>
+	   		<input required type='password' name='pass' id='pass' maxlength=16 placeholder='Password...'>
+			<br>
+			<button class='btn btn-medium float-right' type='submit'>Sign in</button>
 		</form>
+	</div>
 	</div>";
 }
 
