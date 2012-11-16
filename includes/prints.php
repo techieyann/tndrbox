@@ -31,6 +31,7 @@ function print_head()
 <script src='js/jquery.js' type='text/javascript'></script>
 <!-- Bootstrap -->
 <link href='css/bootstrap.min.css' rel='stylesheet' media='screen'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <link rel='stylesheet' type='text/css' href='css/styles.css' media='all'>
 ".$GLOBALS['header_scripts']."
 
@@ -51,29 +52,35 @@ function print_head()
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-<div id=\"header-fullwidth\">
-		     <div id=\"header-wrap\">
-                     	  <a href=\"index\" id=\"tndrbox-logo\"></a>
-		     
-			  <ul id =\"main-nav\"> 
-			  <li";
+<div class='navbar navbar-inverse navbar-static-top'>
+	<div class='navbar-inner'>
+		<div class='container'>
+			<a class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
+				<span class='icon-bar'></span>
+				<span class='icon-bar'></span>
+				<span class='icon-bar'></span>
+			</a>
+			<a href='index' class='brand'>Tndrbox</a>
+		    <div class='nav-collapse collapse'>
+				<ul id='main-nav' class='nav pull-right'> 
+					<li";
 	if($GLOBALS['header_selected_page'] == "business")
 	{
-		echo " id=\"nav-selected\"";
+		echo " class='active'";
 	}
 	echo "><a href=\"business\">Businesses</a></li>
-			  <li";
+					<li";
 	if($GLOBALS['header_selected_page'] == "about")
 	{
-		echo " id=\"nav-selected\"";
+		echo " class='active'";
 	}
 	echo "><a href=\"about\">About</a></li>
-			  <li";
+					<li";
 	if($GLOBALS['logged_in'] == false)
 	{
 		if($GLOBALS['header_selected_page'] == "login")
 		{
-			echo " id=\"nav-selected\"";
+			echo " class='active'";
 		}
 		echo "><a href=\"login\">Login</a></li>";
 	}
@@ -81,15 +88,17 @@ function print_head()
 	{
 		if($GLOBALS['header_selected_page'] == "home")
 		{
-			echo " id=\"nav-selected\"";
+			echo " class='active'";
 		}
 		echo "><a href=\"home\">Settings</a></li>
-		     <li><a href=\"scripts/logout\">Logout</a></li>";
+					<li><a href=\"scripts/logout\">Logout</a></li>";
 	}
 	echo "	
-			  </ul>
-                     </div><!-- #header-wrap -->
-                </div><!-- #header-fullwidth -->
+				</ul>
+			</div>
+        </div>
+	
+</div>
 		<br>
 		<div id=\"content-wrap\">";
 
