@@ -42,7 +42,18 @@ if(isset($_GET['b_id']))
 }
 else
 {
-	
+	$db_query = "SELECT name, id, logo  FROM business ORDER BY name";
+	$result = query_db($db_query);
+	$i=0;
+	while($business = mysql_fetch_array($result))
+	  {
+  		$query = "SELECT id FROM postings WHERE b_id=".$business['id'];
+		$post_result = query_db($query);
+		if(mysql_num_rows($post_result) != 0)
+		{
+			$businesses_result[$i++] = $business;
+		}
+	  }
 }
 //head
 $GLOBALS['header_html_title'] = "tndrbox - ";
@@ -61,18 +72,20 @@ disconnect_from_db();
 
 function print_body()
 {
-  global $b_flag, $b_id, $active_post_flag, $posting, $business_flag, $business;
+  global $b_flag, $b_id, $active_post_flag, $posting, $business_flag, $business, $businesses_result;
 	
 	if($b_flag == true)
 	{
   	//print active business posting
-		echo "
-	<div class='container-fluid'>";
 		if($active_post_flag == true)
 		{
 			echo "
 	<div class='row-fluid'>
-		<div class='span9 content' id='post'>";
+		<div class='span9 top-left' id='post'>";
+			if($posting['alt_address'] == "")
+			  {
+				$posting['alt_address'] = $business['address']." ".$business['city'].", ".$business['state'].", ".$business['zip'];
+			  }
 		print_formatted_post($posting);
 				echo "
 			<div class='fb-comments' data-href='http://tndrbox.com/?p=".$posting['id']."' data-num-posts='4' data-width='500px' data-colorscheme='light'></div>";
@@ -87,7 +100,7 @@ function print_body()
 	<br>
 	<div class='row-fluid'>
 		<div class='span4 content'>
-			Event Information
+			Posting Archives
 		</div>";
 	
 	//print business info
@@ -99,7 +112,7 @@ function print_body()
 		$tag2 = get_tag($tag_2);
 
 		echo "
-		<div id='business_info' class='span8 content'>
+		<div id='business_info' class='span8 bottom-right'>
 			
 			<h2>";
 		$ending_string = "";
@@ -131,82 +144,53 @@ function print_body()
 			$address<br>
 			$city, $state, $zip
 			</a></h3><br><br>";
-		echo "<div id=\"static-map\">
-				<a href=\"http://maps.google.com/?q=$address, $city, $state $zip\">";
-		if($lat == "" ||$lat==0 || $lon == "" || $lon==0)
-		{
-			echo "
-			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$address $city $state $zip&zoom=16&size=275x400&markers=color:red|$address $city $state $zip&sensor=false\">";
-		}
-		else
-		{
-			echo "
-			<img src=\"http://maps.googleapis.com/maps/api/staticmap?center=$lat,$lon&zoom=16&size=275x400&markers=color:red|$lat,$lon&sensor=false\">";    
-		}
-		
-		echo "</a>
-			</div>
+		echo "
 		</div>";
 	  }
 	}
 	  if($b_flag == false)
 	  {
-	       	$db_query = "SELECT name, id, logo  FROM business ORDER BY name";
-		$result = query_db($db_query);
-		echo "
-		     <table width=\"100%\">";
-		
 		$count=0;
 		
-		while($business = mysql_fetch_array($result))
+		foreach($businesses_result as $business)
 		{
-			extract($business);
-			$query = "SELECT id FROM postings WHERE b_id=$id";
-			$post_result = query_db($query);
-			if(mysql_num_rows($post_result) == 0)
-			{
-				continue;
-			}	
+			extract($business);	
 			if($count == 0)
-				{
-					echo "
-			<tr>";
-				}
+			{
+				echo "
+	<div class='row-fluid'>";
+			}
 				
 				echo "
-				<td align=\"center\">
-				<br>
-		     		<a href=\"?b_id=".$id."\" title=\"".$name."\">";
-				if($logo == "")
-				{
-					echo "
-	     	     		<div class=\"bus_button\">
-				 <span>".$name."</span>
-		     		</div>";
-				}
-		     	  	else
-				{
-					echo "
-				<img src=\"images/logos/".$logo."\" alt=\"".$name."\" border=\"0\" width=\"200\">";
-				}
-				echo "</a><br>
-				</td>";
-
-				if(++$count == 4)
-				{
-					$count = 0;
-					echo "
-			</tr>";
-				} 	
+		<div class='span2'>
+			<a href='?b_id=$id' title='$name'>";
+			if($logo == "")
+			{
+				echo "
+				<div class='bus_button'>
+					<span>".$name."</span>
+		     	</div>";
+			}
+		    else
+			{
+				echo "
+				<img src='images/logos/$logo' alt='$name' border='0' max-width='100%'>";
+			}
+			echo "
+			</a>
+		</div>";
+			if(++$count == 4)
+			{
+		  		$count = 0;
+	   			echo "
+	 </div>";
+			} 	
 		}
 		if($count != 0)
 		{
 			echo "
-			</tr>";
+	 </div>";
 		}
-	  
-		echo "
-		     </table>";
 	} 	
 	echo "	
 	</div>";

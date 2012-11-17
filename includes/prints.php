@@ -52,7 +52,7 @@ function print_head()
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-<div class='navbar navbar-inverse navbar-static-top'>
+<div id='top' class='navbar navbar-inverse navbar-static-top'>
 	<div class='navbar-inner'>
 		<div class='container'>
 			<a class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
@@ -68,13 +68,13 @@ function print_head()
 	{
 		echo " class='active'";
 	}
-	echo "><a href=\"business\">Businesses</a></li>
+	echo "><a href='business'>Businesses</a></li>
 					<li";
 	if($GLOBALS['header_selected_page'] == "about")
 	{
 		echo " class='active'";
 	}
-	echo "><a href=\"about\">About</a></li>
+	echo "><a href='about'>About</a></li>
 					<li";
 	if($GLOBALS['logged_in'] == false)
 	{
@@ -82,7 +82,7 @@ function print_head()
 		{
 			echo " class='active'";
 		}
-		echo "><a href=\"login\">Login</a></li>";
+		echo "><a href='login'>Login</a></li>";
 	}
 	else
 	{
@@ -90,17 +90,16 @@ function print_head()
 		{
 			echo " class='active'";
 		}
-		echo "><a href=\"home\">Settings</a></li>
-					<li><a href=\"scripts/logout\">Logout</a></li>";
+		echo "><a href='home'>Settings</a></li>
+					<li><a href='scripts/logout'>Logout</a></li>";
 	}
 	echo "	
 				</ul>
 			</div>
         </div>
-	
+	</div>	
 </div>
-		<br>
-		<div id=\"content-wrap\">";
+<div id='body-container' class='container-fluid'>";
 
 }
 
@@ -108,15 +107,17 @@ function print_foot()
 {
   echo "
 </div>
-<div id=\"footer\">
-	<a href=\"#header-fullwidth\">
-	   <img id=\"footer-icon\" src=\"images/footer-logo.png\" alt=\"footer-logo\" width=\"50\" height=\"62\">
+<div id='footer'>
+	<a href='#top'>
+	   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
 	</a>
 	<br>
 	version ".$GLOBALS['version']."
 </div>
+
 <!--Bootstrap-->
 <script src='js/bootstrap.min.js'></script>
+
 </body>
 
 </html>";
@@ -290,10 +291,6 @@ function print_formatted_post($post, $div_id="")
 	  {
 	    echo " on $date";
 	  }
-	if($alt_address != "")
-	  {
-	    echo " at $alt_address";
-	  }
 	echo "
 				</div>
 				<div class=\"posting-time$div_id\">";
@@ -315,12 +312,11 @@ function print_formatted_post($post, $div_id="")
 		  }
 echo "
 				</div>
-					<div id=\"share-buttons\">
-			<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-dnt=\"true\" data-count=\"none\" data-url=\"http://tndrbox.com/?p=$id\" data-lang=\"en\">Tweet</a>
-
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"https://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>
-	<div class=\"fb-like\" data-href=\"http://tndrbox.com/?p=$id\" data-send=\"false\" data-show-faces=\"false\" data-layout=\"button\" data-action=\"recommend\"></div>	
-			</div>
+		<div id=\"static-map\">
+			<a href='http://maps.google.com/?q=$alt_address'>
+				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=275x400&markers=color:red|$alt_address&sensor=false'>
+			</a>
+	    </div>
 				<div class=\"posting-tags\">
 				<ul>
 						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>

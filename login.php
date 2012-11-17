@@ -23,7 +23,6 @@ print_foot();
 function print_body()
 {
 	echo "
-	<div class='container'>
 	<div id='signin-form' class='content'>";
 	if(isset($_GET['error']))
 	  {
