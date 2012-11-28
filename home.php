@@ -36,38 +36,29 @@ if(mysql_num_rows($result)==1)
     $business = mysql_fetch_array($result);
 	$tag1 = get_tag($business['tag_1']);
     $tag2 = get_tag($business['tag_2']);
-  }
 
-
-//(2) Retrieve active posting data
+		
 $query = "SELECT * FROM postings WHERE b_id=$b_id";
 $result = query_db($query);
-$post_flag = 0;
-
-//If there wasn't a posting (or business), mysql_fetch_array() would fail
-if($posting = mysql_fetch_array($result))
-  {
-	if( mysql_num_rows($result) != 0)
-	  {
-		$post_flag = 1;
-	  }
-  }
-
-//(3) Retrieve old postings data
-$query = "SELECT * FROM old_postings WHERE b_id=$b_id ORDER BY posting_time DESC";
-$result = query_db($query);
-$old_postings_flag = false;
-$i = 0;
-
-//Sort found old postings into $old_postings[0-(n-1)]
-while($old_post = mysql_fetch_array($result))
-  {
-	$old_postings[$i++] = $old_post;
-  }
-//Set flag if any old post was found
-if($i>0)
-  {
-	$old_postings_flag = true;
+		$active_post_flag = false;
+		$old_posting_flag = false;
+		$i = 0;
+		while($post = mysql_fetch_array($result))
+		{
+			if($post['active'])
+			{
+				$post_flag = true;
+				$posting = $post;
+			}
+			else
+			{
+				$old_postings[$i++] = $post;
+			}
+		}
+		if($i>0)
+		  {
+			$old_posting_flag = true;
+		  }
   }
 
 //head

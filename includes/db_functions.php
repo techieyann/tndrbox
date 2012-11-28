@@ -61,16 +61,14 @@ function scrape_tags()
 
 function push_old_post($b_id)
 {
-  $query = "INSERT INTO old_postings (SELECT * FROM postings WHERE b_id=$b_id)";
-  query_db($query);
-  $query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id";
+  $query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
   $result = query_db($query);
   $tags = mysql_fetch_array($result);
   extract($tags);
   decrement_tag($tag_1);
   decrement_tag($tag_2);
   decrement_tag($tag_3);	
-  $query = "DELETE FROM postings WHERE b_id=$b_id";
+  $query = "UPDATE postings SET active=0 WHERE b_id=$b_id AND active=1";
   query_db($query);
 }
 
