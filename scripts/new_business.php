@@ -41,11 +41,8 @@ if($_FILES['logo_upload']['error'] > 0)
 				}
 			}
 
-$tag1 = sanitize($_POST['tag_1']);
-$tag2 = sanitize($_POST['tag_2']);
-
-$tag1_id = add_tag($tag1);
-$tag2_id = add_tag($tag2);
+$cat = sanitize($_POST['category']);
+$category = add_tag($cat);
 
 $name = sanitize($_POST['name']);
 $address = sanitize($_POST['address']);
@@ -55,6 +52,7 @@ $zip = sanitize($_POST['zip']);
 $hours = sanitize($_POST['hours']);
 $number = sanitize($_POST['number']);
 $url = sanitize($_POST['url']);
+
 //need to write geocoding script to get lat/lon
 $lat = 0;
 $lon = 0;
@@ -62,8 +60,8 @@ $lon = 0;
 
 
 
-$query = "UPDATE business SET name='$name', tag_1='$tag1_id', 
-       	 tag_2='$tag2_id', address='$address', city='$city',
+$query = "UPDATE business SET name='$name', category='$category', 
+       	 address='$address', city='$city',
 		state='$state', zip='$zip', lat='$lat', lon='$lon',
 		url='$url', number='$number', hours='$hours'";
 if($logo_upload_flag == true)
