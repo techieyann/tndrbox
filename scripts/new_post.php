@@ -49,8 +49,8 @@ $url = sanitize($_POST['url']);
 		
 	
 $query = "INSERT INTO postings (title, blurb, tag_1, tag_2, tag_3,
-date, alt_address, url, 
-       	  b_id, a_id, posting_time) VALUES ('$title', '$desc', $tag1_id, 
+date, alt_address, url, b_id, a_id, posting_time) 
+VALUES ('$title', '$desc', $tag1_id, 
 	 $tag2_id, $tag3_id, 
 '$date', '$address', '$url',
 $business_id, $author_id, CURRENT_TIMESTAMP)";
@@ -89,6 +89,8 @@ if($result)
 					}
 				}
 			}
+	$query = "UPDATE business SET active_post=1 WHERE id=$business_id";
+	query_db($query);
 	//return;
 	header("location:../home");
 }
