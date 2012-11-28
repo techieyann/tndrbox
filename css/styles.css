@@ -49,6 +49,20 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 	border-bottom:1px solid;
 }
 
+#new-user
+{
+	width:90%;
+	margin: 0 auto;
+}
+
+#new-business
+{
+	width:90%;
+	margin: 0 auto;
+}
+
+
+
 .column
 {
 	border-right: 1px solid;

@@ -25,7 +25,7 @@ print_foot();
 function print_body()
 {
   	echo "
-	<div id='notice' class='main-content-pane'>";
+	<div id='new-user' class='column'>";
 	
 	if(isset($_GET['error']))
 	  {
@@ -64,39 +64,54 @@ function print_body()
 	  }
 
 	echo "
-		<form name=\"\" action=\"scripts/new_user.php\" method=\"post\">
-			<table>
-				<tr>
-					<td>Email</td>
-					<td><input required type=\"text\" name=\"email\" id=\"email\" maxlength=\"50\"></td>
-				</tr>
-				<tr>
-					<td>Password</td>
-					<td><input required type=\"password\" name=\"pass1\" id=\"pass1\" maxlength=\"16\"></td>
-				</tr>
-				<tr>
-					<td>Re-enter</td>
-					<td><input required type=\"password\" name=\"pass2\" id=\"pass2\" maxlength=\"16\"></td>
-				</tr>
-				<tr>
-					<td>Business Name</td>
-					<td><input required type=\"text\" name=\"name\" id=\"name\" maxlength=\"100\"></td>
-				</tr>
-				<tr>
-					<td colspan=2>";
-
-  require_once('includes/recaptchalib.php');
-  $publickey = "6LchVNESAAAAAMenf3lTWgj00YzeyK-hRKS_bozg";
-  echo recaptcha_get_html($publickey);
-
+		<form name='new-user-form' action='scripts/new_user.php' method='post' class='form-horizontal'>
+			<fieldset>
+			<legend>";
+	require_once('includes/recaptchalib.php');
+	$publickey = "6LchVNESAAAAAMenf3lTWgj00YzeyK-hRKS_bozg";
+	echo recaptcha_get_html($publickey);
 	echo "
-					</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td style=\"text-align:right\"><input type=\"submit\" value=\"Login\"></td>
-				</tr>
-			</table>
-		</form>";
+			</legend>
+			<div class='control-group'>
+				<label class='control-label' for='email'>
+					Email *
+				</label>
+				<div class='controls'>
+					<input required type='text' maxlength=50 name='email' id='email' placeholder='Email...' class='input-medium'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='pass1'>
+					Password *
+				</label>
+				<div class='controls'>
+					<input required type='password' maxlength=16 name='pass1' id='pass1' placeholder='Password...' class='input-medium'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='pass2'>
+					Re-enter *
+				</label>
+				<div class='controls'>
+					<input required type='password' maxlength=16 name='pass2' id='pass2' placeholder='Confirm your password...' class='input-medium'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='name'>
+					Business Name *
+				</label>
+				<div class='controls'>
+					<input required type='text' maxlength=100 name='name' id='name' placeholder='Name...' class='input-medium'>
+				</div>
+			</div>
+			<div class='form-actions'>
+				<button type='submit' class='btn btn-primary' id='submit' name='submit'>Submit</button>	
+			</div>
+			</fieldset>
+		</form>
+	</div>";
 }
 ?>

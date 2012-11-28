@@ -51,7 +51,7 @@ function print_body()
 
 
   echo "
-	<div id='new-business' class='span6 offset3 column'>
+	<div id='new-business' class='column'>
 		<form name='new-business-form' enctype='multipart/form-data' action='scripts/new_business.php?id=$id' method='post' class='form-horizontal'>
 			<fieldset>
 			<legend>Please enter your business information.</legend>
