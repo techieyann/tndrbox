@@ -51,10 +51,10 @@ function print_body()
 
 
   echo "
-	<div id='new-business' class=''>
-		<p>Please enter your business information.</p>
+	<div id='new-business' class='span6 offset3 column'>
 		<form name='new-business-form' enctype='multipart/form-data' action='scripts/new_business.php?id=$id' method='post' class='form-horizontal'>
-
+			<fieldset>
+			<legend>Please enter your business information.</legend>
 			<div class='control-group'>
 				<label class='control-label' for='name'>
 					Name *
@@ -130,15 +130,17 @@ function print_body()
 					Logo
 				</label>
 				<div class='controls'>
-					<input type='file' name='logo' id='logo' class='input-small'>
+					<input type='file' name='logo' id='logo' class='input-file'>
 					<span class='help-block'>
 						Note: filesize must be <60Kb
 					</span>
 				</div>
 			</div>
 
-			<button type='submit' class='btn btn-primary' id='submit' name='submit'>Submit</button>	
-
+			<div class='form-actions'>
+				<button type='submit' class='btn btn-primary' id='submit' name='submit'>Submit</button>	
+			</div>
+			</fieldset>
 		</form>
 	</div>";
 }

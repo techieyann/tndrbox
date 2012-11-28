@@ -48,6 +48,14 @@ font-family: "Helvetica Neue", "Helvetica", sans-serifi;
 {
 	border-bottom:1px solid;
 }
+
+.column
+{
+	border-right: 1px solid;
+	border-left: 1px solid;
+	padding:10px;
+}
+
 .top-left
 {
 	padding-top:0px;
