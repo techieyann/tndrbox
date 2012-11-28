@@ -153,7 +153,10 @@ function print_body()
 	{
 		echo "
 					<h3>Current Posting</h3>";
-		extract($posting);
+			if($posting['alt_address'] == "")
+			  {
+				$posting['alt_address'] = $business['address']." ".$business['city'].", ".$business['state'].", ".$business['zip'];
+			  }
 		print_formatted_post($posting);
 		echo "
 					<h3>Edit Current Post</h3>";

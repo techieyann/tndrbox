@@ -149,10 +149,7 @@ echo "
  if($business_flag == true)
    {
 		extract($business);
-		
-		$tag1 = get_tag($tag_1);
-		$tag2 = get_tag($tag_2);
-
+		$category = get_tag($category);
 		echo "
 		<div id='business_info' class='span8 bottom-right'>
 			
@@ -173,6 +170,7 @@ echo "
 	   	}
 	   	echo $ending_string;
 		echo "</h2>
+			<h3>$category</h3>
 			<br>
 			$number<br>";
 		$hours = explode(",", $hours);

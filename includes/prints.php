@@ -158,9 +158,6 @@ function print_edit_business_form($business)
 {
 extract($business);
 
-$tag_1 = get_tag($tag_1);
-$tag_2 = get_tag($tag_2);
-
 echo "
 	<div id='edit-business'>
 		<table>
@@ -267,21 +264,13 @@ echo "
 function print_formatted_post($post, $div_id="")
 {
 	extract($post);
-	$query = "SELECT name, tag_1, tag_2 FROM business WHERE id='$b_id'";
-   	$result = query_db($query);
-   	$business_result = mysql_fetch_array($result);
 
 	$date = format_date($id);
-
-	$name = $business_result['name'];
-	$tag_4 = $business_result['tag_1'];
-	$tag_5 = $business_result['tag_2'];
 
    	$tags[1] = get_tag($tag_1); 
    	$tags[2] = get_tag($tag_2); 
    	$tags[3] = get_tag($tag_3);
-	$tags[4] = get_tag($tag_4);
-	$tags[5] = get_tag($tag_5);
+
 
    	echo "
 			<div id=\"posting-border$div_id\" class=\"posting-border\">
@@ -322,8 +311,6 @@ echo "
 						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>
 						<li><a href=\"index?tag=$tag_2\">$tags[2]</a></li>
 						<li><a href=\"index?tag=$tag_3\">$tags[3]</a></li>
-						<li><a href=\"index?tag=$tag_4\">$tags[4]</a></li>
-						<li><a href=\"index?tag=$tag_5\">$tags[5]</a></li>
 					</ul>
 				</div>
 			</div>";
@@ -333,7 +320,7 @@ function print_add_post_form()
 {
 echo "
 		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php' method='post' class='form-horizontal'>
-
+			<fieldset>
 			<div class='control-group'>
 				<label class='control-label' for='title'>
 					Title *
@@ -400,9 +387,11 @@ echo "
 					</div>
 			</div>
 
-				
+			<div class='form-actions'>				
 				<button type='button' class='btn' id='add-cancel-button'>Cancel</button>
 				<button type='submit' class='btn btn-primary' id='add-submit'>Submit</button>
+			</div>
+			</fieldset>
 			</form>";
 }
 
@@ -507,14 +496,10 @@ function print_mini_post($post, $div_id="")
 	$date = format_date($id);
 
    	$name = $business_result['name'];
-	$tag_4 = $business_result['tag_1'];
-	$tag_5 = $business_result['tag_2'];
 
    	$tags[1] = get_tag($tag_1); 
    	$tags[2] = get_tag($tag_2); 
    	$tags[3] = get_tag($tag_3);
-	$tags[4] = get_tag($tag_4);
-	$tags[5] = get_tag($tag_5);
 
    	echo "
 			
@@ -540,8 +525,6 @@ function print_mini_post($post, $div_id="")
 						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>
 						<li><a href=\"index?tag=$tag_2\">$tags[2]</a></li>
 						<li><a href=\"index?tag=$tag_3\">$tags[3]</a></li>
-						<li><a href=\"index?tag=$tag_4\">$tags[4]</a></li>
-						<li><a href=\"index?tag=$tag_5\">$tags[5]</a></li>
 					</ul>";
 	if(isset($GLOBALS['m_id']))
 	{

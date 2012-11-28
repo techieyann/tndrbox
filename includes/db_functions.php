@@ -55,7 +55,7 @@ function verify_logged_in()
 
 function scrape_tags()
 {
-	$query = "SELECT * FROM postings ORDER BY posting_time LIMIT 20";
+	$query = "SELECT * FROM postings WHERE active=1 ORDER BY posting_time LIMIT 20";
 	return query_db($query);
 }
 
