@@ -86,11 +86,11 @@ function print_head()
 	}
 	else
 	{
-		if($GLOBALS['header_selected_page'] == "home")
+		if($GLOBALS['header_selected_page'] == "settings")
 		{
 			echo " class='active'";
 		}
-		echo "><a href='home'>Settings</a></li>
+		echo "><a href='settings'>Settings</a></li>
 					<li><a href='scripts/logout'>Logout</a></li>";
 	}
 	echo "	
