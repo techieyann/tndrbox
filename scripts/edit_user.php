@@ -19,7 +19,7 @@ $pass2 = sanitize($_POST['pass2']);
 
 if(strcmp($pass1,$pass2) != 0 || $pass1 =="")
 {
-	header("location:../signup?error=password");
+	header("location:../settings?error=password");
 	disconnect_from_db($link);
 	exit;
 }	
@@ -31,7 +31,7 @@ $md5_pass = md5($pass1);
 $query = "UPDATE members SET password='$md5_pass' WHERE id='$user_id'";
 query_db($query);
 
-header("location:../home");	
+header("location:../settings");	
 
 disconnect_from_db($link);
 

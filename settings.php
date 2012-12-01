@@ -66,7 +66,13 @@ if($b_id != 0)
   }
 else
   {
-
+	$query = "SELECT * FROM postings WHERE a_id=".$GLOBALS['m_id'];
+	$result = query_db($query);
+	$i = 0;
+	while($post = mysql_fetch_array($result))
+	  {
+		$admin_posts[$i++] = $post;
+	  }
   }
 
 
@@ -79,13 +85,13 @@ $GLOBALS['header_scripts'] = "
 if($b_id == 0)
   {
 	$GLOBALS['header_html_title'] = "tndrbox - Admin";
-	$GLOBALS['header_html_title'] = $GLOBALS['header_html_title']."
+	$GLOBALS['header_scripts'] = $GLOBALS['header_scripts']."
 <script src='js/settings_admin.js' type='text/javascript'></script>";
   }
 else
   {
 	$GLOBALS['header_html_title'] = "tndrbox - ".$posting['title'];
-	$GLOBALS['header_html_title'] = $GLOBALS['header_html_title']."
+	$GLOBALS['header_scripts'] = $GLOBALS['header_scripts']."
 <script src='js/settings.js' type='text/javascript'></script>";
   }
 
@@ -200,9 +206,37 @@ function print_body()
 	</div>
 	</div>";
 	  }
+
+	//Admin page
 	else
 	  {
+		global $admin_posts;
+		echo "
+	<div id='admin-accordion'>
+		<h3>Posts</h3>
+		<div id='admin-posts'>
+			<h3>Add New Post</h3>";
+		print_add_post_form();
+		foreach($admin_posts as $post)
+		  {
+			echo "
+			<h3>".$post['title']."</h3>";
+			print_formatted_post($post);
+		  }
+		echo "
+		</div>
+		<h3>Add New Business</h3>
+		<div id='admin-new-business'>";
+		print_new_business_form();
+		echo "
+		</div>
+		<h3>Users</h3>
+		<div id='admin-users'>
+			test2";
 
+		echo "
+		</div>
+	</div>";
 	  }
   }
 ?>

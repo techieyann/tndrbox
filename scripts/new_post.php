@@ -67,7 +67,7 @@ if($result)
 	if($_FILES['image_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['image_upload']['error'];
-                header("location:../home");
+                header("location:../settings");
             }
             else
             {
@@ -92,7 +92,7 @@ if($result)
 	$query = "UPDATE business SET active_post=1 WHERE id=$business_id";
 	query_db($query);
 	//return;
-	header("location:../home");
+	header("location:../settings");
 }
 else
 {

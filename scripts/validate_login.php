@@ -41,7 +41,7 @@ login via a session id number.
 		$cookie_val = $email.",".$session_id;
 
 		setcookie("login", $cookie_val, time()+(3600*8), "/");
-   		header("location:../home");
+   		header("location:../settings");
 	}
 	else
 	{

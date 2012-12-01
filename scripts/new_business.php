@@ -21,7 +21,7 @@ $logo_upload_flag = false;
 if($_FILES['logo_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['logo_upload']['error'];
-                header("location:../home");
+                header("location:../settings");
             }
             else
             {
@@ -76,7 +76,7 @@ $result = query_db($query);
 
 if($result)
   {
-	header("location:../home");
+	header("location:../settings");
   }
 else
   {
