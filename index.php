@@ -18,8 +18,9 @@ analyze_user();
 //set variables
 //body
 
+$set_tag = "Welcome";
 
-if(isset($_GET['p']))
+/*if(isset($_GET['p']))
   {
 	$p_id = sanitize($_GET['p']);
 	$query = "SELECT b_id FROM postings WHERE id=$p_id";
@@ -31,7 +32,7 @@ if(isset($_GET['p']))
   }
 
 $get_tag_set = false;
-$set_tag = "Welcome";
+
 if(isset($_GET['tag']))
 {
 	$get_tag_set = true;
@@ -53,15 +54,14 @@ if(isset($_GET['tag']))
 		$postings[$i++] = mysql_fetch_array($post_result);
    	  }
 		
-}
-else
-  {
-	$result = scrape_tags();
+	  }*/
+
+	$result = scrape_posts();
 	while($post = mysql_fetch_array($result))
 	{
 		$postings[$post['id']] = $post;
 	}
-  }
+
 
 $query = "SELECT * FROM tags WHERE num_ref>0 ORDER BY num_ref DESC, tag LIMIT 50";
 $tags_result = query_db($query);

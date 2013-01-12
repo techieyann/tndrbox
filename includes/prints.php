@@ -99,14 +99,14 @@ function print_head()
         </div>
 	</div>	
 </div>
-<div id='body-container' class='container-fluid'>";
+<div id='body-container' class='container'><br>";
 
 }
 
 function print_foot()
 {
   echo "
-</div>
+</div><br>
 <div id='footer'>
 	<a href='#top'>
 	   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
@@ -505,6 +505,8 @@ function print_new_user_form($businesses = "")
 
 function print_add_post_form($businesses = "")
 {
+  $new_post_args = "";
+  $business_select_box = "";
   if($businesses != "")
 	{
 	  $new_post_args = "?admin=1";

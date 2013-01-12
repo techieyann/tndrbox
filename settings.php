@@ -263,7 +263,7 @@ function print_body()
 		print_new_business_form();
 		echo "
 		</div>
-		<h3>Addd New User</h3>
+		<h3>Add New User</h3>
 		<div id='admin-new-users'>";
 		print_new_user_form($businesses);
 		echo "

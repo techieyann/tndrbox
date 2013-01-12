@@ -30,7 +30,7 @@ if(isset($_GET['admin']))
 	  }
 	else
 	  {
-		$business_id = sanitize($_POST['business']
+		$business_id = sanitize($_POST['business']);
 		$admin_flag = 1;
 	  }
   }
@@ -69,7 +69,7 @@ date, alt_address, url, b_id, a_id, posting_time)
 VALUES ('$title', '$desc', $tag1_id, 
 	 $tag2_id, $tag3_id, 
 '$date', '$address', '$url',
-$business, $author_id, CURRENT_TIMESTAMP)";
+$business_id, $author_id, CURRENT_TIMESTAMP)";
 $result = query_db($query);
 
 if($result)
