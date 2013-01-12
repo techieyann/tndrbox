@@ -1,11 +1,16 @@
+Admin page
+-search user script and field for new business
+-add new user form
+-apply user to business
+-de/activate & delete posts script
 
--security for new signups //maybe
--css styling
--initialize git tree
+
+
 -geolocation script
 
 -fix signup table
 -make current post needs to be fixed
 -home.js needs optimizing
+
 -signup process needs optimizing
 -edit_user script needs to be more discriminatory

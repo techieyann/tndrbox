@@ -59,18 +59,39 @@ $lon = 0;
 
 
 
-
+if($b_id != 0)
+  {
 $query = "UPDATE business SET name='$name', category='$category', 
        	 address='$address', city='$city',
 		state='$state', zip='$zip', lat='$lat', lon='$lon',
 		url='$url', number='$number', hours='$hours'";
 if($logo_upload_flag == true)
 {
-	$query = $query.", logo='logo_$b_id.$ext'";
+	$query .= ", logo='logo_$b_id.$ext'";
 }
-$query = $query."
+$query .= "
 		WHERE id='$b_id'";
-
+  }
+else
+  {
+	$query = "INSERT INTO business (name, category, address, city, 
+									state, zip, lat, lon, url, 
+									number, hours";
+	if($logo_upload_flag == true)
+	  {
+		$query .= ", logo";
+	  }
+	$query .= ")
+									VALUES
+								   ('$name', '$category', '$address', '$city',
+									'$state', '$zip', '$lat',' $lon', '$url',
+									'$number', '$hours'";
+	if($logo_upload_flag == true)
+	  {
+		$query .= ", 'logo_$b_id.$ext'";
+	  }
+	$query .= ")";
+  }
 $result = query_db($query);
 
 

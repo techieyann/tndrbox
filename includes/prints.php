@@ -417,11 +417,121 @@ echo "
 			</div>";
 }
 
-function print_add_post_form()
+function print_new_user_form($businesses = "")
 {
+  $new_user_args = "";
+  if($businesses != "")
+	{
+	  $new_user_args = "?admin=1";
+	  $businesses_or_captcha  = "
+			<div class='control-group'>
+				<label class='control-label' for='business'>
+					Business *
+				</label>
+				<div class='controls'>
+					<select required name='business' id='business'>
+						<option selected='selected'></option>";
+	
+	  foreach($businesses as $id=>$name)
+		{
+		  $businesses_or_captcha .= "
+						<option value='$id'>$name</option>";
+        }
+	
+	  $businesses_or_captcha .= "
+					</select>
+				</div>
+			</div>";
+	}
+  else
+    {
+	$businesses_or_captcha = "
+			<legend>";
+	require_once('includes/recaptchalib.php');
+	$publickey = "6LchVNESAAAAAMenf3lTWgj00YzeyK-hRKS_bozg";
+	$captcha = recaptcha_get_html($publickey);
+	$businesses_or_captcha .= $captcha."
+			</legend>";
+    }
+	echo "
+		<form name='new-user-form' action='scripts/new_user.php".$new_user_args."' method='post' class='form-horizontal'>
+			<fieldset>".$businesses_or_captcha."
+			<div class='control-group'>
+				<label class='control-label' for='email'>
+					Email *
+				</label>
+				<div class='controls'>
+					<input required type='text' maxlength=50 name='email' id='email' placeholder='Email...' class='input-medium'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='pass1'>
+					Password *
+				</label>
+				<div class='controls'>
+					<input required type='password' maxlength=16 name='pass1' id='pass1' placeholder='Password...' class='input-medium'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='pass2'>
+					Re-enter *
+				</label>
+				<div class='controls'>
+					<input required type='password' maxlength=16 name='pass2' id='pass2' placeholder='Confirm your password...' class='input-medium'>
+				</div>
+			</div>";
+	if($businesses == "")
+	  {
+		echo "
+			<div class='control-group'>
+				<label class='control-label' for='name'>
+					Business Name *
+				</label>
+				<div class='controls'>
+					<input required type='text' maxlength=100 name='name' id='name' placeholder='Name...' class='input-medium'>
+				</div>
+			</div>";
+	  }
+	echo "
+			<div class='form-actions'>
+				<button type='submit' class='btn btn-primary' id='submit' name='submit'>Submit</button>	
+			</div>
+			</fieldset>
+		</form>
+	</div>";
+}
+
+function print_add_post_form($businesses = "")
+{
+  if($businesses != "")
+	{
+	  $new_post_args = "?admin=1";
+	  $business_select_box = "
+			<div class='control-group'>
+				<label class='control-label' for='business'>
+					Business *
+				</label>
+				<div class='controls'>
+					<select required name='business' id='business'>
+						<option selected='selected'></option>";
+	
+	  foreach($businesses as $id=>$name)
+		{
+		  $business_select_box .= "
+						<option value='$id'>$name</option>";
+        }
+	
+	  $business_select_box .= "
+					</select>
+				</div>
+			</div>";
+	}
+
 echo "
-		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php' method='post' class='form-horizontal'>
-			<fieldset>
+		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php".$new_post_args."' method='post' class='form-horizontal'>
+			<fieldset>".$business_select_box."
 			<div class='control-group'>
 				<label class='control-label' for='title'>
 					Title *

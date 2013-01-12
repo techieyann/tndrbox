@@ -62,56 +62,7 @@ function print_body()
 		<p class=\"red-text\">Sorry, there was a database error</p>";
 		  }
 	  }
+	print_new_user_form();
 
-	echo "
-		<form name='new-user-form' action='scripts/new_user.php' method='post' class='form-horizontal'>
-			<fieldset>
-			<legend>";
-	require_once('includes/recaptchalib.php');
-	$publickey = "6LchVNESAAAAAMenf3lTWgj00YzeyK-hRKS_bozg";
-	echo recaptcha_get_html($publickey);
-	echo "
-			</legend>
-			<div class='control-group'>
-				<label class='control-label' for='email'>
-					Email *
-				</label>
-				<div class='controls'>
-					<input required type='text' maxlength=50 name='email' id='email' placeholder='Email...' class='input-medium'>
-				</div>
-			</div>
-
-			<div class='control-group'>
-				<label class='control-label' for='pass1'>
-					Password *
-				</label>
-				<div class='controls'>
-					<input required type='password' maxlength=16 name='pass1' id='pass1' placeholder='Password...' class='input-medium'>
-				</div>
-			</div>
-
-			<div class='control-group'>
-				<label class='control-label' for='pass2'>
-					Re-enter *
-				</label>
-				<div class='controls'>
-					<input required type='password' maxlength=16 name='pass2' id='pass2' placeholder='Confirm your password...' class='input-medium'>
-				</div>
-			</div>
-
-			<div class='control-group'>
-				<label class='control-label' for='name'>
-					Business Name *
-				</label>
-				<div class='controls'>
-					<input required type='text' maxlength=100 name='name' id='name' placeholder='Name...' class='input-medium'>
-				</div>
-			</div>
-			<div class='form-actions'>
-				<button type='submit' class='btn btn-primary' id='submit' name='submit'>Submit</button>	
-			</div>
-			</fieldset>
-		</form>
-	</div>";
 }
 ?>

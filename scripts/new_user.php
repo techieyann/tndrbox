@@ -9,31 +9,47 @@ database, after confirming the recaptcha was
 successful, sanity checking the email format,
 and verifying the unique-ness of the email.
  ***********************************************/
+require('../includes/includes.php');
 
+//connect to the database
+$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+analyze_user();
+verify_logged_in();
 
-//Recaptcha code
+$admin_flag = 0;
 
-require_once('../includes/recaptchalib.php');
-$privatekey = "6LchVNESAAAAADEG1tWkGm4ooU8WwyWaqYXl9q8w";
-$resp = recaptcha_check_answer ($privatekey,
+if(isset($_GET['admin']))
+  {
+	$b_id=$GLOBALS['b_id'];
+	if($b_id != 0)
+	  {
+		header("location:settings");
+		disconnect_from_db($link);
+		return;
+	  }
+	else
+	  {
+		$b_id = sanitize($_POST['business']);
+		$admin_flag = 1;
+	  }
+  }
+else
+  {
+	//Recaptcha code
+
+	require_once('../includes/recaptchalib.php');
+	$privatekey = "6LchVNESAAAAADEG1tWkGm4ooU8WwyWaqYXl9q8w";
+	$resp = recaptcha_check_answer ($privatekey,
                                 $_SERVER["REMOTE_ADDR"],
                                 $_POST["recaptcha_challenge_field"],
                                 $_POST["recaptcha_response_field"]);
 
-if (!$resp->is_valid) //recaptcha failed
-  {
-	
-	header("location:../signup?error=captcha");
-	
-	exit;	    
-  } 
-else //check the rest of the content
-  {
-	require('../includes/includes.php');
-
-
-	//connect to the database
-	$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+	if (!$resp->is_valid) //recaptcha failed
+	  {
+		header("location:../signup?error=captcha");	
+		exit;	    
+	  } 
+  }
 
 	$email = sanitize($_POST['email']);
 
@@ -68,6 +84,8 @@ else //check the rest of the content
 	//hash the password
 	$md5_pass = md5($pass1);
 	
+	if($admin_flag == 0)
+	  {
 	$name = sanitize($_POST['name']);
 	//check for business name uniqueness
 	$query = "SELECT id FROM business WHERE name = '$name'";
@@ -89,10 +107,16 @@ else //check the rest of the content
  	$business = mysql_fetch_array($result);
    	$b_id = $business['id'];
 	  }
+	  }
+
 	//create new user and log them in
 	$query = "INSERT INTO members (email, password, b_id) VALUES ('$email','$md5_pass', $b_id)";
 	$result = query_db($query);
-	if($result)
+	if(!$result)
+	{
+ 		header("location:../login?error=db");
+	}
+	elseif($admin_flag == 0)
 	{
 	  $query = "SELECT id FROM members WHERE email='$email'";
 	  $result = query_db($query);
@@ -111,9 +135,9 @@ else //check the rest of the content
    		header("location:../new-business");
 	}
 	else
-	{
- 		header("location:../login?error=db");
-	}
+	  {
+		header("location:../settings");
+	  }
+
 	disconnect_from_db($link);
-  }
 ?>

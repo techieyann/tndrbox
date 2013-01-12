@@ -24,6 +24,7 @@ verify_logged_in();
 //(1) Retrieve business data
 $business_flag = 0;
 $b_id = $GLOBALS['b_id'];
+$m_id = $GLOBALS['m_id'];
 
 if($b_id != 0)
   {
@@ -36,11 +37,10 @@ if($b_id != 0)
 		$business_flag = 1;
 	
 		$business = mysql_fetch_array($result);
-		$tag1 = get_tag($business['tag_1']);
-		$tag2 = get_tag($business['tag_2']);
+		$cantegory = get_tag($business['category']);
 
 		
-		$query = "SELECT * FROM postings WHERE b_id=$b_id";
+		$query = "SELECT * FROM postings WHERE a_id=$m_id";
 		$result = query_db($query);
 		
 		$active_post_flag = false;
@@ -66,12 +66,28 @@ if($b_id != 0)
   }
 else
   {
-	$query = "SELECT * FROM postings WHERE a_id=".$GLOBALS['m_id'];
+	$query = "SELECT * FROM postings WHERE a_id=".$GLOBALS['m_id']." AND active=1";
 	$result = query_db($query);
 	$i = 0;
 	while($post = mysql_fetch_array($result))
 	  {
-		$admin_posts[$i++] = $post;
+		$admin_active_posts[$i++] = $post;
+	  }
+
+	$query = "SELECT * FROM postings WHERE a_id=".$GLOBALS['m_id']." AND active=0";
+	$result = query_db($query);
+	$i = 0;
+	while($post = mysql_fetch_array($result))
+	  {
+		$admin_old_posts[$i++] = $post;
+	  }
+
+	$query = "SELECT id, name FROM business";
+	$result = query_db($query);
+	while($business = mysql_fetch_array($result))
+	  {
+		extract($business);
+		$businesses[$id] = $name;
 	  }
   }
 
@@ -115,8 +131,8 @@ function print_body()
 	global $b_id;
 	if($b_id != 0)
 	  {
-		//Define the variables as set above
-		global $business_flag, $business, $tag1, $tag2, $posting, $post_flag, $old_postings_flag, $old_postings;
+		//Define the standard user variables as set above
+		global $business_flag, $business, $category, $posting, $post_flag, $old_postings_flag, $old_postings;
 		
 		extract($business);
 		
@@ -210,30 +226,46 @@ function print_body()
 	//Admin page
 	else
 	  {
-		global $admin_posts;
+		//Define the admin variables as set above
+		global $admin_active_posts, $admin_old_posts, $businesses;
 		echo "
 	<div id='admin-accordion'>
 		<h3>Posts</h3>
-		<div id='admin-posts'>
+		<div id='admin-posts'>";
+		echo "	
 			<h3>Add New Post</h3>";
-		print_add_post_form();
-		foreach($admin_posts as $post)
+		print_add_post_form($businesses);
+		echo "
+			 <h3>Active Posts</h3>
+			 <div id='admin-active-posts'>";
+		foreach($admin_active_posts as $post)
 		  {
 			echo "
-			<h3>".$post['title']."</h3>";
+				<h3>".$post['title']." | <a href='#'>Delete</a></h3>";
 			print_formatted_post($post);
 		  }
 		echo "
+			</div>
+			<h3>Old Posts</h3>
+			<div id='admin-old-posts'>";
+		foreach($admin_old_posts as $post)
+		  {
+			echo "
+				<h3>".$post['title']." | <a href='#'>Activate</a> | <a href='#'>Delete</a></h3>";
+			print_formatted_post($post);
+		  }
+
+		echo "
+			</div>			 
 		</div>
 		<h3>Add New Business</h3>
 		<div id='admin-new-business'>";
 		print_new_business_form();
 		echo "
 		</div>
-		<h3>Users</h3>
-		<div id='admin-users'>
-			test2";
-
+		<h3>Addd New User</h3>
+		<div id='admin-new-users'>";
+		print_new_user_form($businesses);
 		echo "
 		</div>
 	</div>";
