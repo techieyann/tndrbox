@@ -63,9 +63,6 @@ if(isset($_GET['tag']))
 	}
 
 
-$query = "SELECT * FROM tags WHERE num_ref>0 ORDER BY num_ref DESC, tag LIMIT 50";
-$tags_result = query_db($query);
-
 
 
 //head
@@ -83,62 +80,25 @@ print_foot();
 disconnect_from_db();
 
 function print_body()
-{
-  global $postings, $get_tag_set, $set_tag_id, $set_tag, $set_tag_postings_result, $tags_result;
-  echo "
-	<div id=\"\" class =\"meta-pane\">
-	<table width=\"100%\">";
-$i=0;
-  while($present_tag = mysql_fetch_array($tags_result))
-	{
-	if($i++==0)
-	{
-		echo "
-		<tr>";
-	}
-	  extract($present_tag);
-		echo "
-		<td><a href=\"index?tag=$id\">$tag</a>($num_ref)</td> ";
-	if($i%2==0)
-	{
-		$i=0;
-		echo "
-		</tr>";	
-	}
-	}
-  echo "
-       </table>
-	</div>
-	<div id='' class ='content-pane list'>";
-	$i = 0;
-	if(isset($postings))
-	  {
-		echo " <table width=\"100%\">
-			   <tr><th>";
-		  if($get_tag_set)
-			{
-				echo "$set_tag";
-			}
-		  else
-			{
-			  echo "Most recent posts";
-			}
-		   
-		foreach($postings as $post)
-		{
-		  echo "<tr";
-		  if($i%2==0)
-			{
-			  echo " class=\"alt\"";
-			}
-			echo "><td>";
-			print_mini_post($post, "-".++$i);
-			echo "</td></tr>";		
-		}
-		echo "</table>";
-	  }
+  {
+	global $postings;
 
-  echo "
-	</div>";
-}
+	$count = 0;	
+
+	foreach($postings as $id=>$post)
+	  {
+		$post_row[$id] = $post;
+		if($count++ == 3)
+		  {
+			$count = 0;
+			print_post_row($post_row);
+			$post_row = "";
+		  }
+	  }
+	if($count != 0)
+	  {
+		print_post_row($post_row);
+	  }
+  
+  }
 ?>

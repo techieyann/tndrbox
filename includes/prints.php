@@ -154,6 +154,41 @@ echo $hours.":".$minutes.$pmam.$month."/".$day."/".$year;
 
 }
 
+function print_post_row($post_row)
+{
+	echo "
+		<div class='row-fluid span12 front-page-row'>";
+	foreach($post_row as $id=>$post)
+	  {
+		echo "
+			<a href='#post-$id-modal' role='button' data-toggle='modal'>
+			<div class='span3 rounded front-page-button'>";
+		if($post['photo'] != "")
+		  {
+			echo "
+   			<img src='images/posts/".$post['photo']."' alt='photo for ".$post['title']."' class='posting-image'>";
+		  }
+		echo "
+			".$post['title']."
+			</div>
+			</a>
+			<div id='post-$id-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>x</button>
+					<h3 id='post-$id-modal-label'>".$post['title']."</h3>
+				</div>
+				<div class='modal-body'>";
+	    print_formatted_post($post);
+		echo "
+				</div>
+				<div class='modal-footer'>
+					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
+				</div>
+			</div>";
+	  }
+	echo "
+		</div>";
+}
 function print_new_business_form($id="0", $name="")
 {
 	echo "
@@ -362,7 +397,7 @@ echo "
 	</div>";
 }
 
-function print_formatted_post($post, $div_id="")
+function print_formatted_post($post, $modal="")
 {
 	extract($post);
 
@@ -374,8 +409,8 @@ function print_formatted_post($post, $div_id="")
 
 
    	echo "
-			<div id=\"posting-border$div_id\" class=\"posting-border\">
-				<div id=\"posting-title$div_id\" class=\"posting-title\">
+			<div id='posting-border$id' class='posting-border'>
+				<div id='posting-title$id' class='posting-title'>
 					$title";
 	if($date != "")
 	  {
@@ -383,35 +418,35 @@ function print_formatted_post($post, $div_id="")
 	  }
 	echo "
 				</div>
-				<div class=\"posting-time$div_id\">";
+				<div class='posting-time$id'>";
 		print_formatted_time($posting_time);
 		echo "</div>
-				<div id=\"posting-data$div_id\" class=\"posting-data\">
-					<img src=\"images/posts/$photo\" alt=\"photo for $title\" class=\"posting-image\" width='300px'>
+				<div id='posting-data$id' class='posting-data'>
+					<img src='images/posts/$photo' alt='photo for $title' class='posting-image' width='300px'>
 					
-					<div id=\"posting-blurb$div_id\" class=\"posting-blurb\">
+					<div id='posting-blurb$id' class='posting-blurb'>
 						$blurb
 					
 					</div>";
 		if($url != "")
 		  {
 		    echo "
-<div id='posting-purchase$div_id' class='posting-purchase'>
+<div id='posting-purchase$id' class='posting-purchase'>
 <a href='http://$url'><img src='images/purchase.png'></a>
 </div>";
 		  }
 echo "
 				</div>
-		<div id=\"static-map\">
+		<div id='static-map'>
 			<a href='http://maps.google.com/?q=$alt_address'>
 				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=275x400&markers=color:red|$alt_address&sensor=false'>
 			</a>
 	    </div>
-				<div class=\"posting-tags\">
+				<div class='posting-tags'>
 				<ul>
-						<li><a href=\"index?tag=$tag_1\">$tags[1]</a></li>
-						<li><a href=\"index?tag=$tag_2\">$tags[2]</a></li>
-						<li><a href=\"index?tag=$tag_3\">$tags[3]</a></li>
+						<li><a href='index?tag=$tag_1'>$tags[1]</a></li>
+						<li><a href='index?tag=$tag_2'>$tags[2]</a></li>
+						<li><a href='index?tag=$tag_3'>$tags[3]</a></li>
 					</ul>
 				</div>
 			</div>";
