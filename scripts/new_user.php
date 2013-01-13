@@ -13,17 +13,18 @@ require('../includes/includes.php');
 
 //connect to the database
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
-analyze_user();
-verify_logged_in();
 
 $admin_flag = 0;
 
 if(isset($_GET['admin']))
   {
+	analyze_user();
+	verify_logged_in();
+
 	$b_id=$GLOBALS['b_id'];
 	if($b_id != 0)
 	  {
-		header("location:settings");
+		header("location:../settings");
 		disconnect_from_db($link);
 		return;
 	  }
@@ -114,7 +115,7 @@ else
 	$result = query_db($query);
 	if(!$result)
 	{
- 		header("location:../login?error=db");
+		header("location:../login?error=db");
 	}
 	elseif($admin_flag == 0)
 	{
@@ -132,7 +133,7 @@ else
 		$cookie_val = $email.",".$session_id;
 
 		setcookie("login", $cookie_val, time()+(3600*8), "/");
-   		header("location:../new-business");
+		header("location:../new-business");
 	}
 	else
 	  {
