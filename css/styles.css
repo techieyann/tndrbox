@@ -54,7 +54,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 .front-page-row
 {
-	height:160px;
+	height:250px;
 }
 
 .front-page-button
@@ -62,14 +62,16 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	height:100%;
 	background:#eee;
 	text-align:center;
+	position:relative;
 }
 
-.front-page-filler
+
+.bottom
 {
-	height:100%;
-	background:red;
+	position:absolute;
+	bottom:0px;
+	left:0px;
 }
-
 
 .front-page-button img
 {

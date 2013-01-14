@@ -187,7 +187,7 @@ function print_post_row($post_row)
 		if($image_flag == 1 && $image_printed == 0)
 		  {
 			echo "
-   			<img src='$img_src' alt='photo for ".$post['title']."' class='posting-image'>";
+   			<img class='bottom' src='$img_src' alt='photo for ".$post['title']."' class='posting-image'>";
 			$image_printed = 1;
 		  }
 		echo "
@@ -450,7 +450,7 @@ function print_formatted_post($post, $modal="")
 		print_formatted_time($posting_time);
 		echo "</div>
 				<div id='posting-data$id' class='posting-data'>
-					<img src='images/posts/$photo' alt='photo for $title' class='posting-image' width='300px'>
+					<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>
 					
 					<div id='posting-blurb$id' class='posting-blurb'>
 						$blurb
