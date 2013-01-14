@@ -37,34 +37,39 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 }
 
 /* header styles */
-/*
-body .modal {
-  width: 80%; /* desired relative width */
-//  left: 10%; /* (100%-width)/2 */
-  margin:-300px 0 0 -40%; /* place center */
-}
 
-.modal-body {
-	max-height:600px;
-}
-*/
+@media (min-width: 1200px) { 
+.modal{
+    width: 960px;
+    margin-left: -480px;}
+ }
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+.modal{
+    width: 760px;
+    margin-left: -380px;}
+ }
 
-#post-2-modal .modal-body {
-	max-height:600px;
-}
 
 .front-page-row
 {
-	margin-bottm:20px;
-	max-height:200px;
+	height:160px;
 }
 
 .front-page-button
-{	
-	padding:10px;
-	margin-left:10px;
-	margin-right:10px;
+{
+	height:100%;
+	background:#eee;
+	text-align:center;
 }
+
+.front-page-filler
+{
+	height:100%;
+	background:red;
+}
+
 
 .front-page-button img
 {
@@ -95,13 +100,9 @@ body .modal {
 	margin: 0 auto;
 }
 
-.rounded
+.bordered
 {
 	border: 1px solid;
-
-    -webkit-border-radius: 5px;
-       -moz-border-radius: 5px;
-            border-radius: 5px;
 }
 
 .column

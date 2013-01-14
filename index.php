@@ -57,10 +57,30 @@ if(isset($_GET['tag']))
 	  }*/
 
 	$result = scrape_posts();
+	$i=-1;
 	while($post = mysql_fetch_array($result))
-	{
-		$postings[$post['id']] = $post;
-	}
+	  {
+		$i++;
+		$postings[$i]['post'] = $post;
+		$image = $post['photo'];
+		if($image != "")
+		  {
+			$image_source = "images/posts/".$image;
+			list($width, $height) = getimagesize($image_source);
+			$span_calc = ($width/$height)*1.2;
+			$span = round($span_calc);
+			if($span < 2)
+			  {
+				$span = 2;
+			  }
+			$postings[$i]['span'] = $span;
+		  }
+		else
+		  {
+			$postings[$i]['span'] = 2;
+		  }
+	  }
+	$num_posts = $i;
 
 
 
@@ -81,24 +101,74 @@ disconnect_from_db();
 
 function print_body()
   {
-	global $postings;
+	global $postings, $num_posts;
 
-	$count = 0;	
 
-	foreach($postings as $id=>$post)
+	$count = 0;
+	$total_spans = 0;
+	$filler['post'] = "filler";
+
+	for($i=0; $i<=$num_posts; $i++)
 	  {
-		$post_row[$id] = $post;
-		if($count++ == 3)
+		if(($total_spans + $postings[$i]['span']) <= 12)
 		  {
-			$count = 0;
+			$total_spans += $postings[$i]['span'];
+			$usable_posts[$count++] = $postings[$i];
+		  }
+		else
+		  {
+			$spans_remaining = 12-$total_spans;
+			$j = 0;
+
+			foreach($usable_posts as $post_data)
+			  {
+				$post_row[$j++] = $post_data;
+				if($spans_remaining != 0)
+				  {
+					$filler['span'] = rand(0,$spans_remaining);
+					if($filler['span'] != 0)
+					  {
+						$spans_remaining -= $filler['span'];
+						$post_row[$j++] = $filler;
+					  }
+  				  }
+			  }	
+			
 			print_post_row($post_row);
+			$usable_posts = "";
 			$post_row = "";
+			$total_spans = 0;
+			$count = 0;			
+			$total_spans += $postings[$i]['span'];
+			$usable_posts[$count++] = $postings[$i];
 		  }
 	  }
+
+
 	if($count != 0)
 	  {
-		print_post_row($post_row);
-	  }
+		$spans_remaining = 12-$total_spans;
+			$j = 0;
+
+			foreach($usable_posts as $post_data)
+			  {
+				$post_row[$j++] = $post_data;
+				if($spans_remaining != 0)
+				  {
+					$filler['span'] = rand(0,$spans_remaining);
+					if($filler['span'] != 0)
+					  {
+						$spans_remaining -= $filler['span'];
+						$post_row[$j++] = $filler;
+					  }				  }
+			  }	
+			if($spans_remaining != 0)
+			  {
+				$filler['span'] = $spans_remaining;
+				$posts_row[$j] = $filler;
+			  }
+			print_post_row($post_row);
+		}
   
   }
 ?>

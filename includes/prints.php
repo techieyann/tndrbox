@@ -158,18 +158,39 @@ function print_post_row($post_row)
 {
 	echo "
 		<div class='row-fluid span12 front-page-row'>";
-	foreach($post_row as $id=>$post)
+	foreach($post_row as $post_data)
 	  {
+		$post = $post_data['post'];
+		$span = "span".$post_data['span'];
+		if($post != "filler")
+		  {
+		$id = $post['id'];
+
 		echo "
 			<a href='#post-$id-modal' role='button' data-toggle='modal'>
-			<div class='span3 rounded front-page-button'>";
+			<div class='$span bordered front-page-button'>";
+		$image_flag = 0;
+		$image_printed = 0;
 		if($post['photo'] != "")
 		  {
+			$img_src = "images/posts/".$post['photo'];
+			$image_flag = 1;
+		  }
+		if($image_flag == 1 && rand(0,1) == 1)
+		  {
 			echo "
-   			<img src='images/posts/".$post['photo']."' alt='photo for ".$post['title']."' class='posting-image'>";
+   			<img src='$img_src' alt='photo for ".$post['title']."' class='posting-image'>";
+			$image_printed = 1;
 		  }
 		echo "
-			".$post['title']."
+			".$post['title'];
+		if($image_flag == 1 && $image_printed == 0)
+		  {
+			echo "
+   			<img src='$img_src' alt='photo for ".$post['title']."' class='posting-image'>";
+			$image_printed = 1;
+		  }
+		echo "
 			</div>
 			</a>
 			<div id='post-$id-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
@@ -185,6 +206,13 @@ function print_post_row($post_row)
 					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
 				</div>
 			</div>";
+		  }
+		else
+		  {
+			echo "
+			<div class='$span'>
+			</div>";
+		  }
 	  }
 	echo "
 		</div>";

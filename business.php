@@ -220,7 +220,7 @@ echo "
 			}
 				
 				echo "
-		<div class='span2'>
+		<div>
 			<a href='?b_id=$id' title='$name'>";
 			if($logo == "")
 			{
@@ -241,7 +241,7 @@ echo "
 			{
 		  		$count = 0;
 	   			echo "
-	 </div>";
+		</div>";
 			} 	
 		}
 		}
