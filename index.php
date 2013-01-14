@@ -68,7 +68,7 @@ if(isset($_GET['tag']))
 			$image_source = "images/posts/".$image;
 			list($width, $height) = getimagesize($image_source);
 			$span_calc = ($width/$height)*1.2;
-			$span = round($span_calc);
+			$span = ceil($span_calc);
 			if($span < 2)
 			  {
 				$span = 2;
@@ -153,19 +153,7 @@ function print_body()
 			foreach($usable_posts as $post_data)
 			  {
 				$post_row[$j++] = $post_data;
-				if($spans_remaining != 0)
-				  {
-					$filler['span'] = rand(0,$spans_remaining);
-					if($filler['span'] != 0)
-					  {
-						$spans_remaining -= $filler['span'];
-						$post_row[$j++] = $filler;
-					  }				  }
-			  }	
-			if($spans_remaining != 0)
-			  {
-				$filler['span'] = $spans_remaining;
-				$posts_row[$j] = $filler;
+				
 			  }
 			print_post_row($post_row);
 		}

@@ -45,11 +45,12 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
  }
  
 /* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) and (max-width: 979px) {
+@media (min-width: 768px) and (max-width: 1199px) {
 .modal{
     width: 760px;
     margin-left: -380px;}
  }
+
 
 
 .front-page-row
@@ -66,12 +67,12 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 }
 
 
-.bottom
+/*.bottom
 {
 	position:absolute;
 	bottom:0px;
 	left:0px;
-}
+}*/
 
 .front-page-button img
 {
