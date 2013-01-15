@@ -204,11 +204,6 @@ function print_post_row($post_row)
 			$tags[2] | 
 			$tags[3]
 			</p>
-
-			<p>
-			from <h4>".$business['name']."</h4>
-			</p>
-			
 			</div>
 			</a>
 			</li>";
