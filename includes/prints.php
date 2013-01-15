@@ -179,18 +179,36 @@ function print_post_row($post_row)
 		  {
 			$img_src = "images/posts/".$post['photo'];
 			echo "
-   			<img src='$img_src' alt='photo for ".$post['title']."'>";// class='posting-image'>";
+   			<img src='$img_src' alt='photo for ".$post['title']."'>";
 
 		  }
+
+		$tag_1 = $post['tag_1'];
+		$tag_2 = $post['tag_2'];
+		$tag_3 = $post['tag_3'];
+
+		$tags[1] = get_tag($tag_1); 
+		$tags[2] = get_tag($tag_2); 
+		$tags[3] = get_tag($tag_3);
+
 		echo "
-			<h4>".$post['title'];
+			<h3>".$post['title'];
 		$post['date'] = format_date($id);
 		if($post['date'] != "")
 		  {
 			echo " on ".$post['date'];
 		  }
-		echo "</h4>
-			<p>from <h5>".$business['name']."</h5></p>
+		echo "</h3>
+			<p>
+			$tags[1] | 
+			$tags[2] | 
+			$tags[3]
+			</p>
+
+			<p>
+			from <h4>".$business['name']."</h4>
+			</p>
+			
 			</div>
 			</a>
 			</li>";
@@ -437,6 +455,17 @@ function print_formatted_modal($post, $business)
 
 
    	echo "
+			<div class='row'>
+				<div class='span4 centered'>
+					<a href='index?tag=$tag_1'>$tags[1]</a>
+				</div>
+				<div class='span4 centered'>
+					<a href='index?tag=$tag_2'>$tags[2]</a>
+				</div>
+				<div class='span4 centered'>
+					<a href='index?tag=$tag_3'>$tags[3]</a>
+				</div>
+			</div>
 			<div id='posting-border$id' class='posting-border'>
 				<div id='posting-title$id' class='posting-title'>
 					$title";
@@ -466,13 +495,7 @@ function print_formatted_modal($post, $business)
 echo "
 				</div>
 
-				<div class='posting-tags'>
-				<ul>
-						<li><a href='index?tag=$tag_1'>$tags[1]</a></li>
-						<li><a href='index?tag=$tag_2'>$tags[2]</a></li>
-						<li><a href='index?tag=$tag_3'>$tags[3]</a></li>
-					</ul>
-				</div>
+
 			</div>";
 		
 		echo "
@@ -480,7 +503,7 @@ echo "
 		<div class='span5 content'>";
 if($post['alt_address'] == "")
 			  {
-				$post['alt_address'] = $business['address']." ".$business['city'].", ".$business['state'].", ".$business['zip'];
+				$alt_address = $business['address']." ".$business['city'].", ".$business['state'].", ".$business['zip'];
 			  }
  
 echo "

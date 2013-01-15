@@ -76,6 +76,11 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	text-align:center;
 }
 
+.centered
+{
+	text-align:center;
+}
+
 .front-page-button > a
 {
 	color:#eee;
