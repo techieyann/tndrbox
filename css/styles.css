@@ -51,7 +51,18 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
     margin-left: -380px;}
  }
 
+@media (max-width:767px)
+{
+.modal-body
+{
+	max-height:300px;
+}
+}
 
+.modal-body
+{
+	max-height:600px;
+}
 
 .front-page-row
 {
@@ -60,8 +71,24 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 .front-page-button
 {
-	height:100%;
-	text-align:center;
+	height:300px;
+	padding:auto;
+}
+
+.front-page-button > a
+{
+	color:#eee;
+}
+
+.business-info > img
+{
+	max-width:100%;
+}
+
+.business-info
+{
+	padding-left: 10px;
+	padding-top: 10px;
 }
 
 .thumbnail
@@ -84,7 +111,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 /*body styles*/
 #body-container
 {
-	border-bottom:1px solid;
+	border-bottom:1px solid #eee;
 }
 
 #new-user
@@ -134,9 +161,6 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
         -webkit-border-top-left-radius: 5px;
            -moz-border-top-left-radius: 5px;
                 border-top-left-radius: 5px;
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
 
 .content

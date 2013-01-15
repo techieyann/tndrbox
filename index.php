@@ -62,6 +62,9 @@ if(isset($_GET['tag']))
 	  {
 		$i++;
 		$postings[$i]['post'] = $post;
+		$query = "SELECT * FROM business WHERE id='".$post['b_id']."'";
+		$business_result = query_db($query);
+		$postings[$i]['business'] = mysql_fetch_array($business_result);
 		$image = $post['photo'];
 		if($image != "")
 		  {
@@ -109,8 +112,7 @@ function print_body()
 	$filler['post'] = "filler";
 
 echo "
-		<div class='row-fluid front-page-row'>
-			<ul class='thumbnails'>";
+		<div class='row-fluid front-page-row'>";
 
 	for($i=0; $i<=$num_posts; $i++)
 	  {
@@ -161,7 +163,7 @@ echo "
 			  }
 			print_post_row($post_row);
 		}
-	echo "		</ul>
+	echo "
 			</div>";
   }
 ?>

@@ -156,21 +156,24 @@ echo $hours.":".$minutes.$pmam.$month."/".$day."/".$year;
 
 function print_post_row($post_row)
 {
-
+	echo "
+		<ul class='thumbnails'>";
 	foreach($post_row as $post_data)
 	  {
 		$post = $post_data['post'];
+
 		$span = "span".$post_data['span'];
 		if($post != "filler")
 		  {
 		$id = $post['id'];
+		$business = $post_data['business'];
 
 		echo "
 			
-			<li class='$span'>";
+			<li class='$span front-page-button'>";
 		echo "
 			<a href='#post-$id-modal' class='thumbnail' role='button' data-toggle='modal'>
-			<div class='thumbnail front-page-button'>";
+			<div class='thumbnail'>";
 
 		if($post['photo'] != "")
 		  {
@@ -180,24 +183,19 @@ function print_post_row($post_row)
 
 		  }
 		echo "
-			<h3>".$post['title']."</h3>
+			<h3>".$post['title'];
+		$post['date'] = format_date($id);
+		if($post['date'] != "")
+		  {
+			echo " on ".$post['date'];
+		  }
+		echo "</h3>
+			<p>from ".$business['name']."</p>
 			</div>
 			</a>
-			</li>
+			</li>";
 
-			<div id='post-$id-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>x</button>
-					<h3 id='post-$id-modal-label'>".$post['title']."</h3>
-				</div>
-				<div class='modal-body'>";
-	    print_formatted_post($post);
-		echo "
-				</div>
-				<div class='modal-footer'>
-					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
-				</div>
-			</div>";
+		print_formatted_modal($post, $business);
 		  }
 		else
 		  {
@@ -206,7 +204,8 @@ function print_post_row($post_row)
 			</div>";
 		  }
 	  }
-
+	echo "
+		</ul>";
 }
 function print_new_business_form($id="0", $name="")
 {
@@ -414,6 +413,133 @@ echo "
 			</form>
 		</table>
 	</div>";
+}
+
+function print_formatted_modal($post, $business)
+{
+  $id = $post['id'];
+	echo "
+			<div id='post-$id-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>x</button>
+					<h3 id='post-$id-modal-label'>".$post['title']."</h3>
+				</div>
+				<div class='modal-body'>";
+			echo "
+	<div class='row-fluid'>
+		<div class='span7 top-left' id='post'>";
+
+			extract($post);
+
+   	$tags[1] = get_tag($tag_1); 
+   	$tags[2] = get_tag($tag_2); 
+   	$tags[3] = get_tag($tag_3);
+
+
+   	echo "
+			<div id='posting-border$id' class='posting-border'>
+				<div id='posting-title$id' class='posting-title'>
+					$title";
+	if($date != "")
+	  {
+	    echo " on $date";
+	  }
+	echo "
+				</div>
+				<div class='posting-time$id'>";
+		print_formatted_time($posting_time);
+		echo "</div>
+				<div id='posting-data$id' class='posting-data'>
+					<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>
+					
+					<div id='posting-blurb$id' class='posting-blurb'>
+						$blurb
+					
+					</div>";
+		if($url != "")
+		  {
+		    echo "
+<div id='posting-purchase$id' class='posting-purchase'>
+<a href='http://$url'><img src='images/purchase.png'></a>
+</div>";
+		  }
+echo "
+				</div>
+
+				<div class='posting-tags'>
+				<ul>
+						<li><a href='index?tag=$tag_1'>$tags[1]</a></li>
+						<li><a href='index?tag=$tag_2'>$tags[2]</a></li>
+						<li><a href='index?tag=$tag_3'>$tags[3]</a></li>
+					</ul>
+				</div>
+			</div>";
+		
+		echo "
+		</div>
+		<div class='span5 content'>";
+if($post['alt_address'] == "")
+			  {
+				$post['alt_address'] = $business['address']." ".$business['city'].", ".$business['state'].", ".$business['zip'];
+			  }
+ 
+echo "
+			<a href='http://maps.google.com/?q=$alt_address'>
+				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=325x250&markers=color:red|$alt_address&sensor=false'>
+			</a>";
+
+		echo "
+		</div>";
+			
+	
+
+		extract($business);
+		$category = get_tag($category);
+		echo "
+		<div class='span5 business-info bottom-right'>
+			<div class='row'>
+			<div class='span6'>
+			<h3>";
+		$close_link = "";
+		if($url != "")
+		{
+			echo "<a href=\"http://$url\">";
+			$close_link = "</a>";
+		}
+		if($logo != "")
+	    {
+	 		echo "<img src='images/logo/$logo' width='300px' title='$name' alt='$name'>";
+	   	}
+	   	else
+	   	{
+	   		echo $name;
+	   	}
+		echo $close_link."</h3><br>
+			<h4>(<a href='business#$category'>$category</a>)</h4><br>
+			</div>
+			<div class='span6'>
+			<address>
+			<a id=\"business-address\" href=\"http://maps.google.com/?q=$address, $city, $state $zip\">
+			$address<br>
+			$city, $state, $zip<br>
+			</a>
+			P: $number<br>
+			</address>
+			Hours:<br>";
+		$hours = explode(",", $hours);
+		foreach($hours as $line)
+		{
+			echo "
+			$line<br>";
+		}
+		echo "
+		</div></div>
+		</div></div>
+				</div>
+				<div class='modal-footer'>
+					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
+				</div>
+			</div>";
 }
 
 function print_formatted_post($post, $modal="")
