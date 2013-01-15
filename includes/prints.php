@@ -156,9 +156,7 @@ echo $hours.":".$minutes.$pmam.$month."/".$day."/".$year;
 
 function print_post_row($post_row)
 {
-  	echo "
-  		<div class='row-fluid span12 front-page-row'>
-			<ul class='thumbnails'>";
+
 	foreach($post_row as $post_data)
 	  {
 		$post = $post_data['post'];
@@ -169,10 +167,10 @@ function print_post_row($post_row)
 
 		echo "
 			
-			<li class='$span front-page-button'>";
+			<li class='$span'>";
 		echo "
 			<a href='#post-$id-modal' class='thumbnail' role='button' data-toggle='modal'>
-			<div class='thumbnail'>";
+			<div class='thumbnail front-page-button'>";
 
 		if($post['photo'] != "")
 		  {
@@ -208,9 +206,7 @@ function print_post_row($post_row)
 			</div>";
 		  }
 	  }
-		echo "
-				</ul>
-			</div>";
+
 }
 function print_new_business_form($id="0", $name="")
 {

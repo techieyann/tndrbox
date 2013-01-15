@@ -108,6 +108,10 @@ function print_body()
 	$total_spans = 0;
 	$filler['post'] = "filler";
 
+echo "
+		<div class='row-fluid front-page-row'>
+			<ul class='thumbnails'>";
+
 	for($i=0; $i<=$num_posts; $i++)
 	  {
 		if(($total_spans + $postings[$i]['span']) <= 12)
@@ -157,5 +161,7 @@ function print_body()
 			  }
 			print_post_row($post_row);
 		}
+	echo "		</ul>
+			</div>";
   }
 ?>
