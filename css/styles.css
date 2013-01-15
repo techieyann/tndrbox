@@ -73,6 +73,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 {
 	height:300px;
 	padding:auto;
+	text-align:center;
 }
 
 .front-page-button > a
@@ -99,7 +100,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 .front-page-button img
 {
-	max-height:100%;
+	max-height:50%;
 	max-width:100%;
 }
 #tndrbox-logo {

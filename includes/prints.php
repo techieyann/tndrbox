@@ -183,14 +183,14 @@ function print_post_row($post_row)
 
 		  }
 		echo "
-			<h3>".$post['title'];
+			<h4>".$post['title'];
 		$post['date'] = format_date($id);
 		if($post['date'] != "")
 		  {
 			echo " on ".$post['date'];
 		  }
-		echo "</h3>
-			<p>from ".$business['name']."</p>
+		echo "</h4>
+			<p>from <h5>".$business['name']."</h5></p>
 			</div>
 			</a>
 			</li>";
@@ -497,9 +497,7 @@ echo "
 		$category = get_tag($category);
 		echo "
 		<div class='span5 business-info bottom-right'>
-			<div class='row'>
-			<div class='span6'>
-			<h3>";
+			<h3 style='text-align:center'>";
 		$close_link = "";
 		if($url != "")
 		{
@@ -515,7 +513,16 @@ echo "
 	   		echo $name;
 	   	}
 		echo $close_link."</h3><br>
-			<h4>(<a href='business#$category'>$category</a>)</h4><br>
+			<div class='row'>
+			<div class='span6'>
+			Hours:<br>";
+		$hours = explode(",", $hours);
+		foreach($hours as $line)
+		{
+			echo "
+			$line<br>";
+		}
+		echo "
 			</div>
 			<div class='span6'>
 			<address>
@@ -525,15 +532,8 @@ echo "
 			</a>
 			P: $number<br>
 			</address>
-			Hours:<br>";
-		$hours = explode(",", $hours);
-		foreach($hours as $line)
-		{
-			echo "
-			$line<br>";
-		}
-		echo "
 		</div></div>
+		<h4 style='text-align:center'>(<a href='business#$category'>$category</a>)</h4><br>
 		</div></div>
 				</div>
 				<div class='modal-footer'>
