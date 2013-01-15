@@ -192,13 +192,13 @@ function print_post_row($post_row)
 		$tags[3] = get_tag($tag_3);
 
 		echo "
-			<h3>".$post['title'];
+			<h4>".$post['title'];
 		$post['date'] = format_date($id);
 		if($post['date'] != "")
 		  {
 			echo " on ".$post['date'];
 		  }
-		echo "</h3>
+		echo "</h4>
 			<p>
 			$tags[1] | 
 			$tags[2] | 
