@@ -156,8 +156,9 @@ echo $hours.":".$minutes.$pmam.$month."/".$day."/".$year;
 
 function print_post_row($post_row)
 {
-	echo "
-		<div class='row-fluid span12 front-page-row'>";
+  	echo "
+  		<div class='row-fluid span12 front-page-row'>
+			<ul class='thumbnails'>";
 	foreach($post_row as $post_data)
 	  {
 		$post = $post_data['post'];
@@ -167,32 +168,25 @@ function print_post_row($post_row)
 		$id = $post['id'];
 
 		echo "
-			<a href='#post-$id-modal' role='button' data-toggle='modal'>
-			<div class='$span bordered front-page-button'>";
-		$image_flag = 0;
-		$image_printed = 0;
+			
+			<li class='$span front-page-button'>";
+		echo "
+			<a href='#post-$id-modal' class='thumbnail' role='button' data-toggle='modal'>
+			<div class='thumbnail'>";
+
 		if($post['photo'] != "")
 		  {
 			$img_src = "images/posts/".$post['photo'];
-			$image_flag = 1;
-		  }
-		if($image_flag == 1 && rand(0,1) == 1)
-		  {
 			echo "
-   			<img src='$img_src' alt='photo for ".$post['title']."' class='posting-image'>";
-			$image_printed = 1;
+   			<img src='$img_src' alt='photo for ".$post['title']."'>";// class='posting-image'>";
+
 		  }
 		echo "
-			".$post['title'];
-		if($image_flag == 1 && $image_printed == 0)
-		  {
-			echo "
-   			<img class='bottom' src='$img_src' alt='photo for ".$post['title']."' class='posting-image'>";
-			$image_printed = 1;
-		  }
-		echo "
+			<h3>".$post['title']."</h3>
 			</div>
 			</a>
+			</li>
+
 			<div id='post-$id-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
 				<div class='modal-header'>
 					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>x</button>
@@ -214,8 +208,9 @@ function print_post_row($post_row)
 			</div>";
 		  }
 	  }
-	echo "
-		</div>";
+		echo "
+				</ul>
+			</div>";
 }
 function print_new_business_form($id="0", $name="")
 {

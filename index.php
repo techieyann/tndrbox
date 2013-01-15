@@ -69,9 +69,9 @@ if(isset($_GET['tag']))
 			list($width, $height) = getimagesize($image_source);
 			$span_calc = ($width/$height)*1.2;
 			$span = ceil($span_calc);
-			if($span < 2)
+			if($span < 3)
 			  {
-				$span = 2;
+				$span = 3;
 			  }
 			$postings[$i]['span'] = $span;
 		  }
@@ -157,6 +157,5 @@ function print_body()
 			  }
 			print_post_row($post_row);
 		}
-  
   }
 ?>
