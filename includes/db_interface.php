@@ -8,30 +8,39 @@ function calls to specific implementation
 database functions. Currently mysql.
  ***********************************************/
 function connect_to_db($username, $password, $database)
-{
-	$connection = mysql_connect("localhost", $username, $password) or die(mysql_error());
-        mysql_select_db($database) or die(mysql_error());
-	$GLOBALS['link'] = $connection;
-	return $connection;
-}
+  {
+	try
+	  {
+		$GLOBALS['DBH'] = new PDO("mysql:host=localhost;dbname=$database;", $username, $password);
+		$GLOBALS['DBH']->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	  
+	  }
+	catch(PDOException $e)
+	  {
+		echo $e->getMessage();
+	  }
+  }
 
 function disconnect_from_db()
-{
-	mysql_close($GLOBALS['link']) or die(mysql_error());
-}
+  {
+	$GLOBALS['DBH'] = null;
+  }
 
 function query_db($query)
-{
-	if(!$result = mysql_query($query))
-	{
-		return die(mysql_error());
-	}
-	return $result;
-}
+  {
+	try
+	  {
+		$STH = $GLOBALS['DBH']->prepare($query);
+		$STH->execute();
+		return $STH->fetchAll();
+	  }
+	catch(PDOException $e)
+	  {
+		echo $e->getMessage();
+	  }
+  }
 
-function sanitize($query)
+function get_last_insert_ID()
 {
-	$cleaned_query = mysql_real_escape_string($query);
-	return $cleaned_query;
+  return $GLOBALS['DBH']->lastInsertId();
 }
 ?>

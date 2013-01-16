@@ -24,12 +24,12 @@ function analyze_user()
 		
 		$query = "SELECT id, b_id, nickname FROM members 
 		WHERE email = '".$email."' AND s_id = '".$sid."'";
-               	$result = query_db($query);
+        
+		$result = query_db($query);
 
-        if(mysql_num_rows($result) == 1)
+        if(count($result, 1) != 0) //count recursively
 		{
-		  $member_metadata = mysql_fetch_array($result);
-		  extract($member_metadata);
+			extract($result[0]);
 			$GLOBALS['logged_in'] = true;
 			$GLOBALS['email'] = $email;
 			$GLOBALS['nickname'] = $nickname;
@@ -47,13 +47,13 @@ function verify_logged_in()
 	if($GLOBALS['logged_in'] == false)
 	{
 		header("location:/");
-		disconnect_from_db($GLOBALS['link']);
+		$GLOBALS['DBH'] = null;
 		exit;
 	}
 
 }
 
-function scrape_posts()
+function default_front_page_posts()
 {
 	$query = "SELECT * FROM postings WHERE active=1 ORDER BY posting_time LIMIT 20";
 	return query_db($query);
@@ -63,7 +63,7 @@ function push_old_post($b_id)
 {
   $query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
   $result = query_db($query);
-  $tags = mysql_fetch_array($result);
+  $tags = $result[0];
   extract($tags);
   decrement_tag($tag_1);
   decrement_tag($tag_2);
@@ -75,9 +75,14 @@ function push_old_post($b_id)
 function format_date($id)
 {
 	$query = "SELECT DATE_FORMAT(date, '%M %D, %Y') FROM postings WHERE id=$id";
-	$result = query_db($query);
-	$formatted_date = mysql_fetch_array($result);
-	return $formatted_date[0];
+	$formatted_date = query_db($query);
+	$date = $formatted_date[0][0];
+	return $date;
 }
 
+function get_categories()
+{
+	$query = "SELECT id, tag FROM tags where id<0 ORDER BY tag ASC";
+	return query_db($query);
+}
 ?>

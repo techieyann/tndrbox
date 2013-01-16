@@ -9,6 +9,7 @@ in includes.php.
  ***********************************************/
 require('includes/includes.php');
 require('includes/tags.php');
+require('includes/front_page.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
@@ -18,79 +19,74 @@ analyze_user();
 //set variables
 //body
 
-$set_tag = "Welcome";
+$title = "Welcome";
+$result = array();
+$p_flag = 0;
 
-/*if(isset($_GET['p']))
+if(isset($_GET['p']))
   {
-	$p_id = sanitize($_GET['p']);
-	$query = "SELECT b_id FROM postings WHERE id=$p_id";
+	$p_id = $_GET['p'];
+	$query = "SELECT * FROM postings WHERE id='$p_id'";
 	$result = query_db($query);
-	$business = mysql_fetch_array($result);
-	$b_id = $business['b_id'];
-	header("location:/business?b_id=$b_id");
-	exit;
+	$result['p_flag'] = 1;
+	array_push($result, default_front_page_posts());
+	$p_flag = 1;
   }
 
-$get_tag_set = false;
-
-if(isset($_GET['tag']))
-{
-	$get_tag_set = true;
-	$set_tag_id = sanitize($_GET['tag']);
-	$set_tag = get_tag($set_tag_id);
-	$query = "SELECT * FROM postings WHERE tag_1='$set_tag_id' OR tag_2='$set_tag_id' OR tag_3='$set_tag_id' LIMIT 20";
-	$result = query_db($query);
-	$i=0;
-	while($post = mysql_fetch_array($result))
-	{
-		$postings[$i++] = $post;
-	}
-	$query = "SELECT id FROM business WHERE tag_1='$set_tag_id' OR tag_2='$set_tag_id' LIMIT 20";
-   	$result = query_db($query);
-   	while($business = mysql_fetch_array($result))
-   	  {
-   		$query = "SELECT * FROM postings WHERE b_id=".$business['id'];
-		  $post_result = query_db($query);  
-		$postings[$i++] = mysql_fetch_array($post_result);
-   	  }
-		
-	  }*/
-
-	$result = scrape_posts();
-	$i=-1;
-	while($post = mysql_fetch_array($result))
+elseif(isset($_GET['tag']))
+  {
+	$set_tag_id = $_GET['tag'];
+	$title = get_tag($set_tag_id);
+	if($set_tag_id > 0)
 	  {
-		$i++;
-		$postings[$i]['post'] = $post;
-		$query = "SELECT * FROM business WHERE id='".$post['b_id']."'";
+		$query = "SELECT * FROM postings WHERE (tag_1='$set_tag_id' OR tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1 LIMIT 20";
+		$result = query_db($query);
+		$i=0;
+	  }
+	else
+	  {
+		$query = "SELECT id FROM business WHERE category=$set_tag_id AND active_post=1 LIMIT 20";
 		$business_result = query_db($query);
-		$postings[$i]['business'] = mysql_fetch_array($business_result);
-		$image = $post['photo'];
-		if($image != "")
+		$result = array();
+		foreach($business_result as $business)
 		  {
-			$image_source = "images/posts/".$image;
-			list($width, $height) = getimagesize($image_source);
-			$span_calc = ($width/$height)*1.2;
-			$span = ceil($span_calc);
-			if($span < 3)
-			  {
-				$span = 3;
-			  }
-			$postings[$i]['span'] = $span;
-		  }
-		else
-		  {
-			$postings[$i]['span'] = 2;
+			$id = $business['id'];
+			$query = "SELECT * FROM postings WHERE b_id=$id AND active=1";
+			$post_result = query_db($query);
+			array_push($result, $post_result[0]);
 		  }
 	  }
-	$num_posts = $i;
+  }
+
+else
+  {
+	$result = default_front_page_posts();
+  }
 
 
+$postings = format_rows($result);
 
 
 //head
-$GLOBALS['header_html_title'] = "tndrbox - $set_tag";
-$GLOBALS['header_scripts'] = "";
+$GLOBALS['header_html_title'] = "tndrbox - $title";
+
+if($p_flag == 1)
+  {
+		$GLOBALS['header_scripts'] = "
+<script type='text/javascript'>
+$(document).ready(function(){
+
+$('#post-$p_id-modal').modal('show');
+
+});
+</script>";
+  }
+else
+  {
+	$GLOBALS['header_scripts'] = "";
+  }
+
+$GLOBALS['categories'] = get_categories();
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
 $GLOBALS['header_selected_page'] = "landing";
@@ -104,66 +100,8 @@ disconnect_from_db();
 
 function print_body()
   {
-	global $postings, $num_posts;
-
-
-	$count = 0;
-	$total_spans = 0;
-	$filler['post'] = "filler";
-
-echo "
-		<div class='row-fluid front-page-row'>";
-
-	for($i=0; $i<=$num_posts; $i++)
-	  {
-		if(($total_spans + $postings[$i]['span']) <= 12)
-		  {
-			$total_spans += $postings[$i]['span'];
-			$usable_posts[$count++] = $postings[$i];
-		  }
-		else
-		  {
-			$spans_remaining = 12-$total_spans;
-			$j = 0;
-
-			foreach($usable_posts as $post_data)
-			  {
-				$post_row[$j++] = $post_data;
-				if($spans_remaining != 0)
-				  {
-					$filler['span'] = rand(0,$spans_remaining);
-					if($filler['span'] != 0)
-					  {
-						$spans_remaining -= $filler['span'];
-						$post_row[$j++] = $filler;
-					  }
-  				  }
-			  }	
-			
-			print_post_row($post_row);
-			$usable_posts = "";
-			$post_row = "";
-			$total_spans = 0;
-			$count = 0;			
-			$total_spans += $postings[$i]['span'];
-			$usable_posts[$count++] = $postings[$i];
-		  }
-	  }
-
-
-	if($count != 0)
-	  {
-		$spans_remaining = 12-$total_spans;
-			$j = 0;
-
-			foreach($usable_posts as $post_data)
-			  {
-				$post_row[$j++] = $post_data;
-				
-			  }
-			print_post_row($post_row);
-		}
-	echo "
-			</div>";
+	global $postings;
+	
+	print_formatted_rows($postings);
   }
 ?>

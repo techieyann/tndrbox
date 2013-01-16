@@ -17,8 +17,7 @@ function increment_tag($tag_id)
 {
 	$query = "SELECT num_ref FROM tags WHERE id='$tag_id'";
 	$result = query_db($query);
-	$res = mysql_fetch_array($result);
-	extract($res);
+	extract($result[0]);
 	if(isset($num_ref))
 	{
 		$num_ref++;
@@ -31,8 +30,7 @@ function decrement_tag($tag_id)
 {
 	$query = "SELECT num_ref FROM tags WHERE id='$tag_id'";
 	$result = query_db($query);
-	$res = mysql_fetch_array($result);
-	extract($res);
+	extract($result[0]);
 	if(isset($num_ref))
 	{
 		$num_ref--;
@@ -47,8 +45,7 @@ function get_tag($tag)
 	{
 		$query = "SELECT tag FROM tags WHERE id=$tag";
 		$result = query_db($query);
-		$res = mysql_fetch_array($result);
-		return $res['tag'];
+		return $result[0]['tag'];
 	}
 	else
 	{
@@ -74,19 +71,16 @@ function add_tag($tag)
 
 	  $query = "SELECT id FROM tags WHERE tag='$tag'";
 	  $result = query_db($query);
-	  if(mysql_num_rows($result) == 0)
+	  if(count($result, 1) == 0) //count recursively
 		{
 		$query = "INSERT INTO tags (tag, num_ref) VALUES ('$tag', 1)";
 		$result = query_db($query);
-		$query = "SELECT id FROM tags WHERE tag='$tag'";
-		$result = query_db($query);
-		$res = mysql_fetch_array($result);
-		extract($res);
+		$id = get_last_insert_ID();
 		}
 	  else
 		{
 		  $db_tag = mysql_fetch_array($result);
-		  $id = $db_tag['id'];
+		  $id = $result[0]['id'];
 		  increment_tag($id);
 		}
 		return $id;

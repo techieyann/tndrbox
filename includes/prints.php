@@ -60,7 +60,38 @@ function print_head()
 				<span class='icon-bar'></span>
 				<span class='icon-bar'></span>
 			</a>
-			<a href='index' id='tndrbox-logo' class='brand'></a>
+			<a href='index' id='tndrbox-logo' class='brand'></a>";
+   	if($GLOBALS['header_selected_page'] == "landing")
+	  {
+		echo "
+			<ul class='nav' role='navigation'>
+				<li class='dropdown'>
+					<a href='#' id='category-drop' class='dropdown-toggle' data-toggle='dropdown'>
+					Categories
+					<b class='caret'></b>
+					</a>
+					<ul class='dropdown-menu' role='menu' aria-labelledby='category-drop'>";
+		$count = 0;
+		foreach($GLOBALS['categories'] as $category)
+		  {
+			if($count++ != 0)
+			  {
+				echo "
+					<li class='divider'></li>";
+			  }
+			extract($category);
+			echo "
+					<li><a href='?tag=$id'>$tag</a></li>";
+		  }
+		echo "
+					</ul>
+				</li>
+			</ul>
+			<form class='navbar-search  pagination-centered'>
+				<input type='text' class='search-query' placeholder='Search Tags...'>
+			</form>";
+	  }
+	echo "
 		    <div class='nav-collapse collapse'>
 				<ul id='main-nav' class='nav pull-right'> 
 					<li";
@@ -192,18 +223,27 @@ function print_post_row($post_row)
 		$tags[3] = get_tag($tag_3);
 
 		echo "
-			<h4>".$post['title'];
-		$post['date'] = format_date($id);
-		if($post['date'] != "")
+			<h4>".$post['title']."</h4>";
+
+		$date = format_date($id);
+
+		if($date != "")
 		  {
-			echo " on ".$post['date'];
+			echo "
+				<p>$date</p>";
 		  }
-		echo "</h4>
-			<p>
-			$tags[1] | 
-			$tags[2] | 
-			$tags[3]
-			</p>
+		echo "
+
+					<div class='span3'>
+						$tags[1]
+					</div>
+					<div class='span3 offset1'>
+						$tags[2]  
+					</div>
+					<div class='span3 offset1'>
+						$tags[3]
+					</div>
+				
 			</div>
 			</a>
 			</li>";
@@ -242,9 +282,7 @@ function print_new_business_form($id="0", $name="")
 				<div class='controls'>
 					<select required name='category' id='category'>
 						<option selected='selected'></option>";
-	
-	$query = "SELECT id, tag FROM tags where id<0 ORDER BY tag ASC";
-	$result = query_db($query);
+	$result = get_categories();
 	while($category = mysql_fetch_array($result))
 	  {
 		$index = $category['id'];
@@ -429,135 +467,131 @@ echo "
 }
 
 function print_formatted_modal($post, $business)
-{
-  $id = $post['id'];
-	echo "
-			<div id='post-$id-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>x</button>
-					<h3 id='post-$id-modal-label'>".$post['title']."</h3>
-				</div>
-				<div class='modal-body'>";
-			echo "
-	<div class='row-fluid'>
-		<div class='span7 top-left' id='post'>";
-
-			extract($post);
+  {
+	extract($post);
 
    	$tags[1] = get_tag($tag_1); 
    	$tags[2] = get_tag($tag_2); 
    	$tags[3] = get_tag($tag_3);
 
-
-   	echo "
-			<div class='row'>
-				<div class='span4 centered'>
-					<a href='index?tag=$tag_1'>$tags[1]</a>
+	if($post['alt_address'] == "")
+      {
+		$alt_address = $business['address']." ".$business['city'].", ".$business['state'].", ".$business['zip'];
+	  }
+	
+	echo "
+			<div id='post-$id-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+						<h3 id='post-$id-modal-label'>".$post['title']."</h3>
 				</div>
-				<div class='span4 centered'>
-					<a href='index?tag=$tag_2'>$tags[2]</a>
-				</div>
-				<div class='span4 centered'>
-					<a href='index?tag=$tag_3'>$tags[3]</a>
-				</div>
-			</div>
-			<div id='posting-border$id' class='posting-border'>
-				<div id='posting-title$id' class='posting-title'>
-					$title";
+				<div class='modal-body'>
+					<div class='row span12'>
+						<div class='span7 top-left' id='post'>
+							<div class='row'>
+								<div class='span4 centered'>
+									<a href='index?tag=$tag_1'>$tags[1]</a>
+								</div>
+								<div class='span4 centered'>
+									<a href='index?tag=$tag_2'>$tags[2]</a>
+								</div>
+								<div class='span4 centered'>
+									<a href='index?tag=$tag_3'>$tags[3]</a>
+								</div>
+							</div>
+							<div id='posting-border$id' class='posting-border'>
+								<div id='posting-title$id' class='posting-title'>
+									$title";
 	if($date != "")
 	  {
 	    echo " on $date";
 	  }
 	echo "
+								</div>
+								<div class='posting-time$id'>";
+   	print_formatted_time($posting_time);
+	echo "
+								</div>
+								<div id='posting-data$id' class='posting-data'>";
+
+	if($photo != "")
+	  {
+		echo "
+									<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>";
+
+	  }
+
+	echo "					
+									<div id='posting-blurb$id' class='posting-blurb'>
+										$blurb
+									</div>";
+	if($url != "")
+	  {
+	    echo "
+									<div id='posting-purchase$id' class='posting-purchase'>
+										<a href='http://$url'><img src='images/purchase.png'></a>
+									</div>";
+	  }
+	echo "
+								</div>
+							</div>
+				 		</div>
+						<div class='span5'>
+							<div class='centered content'>
+				   			<a href='http://maps.google.com/?q=$alt_address'>
+			   				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=325x250&markers=color:red|$alt_address&sensor=false' class='rounded'>
+				   			</a>
+							</div>";
+	extract($business);
+	$category = get_tag($category);
+	echo "
+							<div class='business-info bottom-right'>
+								<h3 style='text-align:center'>";
+	$close_link = "";
+	if($url != "")
+	{
+		echo "<a href=\"http://$url\">";
+		$close_link = "</a>";
+	}
+	if($logo != "")
+    {
+ 		echo "<img src='images/logo/$logo' width='300px' title='$name' alt='$name'>";
+   	}
+   	else
+   	{
+   		echo $name;
+   	}
+	echo $close_link."</h3><br>
+							<div class='row'>
+							<div class='span6'>
+								Hours:<br>";
+	$hours = explode(",", $hours);
+	foreach($hours as $line)
+	{
+		echo "
+								$line<br>";
+	}
+	echo "
+							</div>
+							<div class='span6'>
+								<address>
+								<a id=\"business-address\" href=\"http://maps.google.com/?q=$address, $city, $state $zip\">
+								$address<br>
+								$city, $state, $zip<br>
+								</a>
+								P: $number<br>
+								</address>
+							</div>
+						</div>
+						<h4 style='text-align:center'>(<a href='business#$category'>$category</a>)</h4><br>
+						</div>
+   					</div>
 				</div>
-				<div class='posting-time$id'>";
-		print_formatted_time($posting_time);
-		echo "</div>
-				<div id='posting-data$id' class='posting-data'>
-					<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>
-					
-					<div id='posting-blurb$id' class='posting-blurb'>
-						$blurb
-					
-					</div>";
-		if($url != "")
-		  {
-		    echo "
-<div id='posting-purchase$id' class='posting-purchase'>
-<a href='http://$url'><img src='images/purchase.png'></a>
-</div>";
-		  }
-echo "
-				</div>
-
-
-			</div>";
-		
-		echo "
-		</div>
-		<div class='span5 content'>";
-if($post['alt_address'] == "")
-			  {
-				$alt_address = $business['address']." ".$business['city'].", ".$business['state'].", ".$business['zip'];
-			  }
- 
-echo "
-			<a href='http://maps.google.com/?q=$alt_address'>
-				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=325x250&markers=color:red|$alt_address&sensor=false'>
-			</a>";
-
-		echo "
-		</div>";
-			
-	
-
-		extract($business);
-		$category = get_tag($category);
-		echo "
-		<div class='span5 business-info bottom-right'>
-			<h3 style='text-align:center'>";
-		$close_link = "";
-		if($url != "")
-		{
-			echo "<a href=\"http://$url\">";
-			$close_link = "</a>";
-		}
-		if($logo != "")
-	    {
-	 		echo "<img src='images/logo/$logo' width='300px' title='$name' alt='$name'>";
-	   	}
-	   	else
-	   	{
-	   		echo $name;
-	   	}
-		echo $close_link."</h3><br>
-			<div class='row'>
-			<div class='span6'>
-			Hours:<br>";
-		$hours = explode(",", $hours);
-		foreach($hours as $line)
-		{
-			echo "
-			$line<br>";
-		}
-		echo "
+		   	</div>
+			<div class='modal-footer'>
+				<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
 			</div>
-			<div class='span6'>
-			<address>
-			<a id=\"business-address\" href=\"http://maps.google.com/?q=$address, $city, $state $zip\">
-			$address<br>
-			$city, $state, $zip<br>
-			</a>
-			P: $number<br>
-			</address>
-		</div></div>
-		<h4 style='text-align:center'>(<a href='business#$category'>$category</a>)</h4><br>
-		</div></div>
-				</div>
-				<div class='modal-footer'>
-					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
-				</div>
-			</div>";
+		</div>";
 }
 
 function print_formatted_post($post, $modal="")
