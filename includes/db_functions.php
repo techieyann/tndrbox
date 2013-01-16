@@ -85,4 +85,21 @@ function get_categories()
 	$query = "SELECT id, tag FROM tags where id<0 ORDER BY tag ASC";
 	return query_db($query);
 }
+
+function get_active_categories()
+{
+	$query = "SELECT id, tag FROM tags where id<0 ORDER BY tag ASC";
+	$categories = query_db($query);
+	$i = 0;
+	foreach($categories as $category)
+	  {
+		$id=$category['id'];
+		$query = "SELECT id FROM business WHERE category=$id AND active_post=1 LIMIT 1";
+		if(count(query_db($query), 1) != 0)
+		  {
+			$result[$i++] = $category;
+		  }
+	  }
+	return $result;
+}
 ?>

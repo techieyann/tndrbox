@@ -64,7 +64,7 @@ function print_head()
    	if($GLOBALS['header_selected_page'] == "landing")
 	  {
 		echo "
-			<ul class='nav' role='navigation'>
+			<ul class='nav main-nav' role='navigation'>
 				<li class='dropdown'>
 					<a href='#' id='category-drop' class='dropdown-toggle' data-toggle='dropdown'>
 					Categories
@@ -93,7 +93,7 @@ function print_head()
 	  }
 	echo "
 		    <div class='nav-collapse collapse'>
-				<ul id='main-nav' class='nav pull-right'> 
+				<ul class='nav main-nav pull-right'> 
 					<li";
 	if($GLOBALS['header_selected_page'] == "business")
 	{

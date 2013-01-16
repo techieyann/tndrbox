@@ -27,12 +27,22 @@ if(isset($_GET['p']))
   {
 	$p_id = $_GET['p'];
 	$query = "SELECT * FROM postings WHERE id='$p_id'";
+	$p_flag = 1;
 	$result = query_db($query);
 	$result['p_flag'] = 1;
 	array_push($result, default_front_page_posts());
-	$p_flag = 1;
   }
-
+elseif(isset($_GET['b']))
+  {
+	$b_id = $_GET['b'];
+	$query = "SELECT * FROM postings WHERE b_id=$b_id and active=1";
+	$p_flag = 1;
+	$result = query_db($query);
+	$p_id = $result[0]['id'];
+	$result['p_flag'] = 1;
+	array_push($result, default_front_page_posts());
+  }
+  
 elseif(isset($_GET['tag']))
   {
 	$set_tag_id = $_GET['tag'];
@@ -57,11 +67,12 @@ elseif(isset($_GET['tag']))
 		  }
 	  }
   }
-
 else
   {
 	$result = default_front_page_posts();
   }
+
+
 
 
 $postings = format_rows($result);
@@ -86,7 +97,7 @@ else
 	$GLOBALS['header_scripts'] = "";
   }
 
-$GLOBALS['categories'] = get_categories();
+$GLOBALS['categories'] = get_active_categories();
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
 $GLOBALS['header_selected_page'] = "landing";
