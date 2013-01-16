@@ -86,7 +86,7 @@ function print_body()
 				
 				echo "
 		<div>
-			<a href='/?b=$id' title='$name'>";
+			<a href='index?b=$id' title='$name'>";
 			if($logo == "")
 			{
 				echo "
