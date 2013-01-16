@@ -32,7 +32,7 @@ function format_rows($raw_posts)
 		$image = $post['photo'];
 		if($image != "")
 		  {
-			$image_source = $_SERVER['DOCUMENT_ROOT']."/images/posts/".$image;
+			$image_source = "images/posts/".$image;
 			list($width, $height) = getimagesize($image_source);
 			$span_calc = ($width/$height)*1.2;
 			$span = ceil($span_calc);
@@ -60,7 +60,7 @@ function format_rows($raw_posts)
 		$image = $post['photo'];
 		if($image != "")
 		  {
-			$image_source = $_SERVER['DOCUMENT_ROOT']."/images/posts/".$image;
+			$image_source = "images/posts/".$image;
 			list($width, $height) = getimagesize($image_source);
 			$span_calc = ($width/$height)*1.2;
 			$span = ceil($span_calc);
