@@ -87,8 +87,10 @@ function print_formatted_rows($postings)
 	$total_spans = 0;
 	$filler['post'] = "filler";
 
+	//	echo "
+	//	<div class='row-fluid  front-page-row'>";
 	echo "
-		<div class='row-fluid  front-page-row'>";
+		<ul class='thumbnails'>";
 
 	for($i=0; $i<$num_posts; $i++)
 	  {
@@ -139,7 +141,7 @@ function print_formatted_rows($postings)
 			  }
 			print_post_row($post_row);
 		}
-	echo "
-			</div>";
+		echo "
+				</ul>";
 }
 ?>

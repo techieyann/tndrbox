@@ -80,22 +80,23 @@ $postings = format_rows($result);
 
 //head
 $GLOBALS['header_html_title'] = "tndrbox - $title";
-
-if($p_flag == 1)
-  {
-		$GLOBALS['header_scripts'] = "
+$GLOBALS['header_scripts'] = "
+<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
+<script src='js/jquery-ui.js'></script>
 <script type='text/javascript'>
 $(document).ready(function(){
 
-$('#post-$p_id-modal').modal('show');
+$('#tag-search').autocomplete({source:'includes/tag_search.php'});";
 
+
+if($p_flag == 1)
+  {
+		$GLOBALS['header_scripts'] .= "
+$('#post-$p_id-modal').modal('show');";
+  }
+	$GLOBALS['header_scripts'] .= "
 });
 </script>";
-  }
-else
-  {
-	$GLOBALS['header_scripts'] = "";
-  }
 
 $GLOBALS['categories'] = get_active_categories();
 $GLOBALS['header_title'] = "";

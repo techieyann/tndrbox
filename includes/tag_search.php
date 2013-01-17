@@ -13,14 +13,14 @@ require('tags.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
-$search = sanitize($_GET['term']);
+$search = $_GET['term'];
 $return_str = "[";
 if(strlen($search) > 0)
   {
-	$query = "SELECT tag FROM tags WHERE tag LIKE '%$search%' ORDER BY num_ref DESC";
+	$query = "SELECT tag FROM tags WHERE tag LIKE '%$search%' AND id>0 ORDER BY num_ref DESC";
 	$result = query_db($query);
 	$result_flag = 0;
-	while($current_tag = mysql_fetch_array($result))
+	foreach($result as $current_tag)
 	  {
 		$result_flag = 1;
 		$return_str = $return_str."\"".$current_tag['tag']."\",";

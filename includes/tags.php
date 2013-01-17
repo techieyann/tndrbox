@@ -53,6 +53,20 @@ function get_tag($tag)
 	}
 }
 
+function get_tag_id($tag)
+{
+	if(is_numeric($tag))
+	{
+		return $tag;
+	}
+	else
+	{
+		$query = "SELECT id FROM tags WHERE tag='$tag'";
+		$result = query_db($query);
+		return $result[0]['id'];
+	}
+}
+
 function add_tag($tag)
 {
 	if(is_numeric($tag))

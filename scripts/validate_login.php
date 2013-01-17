@@ -13,25 +13,23 @@ login via a session id number.
 	require('../includes/includes.php');
 
 
-	$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+	connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 	
-	$email = sanitize($_POST['email']);
+	extract($_POST);
 
 	if(preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $email, $matches) == 0)
 	{
 		print($matches);
 		header("location:../login?error=email");
 	}
-
-	$password = md5(sanitize($_POST['pass']));
-
-	
+	$password = md5($pass);
 	$query = "SELECT id FROM members WHERE email = '$email' AND password = '$password'";
 	$result = query_db($query);
-	if(mysql_num_rows($result) == 1)
+
+	if(count($result,1)!=0) // recursively
 	{
-		$member = mysql_fetch_array($result);
+	    $member = $result[0];
 		$session_id = rand(100,9999);
 		$member_id = $member['id'];
 
@@ -45,7 +43,7 @@ login via a session id number.
 	}
 	else
 	{
- 		header("location:../login?error=match");
+	  header("location:../login?error=match");
 	}
-	disconnect_from_db($link);
+	disconnect_from_db();
 ?>

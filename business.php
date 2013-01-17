@@ -56,15 +56,15 @@ function print_body()
 	
 
 		echo "
-			<div class='row-fluid'>
+			<div class='row-fluid white-bg'>
 				<div class='span3 bs-docs-sidebar'>
-					<ul class='nav nav-list bs-docs-sidelist'>";
+					<ul class='nav nav-pills nav-stacked bs-docs-sidelist'>";
 		$count=0;
 		foreach($categories as $category)
 		  {
 			extract($category);
 			echo "
-						<li><a href='#$tag'>$tag</a></li>";
+						<li><h3><a href='#$tag'>$tag</a></h3></li>";
 			$count--;
 		  }
 		echo "
@@ -113,6 +113,7 @@ function print_body()
 
 	echo "	
 			</div>
+		</div>
 		</div>";
 }
 ?>

@@ -41,17 +41,6 @@ function print_head()
 
 <body>
 
-
-<div id=\"fb-root\"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = \"//connect.facebook.net/en_US/all.js#xfbml=1\";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-
 <div id='top' class='navbar navbar-inverse navbar-static-top'>
 	<div class='navbar-inner'>
 		<div class='container'>
@@ -87,8 +76,9 @@ function print_head()
 					</ul>
 				</li>
 			</ul>
-			<form class='navbar-search  pagination-centered'>
-				<input type='text' class='search-query' placeholder='Search Tags...'>
+			<form action='scripts/alpha_to_numeric_tag.php' method='get' class='navbar-search'>
+					<input type='text' id='tag-search' name='tag-search' class='search-query' placeholder='Search Tags...'>
+					<div class='icon-search'></div>
 			</form>";
 	  }
 	echo "
@@ -143,7 +133,7 @@ function print_foot()
 	   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
 	</a>
 	<br>
-	version ".$GLOBALS['version']."
+	<p class = 'white'>version ".$GLOBALS['version']."</p>
 </div>
 
 <!--Bootstrap-->
@@ -187,8 +177,7 @@ echo $hours.":".$minutes.$pmam.$month."/".$day."/".$year;
 
 function print_post_row($post_row)
 {
-	echo "
-		<ul class='thumbnails'>";
+
 	foreach($post_row as $post_data)
 	  {
 		$post = $post_data['post'];
@@ -233,17 +222,17 @@ function print_post_row($post_row)
 				<p>$date</p>";
 		  }
 		echo "
-
-					<div class='span3'>
+					<div class='row-fluid span12'>
+					<div class='span4'>
 						$tags[1]
 					</div>
-					<div class='span3 offset1'>
+					<div class='span4'>
 						$tags[2]  
 					</div>
-					<div class='span3 offset1'>
+					<div class='span4'>
 						$tags[3]
 					</div>
-				
+					</div>
 			</div>
 			</a>
 			</li>";
@@ -257,8 +246,8 @@ function print_post_row($post_row)
 			</div>";
 		  }
 	  }
-	echo "
-		</ul>";
+	//	echo "
+	//	</ul>";
 }
 function print_new_business_form($id="0", $name="")
 {
@@ -283,7 +272,7 @@ function print_new_business_form($id="0", $name="")
 					<select required name='category' id='category'>
 						<option selected='selected'></option>";
 	$result = get_categories();
-	while($category = mysql_fetch_array($result))
+	foreach($result as $category)
 	  {
 		$index = $category['id'];
 		$cat= $category['tag'];
@@ -486,7 +475,7 @@ function print_formatted_modal($post, $business)
 						<h3 id='post-$id-modal-label'>".$post['title']."</h3>
 				</div>
 				<div class='modal-body'>
-					<div class='row span12'>
+					<div class='row-fluid'>
 						<div class='span7 top-left' id='post'>
 							<div class='row'>
 								<div class='span4 centered'>
@@ -555,7 +544,7 @@ function print_formatted_modal($post, $business)
 	}
 	if($logo != "")
     {
- 		echo "<img src='images/logo/$logo' width='300px' title='$name' alt='$name'>";
+ 		echo "<img src='images/logos/$logo' title='$name' alt='$name'>";
    	}
    	else
    	{
@@ -819,9 +808,9 @@ echo "
 					</div>
 				</label>
 					<div class='controls-row'>
-					    <input type='text' name='tag1' id='tag1' placeholder='Tag 1' class='span2'>
-						<input type='text' name='tag2' id='tag2' placeholder='Tag 2' class='span2'>
-						<input type='text' name='tag3' id='tag3' placeholder='Tag 3' class='span2'>
+					    <input required type='text' name='tag1' id='tag1' placeholder='Tag 1' class='span2'>
+						<input required type='text' name='tag2' id='tag2' placeholder='Tag 2' class='span2'>
+						<input required type='text' name='tag3' id='tag3' placeholder='Tag 3' class='span2'>
 					</div>
 			</div>
 

@@ -14,7 +14,7 @@ $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();	
 
-$b_id = sanitize($_GET['id']);
+$b_id = $_GET['id'];
 
 $logo_upload_flag = false;
 
@@ -41,35 +41,24 @@ if($_FILES['logo_upload']['error'] > 0)
 				}
 			}
 
-$cat = sanitize($_POST['category']);
-$category = add_tag($cat);
-
-$name = sanitize($_POST['name']);
-$address = sanitize($_POST['address']);
-$city = sanitize($_POST['city']);
-$state = sanitize($_POST['state']);
-$zip = sanitize($_POST['zip']);
-$hours = sanitize($_POST['hours']);
-$number = sanitize($_POST['number']);
-$url = sanitize($_POST['url']);
+extract($_POST);
+$category = add_tag($_POST['category']);
 
 //need to write geocoding script to get lat/lon
 $lat = 0;
 $lon = 0;
 
-
-
 if($b_id != 0)
   {
-$query = "UPDATE business SET name='$name', category='$category', 
-       	 address='$address', city='$city',
-		state='$state', zip='$zip', lat='$lat', lon='$lon',
-		url='$url', number='$number', hours='$hours'";
-if($logo_upload_flag == true)
-{
+	$query = "UPDATE business SET name='$name', category='$category', 
+	    	 address='$address', city='$city',
+			state='$state', zip='$zip', lat='$lat', lon='$lon',
+			url='$url', number='$number', hours='$hours'";
+	if($logo_upload_flag == true)
+	{
 	$query .= ", logo='logo_$b_id.$ext'";
-}
-$query .= "
+	}
+	$query .= "
 		WHERE id='$b_id'";
   }
 else

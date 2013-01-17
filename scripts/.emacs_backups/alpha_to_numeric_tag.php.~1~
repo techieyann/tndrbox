@@ -1,0 +1,22 @@
+<?php
+/***********************************************
+file: alpha_to_numeric_tag.php
+creator: Ian McEachern
+
+ ***********************************************/
+
+require('includes.php');
+require('tags.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+if(isset($_GET['tag_search'])
+  {
+	$tag = $_GET['tag_search'];
+	$tag_id = get_tag_id($tag);
+	header("location:../?t=$tag_id");
+  }
+
+disconnect_from_db();
+
+?>
