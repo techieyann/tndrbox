@@ -132,7 +132,7 @@ $('.modal-trigger').click(function(e){
 if($p_flag == 1)
   {
 		$GLOBALS['header_scripts'] .= "
-	var url = 'partials/modal?id=".$result[0]['id']."';
+	var url = 'partials/modal?p=".$result[0]['id']."';
 
 	//hide content divs
 	$('#modal-header').hide();
