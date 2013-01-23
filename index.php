@@ -115,14 +115,18 @@ $('.modal-trigger').click(function(e){
 	
 	$('#modal-header').show();
 	$('#modal-body').show();
-	$('#modal-footer').show();	
-	history.pushState(null, null, id);
+	$('#modal-footer').show();
+	
+	var stateObj = id;	
+	history.pushState(stateObj, null, id);
 	});
 	
 
 	//prevent natural click behavior
 	e.preventDefault();
-});";
+});
+	
+";
 
 
 if($p_flag == 1)
@@ -156,6 +160,34 @@ if($p_flag == 1)
   }
 	$GLOBALS['header_scripts'] .= "
 });
+window.onpopstate = function(e){
+	var id = e.state;
+	var url = 'partials/modal' + id;
+
+	//hide content divs
+	$('#modal-header').hide();
+	$('#modal-body').hide();
+	$('#modal-footer').hide();	
+
+	//show modal
+	$('#post-modal').modal('show');
+
+	//display loading div
+	$('#modal-loading').show();
+
+	//call load
+	$('#post-modal').load(url, function(){
+		$('#modal-loading').hide();
+
+		$('.share-button').popover({
+			html:true
+		});
+	
+		$('#modal-header').show();
+		$('#modal-body').show();
+		$('#modal-footer').show();
+	});
+};
 </script>";
 
 $GLOBALS['categories'] = get_active_categories();

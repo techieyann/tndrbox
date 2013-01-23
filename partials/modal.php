@@ -1,6 +1,6 @@
 <?php
 //expects $_GET[id] to be set as id of post
-if(isset($_GET['id']))
+if(isset($_GET['p']))
   {
 	require('../includes/includes.php');
 	require('../includes/tags.php');
@@ -8,7 +8,7 @@ if(isset($_GET['id']))
 
 	connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
-	$query = "SELECT * FROM postings WHERE id=".$_GET['id'];
+	$query = "SELECT * FROM postings WHERE id=".$_GET['p'];
 	$result = query_db($query);
 	$post = $result[0];
 	extract($post);
