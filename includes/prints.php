@@ -189,7 +189,6 @@ function print_post_row($post_row)
 		if($post != "filler")
 		  {
 		$id = $post['id'];
-		$business = $post_data['business'];
 
 		echo "
 			
