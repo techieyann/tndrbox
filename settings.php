@@ -38,7 +38,6 @@ if($b_id != 0)
 	
 		$business = mysql_fetch_array($result);
 		$cantegory = get_tag($business['category']);
-
 		
 		$query = "SELECT * FROM postings WHERE a_id=$m_id";
 		$result = query_db($query);
@@ -129,14 +128,46 @@ disconnect_from_db();
 function print_body()
   {
 	global $b_id;
-	if($b_id != 0)
+	$admin = ($b_id==0 ? true : false);
+	echo "
+	<div class='row-fluid'>
+		<div class='span3'>
+			<ul class='nav nav-tabs nav-stacked content'>
+				<li>
+					<h4><a href='#'>Add Post</a></h4></li>
+				<li class='active'>
+					<h4><a href='#'>".(	$admin ? "Posts"	:"Your Posts")."</a></h4>
+				</li>";
+	if($admin)
 	  {
-
+		echo "
+				<li>
+					<h4><a href='#'>Add Business</a></h4>
+				</li>
+				<li>
+					<h4><a href'=#'>Add User</a></h4>
+				</li>
+				<li><form class='navbar-search'>
+					<input type='text' class='search-query span11' placeholder='Edit business'>
+					<div class='icon-search'></div>
+				</form></li>
+				<li><form class='navbar-search'>
+					<input type='text' class='search-query span11' placeholder='Edit user'>
+					<div class='icon-search'></div>
+				</form></li>";
 	  }
-	//Admin page
 	else
 	  {
-	
+		echo "
+				<li>
+					<h4><a href='#'>Settings</a></h4>
+				</li>";
 	  }
+	echo "
+		</div>
+		<div class='span8 content rounded'>
+			testing
+		</div><br>
+	</div>";
   }
 ?>

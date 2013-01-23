@@ -83,13 +83,16 @@ function print_head()
 	  }
 	echo "
 		    <div class='nav-collapse collapse'>
-				<ul class='nav main-nav pull-right'> 
+				<ul class='nav main-nav pull-right'>";
+	/*
 					<li";
 	if($GLOBALS['header_selected_page'] == "business")
 	{
 		echo " class='active'";
 	}
 	echo "><a href='business'>Businesses</a></li>
+	*/
+	echo "
 					<li";
 	if($GLOBALS['header_selected_page'] == "about")
 	{
@@ -192,7 +195,7 @@ function print_post_row($post_row)
 			
 			<li class='$span front-page-button'>";
 		echo "
-			<a href='#post-$id-modal' class='thumbnail' role='button' data-toggle='modal'>
+			<a href='$id' class='modal-trigger thumbnail'>
 			<div class='thumbnail'>";
 
 		if($post['photo'] != "")
@@ -236,8 +239,6 @@ function print_post_row($post_row)
 			</div>
 			</a>
 			</li>";
-
-		print_formatted_modal($post, $business);
 		  }
 		else
 		  {
@@ -246,8 +247,7 @@ function print_post_row($post_row)
 			</div>";
 		  }
 	  }
-	//	echo "
-	//	</ul>";
+
 }
 function print_new_business_form($id="0", $name="")
 {
@@ -469,10 +469,10 @@ function print_formatted_modal($post, $business)
 	  }
 	
 	echo "
-			<div id='post-$id-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
+			<div id='post-$id-modal' class='modal hide fade content' tabindex='-1' role='dialog' aria-labelledby='post-$id-modal-label' aria-hidden='true'>
 				<div class='modal-header'>
 					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-						<h3 id='post-$id-modal-label'>".$post['title']."</h3>
+						<h3 id='post-$id-modal-label'>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</h3><h4 class='muted'>".($date != "0000-00-00" ? "on $date" :"")."</h4>
 				</div>
 				<div class='modal-body'>
 					<div class='row-fluid'>
@@ -488,15 +488,9 @@ function print_formatted_modal($post, $business)
 									<a href='index?tag=$tag_3'>$tags[3]</a>
 								</div>
 							</div>
-							<div id='posting-border$id' class='posting-border'>
-								<div id='posting-title$id' class='posting-title'>
-									$title";
-	if($date != "")
-	  {
-	    echo " on $date";
-	  }
+							<div id='posting-border$id' class='posting-border'>";
+
 	echo "
-								</div>
 								<div class='posting-time$id'>";
    	print_formatted_time($posting_time);
 	echo "
@@ -512,15 +506,8 @@ function print_formatted_modal($post, $business)
 
 	echo "					
 									<div id='posting-blurb$id' class='posting-blurb'>
-										$blurb
+										<p>$blurb</p>
 									</div>";
-	if($url != "")
-	  {
-	    echo "
-									<div id='posting-purchase$id' class='posting-purchase'>
-										<a href='http://$url'><img src='images/purchase.png'></a>
-									</div>";
-	  }
 	echo "
 								</div>
 							</div>
@@ -578,7 +565,25 @@ function print_formatted_modal($post, $business)
 				</div>
 		   	</div>
 			<div class='modal-footer'>
+				<div class='row-fluid span12'>
+				<div class='span2'>
+				<button class='share-button btn btn-info pull-left' title='Select your method:' data-content=\"
+<a href='https://twitter.com/share' class='twitter-share-button' data-lang='en'>Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>
+<iframe src='//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftndrbox.com&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;font=arial&amp;colorscheme=light&amp;action=recommend&amp;height=21' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:450px; height:21px;' allowTransparency='true'></iframe>
+\"
+				>Share</button>
+				</div>
+				<ul class='pager span2 offset2'>
+						<li><a href='#'>&larr; Previous</a></li>						
+					</ul>
+					<ul class='pager span2'>
+		  					<li><a href='#'>Next &rarr;</a></li>
+					</ul>
+				<div class='span2 offset2'>
 				<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
+				</div>
+				</div>
 			</div>
 		</div>";
 }

@@ -16,9 +16,38 @@ analyze_user();
 
 $b_id = $_GET['id'];
 
-$logo_upload_flag = false;
+extract($_POST);
+$category = add_tag($_POST['category']);
 
-if($_FILES['logo_upload']['error'] > 0)
+//need to write geocoding script to get lat/lon
+$lat = 0;
+$lon = 0;
+
+if($b_id != 0)
+  {
+	$query = "UPDATE business SET name='$name', category='$category', 
+	    	 address='$address', city='$city',
+			state='$state', zip='$zip', lat='$lat', lon='$lon',
+			url='$url', number='$number', hours='$hours'
+			WHERE id='$b_id'";
+  }
+else
+  {
+	$query = "INSERT INTO business (name, category, address, city, 
+									state, zip, lat, lon, url, 
+									number, hours)
+									VALUES
+								   ('$name', '$category', '$address', '$city',
+									'$state', '$zip', '$lat',' $lon', '$url',
+									'$number', '$hours')";
+	$b_id = get_last_insert_ID();
+  }
+$result = query_db($query);
+
+
+if($result)
+  {
+	if($_FILES['logo_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['logo_upload']['error'];
                 header("location:../settings");
@@ -35,57 +64,14 @@ if($_FILES['logo_upload']['error'] > 0)
 									
 						if(move_uploaded_file($tmp_name, "../images/logos/logo_$b_id.$ext"))
 						{
-							$logo_upload_flag = true;
+							$query = "UPDATE business SET
+					         	       logo='img_$b_id.$ext'
+						       	       WHERE id='$b_id'";
+					  	    query_db($query);
 						}
 					}
 				}
 			}
-
-extract($_POST);
-$category = add_tag($_POST['category']);
-
-//need to write geocoding script to get lat/lon
-$lat = 0;
-$lon = 0;
-
-if($b_id != 0)
-  {
-	$query = "UPDATE business SET name='$name', category='$category', 
-	    	 address='$address', city='$city',
-			state='$state', zip='$zip', lat='$lat', lon='$lon',
-			url='$url', number='$number', hours='$hours'";
-	if($logo_upload_flag == true)
-	{
-	$query .= ", logo='logo_$b_id.$ext'";
-	}
-	$query .= "
-		WHERE id='$b_id'";
-  }
-else
-  {
-	$query = "INSERT INTO business (name, category, address, city, 
-									state, zip, lat, lon, url, 
-									number, hours";
-	if($logo_upload_flag == true)
-	  {
-		$query .= ", logo";
-	  }
-	$query .= ")
-									VALUES
-								   ('$name', '$category', '$address', '$city',
-									'$state', '$zip', '$lat',' $lon', '$url',
-									'$number', '$hours'";
-	if($logo_upload_flag == true)
-	  {
-		$query .= ", 'logo_$b_id.$ext'";
-	  }
-	$query .= ")";
-  }
-$result = query_db($query);
-
-
-if($result)
-  {
 	header("location:../settings");
   }
 else

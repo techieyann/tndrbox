@@ -25,9 +25,6 @@ function format_rows($raw_posts)
 		$post = $raw_posts[0];
 		$processed_id = $post['id'];
 		$formatted_postings[$i]['post'] = $post;
-		$query = "SELECT * FROM business WHERE id='".$post['b_id']."'";
-		$result = query_db($query);
-		$formatted_postings[$i]['business'] = $result[0];
 			
 		$image = $post['photo'];
 		if($image != "")
@@ -54,9 +51,6 @@ function format_rows($raw_posts)
 		  {
 		$i++;
 		$formatted_postings[$i]['post'] = $post;
-		$query = "SELECT * FROM business WHERE id='".$post['b_id']."'";
-		$result = query_db($query);
-		$formatted_postings[$i]['business'] = $result[0];
 		$image = $post['photo'];
 		if($image != "")
 		  {
@@ -87,8 +81,6 @@ function print_formatted_rows($postings)
 	$total_spans = 0;
 	$filler['post'] = "filler";
 
-	//	echo "
-	//	<div class='row-fluid  front-page-row'>";
 	echo "
 		<ul class='thumbnails'>";
 

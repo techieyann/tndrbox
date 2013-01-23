@@ -58,6 +58,23 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 {
 	max-height:300px;
 }
+
+#posting-image
+{
+	max-height:70%;
+	padding-bottom: 20px;
+}
+
+#posting-blurb
+{
+	padding:20px;
+}
+
+.inverted
+{
+	color:white;
+}
+
 }
 .navbar-search {
     position: relative;
@@ -193,8 +210,8 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 .content
 {
-	margin:20px;
-
+	background:#eee;
+	padding:10px;
 }
 
 .rounded
