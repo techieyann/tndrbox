@@ -38,7 +38,10 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 }
 
 /* header styles */
-
+.modal-body
+{
+	max-height:600px;
+}
 @media (min-width: 1200px) { 
 .modal{
     width: 960px;
@@ -58,7 +61,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 {
 	max-height:300px;
 }
-
+}
 #posting-image
 {
 	max-height:70%;
@@ -67,9 +70,13 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 #posting-blurb
 {
-	padding:20px;
+	padding-left:20px;
+	padding-right:20px;
 }
-
+#posting-time
+{
+	padding-bottom:10px;
+}
 .inverted
 {
 	color:white;
@@ -90,10 +97,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
     left: 11px;
     background-image: url("http://twitter.github.com/bootstrap/assets/img/glyphicons-halflings.png");
 }
-.modal-body
-{
-	max-height:600px;
-}
+
 
 .front-page-row
 {

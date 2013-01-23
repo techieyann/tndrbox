@@ -91,7 +91,8 @@ $('#tag-search').autocomplete({source:'includes/tag_search.php'});
 
 $('.modal-trigger').click(function(e){
 
-	var url = 'partials/modal?id=' + $(this).attr('href');
+	var id = $(this).attr('href');
+	var url = 'partials/modal' + id;
 
 	//hide content divs
 	$('#modal-header').hide();
@@ -115,6 +116,7 @@ $('.modal-trigger').click(function(e){
 	$('#modal-header').show();
 	$('#modal-body').show();
 	$('#modal-footer').show();	
+	history.pushState(null, null, id);
 	});
 	
 

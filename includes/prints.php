@@ -194,7 +194,7 @@ function print_post_row($post_row)
 			
 			<li class='$span front-page-button'>";
 		echo "
-			<a href='$id' class='modal-trigger thumbnail'>
+			<a href='?id=$id' class='modal-trigger thumbnail'>
 			<div class='thumbnail'>";
 
 		if($post['photo'] != "")
