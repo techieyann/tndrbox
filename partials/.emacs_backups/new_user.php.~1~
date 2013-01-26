@@ -1,0 +1,20 @@
+<?php
+/***********************************************
+file: partials/new_user.php
+creator: Ian McEachern
+
+This partial displays the new user form
+ ***********************************************/
+
+require('includes/includes.php');
+require('includes/tags.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+analyze_user();
+verify_logged_in();
+
+
+
+disconnect_from_db();
+?>

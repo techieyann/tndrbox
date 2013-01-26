@@ -1,0 +1,44 @@
+<?php
+/***********************************************
+file: partials/posts.php
+creator: Ian McEachern
+
+This partial displays the posts authored by the
+user
+ ***********************************************/
+
+require('../includes/includes.php');
+require('../includes/tags.php');
+require('../includes/prints.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+analyze_user();
+verify_logged_in();
+
+$m_id = $GLOBALS['m_id'];
+$query = "SELECT id, title FROM postings WHERE a_id=$m_id AND active=1";
+$active_posts = query_db($query);
+
+$query = "SELECT id, title FROM postings WHERE a_id=$m_id AND active=0";
+$old_posts = query_db($query);
+echo "
+			<div id='js-content'>";
+
+foreach($active_posts as $active_post)
+  {
+	echo "
+			<div class='modal white-bg' style='position:relative; top:auto; left:auto; right:auto; margin:0; max-width:100%;'>";
+	print_modal($active_post['id']);
+	echo "
+			</div>";
+  }
+foreach($old_posts as $old_post)
+  {
+	echo "ing..";
+  }
+echo "
+			</div>";
+
+disconnect_from_db();
+?>

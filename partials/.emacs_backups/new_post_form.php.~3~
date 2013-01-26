@@ -1,0 +1,121 @@
+<?php
+/***********************************************
+file: partials/new_post_form.php
+creator: Ian McEachern
+
+This partial displays the new post form 
+ ***********************************************/
+
+require('../includes/includes.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+analyze_user();
+verify_logged_in();
+
+$new_post_args = "";
+  $business_select_box = "";
+if(check_admin())
+	{
+	  $new_post_args = "?admin=1";
+	  $business_select_box = "
+			<div class='control-group'>
+				<label class='control-label' for='business'>
+					Business *
+				</label>
+				<div class='controls'>
+					<select required name='business' id='business'>
+						<option selected='selected'></option>";
+	  $query = "SELECT id, name FROM business";
+	  $result = query_db($query);
+	  foreach($result as $business)
+		{
+		  extract($business);
+		  $business_select_box .= "
+						<option value='$id'>$name</option>";
+        }
+	
+	  $business_select_box .= "
+					</select>
+				</div>
+			</div>";
+	}
+
+echo "
+		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post.php".$new_post_args."' method='post'>
+			<fieldset>".$business_select_box."
+			<div class='control-group'>
+				<label class='control-label' for='title'>
+					Title *
+				</label>
+				<div class='controls'>
+					<input type='text' maxlength=50 name='title' id='title' placeholder='Insert title here...' class='input-xlarge'>
+					<span class='error help-inline' id='title-error'>
+						This field is required.	
+					</span>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='date'>Date</label>
+				<div class='controls'>
+					<input type='text' name='date' id='date' placeholder='Click to add date...' class='input-medium'>
+				</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='address'>Address</label>
+					<div class='controls'>
+						<input type='text' maxlength=250 name='address' id='address' placeholder='Insert address of event here...' class='input-xlarge'>
+					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='url'>Purchase URL</label>
+					<div class='controls'>
+					    <input type='text' maxlength=250 name='url' id='url' placeholder='Do not include \"http://\"' class='input-large'>
+					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='description'>
+					Description * 
+					<div class='error' id='desc_error'>
+						This field is required.
+					</div>
+				</label>
+					<div class='controls'>
+					    <textarea name='description' rows=5 maxlength=255 placeholder='Write a description here in less than 250 characters' class='input-xlarge'></textarea>
+					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='tag1'>
+					Tags * 
+					<div class='error' id='tag_error'>
+						This field is required.
+					</div>
+				</label>
+					<div class='controls-row'>
+					    <input required type='text' name='tag1' id='tag1' placeholder='Tag 1' class='span2'>
+						<input required type='text' name='tag2' id='tag2' placeholder='Tag 2' class='span2'>
+						<input required type='text' name='tag3' id='tag3' placeholder='Tag 3' class='span2'>
+					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='image_upload'>Image</label>
+					<div class='controls'>
+						<input type='file' name='image_upload' id='image_upload' class='input-xlarge'>
+					</div>
+			</div>
+
+			<div class='form-actions'>				
+				<button type='button' class='btn' id='add-cancel-button'>Cancel</button>
+				<button type='submit' class='btn btn-primary' id='add-submit'>Submit</button>
+			</div>
+			</fieldset>
+			</form>";
+
+disconnect_from_db();
+?>

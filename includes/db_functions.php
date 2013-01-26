@@ -22,20 +22,20 @@ function analyze_user()
 		$email = $session[0];
 
 		
-		$query = "SELECT id, b_id, nickname FROM members 
-		WHERE email = '".$email."' AND s_id = '".$sid."'";
+		$query = "SELECT id, nickname, b_id, s_id FROM members WHERE email = '".$email."'";
         
 		$result = query_db($query);
-
-        if(count($result, 1) != 0) //count recursively
-		{
+			
+		if(md5($result[0]['s_id']) == $sid)
+		  {
 			extract($result[0]);
+
 			$GLOBALS['logged_in'] = true;
 			$GLOBALS['email'] = $email;
 			$GLOBALS['nickname'] = $nickname;
 			$GLOBALS['m_id'] = $id;
 			$GLOBALS['b_id'] = $b_id;
-		}
+		  }
 	}
 
 	//check metadata cookie
@@ -53,24 +53,39 @@ function verify_logged_in()
 
 }
 
+function check_admin()
+{
+  if($GLOBALS['b_id'] == 0)
+	{
+	  return true;
+	}
+  else
+	{
+	  return false;
+	} 
+}
+
 function default_front_page_posts()
 {
-	$query = "SELECT * FROM postings WHERE active=1 ORDER BY posting_time LIMIT 20";
+	$query = "SELECT * FROM postings WHERE active=1 ORDER BY posting_time";
 	return query_db($query);
 }
 
 function push_old_post($b_id)
-{
-  $query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
-  $result = query_db($query);
-  $tags = $result[0];
-  extract($tags);
-  decrement_tag($tag_1);
-  decrement_tag($tag_2);
-  decrement_tag($tag_3);	
-  $query = "UPDATE postings SET active=0 WHERE b_id=$b_id AND active=1";
-  query_db($query);
-}
+  {
+    $query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
+	$result = query_db($query);
+	if(count($result, 1) != 0)
+	  {
+  		$tags = $result[0];
+		extract($tags);
+		decrement_tag($tag_1);
+		decrement_tag($tag_2);
+		decrement_tag($tag_3);	
+		$query = "UPDATE postings SET active=0 WHERE b_id=$b_id AND active=1";
+		query_db($query);
+	  }
+  }
 
 function format_date($id)
 {

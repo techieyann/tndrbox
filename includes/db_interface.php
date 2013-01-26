@@ -27,11 +27,20 @@ function disconnect_from_db()
 
 function query_db($query)
   {
+	list($query_type) = explode(' ', trim($query));
 	try
 	  {
 		$STH = $GLOBALS['DBH']->prepare($query);
-		$STH->execute();
-		return $STH->fetchAll();
+		switch($query_type)
+		  {
+		  case 'UPDATE':
+		  case 'INSERT':
+			return $STH->execute();	
+			break;
+		  default:
+			$STH->execute();
+			return $STH->fetchAll();			
+		  }
 	  }
 	catch(PDOException $e)
 	  {

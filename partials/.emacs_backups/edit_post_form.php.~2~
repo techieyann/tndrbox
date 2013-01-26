@@ -1,0 +1,25 @@
+<?php
+/***********************************************
+file: partials/edit_post_form.php
+creator: Ian McEachern
+
+This partial displays the edit form for the 
+indicated post 
+ ***********************************************/
+
+require('../includes/includes.php');
+require('../includes/tags.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+analyze_user();
+verify_logged_in();
+
+//get post data
+
+//check authorship of the post
+
+//write prepopulated form
+
+disconnect_from_db();
+?>

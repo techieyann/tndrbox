@@ -1,0 +1,21 @@
+<?php
+/***********************************************
+file: partials/edit_business.php
+creator: Ian McEachern
+
+This partial displays the edit form for the 
+indicated business 
+ ***********************************************/
+
+require('includes/includes.php');
+require('includes/tags.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+analyze_user();
+verify_logged_in();
+
+
+
+disconnect_from_db();
+?>

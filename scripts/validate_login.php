@@ -36,7 +36,7 @@ login via a session id number.
 		$query = "UPDATE members SET s_id='$session_id' WHERE id = '$member_id'";
 		$result = query_db($query);
 		
-		$cookie_val = $email.",".$session_id;
+		$cookie_val = $email.",".md5($session_id);
 
 		setcookie("login", $cookie_val, time()+(3600*8), "/");
    		header("location:../settings");

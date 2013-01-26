@@ -15,14 +15,14 @@ function.
 
 function increment_tag($tag_id)
 {
-	$query = "SELECT num_ref FROM tags WHERE id='$tag_id'";
+	$query = "SELECT num_ref FROM tags WHERE id=$tag_id";
 	$result = query_db($query);
-	extract($result[0]);
+	$num_ref = $result[0]['num_ref'];
 	if(isset($num_ref))
 	{
 		$num_ref++;
 		$query = "UPDATE tags SET num_ref=$num_ref WHERE id=$tag_id";
-		$result = query_db($query);
+		query_db($query);
 	}
 }
 
@@ -35,7 +35,7 @@ function decrement_tag($tag_id)
 	{
 		$num_ref--;
 		$query = "UPDATE tags SET num_ref=$num_ref WHERE id=$tag_id";
-		$result = query_db($query);
+		query_db($query);
 	} 
 }
 
@@ -68,7 +68,7 @@ function get_tag_id($tag)
 }
 
 function add_tag($tag)
-{
+  {
 	if(is_numeric($tag))
 	{
 		increment_tag($tag);
@@ -82,24 +82,22 @@ function add_tag($tag)
 		}
 	  else
 		{
-
-	  $query = "SELECT id FROM tags WHERE tag='$tag'";
-	  $result = query_db($query);
-	  if(count($result, 1) == 0) //count recursively
-		{
-		$query = "INSERT INTO tags (tag, num_ref) VALUES ('$tag', 1)";
-		$result = query_db($query);
-		$id = get_last_insert_ID();
+		  $query = "SELECT id FROM tags WHERE tag='$tag'";
+		  $result = query_db($query);
+		  if(count($result, 1) == 0) //count recursively
+			{
+			  $query = "INSERT INTO tags (tag, num_ref) VALUES ('$tag', 1)";
+			  $result = query_db($query);
+			  $id = get_last_insert_ID();
+		    }
+		  else
+			{
+			  $id = $result[0]['id'];
+			  increment_tag($id);
+			}
+		  return $id;
 		}
-	  else
-		{
-		  $db_tag = mysql_fetch_array($result);
-		  $id = $result[0]['id'];
-		  increment_tag($id);
-		}
-		return $id;
-		}
-	}
-}
+	 }
+  }
 
 ?>

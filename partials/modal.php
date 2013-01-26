@@ -4,15 +4,29 @@ if(isset($_GET['p']))
   {
 	require('../includes/includes.php');
 	require('../includes/tags.php');
-	require('../includes/prints.php');
 
 	connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+	analyze_user();
+
+	require('prints.php');
 
 	$query = "SELECT * FROM postings WHERE id=".$_GET['p'];
 	$result = query_db($query);
 	$post = $result[0];
 	extract($post);
 
+if($id == null)
+  {
+	echo "
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<h4 class='error'>Error: couldn't find post...</h4>
+				</div>";
+  }
+else
+  {
+	$query = "UPDATE postings SET viewed = viewed + 1 WHERE id=$id";
+	query_db($query);
 	$query = "SELECT * FROM business WHERE id=$b_id";
 	$result = query_db($query);
 	$business = $result[0];
@@ -31,6 +45,7 @@ if(isset($_GET['p']))
 			
 				<div class='modal-header'>
 					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					".(check_admin() ? "<a class='pull-right' href='edit?id=$id'>edit</a>":"")."
 
 						<h3 id='post-modal-label'><strong>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</strong>".($date != "" ? " <i>on $date</i>" :"")."</h3>
 				</div>
@@ -137,6 +152,17 @@ Select your method:
 
 				<button class='btn pull-right' data-dismiss='modal' aria-hidden='true'>Close</button>
 			</div>";
-	disconnect_from_db();
   }
+		disconnect_from_db();
+  }
+else
+  {
+		echo "
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<h4 class='error'>Error: no ID specified...</h4>
+				</div>";
+  }
+
+
 ?>

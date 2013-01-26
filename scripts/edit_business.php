@@ -15,7 +15,10 @@ $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 verify_logged_in();	
 
-$b_id = sanitize($_GET['id']);
+if(check_admin() && isset($_GET['id']))
+  {
+	$b_id = $_GET['id'];
+  }
 
 $logo_upload_flag = false;
 
@@ -30,7 +33,7 @@ if($_FILES['logo_upload']['error'] > 0)
 				if(strcmp("image", substr($type,0,5)) == 0)
 				{
 					
-					if($size < (60*1024))
+					if($size < (2*1024*1024))
 					{
 					  $ext = substr($type,6);
 									
@@ -42,66 +45,33 @@ if($_FILES['logo_upload']['error'] > 0)
 				}
 			}
 
-$query = "SELECT tag_1, tag_2 FROM business WHERE id='$b_id'";
+$query = "SELECT category FROM business WHERE id='$b_id'";
 $result = query_db($query);
-$tag_ids = mysql_fetch_array($result);
-$old_tag1_id = $tag_ids['tag_1'];
-$old_tag2_id = $tag_ids['tag_2'];
+$old_category_id = $result[0];
 
-$name = sanitize($_POST['name']);
+extract($_POST);
 
-$new_tag1 = sanitize($_POST['tag_1']);
-$new_tag2 = sanitize($_POST['tag_2']);
-
-$old_tag1 = get_tag($old_tag1_id);
-if(strcmp($new_tag1, $old_tag1) == 0)
+$old_category = get_tag($old_category_id);
+if(strcmp($category, $old_category) == 0)
 {
-	$new_tag1_id = $old_tag1_id;
+	$new_category = $old_category_id;
 }
 else
 {
-	$new_tag1_id = add_tag($new_tag1);
-	decrement_tag($old_tag1_id);
+	$new_category = add_tag($category);
+	decrement_tag($old_category_id);
 }
-
-$old_tag2 = get_tag($old_tag2_id);
-if(strcmp($new_tag2, $old_tag2) == 0)
-{
-	$new_tag2_id = $old_tag2_id;
-}
-else
-{
-	$new_tag2_id = add_tag($new_tag2);
-	decrement_tag($old_tag2_id);
-}
-
-	$address = sanitize($_POST['address']);
-	$city = sanitize($_POST['city']);
-	$state = sanitize($_POST['state']);
-	$zip = sanitize($_POST['zip']);
-	$hours = sanitize($_POST['hours']);
-	$number = sanitize($_POST['number']);
-	$url = sanitize($_POST['url']);
 
 	//need to write geocoding script to get lat/lon
 	$lat = 0;
 	$lon = 0;
 
 
-
-
-
-
 $query = "UPDATE business SET name='$name', tag_1='$new_tag1_id', 
        	 tag_2='$new_tag2_id', address='$address', city='$city',
 		state='$state', zip='$zip', lat='$lat', lon='$lon',
-		url='$url', number='$number', hours='$hours'";
-
-if($logo_upload_flag == true)
-{
-	$query = $query.", logo='logo_$b_id.$ext'";
-}
-$query = $query."
+		url='$url', number='$number', hours='$hours'
+		".($logo_upload_flag ? ", logo='logo_$b_id.$ext'":"")."
 		WHERE id='$b_id'";
 $result = query_db($query);
 
@@ -111,7 +81,7 @@ if($result)
   }
 else
   {
-	header("location:../edit-business?id=$b_id");
+	header("location:../edit-business".(check_admin() ? "?id=$b_id":""));
   }
 
 disconnect_from_db($link);

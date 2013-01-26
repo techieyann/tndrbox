@@ -14,8 +14,6 @@ $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();	
 
-$b_id = $_GET['id'];
-
 extract($_POST);
 $category = add_tag($_POST['category']);
 
@@ -23,16 +21,7 @@ $category = add_tag($_POST['category']);
 $lat = 0;
 $lon = 0;
 
-if($b_id != 0)
-  {
-	$query = "UPDATE business SET name='$name', category='$category', 
-	    	 address='$address', city='$city',
-			state='$state', zip='$zip', lat='$lat', lon='$lon',
-			url='$url', number='$number', hours='$hours'
-			WHERE id='$b_id'";
-  }
-else
-  {
+
 	$query = "INSERT INTO business (name, category, address, city, 
 									state, zip, lat, lon, url, 
 									number, hours)
@@ -41,7 +30,7 @@ else
 									'$state', '$zip', '$lat',' $lon', '$url',
 									'$number', '$hours')";
 	$b_id = get_last_insert_ID();
-  }
+
 $result = query_db($query);
 
 
@@ -58,7 +47,7 @@ if($result)
 				if(strcmp("image", substr($type,0,5)) == 0)
 				{
 					
-					if($size < (60*1024))
+					if($size < (2*1024*1024))
 					{
 					  $ext = substr($type,6);
 									
@@ -72,11 +61,11 @@ if($result)
 					}
 				}
 			}
-	header("location:../settings");
+	header("location:../settings?view=new_post");
   }
 else
   {
-header("location:../");	
+	header("location:../settings?view=edit_business?id=$b_id");	
   }
 
 disconnect_from_db($link);

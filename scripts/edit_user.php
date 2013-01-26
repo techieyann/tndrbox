@@ -13,25 +13,49 @@ require('../includes/includes.php');
 //connect to the database
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
-//sanity check the passwords
-$pass1 = sanitize($_POST['pass1']);
-$pass2 = sanitize($_POST['pass2']);	
+analyze_user();
 
-if(strcmp($pass1,$pass2) != 0 || $pass1 =="")
+if(check_admin())
+  {
+	$id = $_GET['id'];
+  }
+else
+  {
+	$id = $GLOBALS['m_id'];
+  }
+
+extract($_POST);
+
+if(strcmp($pass1,$pass2) != 0)
 {
-	header("location:../settings?error=password");
+	header("location:../settings?view=edit_profile");
 	disconnect_from_db($link);
 	exit;
 }	
 	
 //hash the password
 $md5_pass = md5($pass1);
+$nick_flag = false;
+$pass_flag = false;
+if(isset($nickname) && $nickname != "")
+  {
+	$nick_flag = true;
+  }
+if(isset($nickname) && $pass1 != "")
+  {
+	$pass_flag = true;
+  }
 
 //update user information
-$query = "UPDATE members SET password='$md5_pass' WHERE id='$user_id'";
+$query = "UPDATE members SET ".
+  (check_admin() ? "email='$email', ":"").
+  "nickname='$nickname'".
+  ($pass_flag ? ", password='$md5_pass'": "").
+  " WHERE id=$id";
+
 query_db($query);
 
-header("location:../settings");	
+header("location:../settings?view=edit_profile");	
 
 disconnect_from_db($link);
 

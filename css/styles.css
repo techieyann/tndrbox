@@ -77,6 +77,16 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 {
 	padding-bottom:10px;
 }
+
+form
+{
+	margin-bottom:0px;
+}
+.form-actions
+{
+	margin-bottom:0px;
+}
+
 .inverted
 {
 	color:white;

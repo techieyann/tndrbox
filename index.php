@@ -49,13 +49,13 @@ elseif(isset($_GET['tag']))
 	$title = get_tag($set_tag_id);
 	if($set_tag_id > 0)
 	  {
-		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_1='$set_tag_id' OR tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1 LIMIT 20";
+		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_1='$set_tag_id' OR tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1";
 		$result = query_db($query);
 		$i=0;
 	  }
 	else
 	  {
-		$query = "SELECT id FROM business WHERE category=$set_tag_id AND active_post=1 LIMIT 20";
+		$query = "SELECT id FROM business WHERE category=$set_tag_id AND active_post=1 ORDER BY last_touched DESC";
 		$business_result = query_db($query);
 		$result = array();
 		foreach($business_result as $business)
@@ -83,55 +83,13 @@ $GLOBALS['header_html_title'] = "tndrbox - $title";
 $GLOBALS['header_scripts'] = "
 <link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
 <script src='js/jquery-ui.js'></script>
-<script type='text/javascript'>
-$(document).ready(function(){
-
-$('#tag-search').autocomplete({source:'includes/tag_search.php'});
-
-
-$('.modal-trigger').click(function(e){
-
-	var id = $(this).attr('href');
-	var url = 'partials/modal' + id;
-
-	//hide content divs
-	$('#modal-header').hide();
-	$('#modal-body').hide();
-	$('#modal-footer').hide();	
-
-	//show modal
-	$('#post-modal').modal('show');
-
-	//display loading div
-	$('#modal-loading').show();
-
-	//call load
-	$('#post-modal').load(url, function(){
-	$('#modal-loading').hide();
-
-	$('.share-button').popover({
-		html:true
-	});
-	
-	$('#modal-header').show();
-	$('#modal-body').show();
-	$('#modal-footer').show();
-	
-	var stateObj = id;	
-	history.pushState(stateObj, null, id);
-	});
-	
-
-	//prevent natural click behavior
-	e.preventDefault();
-});
-	
-";
-
+<script src='js/index.js'></script>";
 
 if($p_flag == 1)
   {
 		$GLOBALS['header_scripts'] .= "
+<script type='text/javascript'> 
+$(document).ready(function(){
 	var url = 'partials/modal?p=".$result[0]['id']."';
 
 	//hide content divs
@@ -156,41 +114,11 @@ if($p_flag == 1)
 	$('#modal-header').show();
 	$('#modal-body').show();
 	$('#modal-footer').show();	
-	});";
-  }
-	$GLOBALS['header_scripts'] .= "
-});
-window.onpopstate = function(e){
-	var id = e.state;
-	var url = 'partials/modal' + id;
-
-	//hide content divs
-	$('#modal-header').hide();
-	$('#modal-body').hide();
-	$('#modal-footer').hide();	
-
-	//show modal
-	$('#post-modal').modal('show');
-
-	//display loading div
-	$('#modal-loading').show();
-
-	//call load
-	$('#post-modal').load(url, function(){
-		$('#modal-loading').hide();
-
-		$('.share-button').popover({
-			html:true
-		});
-	
-		$('#modal-header').show();
-		$('#modal-body').show();
-		$('#modal-footer').show();
 	});
-};
+});
 </script>";
+  }
 
-$GLOBALS['categories'] = get_active_categories();
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
 $GLOBALS['header_selected_page'] = "landing";
@@ -206,7 +134,7 @@ function print_body()
   {
 	global $postings;
 	echo "
-	<div id='post-modal' class='modal hide fade content' tabindex='-1' role='dialog' aria-hidden='true'>
+	<div id='post-modal' class='modal hide fade white-bg' tabindex='-1' role='dialog' aria-hidden='true'>
 		<div id='modal-loading' class='centered'>
 			<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
 		</div>

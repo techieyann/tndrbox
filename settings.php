@@ -19,95 +19,27 @@ analyze_user();
 verify_logged_in();
 
 //Body
-//Attempt to get data from the user's (1) business and the postings, (2) old and (3) new. Indicate with boolean flag.
 
-//(1) Retrieve business data
-$business_flag = 0;
-$b_id = $GLOBALS['b_id'];
-$m_id = $GLOBALS['m_id'];
 
-if($b_id != 0)
-  {
-	$query = "SELECT * FROM business where id=$b_id";
-	$result = query_db($query);
-
-	//Check if the business was found
-	if(mysql_num_rows($result)==1)
-	  {
-		$business_flag = 1;
-	
-		$business = mysql_fetch_array($result);
-		$cantegory = get_tag($business['category']);
-		
-		$query = "SELECT * FROM postings WHERE a_id=$m_id";
-		$result = query_db($query);
-		
-		$active_post_flag = false;
-		$old_posting_flag = false;
-		$i = 0;
-		while($post = mysql_fetch_array($result))
-		{
-			if($post['active'])
-			{
-				$post_flag = true;
-				$posting = $post;
-			}
-			else
-			{
-				$old_postings[$i++] = $post;
-			}
-		}
-		if($i>0)
-		  {
-			$old_posting_flag = true;
-		  }
-	}
-  }
-else
-  {
-	$query = "SELECT * FROM postings WHERE a_id=".$GLOBALS['m_id']." AND active=1";
-	$result = query_db($query);
-	$i = 0;
-	while($post = mysql_fetch_array($result))
-	  {
-		$admin_active_posts[$i++] = $post;
-	  }
-
-	$query = "SELECT * FROM postings WHERE a_id=".$GLOBALS['m_id']." AND active=0";
-	$result = query_db($query);
-	$i = 0;
-	while($post = mysql_fetch_array($result))
-	  {
-		$admin_old_posts[$i++] = $post;
-	  }
-
-	$query = "SELECT id, name FROM business";
-	$result = query_db($query);
-	while($business = mysql_fetch_array($result))
-	  {
-		extract($business);
-		$businesses[$id] = $name;
-	  }
-  }
 
 
 //head
 $GLOBALS['header_scripts'] = "
 <link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
 <script src='js/jquery.form.js' type='text/javascript'></script>
-<script src='js/jquery-ui.js'></script>";
+<script src='js/jquery-ui.js'></script>
+<script src='js/settings.js' type='text/javascript'></script>";
 
-if($b_id == 0)
+if(check_admin())
   {
 	$GLOBALS['header_html_title'] = "tndrbox - Admin";
-	$GLOBALS['header_scripts'] = $GLOBALS['header_scripts']."
-<script src='js/settings_admin.js' type='text/javascript'></script>";
+
   }
 else
   {
-	$GLOBALS['header_html_title'] = "tndrbox - ".$posting['title'];
-	$GLOBALS['header_scripts'] = $GLOBALS['header_scripts']."
-<script src='js/settings.js' type='text/javascript'></script>";
+	$query = "SELECT name FROM business WHERE id=".$GLOBALS['b_id'];
+	$result = query_db($query);
+	$GLOBALS['header_html_title'] = "tndrbox - ".$result[0]['name'];
   }
 
 //include jquery form application (jquery.form.js) and specialized javascript for this page (home.js)
@@ -127,32 +59,28 @@ disconnect_from_db();
 
 function print_body()
   {
-	global $b_id;
-	$admin = ($b_id==0 ? true : false);
+	$b_id = $GLOBALS['b_id'];
 	echo "
 	<div class='row-fluid'>
 		<div class='span3'>
-			<ul class='nav nav-tabs nav-stacked content'>
+			<ul class='nav nav-pills nav-stacked well'>
 				<li>
-					<h4><a href='#'>Add Post</a></h4></li>
-				<li class='active'>
-					<h4><a href='#'>".(	$admin ? "Posts"	:"Your Posts")."</a></h4>
-				</li>";
-	if($admin)
+					<h4><a class='nav-link' href='posts'>".(	check_admin() ? "Posts"	:"Your Posts")."</a></h4>
+				</li>
+				<li>
+					<h4><a class='nav-link' href='new_post'>Add Post</a></h4></li>
+				<li>";
+	if(check_admin())
 	  {
 		echo "
 				<li>
-					<h4><a href='#'>Add Business</a></h4>
+					<h4><a class='nav-link' href='new_business'>Add Business</a></h4>
 				</li>
 				<li>
-					<h4><a href'=#'>Add User</a></h4>
+					<h4><a class='nav-link' href='new_user'>Add User</a></h4>
 				</li>
 				<li><form class='navbar-search'>
-					<input type='text' class='search-query span11' placeholder='Edit business'>
-					<div class='icon-search'></div>
-				</form></li>
-				<li><form class='navbar-search'>
-					<input type='text' class='search-query span11' placeholder='Edit user'>
+					<input type='text' class='search-query span11' placeholder='Edit settings'>
 					<div class='icon-search'></div>
 				</form></li>";
 	  }
@@ -160,14 +88,17 @@ function print_body()
 	  {
 		echo "
 				<li>
-					<h4><a href='#'>Settings</a></h4>
+					<h4><a class='nav-link' href='edit_profile'>Settings</a></h4>
 				</li>";
 	  }
 	echo "
+			</ul>
 		</div>
-		<div class='span8 content rounded'>
-			testing
-		</div><br>
+		<div id='settings-content' class='span9 content rounded'>
+			<div id='loading' class='centered'>
+				<img src='images/loading.gif' alt='Loading...'>
+			</div>
+		</div>
 	</div>";
   }
 ?>

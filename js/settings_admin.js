@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+	$('#settings-content').load('partials/new_post_form.php');
+
 $('#tag1').autocomplete({source:'includes/tag_search.php'});
 $('#tag2').autocomplete({source:'includes/tag_search.php'});
 $('#tag3').autocomplete({source:'includes/tag_search.php'});
