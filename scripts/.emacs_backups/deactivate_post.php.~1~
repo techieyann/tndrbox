@@ -1,0 +1,22 @@
+<?php
+/***********************************************
+file: deactivate_post.php
+creator: Ian McEachern
+
+This script deactivates the active posting of
+the supplied business.
+ ***********************************************/
+
+require('../includes/includes.php');
+
+require('../includes/tags.php');
+
+$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+analyze_user();
+verify_logged_in();
+
+$id=$_GET['id'];
+
+disconnect_from_db();
+?>

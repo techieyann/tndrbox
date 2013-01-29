@@ -50,7 +50,6 @@ function verify_logged_in()
 		$GLOBALS['DBH'] = null;
 		exit;
 	}
-
 }
 
 function check_admin()
@@ -84,6 +83,8 @@ function push_old_post($b_id)
 		decrement_tag($tag_3);	
 		$query = "UPDATE postings SET active=0 WHERE b_id=$b_id AND active=1";
 		query_db($query);
+		$query = "UPDATE business SET active_post=0, last_touched=CURRENT_TIMESTAMP WHERE id=$b_id";
+		query_db($query);
 	  }
   }
 
@@ -110,11 +111,13 @@ function get_active_categories()
 	  {
 		$id=$category['id'];
 		$query = "SELECT id FROM business WHERE category=$id AND active_post=1 LIMIT 1";
-		if(count(query_db($query), 1) != 0)
+		$result = query_db($query);
+		if($result != "")
 		  {
 			$result[$i++] = $category;
 		  }
 	  }
 	return $result;
 }
+
 ?>

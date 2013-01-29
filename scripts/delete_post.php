@@ -6,33 +6,41 @@ creator: Ian McEachern
 This script deletes a posting and maintains the
 validity of the tags database.
  ***********************************************/
-require('../includes/includes.php');
+if(isset($_GET['id']))
+  {
+	require('../includes/includes.php');
 
-require('../includes/tags.php');
+	require('../includes/tags.php');
 	
-$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
-	
-$post_id = sanitize($_GET['p_id']);
+	$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
-$query = "SELECT tag_1, tag_2, tag_3 FROM postings  WHERE id='$post_id'";
-$result = query_db($query);
-	
-if(mysql_num_rows($result) == 1)
-{
-	$res = mysql_fetch_array($result);
-	extract($res);
-	decrement_tag($tag_1);
-	decrement_tag($tag_2);
-	decrement_tag($tag_3);
-	
-	$query = "DELETE FROM postings WHERE id='$post_id'";
+	analyze_user();
+	verify_logged_in();
+
+	$id = $_GET['id'];
+
+	$query = "SELECT b_id, photo FROM postings WHERE id=$id";
+	$result = query_db($query);
+	extract($result[0]);
+
+	if(!check_admin())
+	  {	
+		if($GLOBALS['b_id'] != $b_id)
+		  {
+			disconnect_from_db();
+			return;
+		  }
+	  }
+	push_old_post($b_id);
+
+	$query = "DELETE FROM postings WHERE id='$id'";
 	query_db($query);
-	header("location:../settings");
-}
-else
-{
-	//report error
-}
 
-disconnect_from_db($link);
+	if($photo != "")
+	  {
+		unlink('../images/posts/'.$photo);
+	  }
+
+	disconnect_from_db($link);
+  }
 ?>

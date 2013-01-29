@@ -53,7 +53,7 @@ else
   }
 
 echo "
-		<form name='new-user-form' action='../scripts/new_user.php$append_string' method='post' class='form-horizontal'>
+		<form name='new-user-form' action='scripts/new_user.php$append_string' method='post' class='form-horizontal'>
 			<fieldset>".$businesses_or_captcha."
 			<div class='control-group'>
 				<label class='control-label' for='email'>

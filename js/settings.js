@@ -26,32 +26,72 @@ function smartLoad(url)
 	});
 }
 
-function smartPushState(view, id='')
+function smartPushState(view, id)
 {
+	if(typeof id == 'undefined')
+	{
+		id = '';
+	}
+
+	
 	var url = 'settings?view='+view;
 	if(id!='')
 	{
 		url = url + '&id=' + id;
 	}
-	var stateObj = view;
 
-	stateObj.id = id;
-	history.pushState(stateObj, null, url);
+	history.pushState([view, id], null, url);
 }
 
-function loadContentByURL(view, id=''){
+function loadContentByURL(view, id){
+	if(typeof id == 'undefined')
+	{
+		id = '';
+	}
+
 	var append_string = '';
 	if(id != '')
 	{
 		append_string = "?id=" + id;
 	}
-
+	
+	if(view == '')
+	{
+		view = 'posts';
+	}
+	
 	if(view == 'new_post')
 	{
 		smartLoad('partials/new_post_form');
 	}
 
-	if(view == 'posts' || view == '')
+	if(view == 'edit_post')
+	{
+		smartLoad('partials/edit_post_form'+append_string);
+	}
+
+	if(view == 'delete_post')
+	{	
+		$.ajax({
+			url:'scripts/delete_post',
+			data: {'id': id},
+			type: 'get'
+		});
+		smartLoad('partials/posts');
+	}
+
+	if(view == 'deactivate_post')
+	{	
+		$.ajax({
+			url:'scripts/deactivate_post',
+			data: {'id': id},
+			type: 'get'
+		}).done(function(){
+			smartLoad('partials/posts');
+		});
+	}
+
+	if(view == 'posts')
 	{
 		smartLoad('partials/posts');
 	}
@@ -71,11 +111,12 @@ function loadContentByURL(view, id=''){
 	{
 		smartLoad('partials/new_user_form');
 	}
+	smartPushState(view, id);
 }
 
 window.onpopstate = function(e){
-	var view = e.state;
-	var id = e.id;
+	var view = e[0];
+	var id = e[1];
 	if(id == null)
 	{	
 		id='';
@@ -97,7 +138,6 @@ $(document).ready(function(){
 		var view = $(this).attr('href');
 		loadContentByURL(view);
 		e.preventDefault();
-		smartPushState(view);
 	});
 
 	

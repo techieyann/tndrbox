@@ -16,7 +16,7 @@ analyze_user();
 verify_logged_in();
 
 //check that id was passed
-if(isset($_GET['id'])
+if(isset($_GET['id']))
   {
 	$id = $_GET['id'];
 	
@@ -38,7 +38,7 @@ if(isset($_GET['id'])
 	//write prepopulated form
 	echo "
 		<script>
-			$(function(){
+			$(document).ready(function(){
 				$('#tag1').autocomplete({source:'includes/tag_search.php'});
 				$('#tag2').autocomplete({source:'includes/tag_search.php'});	
 				$('#tag3').autocomplete({source:'includes/tag_search.php'});
@@ -46,10 +46,14 @@ if(isset($_GET['id'])
 				$('#date').datepicker({
 					dateFormat:'yy-mm-dd'
 				});
+
+				$('.edit-post-form').ajaxForm(function() {
+					loadContentByURL('posts');
+				});
 			});
 		</script>
 		<div id='js-content'>
-		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/edit_post?id=$id' method='post'>
+		<form class='edit-post-form' name='edit-post-form'  enctype='multipart/form-data' action='scripts/edit_post?id=$id' method='post'>
 			<fieldset>
 			<div class='row-fluid span12'>
 			<div class='span6'>
@@ -67,7 +71,7 @@ if(isset($_GET['id'])
 					Description * 
 				</label>
 					<div class='controls'>
-					    <textarea name='description' rows=5 maxlength=255 value='$blurb' placeholder='Write a description here in less than 255 characters' class='span12'></textarea>
+					    <textarea name='description' rows=5 maxlength=255 placeholder='Write a description here in less than 255 characters' class='span12'>$blurb</textarea>
 					</div>
 			</div>
 			<div class='control-group'>
@@ -94,7 +98,7 @@ if(isset($_GET['id'])
 			<div class='control-group'>
 				<label class='control-label' for='date'>Date</label>
 				<div class='controls'>
-					<input type='text' name='date' id='date' value='$date' placeholder='Click to add date...' class='span12'>
+					<input type='text' name='date' id='date' ".($date != '0000-00-00' ? "value='$date'":"")." placeholder='Click to add date...' class='span12'>
 				</div>
 			</div>
 			<div class='control-group'>
@@ -116,11 +120,12 @@ if(isset($_GET['id'])
 			</div>
 
 			<div class='form-actions'>				
-				<button type='button' class='btn pull-left' id='cancel-button' onclick='loadContentByURL(\"\"); smartPushState(\"\")' tabindex=-1>Cancel</button>
-				<button type='submit' class='btn btn-primary pull-right' id='add-submit'>Submit</button>
+				<button type='button' class='btn pull-left' id='cancel-button' onclick='loadContentByURL(\"posts\"); smartPushState(\"posts\")' tabindex=-1>Cancel</button>
+				<button type='submit' class='btn btn-primary pull-right' id='edit-submit'>Submit</button>
 			</div>
 			</fieldset>
 			</form>
 			</div>";
+  }
 disconnect_from_db();
 ?>

@@ -5,114 +5,99 @@ creator: Ian McEachern
 
 This script edits an existing posting.
  ***********************************************/
+if(isset($_GET['id']))
+  {
+	require('../includes/includes.php');
 
-require('../includes/includes.php');
+	require('../includes/tags.php');
 
-require('../includes/tags.php');
+	$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
-$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+	analyze_user();
+	verify_logged_in();
 
-analyze_user();
+	$id = $_GET['id'];
+	$m_id = $GLOBALS['m_id'];
+	if(!check_admin())
+	  {
+		$b_id = $GLOBALS['b_id'];
+	  }
 
-$post_id = sanitize($_GET['p_id']);
-$user_id = $GLOBALS['m_id'];
+	$query = "SELECT tag_1, tag_2, tag_3".(check_admin() ? ", b_id":"")." FROM postings WHERE id='$id'";
+	$result = query_db($query);
 
-$query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE id='$post_id'";
-$result = query_db($query);
-$tags = mysql_fetch_array($result);
-extract($tags);
+	extract($result[0]);
+	extract($_POST);
+	$old_tag1 = get_tag($tag_1);
+	$old_tag2 = get_tag($tag_2);
+	$old_tag3 = get_tag($tag_3);
 
-
-$title = sanitize($_POST['title']);
-$desc = sanitize($_POST['description']);
-
-$tag1 = sanitize($_POST['tag1']);
-$tag2 = sanitize($_POST['tag2']);
-$tag3 = sanitize($_POST['tag3']);
-
-$date = sanitize($_POST['date']);
-$address = sanitize($_POST['address']);
-$url = sanitize($_POST['url']);
-
-
-if(strcmp($tag1,$tag_1) != 0)
-{ 
-	$tag1_id = add_tag($tag1);
-	decrement_tag($tag_1);
-}
-else
-{
-	$tag1_id = $tag_1;
-}
-if(strcmp($tag2,$tag_2) != 0)
-{ 
-	$tag2_id = add_tag($tag2);
-	decrement_tag($tag_2);
-}
-else
-{
-	$tag2_id = $tag_2;
-}
-if(strcmp($tag3,$tag_3) != 0)
-{ 
-	$tag3_id = add_tag($tag3);
-	decrement_tag($tag_3);
-}
-else
-{
-	$tag3_id = $tag_3;
-}
-
-//$price = sanitize($_POST['price']);
-//$number = sanitize($_POST['quantity']);
-
-//$date = sanitize($_POST['publish_date']);
-//$time = sanitize($_POST['publish_time']);
-
-//mysql datetime format: 'YYYY-MM-DD HH:MM:SS'
-//$post_datetime = "$date $time";
-
-
-$image_upload_flag = false;
-
-			if($_FILES['image_upload']['error'] > 0)
-            {
-              	echo "Error: ".$_FILES['image_upload']['error'];
-                header("location:../settings");
-            }
-            else
-            {
-				extract($_FILES['image_upload']);
-				if(strcmp("image", substr($type,0,5)) == 0)
-				{
-					
-					if($size < (240*1024))
-					{
-					  $ext = substr($type,6);
-									
-						if(move_uploaded_file($tmp_name, "../images/posts/img_$post_id.$ext"))
-						{
-							$image_upload_flag = true;
-						}
-					}
-				}
-			}
-		
+	if(strcmp($tag1, $old_tag1) != 0)
+	  { 
+		$tag1_id = add_tag($tag1);
+		decrement_tag($tag_1);
+	  }
+	else
+	  {
+		$tag1_id = $tag_1;
+	  }
 	
-$query = "UPDATE postings set title='$title', blurb='$desc', 
-       	 tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id',
-date='$date', alt_address='$address', url='$url',
-       	 posting_time=CURRENT_TIMESTAMP, a_id='$user_id'";
+	if(strcmp($tag2, $old_tag2) != 0)
+	  { 
+		$tag2_id = add_tag($tag2);
+		decrement_tag($tag_2);
+	  }
+	else
+	  {
+		$tag2_id = $tag_2;
+	  }
+	if(strcmp($tag3,$old_tag3) != 0)
+	  { 
+		$tag3_id = add_tag($tag3);
+		decrement_tag($tag_3);
+	  }
+	else
+      {
+		$tag3_id = $tag_3;
+	  }
 
-if($image_upload_flag == true)
-{
-	$query = $query.", photo='img_$post_id.$ext'";
-}
-$query = $query."
-	 WHERE id='$post_id'";
-query_db($query);
+	$image_upload_flag = false;
 
-//header("location:../settings");
-disconnect_from_db($link);
-return;
+	if($_FILES['image_upload']['error'] > 0)
+      {
+       	echo "Error: ".$_FILES['image_upload']['error'];
+      }
+    else
+      {
+		extract($_FILES['image_upload']);
+		if(strcmp("image", substr($type,0,5)) == 0)
+		  {			
+			if($size < (2*1024*1024))
+		      {
+				$ext = substr($type,6);
+									
+				if(move_uploaded_file($tmp_name, "../images/posts/img_$id.$ext"))
+				  {
+					$image_upload_flag = true;
+				  }
+		      }
+		  }
+	  }
+		
+	push_old_post($b_id);
+
+	$query = "UPDATE postings SET active=1, viewed=0, title='$title', blurb='$description', 
+			tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id',
+			date='$date', alt_address='$address', url='$url',
+			posting_time=CURRENT_TIMESTAMP, a_id='$m_id'"
+	  .($image_upload_flag ? ", photo='img_$id.$ext'" : "")
+			."WHERE id='$id'";
+
+	query_db($query);
+	$query = "UPDATE business SET active_post=1, last_touched=CURRENT_TIMESTAMP WHERE id=$b_id";
+	query_db($query);
+
+	disconnect_from_db($link);
+	return true;
+  }
 ?>

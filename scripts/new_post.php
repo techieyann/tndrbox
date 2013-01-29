@@ -1,4 +1,4 @@
-3<?php
+<?php
 /***********************************************
 file: new_post.php
 creator: Ian McEachern
@@ -47,6 +47,8 @@ if($result)
 
 	push_old_post($business_id);
 	$query = "UPDATE business SET active_post=1, last_touched=CURRENT_TIMESTAMP WHERE id=$business_id";
+	query_db($query);
+	$query = "UPDATE postings SET active=1 WHERE id=$post_id";
 	query_db($query);
 	
 	if($_FILES['image_upload']['error'] > 0)

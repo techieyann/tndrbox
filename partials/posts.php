@@ -18,52 +18,56 @@ verify_logged_in();
 
 require('prints.php');
 
-$m_id = $GLOBALS['m_id'];
-$query = "SELECT id, title FROM postings WHERE a_id=$m_id AND active=1";
-$active_posts = query_db($query);
-
-$query = "SELECT id, title FROM postings WHERE a_id=$m_id AND active=0";
-$old_posts = query_db($query);
 echo "
 			<div id='js-content' class='span12'>
-				<div class='row-fluid'>
-					<div class='span6'>
-						<h3>Active Post:</h3>
-					</div>
-					<div class='span6'>
-						<ul class='inline pull-right'> 
-							<li><h3><a href='#edit'>Edit</a></h3></li>
-							<li><h3><a href='#deactivate'>Deactivate</a></h3></li>
-							<li><h3><a href='#delete'>Delete</a></h3></li>
-						</ul>
-					</div>
-				</div>";
+			<script>
+				$(document).ready(function(){
+					$('.post-link').click(function(e){
+						e.preventDefault();
 
-foreach($active_posts as $active_post)
+						var view = $(this).attr('href');
+						var id = $(this).attr('id');
+
+						loadContentByURL(view, id);
+				   	});
+					$('.accordion').accordion({
+						collapsible:true,
+						active:false,
+						heightStyle:'content'
+					});
+				});
+
+			</script>";
+
+if(check_admin())
   {
+	$m_id = $GLOBALS['m_id'];
+	$query = "SELECT DISTINCT b_id FROM postings WHERE a_id=$m_id";
+	$businesses = query_db($query);
 	echo "
-			<div class='span12 modal white-bg' style='position:relative; left:auto; right:auto; margin:0; max-width:100%;'>";
-	print_modal($active_post['id']);
+			<div class='accordion'>";
+	foreach($businesses as $business)
+	  {
+		$b_id = $business['b_id'];
+		$query = "SELECT name FROM business WHERE id=$b_id";
+		$result = query_db($query);
+		$name = $result[0]['name'];
+		echo "
+				<h3>$name</h3>
+				<div class='posts'>";
+		print_business_posts($b_id);
+		echo "
+				</div>";
+	  }	
 	echo "
 			</div>";
   }
-foreach($old_posts as $old_post)
+else
   {
-	extract($old_post);
-	echo "
-			<div class='row-fluid'>
-				<div class='span8'>
-				<h4>$title</h4>
-				</div>
-				<div class='span4'>
-		   			<ul class='inline pull-right'> 
-						<li><h4><a href='#edit'>Edit</a></h4></li>
-						<li><h4><a href='#deactivate'>Deactivate</a></h4></li>
-						<li><h4><a href='#delete'>Delete</a></h4></li>
-					</ul>
-				</div>
-			</div>";
+	$b_id = $GLOBALS['b_id'];
+	print_business_posts($b_id);
   }
+
 echo "
 			</div>";
 

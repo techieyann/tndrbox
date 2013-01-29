@@ -57,7 +57,7 @@ $business = $result[0];
 extract($business);
 
 echo "
-		<form name='edit-business-form' enctype='multipart/form-data' action='../scripts/edit_business$append_string' method='post'>
+		<form name='edit-business-form' enctype='multipart/form-data' action='scripts/edit_business$append_string' method='post'>
 			<fieldset>
 
 			<div class='row-fluid span12'>
@@ -184,7 +184,7 @@ function print_edit_user_form($id="")
 	$result = query_db($query);
 	extract($result[0]);
 	echo "
-		<form name='new-user-form' action='../scripts/edit_user$append_string' method='post' class='form-horizontal'>
+		<form name='new-user-form' action='scripts/edit_user$append_string' method='post' class='form-horizontal'>
 			<fieldset>";
 	if(check_admin())
 	  {
@@ -385,6 +385,59 @@ Select your method:
 				>Share</button>
 
 				<button class='btn pull-right' data-dismiss='modal' aria-hidden='true'>Close</button>
+			</div>";
+  }
+}
+
+
+
+function print_business_posts($id)
+{
+$m_id = $GLOBALS['m_id'];
+$query = "SELECT id, title, b_id FROM postings WHERE a_id=$m_id AND b_id=$id AND active=1";
+$active_posts = query_db($query);
+
+$query = "SELECT id, title, b_id FROM postings WHERE a_id=$m_id AND b_id=$id AND active=0 ORDER BY b_id";
+$old_posts = query_db($query);
+
+foreach($active_posts as $active_post)
+  {
+	$id = $active_post['id'];
+	$b_id = $active_post['b_id'];
+
+	echo "
+		   		<div class='row-fluid'>
+					<div class='span6'>
+						<h4>Active Post:</h4>
+					</div>
+					<div class='span6'>
+						<ul class='inline pull-right'> 
+							<li><h4><a class='post-link' href='edit_post' id='$id'>Edit</a></h4></li>
+							<li><h4><a class='post-link' href='deactivate_post' id='$b_id'>Deactivate</a></h4></li>
+							<li><h4><a class='post-link' href='delete_post' id='$id'>Delete</a></h4></li>
+						</ul>
+					</div>
+				</div>
+			<div class='span12 modal white-bg' style='position:relative; left:auto; right:auto; margin:0; max-width:100%;'>";
+	print_modal($id);
+	echo "
+			</div>";
+  }
+
+foreach($old_posts as $old_post)
+  {
+	extract($old_post);
+	echo "
+			<div class='row-fluid'>
+				<div class='span8'>
+				<h4>$title</h4>
+				</div>
+				<div class='span4'>
+		   			<ul class='inline pull-right'> 
+						<li><h4><a class='post-link' href='edit_post' id='$id'>Activate</a></h4></li>
+						<li><h4><a class='post-link' href='delete_post' id='$id'>Delete</a></h4></li>
+					</ul>
+				</div>
 			</div>";
   }
 }

@@ -51,10 +51,13 @@ echo "
 					$('#date').datepicker({
 						dateFormat:'yy-mm-dd'
 					});
+				$('.new-post-form').ajaxForm(function() {
+					loadContentByURL('posts');
+				});
 			});
 		</script>
 		<div id='js-content'>
-		<form name='new-post-form'  enctype='multipart/form-data' action='scripts/new_post$new_post_args' method='post'>
+		<form name='new-post-form' class='new-post-form'  enctype='multipart/form-data' action='scripts/new_post$new_post_args' method='post'>
 			<fieldset>
 			<div class='row-fluid span12'>
 			<div class='span6'>
