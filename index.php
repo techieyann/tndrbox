@@ -26,7 +26,17 @@ $p_flag = 0;
 if(isset($_GET['p']))
   {
 	$p_id = $_GET['p'];
-	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE id='$p_id'";
+	$query = "SELECT active, b_id FROM postings WHERE id=$p_id";
+	$active_result = query_db($query);
+	extract($active_result[0]);
+	if($active == 1)
+	  {
+		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE id='$p_id'";
+	  }
+	else
+	  {
+		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
+	  }
 	$p_flag = 1;
 	$result = query_db($query);
 	$result['p_flag'] = 1;

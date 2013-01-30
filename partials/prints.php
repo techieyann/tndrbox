@@ -120,7 +120,7 @@ echo "
 					Logo (must be smaller than 2Mb)
 				</label>
 				<div class='controls'>
-					<input type='file' name='logo' id='logo' class='span8'>
+					<input type='file' name='logo_upload' id='logo_upload' class='span8'>
 				</div>
 			</div>
 			<div class='control-group'>
@@ -243,21 +243,53 @@ function print_modal($id)
 	$query = "SELECT * FROM postings WHERE id=$id";
 	$result = query_db($query);
 	$post = $result[0];
+
+	$b_id = $post['b_id'];
+
+	if($post['active'] == 1)
+	  {
+		$active_flag = true;
+	  }
+	else
+	  { 
+		$active_flag = false;
+	  }
+	$owner_flag = false;
+	if(isset($GLOBALS['m_id']))
+	  {
+		$m_id = $GLOBALS['m_id'];
+
+		if($m_id == $post['a_id'] || check_admin())
+		  {
+			$owner_flag = true;
+		  }
+	  }
+
 	extract($post);
+	$p_id = $id;
 
 if($id == null)
   {
-	echo "
+	echo "		<script>
+					
+				</script>
 				<div class='modal-header'>
 					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 					<h4 class='error'>Error: couldn't find post...</h4>
 				</div>";
   }
+
 else
   {
+	$query = "UPDATE postings SET viewed = viewed + 1 WHERE id=$id";
+	query_db($query);
 	$query = "SELECT * FROM business WHERE id=$b_id";
 	$result = query_db($query);
 	$business = $result[0];
+
+	$query = "SELECT nickname FROM members WHERE id=$a_id";
+	$result = query_db($query);
+	$nickname = $result[0]['nickname'];
 
    	$tags[1] = get_tag($tag_1); 
    	$tags[2] = get_tag($tag_2); 
@@ -272,26 +304,27 @@ else
 	echo "
 			
 				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>";
+    if($owner_flag)
+	  {
+		echo "
+					<ul class='inline pull-right'>
+						<li><a class='post-link' title='Edit' href='edit_post' id='$id'><i class='icon-pencil'></i></a></li>
+						<li><a class='post-link' title='Deactivate' href='deactivate_post' id=$b_id><i class='icon-ban-circle'></i></a></li>
+						<li><a class='post-link' title='Delete' href='delete_post' id='$id'><i class='icon-trash'></i></a></li>						
+					</ul>";
+	  }
 
-						<h3 id='post-modal-label'><strong>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</strong>".($date != "" ? " <i>on $date</i>" :"")."</h3>
+	echo "
+						<h3 id='post-modal-label' class='centered'><strong>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</strong>".($date != "" ? " <i>on $date</i>" :"")."</h3>
 				</div>
 				<div class='modal-body'>
 					<div class='row-fluid'>
 						<div class='span7 top-left' id='post'>
-							<div class='row'>
-								<div class='span4 centered'>
-									<a href='index?tag=$tag_1'>$tags[1]</a>
-								</div>
-								<div class='span4 centered'>
-									<a href='index?tag=$tag_2'>$tags[2]</a>
-								</div>
-								<div class='span4 centered'>
-									<a href='index?tag=$tag_3'>$tags[3]</a>
-								</div>
-							</div>
-							<div id='posting-border' class='posting-border content'>
-								<div id='posting-data' class='posting-data'>";
+							<div class='row span12'>
+								<div class='span12 centered'>";
+
+	$map_used_flag = false;
 
 	if($photo != "")
 	  {
@@ -299,26 +332,51 @@ else
 									<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>";
 
 	  }
+	else
+	  {
+		echo "
+						   			<a href='http://maps.google.com/?q=$alt_address'>
+						   				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=325x250&markers=color:red|$alt_address&sensor=false' class='rounded'>
+						   			</a>";
+		$map_used_flag = true;
+	  }
 
-	echo "					
-									<div id='posting-blurb' class='posting-blurb'>
-										<strong>$blurb</strong>
-									</div>";
+	
+	
 	echo "
 								</div>
-								<div class='posting-time pull-right muted'>
-									<p>Posted on: ";
-   	print_formatted_time($posting_time);
-	echo "</p>
-								</div>
 							</div>
+							<ul class='inline centered'>
+								<li><a href='index?tag=$tag_1'>$tags[1]</a></li>
+								<li><a href='index?tag=$tag_2'>$tags[2]</a></li>
+								<li><a href='index?tag=$tag_3'>$tags[3]</a></li>
+							</ul>
+
+   							<div id='posting-blurb' class='posting-blurb content'>
+								<strong>$blurb</strong>
+							</div>
+
+								<div class='row span11'>								
+									<div class='posting-time pull-right muted'>
+										<p>Posted by <strong>$nickname</strong>, <br>
+										 at <strong>";
+	print_formatted_time($posting_time);
+	echo "</strong></p>
+									</div>
+								</div>
+
 				 		</div>
-						<div class='span5'>
+						<div class='span5'>";
+
+	if(!$map_used_flag)
+	  {
+		echo "
 							<div class='centered content'>
 				   			<a href='http://maps.google.com/?q=$alt_address'>
 			   				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=325x250&markers=color:red|$alt_address&sensor=false' class='rounded'>
 				   			</a>
 							</div>";
+	  }
 	extract($business);
 	$category_id = $category;
 	$category = get_tag($category_id);
@@ -366,28 +424,24 @@ else
    					</div>
 				</div>
 		   	</div>
-			<script>
-				$(function(){
-					$('.share-button').popover({
-						html:true
-					});
-				});
-			</script>
 			<div class='modal-footer'>
 
 				<button id='share-button' class='share-button btn btn-info pull-left' title=\"
 Select your method:
 '<button type='button' class='close' onclick='$(&quot;#share-button&quot;).popover(&quot;hide&quot;);'>&times;</button>\" data-content=\"
-<a href='https://twitter.com/share' class='twitter-share-button' data-lang='en'>Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>
-<iframe src='//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftndrbox.com&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;font=arial&amp;colorscheme=light&amp;action=recommend&amp;height=21' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:450px; height:21px;' allowTransparency='true'></iframe>
+
+<a href='https://twitter.com/share' class='twitter-share-button' data-url='http://tndrbox.com/?p=$p_id' data-text='$title at $name' data-count='none' data-dnt='true'>Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='//platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>
+
+
+<iframe src='//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftndrbox.com%2F%3Fp%3D$p_id&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;font=arial&amp;colorscheme=light&amp;action=recommend&amp;height=21' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:450px; height:21px;' allowTransparency='true'></iframe>
 \"
 				>Share</button>
 
 				<button class='btn pull-right' data-dismiss='modal' aria-hidden='true'>Close</button>
 			</div>";
   }
-}
+  }
 
 
 
@@ -406,40 +460,34 @@ foreach($active_posts as $active_post)
 	$b_id = $active_post['b_id'];
 
 	echo "
-		   		<div class='row-fluid'>
-					<div class='span6'>
-						<h4>Active Post:</h4>
-					</div>
-					<div class='span6'>
-						<ul class='inline pull-right'> 
-							<li><h4><a class='post-link' href='edit_post' id='$id'>Edit</a></h4></li>
-							<li><h4><a class='post-link' href='deactivate_post' id='$b_id'>Deactivate</a></h4></li>
-							<li><h4><a class='post-link' href='delete_post' id='$id'>Delete</a></h4></li>
-						</ul>
-					</div>
-				</div>
 			<div class='span12 modal white-bg' style='position:relative; left:auto; right:auto; margin:0; max-width:100%;'>";
 	print_modal($id);
 	echo "
 			</div>";
   }
-
+echo "
+		<br><br><table class='table table-hover'>
+			<caption><h3>Archived Posts</h3></caption>
+			<tbody>";
 foreach($old_posts as $old_post)
   {
 	extract($old_post);
 	echo "
-			<div class='row-fluid'>
-				<div class='span8'>
+			<tr>
+				<td>
 				<h4>$title</h4>
-				</div>
-				<div class='span4'>
+				</td>
+				<td>
 		   			<ul class='inline pull-right'> 
-						<li><h4><a class='post-link' href='edit_post' id='$id'>Activate</a></h4></li>
-						<li><h4><a class='post-link' href='delete_post' id='$id'>Delete</a></h4></li>
+						<li><a class='post-link' title='Activate' href='edit_post' id='$id'><i class='icon-fire large'></i></a></li>
+						<li><a class='post-link'title='Delete' href='delete_post' id='$id'><i class='icon-trash'></i></a></li>
 					</ul>
-				</div>
-			</div>";
+				</td>
+			</tr>";
   }
+echo "
+			</tbody>
+		</table>";
 }
 
 ?>

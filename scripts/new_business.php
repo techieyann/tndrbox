@@ -54,7 +54,7 @@ if($result)
 						if(move_uploaded_file($tmp_name, "../images/logos/logo_$b_id.$ext"))
 						{
 							$query = "UPDATE business SET
-					         	       logo='img_$b_id.$ext'
+					         	       logo='logo_$b_id.$ext'
 						       	       WHERE id='$b_id'";
 					  	    query_db($query);
 						}

@@ -66,7 +66,7 @@ function check_admin()
 
 function default_front_page_posts()
 {
-	$query = "SELECT * FROM postings WHERE active=1 ORDER BY posting_time";
+	$query = "SELECT * FROM postings WHERE active=1 ORDER BY posting_time DESC";
 	return query_db($query);
 }
 
@@ -104,20 +104,19 @@ function get_categories()
 
 function get_active_categories()
 {
-	$query = "SELECT id, tag FROM tags where id<0 ORDER BY tag ASC";
-	$categories = query_db($query);
+	$categories = get_categories();
 	$i = 0;
 	foreach($categories as $category)
 	  {
 		$id=$category['id'];
 		$query = "SELECT id FROM business WHERE category=$id AND active_post=1 LIMIT 1";
 		$result = query_db($query);
-		if($result != "")
+		if(count($result, 1) != 0)
 		  {
-			$result[$i++] = $category;
+			$return[$i++] = $category;
 		  }
 	  }
-	return $result;
+	return $return;
 }
 
 ?>

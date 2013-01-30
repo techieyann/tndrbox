@@ -79,7 +79,7 @@ echo "
 					Logo (must be smaller than 2Mb)
 				</label>
 				<div class='controls'>
-					<input type='file' name='logo' id='logo' class='span8'>
+					<input type='file' name='logo_upload' id='logo_upload' class='span8'>
 				</div>
 			</div>
 			<div class='control-group'>

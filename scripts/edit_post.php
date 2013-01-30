@@ -89,8 +89,8 @@ if(isset($_GET['id']))
 	$query = "UPDATE postings SET active=1, viewed=0, title='$title', blurb='$description', 
 			tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id',
 			date='$date', alt_address='$address', url='$url',
-			posting_time=CURRENT_TIMESTAMP, a_id='$m_id'"
-	  .($image_upload_flag ? ", photo='img_$id.$ext'" : "")
+			posting_time=CURRENT_TIMESTAMP"
+	  .($image_upload_flag ? ", photo='img_$id.$ext'" : " ")
 			."WHERE id='$id'";
 
 	query_db($query);

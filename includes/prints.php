@@ -196,17 +196,11 @@ function print_post_row($post_row)
 				<p>$date</p>";
 		  }
 		echo "
-					<div class='row-fluid span12'>
-					<div class='span4'>
-						$tags[1]
-					</div>
-					<div class='span4'>
-						$tags[2]  
-					</div>
-					<div class='span4'>
-						$tags[3]
-					</div>
-					</div>
+					<ul class='inline centered'>
+					<li>$tags[1]</li>
+					<li>$tags[2]</li>
+					<li>$tags[3]</li>
+					</ul>
 			</div>
 			</a>
 			</li>";
