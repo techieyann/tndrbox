@@ -1,5 +1,20 @@
 window.onload = function() {
-	var wall = new Masonry(document.getElementById('masonry-container'));
+
+	if(window.innerWidth>767)
+	var wall = new Masonry(document.getElementById('masonry-container'), {
+		isAnimated: true
+	});
+}
+
+window.onresize = function() {
+	if(window.innerWidth>767)
+	{
+		var wall = new Masonry(document.getElementById('masonry-container'));
+	}
+	else
+	{
+		$('masonry-container').masonry('destroy');
+	}
 }
 
 $(document).ready(function(){
