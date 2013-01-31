@@ -102,7 +102,8 @@ function print_foot()
 
 <!--Bootstrap-->
 <script src='js/bootstrap.min.js'></script>
-
+<!--Masonry-->
+<script src='js/masonry.min.js'></script>
 </body>
 
 </html>";

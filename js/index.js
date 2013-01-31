@@ -1,3 +1,7 @@
+window.onload = function() {
+	var wall = new Masonry(document.getElementById('masonry-container'));
+}
+
 $(document).ready(function(){
 
 	$('#tag-search').autocomplete({source:'includes/tag_search.php'});
