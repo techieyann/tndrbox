@@ -53,6 +53,12 @@ function get_tag($tag)
 	}
 }
 
+function get_most_popular_tags($num_tags)
+  {
+	$query = "SELECT tag FROM tags WHERE id>0 ORDER BY num_ref DESC LIMIT $num_tags";	
+	return query_db($query);
+  }
+
 function get_tag_id($tag)
 {
 	if(is_numeric($tag))

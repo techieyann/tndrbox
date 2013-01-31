@@ -2,6 +2,12 @@ $(document).ready(function(){
 
 	$('#tag-search').autocomplete({source:'includes/tag_search.php'});
 
+	$('#box').hover(function(){
+		$('#box').css('bottom', '0px');
+	},function(){
+		$('#box').css('bottom', '-80px');
+	});
+
 
 	$('.modal-trigger').click(function(e){
 

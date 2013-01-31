@@ -23,6 +23,11 @@ $title = "Welcome";
 $result = array();
 $p_flag = 0;
 
+$result = get_most_popular_tags(1);
+$tag_example = $result[0]['tag'];
+
+$category = "";
+
 if(isset($_GET['p']))
   {
 	$p_id = $_GET['p'];
@@ -52,16 +57,17 @@ elseif(isset($_GET['b']))
 	$result['p_flag'] = 1;
 	array_push($result, default_front_page_posts());
   }
-  
 elseif(isset($_GET['tag']))
   {
 	$set_tag_id = $_GET['tag'];
 	$title = get_tag($set_tag_id);
+
 	if($set_tag_id > 0)
 	  {
 		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_1='$set_tag_id' OR tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1";
 		$result = query_db($query);
 		$i=0;
+		$category = $title;
 	  }
 	else
 	  {
@@ -75,6 +81,7 @@ elseif(isset($_GET['tag']))
 			$post_result = query_db($query);
 			array_push($result, $post_result[0]);
 		  }
+		$tag_example = $title;
 	  }
   }
 else
@@ -142,13 +149,58 @@ disconnect_from_db();
 
 function print_body()
   {
-	global $postings;
+	global $postings, $tag_example, $category;
 	echo "
 	<div id='post-modal' class='modal hide fade white-bg' tabindex='-1' role='dialog' aria-hidden='true'>
 		<div id='modal-loading' class='centered'>
 			<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
 		</div>
-	</div>";
+	</div> 
+		<div id='postings-header' class=''>
+			<ul class='inline'>
+				<li  style='padding-left:10px'><button title='Tiles' class='btn disabled' href='#'><i class='icon-th-large'></i></button></li>
+				<li><button title='List coming soon...' class='btn disabled' href='#'><i class='icon-list'></i></button></li>
+				<li><button title='Map coming soon...' class='btn disabled' href='#'><i class='icon-globe'></i></button></li>
+
+				<li class='pull-right'>
+					<form action='scripts/alpha_to_numeric_tag.php' method='get' class='form form-search form-inline pull-right'>
+						<div class='btn-group'>
+							<button class='btn dropdown-toggle' data-toggle='dropdown'>
+								Category <span class='caret'></span>
+							</button>
+							<ul class='dropdown-menu'>";
+	$count = 0;
+	$categories = get_active_categories();
+	foreach($categories as $category)
+	  {
+		if($count++ != 0)
+		  {
+			echo "
+								<li class='divider'></li>";
+		  }
+		extract($category);
+		echo "
+								<li><a href='index?tag=$id'>$tag</a></li>";
+	  }
+	echo "
+							</ul>
+						</div>
+						<div class='input-append' style='padding-right:5px'>			
+							<input type='text' id='tag-search' name='tag-search' class='search-query span2' placeholder='eg. \"$tag_example\"'>
+							<button type='submit' class='btn'><i class='icon-search'></i> Tags</button>
+						</div>
+					</form>
+				</li>
+			</ul>
+
+		</div>
+		<div id='postings'>";
 	print_formatted_rows($postings);
+	echo "
+		</div>
+
+<div id='box'>
+	<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
+</div>";
   }
 ?>

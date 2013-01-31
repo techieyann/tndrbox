@@ -49,53 +49,9 @@ function print_head()
 				<span class='icon-bar'></span>
 				<span class='icon-bar'></span>
 			</a>
-			<a href='index' id='tndrbox-logo' class='brand'></a>";
-   	if($GLOBALS['header_selected_page'] == "landing")
-	  {
-		echo "
-			<form action='scripts/alpha_to_numeric_tag.php' method='get' class='navbar-search'>
-					<input type='text' id='tag-search' name='tag-search' class='search-query' placeholder='Search Tags...'>
-					<div class='icon-search'></div>
-			</form>";
-	  }
-	echo "
+			<a href='index' id='tndrbox-logo' class='brand'></a>
 		    <div class='nav-collapse collapse'>
-				<ul class='nav main-nav pull-right'>";
-	/*
-					<li";
-	if($GLOBALS['header_selected_page'] == "business")
-	{
-		echo " class='active'";
-	}
-	echo "><a href='business'>Businesses</a></li>
-	*/
-	if($GLOBALS['header_selected_page'] != "login" && $GLOBALS['header_selected_page'] != "about")
-	  {
-	echo "
-			<li class='dropdown'>
-					<a href='#' id='category-drop' class='dropdown-toggle' data-toggle='dropdown'>
-					Categories
-					<b class='caret'></b>
-					</a>
-					<ul class='dropdown-menu' role='menu' aria-labelledby='category-drop'>";
-		$count = 0;
-		$categories = get_active_categories();
-		foreach($categories as $category)
-		  {
-			if($count++ != 0)
-			  {
-				echo "
-					<li class='divider'></li>";
-			  }
-			extract($category);
-			echo "
-					<li><a href='index?tag=$id'>$tag</a></li>";
-		  }
-		echo "
-					</ul>
-				</li>";
-	  }
-	echo "
+				<ul class='nav main-nav pull-right'>
 					<li";
 	if($GLOBALS['header_selected_page'] == "about")
 	{
@@ -133,13 +89,15 @@ function print_head()
 function print_foot()
 {
   echo "
-</div><br>
+
 <div id='footer'>
 	<a href='#top'>
 	   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
 	</a>
 	<br>
-	<p class = 'white'>version ".$GLOBALS['version']."</p>
+	<p>version ".$GLOBALS['version']."</p>
+</div>
+
 </div>
 
 <!--Bootstrap-->

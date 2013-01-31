@@ -14,7 +14,9 @@
 
 }
 
-
+html, body {
+height:100%;
+}
 body {
 font-family: Helvetica, sans-serif;
 }
@@ -32,9 +34,15 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 #footer{ 
 	margin: 0 auto; 
-	padding: 20px 0;
 	text-align: center;
-	clear: both;
+	background:#eee;
+	padding-bottom:10px;
+}
+
+#background-filler{
+	background:#eee;
+	height:100%
+	width:100%;
 }
 
 /* header styles */
@@ -46,14 +54,43 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 .modal{
     width: 960px;
     margin-left: -480px;}
+#middle-box{
+	width:1060px;
+}
+#box{
+	width:1190px; 
+	margin-left:-595px;
+}
+
  }
  
 /* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) and (max-width: 1199px) {
+@media (min-width: 970px) and (max-width: 1199px) {
 .modal{
     width: 760px;
     margin-left: -380px;}
+#middle-box{
+	width:830px;
+}
+#box{
+	width:960px;
+	margin-left:-480px;
+}
  }
+
+@media (min-width: 768px) and (max-width:969px)
+{
+.modal{
+    width: 760px;
+    margin-left: -380px;}
+#middle-box{
+	width:614px;
+}
+#box{
+	width:744px;
+	margin-left:-372px;
+}
+}
 
 @media (max-width:767px)
 {
@@ -61,7 +98,30 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 {
 	max-height:300px;
 }
+#box{
+	visibility:hidden;
 }
+
+}
+
+
+
+#box
+{
+	position:fixed;
+	bottom:-80px;
+	left:50%;
+}
+
+
+
+#box > img
+{
+	height:150px;
+}
+
+
+
 #posting-image
 {
 	max-height:70%;
@@ -92,22 +152,32 @@ form
 	color:white;
 }
 
-}
-.navbar-search {
-    position: relative;
-}
-  
-.navbar-search .search-query {
-    padding-left: 29px !important;
+#postings-header
+{
+	background:#565656;
+	padding-top:10px;
+	padding-bottom:1px;
+
+       -webkit-border-top-left-radius: 5px;
+          -moz-border-top-left-radius: 5px;
+               border-top-left-radius: 5px;
+       -webkit-border-top-right-radius: 20px;
+          -moz-border-top-right-radius: 20px;
+               border-top-right-radius: 20px;
+
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+                box-shadow: 0 1px 2px rgba(0,0,0,.15);
+
 }
 
-.navbar-search .icon-search {
-    position: absolute;
-    top: 7px;
-    left: 11px;
-    background-image: url("http://twitter.github.com/bootstrap/assets/img/glyphicons-halflings.png");
+#postings
+{
+	padding-top:20px;
+	height:80%;
+	position:relative;
+	background:#eee;
 }
-
 
 .front-page-row
 {
@@ -170,7 +240,12 @@ form
 /*body styles*/
 #body-container
 {
-	border-bottom:1px solid #eee;
+	height:100%;
+	position:relative;
+}
+#js-content
+{
+
 }
 
 #new-user
