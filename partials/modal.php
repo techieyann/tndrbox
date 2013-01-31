@@ -118,9 +118,9 @@ else
 								</div>
 							</div>
 							<ul class='inline centered'>
-								<li><a href='index?tag=$tag_1'>$tags[1]</a></li>
-								<li><a href='index?tag=$tag_2'>$tags[2]</a></li>
-								<li><a href='index?tag=$tag_3'>$tags[3]</a></li>
+								<li><a href='index?tag=$tag_1' class='tag'>$tags[1]</a></li>
+								<li><a href='index?tag=$tag_2' class='tag'>$tags[2]</a></li>
+								<li><a href='index?tag=$tag_3' class='tag'>$tags[3]</a></li>
 							</ul>
 
    							<div id='posting-blurb' class='posting-blurb content'>
@@ -190,7 +190,6 @@ else
 								</address>
 							</div>
 						</div>
-						<h4 style='text-align:center'>(<a href='?tag=$category_id'>$category</a>)</h4><br>
 						</div>
    					</div>
 				</div>

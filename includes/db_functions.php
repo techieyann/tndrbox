@@ -104,19 +104,9 @@ function get_categories()
 
 function get_active_categories()
 {
-	$categories = get_categories();
-	$i = 0;
-	foreach($categories as $category)
-	  {
-		$id=$category['id'];
-		$query = "SELECT id FROM business WHERE category=$id AND active_post=1 LIMIT 1";
-		$result = query_db($query);
-		if(count($result, 1) != 0)
-		  {
-			$return[$i++] = $category;
-		  }
-	  }
-	return $return;
+		$query = "SELECT id, tag FROM tags WHERE id<0 AND num_ref>0 ORDER BY tag ASC";
+		return query_db($query);
+
 }
 
 ?>

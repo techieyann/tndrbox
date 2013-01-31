@@ -121,11 +121,8 @@ function print_post_row($post_row)
 		$id = $post['id'];
 
 		echo "
-			
-			<li class='$span front-page-button'>";
-		echo "
-			<a href='?p=$id' class='modal-trigger thumbnail'>
-			<div class='thumbnail'>";
+			<a href='?p=$id' class='modal-trigger'>
+			<div class='$span front-page-button'>";
 
 		if($post['photo'] != "")
 		  {
@@ -155,13 +152,12 @@ function print_post_row($post_row)
 		  }
 		echo "
 					<ul class='inline centered'>
-					<li>$tags[1]</li>
-					<li>$tags[2]</li>
-					<li>$tags[3]</li>
+					<li><img src='images/$tags[1].png' alt='$tags[1]'></li>
+					<li class='tag'>$tags[2]</li>
+					<li class='tag'>$tags[3]</li>
 					</ul>
 			</div>
-			</a>
-			</li>";
+			</a>";
 		  }
 		else
 		  {

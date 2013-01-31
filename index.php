@@ -156,45 +156,40 @@ function print_body()
 			<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
 		</div>
 	</div> 
-		<div id='postings-header' class=''>
-			<ul class='inline'>
-				<li  style='padding-left:10px'><button title='Tiles' class='btn disabled' href='#'><i class='icon-th-large'></i></button></li>
-				<li><button title='List coming soon...' class='btn disabled' href='#'><i class='icon-list'></i></button></li>
-				<li><button title='Map coming soon...' class='btn disabled' href='#'><i class='icon-globe'></i></button></li>
-
-				<li class='pull-right'>
-					<form action='scripts/alpha_to_numeric_tag.php' method='get' class='form form-search form-inline pull-right'>
-						<div class='btn-group'>
-							<button class='btn dropdown-toggle' data-toggle='dropdown'>
-								Category <span class='caret'></span>
-							</button>
-							<ul class='dropdown-menu'>";
+		<div id='postings-header' class='row'>
+			<div class='btn-group span4' style='padding-left:10px'>";
 	$count = 0;
 	$categories = get_active_categories();
 	foreach($categories as $category)
 	  {
-		if($count++ != 0)
-		  {
-			echo "
-								<li class='divider'></li>";
-		  }
 		extract($category);
 		echo "
-								<li><a href='index?tag=$id'>$tag</a></li>";
+		 		<button class='btn' href='index?tag=$id' title='$tag'>
+					<img src='images/$tag.png'>
+				</button>";
 	  }
 	echo "
-							</ul>
-						</div>
-						<div class='input-append' style='padding-right:5px'>			
-							<input type='text' id='tag-search' name='tag-search' class='search-query span2' placeholder='eg. \"$tag_example\"'>
-							<button type='submit' class='btn'><i class='icon-search'></i> Tags</button>
-						</div>
-					</form>
-				</li>
-			</ul>
+							</div>
 
+				
+
+
+					<form action='scripts/alpha_to_numeric_tag.php' method='get' class='form form-search form-inline span4'>
+
+							<input type='text' id='tag-search' name='tag-search' class='search-query span4' placeholder='eg. \"$tag_example\"'>
+
+					</form>
+			<div class='span4'>
+			<div class='btn-group pull-right'>
+				<button title='Tiles' class='btn disabled' href='#'><i class='icon-th-large'></i></button>
+				<button title='List coming soon...' class='btn disabled' href='#'><i class='icon-list'></i></button>";
+	/*				<button title='Map coming soon...' class='btn disabled' href='#'><i class='icon-globe'></i></button>*/
+
+	echo "
+			</div>
+			</div>
 		</div>
-		<div id='postings'>";
+		<div id='postings' class='row'>";
 	print_formatted_rows($postings);
 	echo "
 		</div>

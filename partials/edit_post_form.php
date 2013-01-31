@@ -31,7 +31,7 @@ if(isset($_GET['id']))
 		header('location:settings');
 	  }
 
-	$tag1 = get_tag($tag_1);
+
 	$tag2 = get_tag($tag_2);
 	$tag3 = get_tag($tag_3);
 	
@@ -39,7 +39,7 @@ if(isset($_GET['id']))
 	echo "
 		<script>
 			$(document).ready(function(){
-				$('#tag1').autocomplete({source:'includes/tag_search.php'});
+
 				$('#tag2').autocomplete({source:'includes/tag_search.php'});	
 				$('#tag3').autocomplete({source:'includes/tag_search.php'});
 
@@ -74,16 +74,43 @@ if(isset($_GET['id']))
 					    <textarea name='description' rows=5 maxlength=255 placeholder='Write a description here in less than 255 characters' class='span12'>$blurb</textarea>
 					</div>
 			</div>
+
+
+
 			<div class='control-group'>
 				<label class='control-label' for='tag1'>
+					Category *
+				</label>
+				<div class='controls'>
+					<select required name='tag1' id='tag1' class='span12'>";
+
+	$result = get_categories();
+	foreach($result as $curr_category)
+	  {
+		$index = $curr_category['id'];
+		$cat= $curr_category['tag'];
+		echo "
+						<option ".($tag_1 == $index ? "selected='selected'":"")."value='$index'>$cat</option>";
+      }
+	
+	echo "
+					</select>
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label' for='tag2'>
 					Tags * 
 				</label>
 					<div class='controls-row'>
-					    <input required type='text' name='tag1' id='tag1' value='$tag1' placeholder='Tag 1' class='span4'>
-						<input required type='text' name='tag2' id='tag2' value='$tag2' placeholder='Tag 2' class='span4'>
-						<input required type='text' name='tag3' id='tag3' value='$tag3' placeholder='Tag 3' class='span4'>
+						<input required type='text' name='tag2' id='tag2' value='$tag2' class='span6'>
+						<input required type='text' name='tag3' id='tag3' value='$tag3' class='span6'>
 					</div>
 			</div>
+
+
+
+
+
 			</div>
 
 

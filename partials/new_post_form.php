@@ -14,9 +14,11 @@ analyze_user();
 verify_logged_in();
 
 $new_post_args = "";
-  $business_select_box = "";
+$business_select_box = "";
+
 if(check_admin())
 	{
+	  $category = 0;
 	  $new_post_args = "?admin=1";
 	  $business_select_box = "
 			<div class='control-group'>
@@ -40,11 +42,15 @@ if(check_admin())
 				</div>
 			</div>";
 	}
-
+else
+  {
+	$query = "SELECT category FROM business WHERE id=".$GLOBALS['b_id'];
+	$result = query_db($query);
+	$category = $result[0]['category'];
+  }
 echo "
 		<script>
 			$(function(){
-				$('#tag1').autocomplete({source:'includes/tag_search.php'});
 				$('#tag2').autocomplete({source:'includes/tag_search.php'});	
 				$('#tag3').autocomplete({source:'includes/tag_search.php'});
 
@@ -80,12 +86,32 @@ echo "
 			</div>
 			<div class='control-group'>
 				<label class='control-label' for='tag1'>
+					Category *
+				</label>
+				<div class='controls'>
+					<select required name='tag1' id='tag1' class='span12'>
+						".($category == 0 ? "<option selected='selected'></option>":"");
+
+	$result = get_categories();
+	foreach($result as $curr_category)
+	  {
+		$index = $curr_category['id'];
+		$cat= $curr_category['tag'];
+		echo "
+						<option ".($category == $index ? "selected='selected'":"")."value='$index'>$cat</option>";
+      }
+	
+	echo "
+					</select>
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label' for='tag2'>
 					Tags * 
 				</label>
 					<div class='controls-row'>
-					    <input required type='text' name='tag1' id='tag1' placeholder='Tag 1' class='span4'>
-						<input required type='text' name='tag2' id='tag2' placeholder='Tag 2' class='span4'>
-						<input required type='text' name='tag3' id='tag3' placeholder='Tag 3' class='span4'>
+						<input required type='text' name='tag2' id='tag2' placeholder='$tag2_example' class='span6'>
+						<input required type='text' name='tag3' id='tag3' placeholder='$tag3_example' class='span6'>
 					</div>
 			</div>
 			</div>

@@ -35,12 +35,12 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 #footer{ 
 	margin: 0 auto; 
 	text-align: center;
-	background:#eee;
+
 	padding-bottom:10px;
+
 }
 
 #background-filler{
-	background:#eee;
 	height:100%
 	width:100%;
 }
@@ -106,6 +106,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 
 
+
 #box
 {
 	position:fixed;
@@ -152,18 +153,29 @@ form
 	color:white;
 }
 
+.tag
+{
+	border:solid 1px black;
+       -webkit-border-radius: 20px;
+          -moz-border-radius: 20px;
+               border-radius: 20px;
+	background:#6C0E0F;
+	padding:2px;
+	color: #eee;
+}
+	
 #postings-header
 {
 	background:#6C0E0F;
 	padding-top:10px;
-	padding-bottom:1px;
+	padding-bottom:10px;
 
        -webkit-border-top-left-radius: 5px;
           -moz-border-top-left-radius: 5px;
                border-top-left-radius: 5px;
-       -webkit-border-top-right-radius: 20px;
-          -moz-border-top-right-radius: 20px;
-               border-top-right-radius: 20px;
+       -webkit-border-top-right-radius: 5px;
+          -moz-border-top-right-radius: 5px;
+               border-top-right-radius: 5px;
 
         -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
@@ -174,9 +186,10 @@ form
 #postings
 {
 	padding-top:20px;
-	min-height:80%;
+
 	position:relative;
-	background:#eee;
+	min-height:80%;
+		background: url('../images/bg-tile.png') #323232;
 }
 
 .front-page-row
@@ -189,7 +202,7 @@ form
 	height:300px;
 	padding:auto;
 	text-align:center;
-	background:#333;
+	background:#eee;
 }
 .white-bg
 {
@@ -206,7 +219,7 @@ form
 
 .front-page-button > a
 {
-	color:#eee;
+	color:#333;
 }
 
 .business-info > img
