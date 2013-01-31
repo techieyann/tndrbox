@@ -21,7 +21,7 @@ $(document).ready(function(){
 
 	$('#tag-search').autocomplete({source:'includes/tag_search.php'});
 
-	$('#footer').css('background', "url('../images/bg-tile.png') #323232");
+	$('#footer').css('background', "url('images/bg-tile.png') #323232");
 	$('#footer').css('color', '#eee');
 
 /*	$('#box').hover(function(){
