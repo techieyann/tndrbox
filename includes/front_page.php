@@ -78,7 +78,7 @@ function print_formatted_rows($postings)
 	//	echo "
 	//		<ul class='thumbnails'>";
 
-	echo "<div id='masonry-container' class='row span12' style='padding-left:25px'>";
+
 	for($i=0; $i<$num_posts; $i++)
 	  {
 		if(($total_spans + $postings[$i]['span']) <= 12)
@@ -128,7 +128,6 @@ function print_formatted_rows($postings)
 			  }
 			print_post_row($post_row);
 		}
-		echo "
-				</div>";
+
 }
 ?>

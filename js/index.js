@@ -1,21 +1,6 @@
-window.onload = function() {
-
-	if(window.innerWidth>767)
-	var wall = new Masonry(document.getElementById('masonry-container'), {
-		isAnimated: true
-	});
-}
-
-window.onresize = function() {
-	if(window.innerWidth>767)
-	{
-		var wall = new Masonry(document.getElementById('masonry-container'));
-	}
-	else
-	{
-		$('masonry-container').masonry('destroy');
-	}
-}
+window.onresize = function(){
+	$('#postings').masonry('reload');
+};
 
 $(document).ready(function(){
 
@@ -23,6 +8,11 @@ $(document).ready(function(){
 
 	$('#footer').css('background', "url('images/bg-tile.png') #323232");
 	$('#footer').css('color', '#eee');
+
+	$("#postings").masonry({
+			itemSelector: '.front-page-button',
+			isAnimated: true
+		});
 
 /*	$('#box').hover(function(){
 		$('#box').css('bottom', '0px');
