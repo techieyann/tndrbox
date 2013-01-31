@@ -192,14 +192,11 @@ form
 		background: url('../images/bg-tile.png') #323232;
 }
 
-.front-page-row
-{
-	height:300px;
-}
+
 
 .front-page-button
 {
-	height:300px;
+
 	padding:auto;
 	text-align:center;
 	background:#eee;
@@ -241,7 +238,6 @@ form
 
 .front-page-button img
 {
-	max-height:50%;
 	max-width:100%;
 }
 #tndrbox-logo {

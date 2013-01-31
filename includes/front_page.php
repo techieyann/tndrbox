@@ -8,12 +8,6 @@ relevant data based on the function scrape_tags()
 in includes.php.
  ***********************************************/
 
-
-if(isset($_GET['fnct']))
-  {
-
-  }
-
 function format_rows($raw_posts)
   {
 	$i=-1;
@@ -33,7 +27,7 @@ function format_rows($raw_posts)
 			list($width, $height) = getimagesize($image_source);
 			$span_calc = ($width/$height)*1.2;
 			$span = ceil($span_calc);
-			if($span < 3)
+			if(true)//$span < 3)
 			  {
 				$span = 3;
 			  }
@@ -41,7 +35,7 @@ function format_rows($raw_posts)
 		  }
 		else
 		  {
-			$formatted_postings[$i]['span'] = 2;
+			$formatted_postings[$i]['span'] = 3;
 		  }
 		$looper = $raw_posts[1];
 	  }
@@ -58,7 +52,7 @@ function format_rows($raw_posts)
 			list($width, $height) = getimagesize($image_source);
 			$span_calc = ($width/$height)*1.2;
 			$span = ceil($span_calc);
-			if($span < 3)
+			if(true)//$span < 3)
 			  {
 				$span = 3;
 			  }
@@ -66,7 +60,7 @@ function format_rows($raw_posts)
 		  }
 		else
 		  {
-			$formatted_postings[$i]['span'] = 2;
+			$formatted_postings[$i]['span'] = 3;
 		  }
 		  }
 	  }
@@ -81,9 +75,10 @@ function print_formatted_rows($postings)
 	$total_spans = 0;
 	$filler['post'] = "filler";
 
-	echo "
-		<ul class='thumbnails'>";
+	//	echo "
+	//		<ul class='thumbnails'>";
 
+	echo "<div class='row span12' style='padding-left:25px'>";
 	for($i=0; $i<$num_posts; $i++)
 	  {
 		if(($total_spans + $postings[$i]['span']) <= 12)
@@ -134,6 +129,6 @@ function print_formatted_rows($postings)
 			print_post_row($post_row);
 		}
 		echo "
-				</ul>";
+				</div>";
 }
 ?>
