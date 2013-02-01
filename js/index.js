@@ -1,4 +1,9 @@
-
+window.onload = function(){
+	$('#postings').masonry({
+			itemSelector: '.front-page-button',
+			isAnimated: true
+		});
+}
 
 window.onresize = function(){
 	$('#postings').masonry('reload');
@@ -11,11 +16,8 @@ $(document).ready(function(){
 	$('#footer').css('background', "url('images/bg-tile.png') #323232");
 	$('#footer').css('color', '#eee');
 
-	$('#postings').masonry({
-			itemSelector: '.front-page-button',
-			isAnimated: true
-		});
-	$('#postings').masonry('reload');
+
+
 
 /*	$('#box').hover(function(){
 		$('#box').css('bottom', '0px');
