@@ -189,7 +189,7 @@ function print_body()
 			</div>
 			</div>
 		</div>
-		<div id='postings' class='row'>";
+		<div id='postings-container' class='row'>";
 	print_formatted_rows($postings);
 	echo "
 		</div>

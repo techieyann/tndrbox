@@ -45,22 +45,37 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	width:100%;
 }
 
+
+#postings
+{
+	padding-top:20px;
+}
+#postings-container
+{
+	position:relative;
+	min-height:80%;
+	background: url('../images/bg-tile.png') #323232;
+}
+
 /* header styles */
 .modal-body
 {
 	max-height:600px;
 }
+
 @media (min-width: 1200px) { 
-.modal{
-    width: 960px;
-    margin-left: -480px;}
-#middle-box{
-	width:1060px;
-}
-#box{
-	width:1190px; 
-	margin-left:-595px;
-}
+
+	.modal{
+	    width: 960px;
+	    margin-left: -480px;}
+	#middle-box{
+		width:1060px;
+	}
+	#box{
+		width:1190px; 
+		margin-left:-595px;
+	}
+
 
  }
  
@@ -76,6 +91,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	width:960px;
 	margin-left:-480px;
 }
+
  }
 
 @media (min-width: 768px) and (max-width:969px)
@@ -94,6 +110,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 @media (max-width:767px)
 {
+
 .modal-body
 {
 	max-height:300px;
@@ -183,15 +200,6 @@ form
 
 }
 
-#postings
-{
-	padding-top:20px;
-
-	position:relative;
-	min-height:80%;
-		background: url('../images/bg-tile.png') #323232;
-}
-
 
 
 .front-page-button
@@ -200,6 +208,7 @@ form
 	padding:auto;
 	text-align:center;
 	background:#eee;
+	margin-bottom:20px;
 }
 .white-bg
 {
