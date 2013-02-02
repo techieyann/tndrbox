@@ -55,6 +55,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	position:relative;
 	min-height:80%;
 	background:#eee;
+	padding:0px 10px 0px 10px;
 }
 
 /* header styles */

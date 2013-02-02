@@ -40,7 +40,7 @@ function print_head()
 </head>
 
 <body>
-
+<header>
 <div id='top' class='navbar navbar-inverse navbar-static-top'>
 	<div class='navbar-inner'>
 		<div class='container'>
@@ -82,6 +82,7 @@ function print_head()
         </div>
 	</div>	
 </div>
+</header>
 <div id='body-container' class='container'><br>";
 
 }

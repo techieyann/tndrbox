@@ -143,11 +143,6 @@ function print_body()
   {
 	global $postings, $tag_example, $category;
 	echo "
-	<div id='post-modal' class='modal hide fade white-bg' tabindex='-1' role='dialog' aria-hidden='true'>
-		<div id='modal-loading' class='centered'>
-			<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
-		</div>
-	</div> 
 		<div id='postings-header' class='row'>
 			<div class='btn-group span4' style='padding-left:10px'>
 				<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>
@@ -176,14 +171,15 @@ function print_body()
 
 				
 
-
-					<form action='scripts/alpha_to_numeric_tag.php' method='get' class='form form-search form-inline span4'>
+			<div class='span4'>
+					<form action='scripts/alpha_to_numeric_tag.php' method='get' class='form form-search form-inline span12'>
 
 							<input type='text' id='tag-search' name='tag-search' class='search-query span4' placeholder='eg. \"$tag_example\"'>
 
 					</form>
+			</div>
 			<div class='span4'>
-			<div class='btn-group pull-right'>
+			<div class='btn-group pull-right' style='padding-right:10px'>
 				<button title='Tiles' class='btn disabled' href='#'><i class='icon-th-large'></i></button>
 				<button title='List coming soon...' class='btn disabled' href='#'><i class='icon-list'></i></button>";
 	/*				<button title='Map coming soon...' class='btn disabled' href='#'><i class='icon-globe'></i></button>*/
@@ -199,6 +195,12 @@ function print_body()
 
 <div id='box'>
 	<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
-</div>";
+</div>
+
+	<div id='post-modal' class='modal hide fade white-bg' tabindex='-1' role='dialog' aria-hidden='true'>
+		<div id='modal-loading' class='centered'>
+			<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
+		</div>
+	</div> ";
   }
 ?>
