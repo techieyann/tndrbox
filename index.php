@@ -73,7 +73,6 @@ elseif(isset($_GET['tag']))
 	  {
 			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE tag_1=$set_tag_id AND active=1";
 			$result = query_db($query);
-			array_push($result, $post_result[0]);
 		$tag_example = $title;
 	  }
   }
