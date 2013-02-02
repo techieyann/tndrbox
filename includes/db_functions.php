@@ -104,7 +104,7 @@ function get_categories()
 
 function get_active_categories()
 {
-		$query = "SELECT id, tag FROM tags WHERE id<0 AND num_ref>0 ORDER BY tag ASC";
+		$query = "SELECT id, tag FROM tags WHERE id<0 AND num_ref>0 ORDER BY id DESC";
 		return query_db($query);
 
 }

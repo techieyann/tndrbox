@@ -30,10 +30,14 @@ if(isset($_GET['p']))
 	  {
 		$m_id = $GLOBALS['m_id'];
 
-		if($m_id == $post['a_id'] || check_admin())
+		if($m_id == $post['a_id'])
 		  {
 			$owner_flag = true;
 		  }
+	  }
+	if(check_admin())
+	  {
+		$owner_flag = true;
 	  }
 
 	extract($post);
