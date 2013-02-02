@@ -76,7 +76,7 @@ function print_formatted_rows($postings)
 	$filler['post'] = "filler";
 
 		echo "
-			<div id='postings' class='row span12'>";
+			<div id='postings' class=''>";
 
 
 	for($i=0; $i<$num_posts; $i++)

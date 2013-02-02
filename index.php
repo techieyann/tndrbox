@@ -26,7 +26,7 @@ $p_flag = 0;
 $result = get_most_popular_tags(1);
 $tag_example = $result[0]['tag'];
 
-$category = "";
+$category = "Categories";
 
 if(isset($_GET['p']))
   {
@@ -64,23 +64,16 @@ elseif(isset($_GET['tag']))
 
 	if($set_tag_id > 0)
 	  {
-		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_1='$set_tag_id' OR tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1";
+		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1";
 		$result = query_db($query);
 		$i=0;
 		$category = $title;
 	  }
 	else
 	  {
-		$query = "SELECT id FROM business WHERE category=$set_tag_id AND active_post=1 ORDER BY last_touched DESC";
-		$business_result = query_db($query);
-		$result = array();
-		foreach($business_result as $business)
-		  {
-			$id = $business['id'];
-			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$id AND active=1";
-			$post_result = query_db($query);
+			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE tag_1=$set_tag_id AND active=1";
+			$result = query_db($query);
 			array_push($result, $post_result[0]);
-		  }
 		$tag_example = $title;
 	  }
   }
@@ -157,19 +150,30 @@ function print_body()
 		</div>
 	</div> 
 		<div id='postings-header' class='row'>
-			<div class='btn-group span4' style='padding-left:10px'>";
+			<div class='btn-group span4' style='padding-left:10px'>
+				<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>
+					$category
+					<span class='caret'></span>
+				</a>
+				<ul class='dropdown-menu'>";
 	$count = 0;
 	$categories = get_active_categories();
 	foreach($categories as $category)
 	  {
-		extract($category);
-		echo "
-		 		<button class='btn' href='index?tag=$id' title='$tag'>
-					<img src='images/$tag.png'>
-				</button>";
+		if($count++ > 0)
+		  {
+			echo "
+					<li class='divider'></li>";
+		  }
+
+			extract($category);
+			echo "
+					<li><a href='?tag=$id'><img src='images/$tag.png'> $tag</a></li>";
+
 	  }
 	echo "
-							</div>
+				</ul>
+	   		</div>
 
 				
 
@@ -189,7 +193,7 @@ function print_body()
 			</div>
 			</div>
 		</div>
-		<div id='postings-container' class='row'>";
+		<div id='postings-container' class=''>";
 	print_formatted_rows($postings);
 	echo "
 		</div>

@@ -121,9 +121,17 @@ function print_post_row($post_row)
 		  {
 		$id = $post['id'];
 
+		$tag_1 = $post['tag_1'];
+		$tags[1] = get_tag($tag_1);
+
 		echo "
 			<a href='?p=$id' class='modal-trigger'>
-			<div class='$span front-page-button'>";
+			<div class='$span front-page-button'>
+				<div class='front-page-button-header'>
+				<img src='images/$tags[1].png' alt='$tags[1]'>
+				</div>
+
+				<div class='front-page-button-body'>";
 
 		if($post['photo'] != "")
 		  {
@@ -133,15 +141,15 @@ function print_post_row($post_row)
 
 		  }
 
-		$tag_1 = $post['tag_1'];
 		$tag_2 = $post['tag_2'];
 		$tag_3 = $post['tag_3'];
 
-		$tags[1] = get_tag($tag_1); 
+ 
 		$tags[2] = get_tag($tag_2); 
 		$tags[3] = get_tag($tag_3);
 
 		echo "
+			<div class='front-page-button-text'>
 			<h4>".$post['title']."</h4>";
 
 		$date = format_date($id);
@@ -153,10 +161,11 @@ function print_post_row($post_row)
 		  }
 		echo "
 					<ul class='inline centered'>
-					<li><img src='images/$tags[1].png' alt='$tags[1]'></li>
 					<li class='tag'>$tags[2]</li>
 					<li class='tag'>$tags[3]</li>
 					</ul>
+				</div>
+				</div>
 			</div>
 			</a>";
 		  }

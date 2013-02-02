@@ -35,7 +35,6 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 #footer{ 
 	margin: 0 auto; 
 	text-align: center;
-
 	padding-bottom:10px;
 
 }
@@ -48,13 +47,14 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 #postings
 {
+	margin: 0 auto;
 	padding-top:20px;
 }
 #postings-container
 {
 	position:relative;
 	min-height:80%;
-	background: url('../images/bg-tile.png') #323232;
+	background:#eee;
 }
 
 /* header styles */
@@ -172,14 +172,18 @@ form
 
 .tag
 {
-	border:solid 1px black;
        -webkit-border-radius: 20px;
           -moz-border-radius: 20px;
                border-radius: 20px;
-	background:#6C0E0F;
-	padding:2px;
-	color: #eee;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.25);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.25);
+                box-shadow: 0 1px 2px rgba(0,0,0,.25);
+	background:#ccc;
+	padding:2px 5px 2px 5px;
+	color: #333;
 }
+
+
 	
 #postings-header
 {
@@ -194,21 +198,47 @@ form
           -moz-border-top-right-radius: 5px;
                border-top-right-radius: 5px;
 
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-                box-shadow: 0 1px 2px rgba(0,0,0,.15);
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.45);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.45);
+                box-shadow: 0 1px 2px rgba(0,0,0,.45);
 
 }
 
+.front-page-button-header
+{
+	padding-top:2px;
+	width:100%;
+	color:#eee;
+}
 
+.front-page-button-body
+{
+	background:#eee;
+       -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+               border-radius: 10px;
+	margin:2px 5px 5px 5px;
+	
+}
+
+.front-page-button-text
+{
+	padding:5px 2px 3px 2px;
+}
 
 .front-page-button
 {
-	border:solid 1px #323232;
 	padding:auto;
 	text-align:center;
-	background:#eee;
-
+	background:#999;
+	color:#eee;
+	margin-bottom:10px;
+       -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+               border-radius: 10px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.25);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.25);
+                box-shadow: 0 1px 2px rgba(0,0,0,.25);
 }
 .white-bg
 {
@@ -239,15 +269,12 @@ form
 	padding-top: 10px;
 }
 
-.thumbnail
-{
-	padding:0;
-	height:100%;
-}
+
 
 .front-page-button img
 {
 	max-width:100%;
+
 }
 #tndrbox-logo {
 	background: url(../images/logo-alpha.png);
