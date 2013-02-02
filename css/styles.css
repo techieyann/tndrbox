@@ -16,6 +16,7 @@
 
 html, body {
 height:100%;
+overflow-x:hidden;
 }
 body {
 font-family: Helvetica, sans-serif;
@@ -53,7 +54,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 #postings-container
 {
 	position:relative;
-	min-height:80%;
+	min-height:90%;
 	background:#eee;
 	padding:0px 10px 0px 10px;
 }
@@ -96,14 +97,14 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	}
 	#box{
 		width:1190px; 
-		margin-left:-595px;
+		margin-left:-602px;
 	}
 
 
  }
  
 /* Portrait tablet to landscape and desktop */
-@media (min-width: 970px) and (max-width: 1199px) {
+@media (min-width: 980px) and (max-width: 1199px) {
 .modal{
     width: 760px;
     margin-left: -380px;}
@@ -112,12 +113,12 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 }
 #box{
 	width:960px;
-	margin-left:-480px;
+	margin-left:-487px;
 }
 
  }
 
-@media (min-width: 768px) and (max-width:969px)
+@media (min-width: 768px) and (max-width:979px)
 {
 .modal{
     width: 760px;
@@ -127,7 +128,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 }
 #box{
 	width:744px;
-	margin-left:-372px;
+	margin-left:-379px;
 }
 }
 
