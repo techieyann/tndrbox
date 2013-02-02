@@ -24,9 +24,9 @@ $result = array();
 $p_flag = 0;
 
 $result = get_most_popular_tags(1);
-$tag_example = $result[0]['tag'];
+$tag_example = "eg. \"".$result[0]['tag']."\"";
 
-$category = "Categories";
+$category_selection = "Categories";
 
 if(isset($_GET['p']))
   {
@@ -67,13 +67,13 @@ elseif(isset($_GET['tag']))
 		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1";
 		$result = query_db($query);
 		$i=0;
-		$category = $title;
+		$tag_example = $title;
 	  }
 	else
 	  {
 			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE tag_1=$set_tag_id AND active=1";
 			$result = query_db($query);
-		$tag_example = $title;
+		$category_selection = $title;
 	  }
   }
 else
@@ -141,12 +141,12 @@ disconnect_from_db();
 
 function print_body()
   {
-	global $postings, $tag_example, $category;
+	global $postings, $tag_example, $category_selection;
 	echo "
 		<div id='postings-header' class='row'>
 			<div class='btn-group span4' style='padding-left:10px'>
 				<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>
-					$category
+					".($category_selection != "Categories" ? "<img src='images/$category_selection.svg' width='20'> &nbsp":"")."$category_selection
 					<span class='caret'></span>
 				</a>
 				<ul class='dropdown-menu'>";
@@ -154,16 +154,19 @@ function print_body()
 	$categories = get_active_categories();
 	foreach($categories as $category)
 	  {
+		extract($category);
+		if($tag != $category_selection)
+		  {
 		if($count++ > 0)
 		  {
 			echo "
 					<li class='divider'></li>";
 		  }
 
-			extract($category);
-			echo "
-					<li><a href='?tag=$id'><img src='images/$tag.png'> &nbsp &nbsp $tag</a></li>";
 
+			echo "
+					<li><a href='?tag=$id'><img src='images/$tag.svg' width='20'> &nbsp &nbsp $tag</a></li>";
+		  }
 	  }
 	echo "
 				</ul>
@@ -174,7 +177,7 @@ function print_body()
 			<div class='span4'>
 					<form action='scripts/alpha_to_numeric_tag.php' method='get' class='form form-search form-inline span12'>
 
-							<input type='text' id='tag-search' name='tag-search' class='search-query span4' placeholder='eg. \"$tag_example\"'>
+							<input type='text' id='tag-search' name='tag-search' class='search-query span4' placeholder='$tag_example'>
 
 					</form>
 			</div>

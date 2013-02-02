@@ -58,6 +58,28 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	padding:0px 10px 0px 10px;
 }
 
+	
+#postings-header
+{
+	background:#6C0E0F;
+	padding-top:10px;
+	padding-bottom:10px;
+	z-index:100;
+       -webkit-border-top-left-radius: 5px;
+          -moz-border-top-left-radius: 5px;
+               border-top-left-radius: 5px;
+       -webkit-border-top-right-radius: 5px;
+          -moz-border-top-right-radius: 5px;
+               border-top-right-radius: 5px;
+
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.45);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.45);
+                box-shadow: 0 1px 2px rgba(0,0,0,.45);
+
+}
+
+
+
 /* header styles */
 .modal-body
 {
@@ -185,25 +207,6 @@ form
 }
 
 
-	
-#postings-header
-{
-	background:#6C0E0F;
-	padding-top:10px;
-	padding-bottom:10px;
-
-       -webkit-border-top-left-radius: 5px;
-          -moz-border-top-left-radius: 5px;
-               border-top-left-radius: 5px;
-       -webkit-border-top-right-radius: 5px;
-          -moz-border-top-right-radius: 5px;
-               border-top-right-radius: 5px;
-
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.45);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.45);
-                box-shadow: 0 1px 2px rgba(0,0,0,.45);
-
-}
 
 .front-page-button-header
 {

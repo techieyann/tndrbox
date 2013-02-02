@@ -24,6 +24,9 @@ window.onresize = function(){
 	}
 };
 
+
+
+
 $(document).ready(function(){
 
 	$('#tag-search').autocomplete({source:'includes/tag_search.php'});
@@ -32,6 +35,9 @@ $(document).ready(function(){
 
 
 
+
+
+//http://stackoverflow.com/questions/2907367/have-a-div-cling-to-top-of-screen-if-scrolled-down-past-it
 
 
 /*	$('#box').hover(function(){
