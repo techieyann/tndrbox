@@ -128,7 +128,7 @@ function print_post_row($post_row)
 			<a href='?p=$id' class='modal-trigger'>
 			<div class='$span front-page-button'>
 				<div class='front-page-button-header'>
-				<img src='images/$tags[1].png' alt='$tags[1]'>
+				$tags[1]
 				</div>
 
 				<div class='front-page-button-body'>";

@@ -167,7 +167,7 @@ function print_body()
 
 			extract($category);
 			echo "
-					<li><a href='?tag=$id'><img src='images/$tag.png'> $tag</a></li>";
+					<li><a href='?tag=$id'><img src='images/$tag.png'> &nbsp &nbsp $tag</a></li>";
 
 	  }
 	echo "
