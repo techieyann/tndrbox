@@ -46,7 +46,7 @@ function verify_logged_in()
 {
 	if($GLOBALS['logged_in'] == false)
 	{
-		header("location:/");
+		header("location:index");
 		$GLOBALS['DBH'] = null;
 		exit;
 	}

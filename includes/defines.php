@@ -11,7 +11,7 @@ This file defines global values for site usage.
 //mysql metadata
 	$mysql_user	='phpdaemon';
 	$mysql_pass	='q!32Hj~';
-	$mysql_db	='cream';
+	$mysql_db	='cream'; //_live';
 
 
 ?>
