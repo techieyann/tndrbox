@@ -83,7 +83,7 @@ if(strcmp($pass1,$pass2) != 0 || $pass1 =="")
 $md5_pass = md5($pass1);
 	
 //create new user and log them in
-$query = "INSERT INTO members (email, nickname, password, b_id) VALUES ('$email','$nickname','$md5_pass', $b_id)";
+$query = "INSERT INTO members (email, password, b_id) VALUES ('$email', '$md5_pass', $b_id)";
 $result = query_db($query);
 if(!$result)
   {

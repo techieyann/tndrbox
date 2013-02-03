@@ -180,7 +180,7 @@ function print_edit_user_form($id="")
 	  {
 		$append_string = "?id=$id";
 	  }
-	$query = "SELECT email, nickname FROM members WHERE id=$id";
+	$query = "SELECT email FROM members WHERE id=$id";
 	$result = query_db($query);
 	extract($result[0]);
 	echo "
@@ -199,15 +199,6 @@ function print_edit_user_form($id="")
 			</div>";
 	  }
 	echo "
-			<div class='control-group'>
-				<label class='control-label' for='nickname'>
-					Nickname *
-				</label>
-				<div class='controls'>
-					<input required type='text' maxlength=50 name='nickname' id='nickname' value='$nickname' placeholder='Nickname...' class='input-medium'>
-				</div>
-			</div>
-
 			<div class='control-group'>
 				<label class='control-label' for='pass1'>
 					Password
@@ -287,9 +278,7 @@ else
 	$result = query_db($query);
 	$business = $result[0];
 
-	$query = "SELECT nickname FROM members WHERE id=$a_id";
-	$result = query_db($query);
-	$nickname = $result[0]['nickname'];
+
 
    	$tags[1] = get_tag($tag_1); 
    	$tags[2] = get_tag($tag_2); 
@@ -358,8 +347,7 @@ else
 
 								<div class='row span11'>								
 									<div class='posting-time pull-right muted'>
-										<p>Posted by <strong>$nickname</strong>, <br>
-										 at <strong>";
+										<p>Posted at <strong>";
 	print_formatted_time($posting_time);
 	echo "</strong></p>
 									</div>

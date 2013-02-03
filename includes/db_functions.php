@@ -21,9 +21,7 @@ function analyze_user()
 		$sid = $session[1];
 		$email = $session[0];
 
-		
-		$query = "SELECT id, nickname, b_id, s_id FROM members WHERE email = '".$email."'";
-        
+		$query = "SELECT id, b_id, s_id FROM members WHERE email = '".$email."'";
 		$result = query_db($query);
 			
 		if(md5($result[0]['s_id']) == $sid)
@@ -32,7 +30,6 @@ function analyze_user()
 
 			$GLOBALS['logged_in'] = true;
 			$GLOBALS['email'] = $email;
-			$GLOBALS['nickname'] = $nickname;
 			$GLOBALS['m_id'] = $id;
 			$GLOBALS['b_id'] = $b_id;
 		  }

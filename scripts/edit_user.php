@@ -35,21 +35,16 @@ if(strcmp($pass1,$pass2) != 0)
 	
 //hash the password
 $md5_pass = md5($pass1);
-$nick_flag = false;
 $pass_flag = false;
-if(isset($nickname) && $nickname != "")
-  {
-	$nick_flag = true;
-  }
-if(isset($nickname) && $pass1 != "")
+
+if($pass1 != "")
   {
 	$pass_flag = true;
   }
 
 //update user information
 $query = "UPDATE members SET ".
-  (check_admin() ? "email='$email', ":"").
-  "nickname='$nickname'".
+  (check_admin() ? "email='$email'":"").
   ($pass_flag ? ", password='$md5_pass'": "").
   " WHERE id=$id";
 

@@ -65,15 +65,6 @@ echo "
 			</div>
 
 			<div class='control-group'>
-				<label class='control-label' for='nickname'>
-					Nickname *
-				</label>
-				<div class='controls'>
-					<input required type='text' maxlength=50 name='nickname' id='nickname' placeholder='Nickname...' class='input-medium'>
-				</div>
-			</div>
-
-			<div class='control-group'>
 				<label class='control-label' for='pass1'>
 					Password *
 				</label>

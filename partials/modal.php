@@ -62,10 +62,6 @@ else
 	$result = query_db($query);
 	$business = $result[0];
 
-	$query = "SELECT nickname FROM members WHERE id=$a_id";
-	$result = query_db($query);
-	$nickname = $result[0]['nickname'];
-
    	$tags[1] = get_tag($tag_1); 
    	$tags[2] = get_tag($tag_2); 
    	$tags[3] = get_tag($tag_3);
@@ -133,8 +129,7 @@ else
 
 								<div class='row span11'>								
 									<div class='posting-time pull-right muted'>
-										<p>Posted by <strong>$nickname</strong>, <br>
-										 at <strong>";
+										<p>Posted at <strong>";
 	print_formatted_time($posting_time);
 	echo "</strong></p>
 									</div>
