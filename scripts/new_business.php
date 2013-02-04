@@ -39,6 +39,8 @@ $result = query_db($query);
 if($result)
   {
 	$b_id = get_last_insert_ID();
+	if(isset($_FILES['logo_upload'])
+	  {
 	if($_FILES['logo_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['logo_upload']['error'];
@@ -64,6 +66,7 @@ if($result)
 					}
 				}
 			}
+	  }
 	header("location:../settings?view=new_post");
   }
 else

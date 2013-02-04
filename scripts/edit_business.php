@@ -24,22 +24,10 @@ else
 	$b_id = $GLOBALS['b_id'];
   }
 
-$query = "SELECT category FROM business WHERE id='$b_id'";
-$result = query_db($query);
-$old_category_id = $result[0]['category'];
-
 extract($_POST);
 
 
-if($old_category_id == $category)
-{
-	$new_category = $old_category_id;
-}
-else
-{
-	$new_category = add_tag($category);
-	decrement_tag($old_category_id);
-}
+
 
 	//need to write geocoding script to get lat/lon
 	$lat = 0;
@@ -47,6 +35,8 @@ else
 
 	$logo_upload_flag = false;
 
+if(isset($_FILES['logo_uplpad']))
+  {
 	if($_FILES['logo_upload']['error'] > 0)
       {
        	echo "Error: ".$_FILES['logo_upload']['error'];
@@ -70,8 +60,8 @@ else
 		      }
 		  }
 	  }
-
-$query = "UPDATE business SET name='$name', category='$new_category', 
+  }
+$query = "UPDATE business SET name='$name', category='$category', 
         address='$address', city='$city',
 		state='$state', zip='$zip', lat='$lat', lon='$lon',
 		url='$url', number='$number', hours='$hours'

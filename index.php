@@ -24,7 +24,11 @@ $result = array();
 $p_flag = 0;
 
 $result = get_most_popular_tags(1);
-$tag_example = "Filter by tag, eg. \"".$result[0]['tag']."\"";
+$tag_example = "Filter by tag";
+if(isset($result[0]))
+  {
+	$tag_example .= ", eg. \"".$result[0]['tag']."\"";
+  }
 
 $category_selection = "Categories";
 
@@ -214,6 +218,7 @@ function format_posts($raw_posts)
 	$i=-1;
 	$looper = $raw_posts;
 	$processed_id = 0;
+	$formatted_postings = "";
 	if(isset($raw_posts['p_flag']))
 	  {
 		$i++;
@@ -238,7 +243,8 @@ function format_posts($raw_posts)
 
 function print_postings($posts)
 {
-
+  if(isset($posts[0]))
+	{
 	foreach($posts as $post_data)
 	  {
 		$post = $post_data['post'];
@@ -303,6 +309,6 @@ function print_postings($posts)
 			</div>";
 		  }
 	  }
-
+	}
 }
 ?>

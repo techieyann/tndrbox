@@ -28,7 +28,14 @@ if(strlen($search) > 0)
 	  {
 		extract($current_tag);
 		$result_flag = 1;
-		$return_str = $return_str." {\"label\": \"$tag\", \"value\": \"$id\"},";
+		if($active_flag)
+		  {
+			$return_str = $return_str." {\"label\": \"$tag\", \"value\": \"$id\"},";
+		  }
+		else
+		  {
+			$return_str = $return_str." \"$tag\",";
+		  }
 	  }
 	$return_str_len = strlen($return_str);
 	if($result_flag == 1)

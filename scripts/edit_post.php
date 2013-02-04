@@ -28,41 +28,18 @@ if(isset($_GET['id']))
 
 	extract($result[0]);
 	extract($_POST);
-	$old_tag1 = get_tag($tag_1);
-	$old_tag2 = get_tag($tag_2);
-	$old_tag3 = get_tag($tag_3);
 
-	if(strcmp($tag1, $old_tag1) != 0)
-	  { 
-		$tag1_id = add_tag($tag1);
-		decrement_tag($tag_1);
-	  }
-	else
-	  {
-		$tag1_id = $tag_1;
-	  }
-	
-	if(strcmp($tag2, $old_tag2) != 0)
-	  { 
-		$tag2_id = add_tag($tag2);
-		decrement_tag($tag_2);
-	  }
-	else
-	  {
-		$tag2_id = $tag_2;
-	  }
-	if(strcmp($tag3,$old_tag3) != 0)
-	  { 
-		$tag3_id = add_tag($tag3);
-		decrement_tag($tag_3);
-	  }
-	else
-      {
-		$tag3_id = $tag_3;
-	  }
+	push_old_post($b_id);	
+
+
+	$tag1_id = add_tag($tag1);
+	$tag2_id = add_tag($tag2);
+	$tag3_id = add_tag($tag3);
 
 	$image_upload_flag = false;
 
+	if(isset($_FILES['image_upload']))
+	  {
 	if($_FILES['image_upload']['error'] > 0)
       {
        	echo "Error: ".$_FILES['image_upload']['error'];
@@ -83,8 +60,8 @@ if(isset($_GET['id']))
 		      }
 		  }
 	  }
-		
-	push_old_post($b_id);
+	  }	
+
 
 	$query = "UPDATE postings SET active=1, viewed=0, title='$title', blurb='$description', 
 			tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id',
