@@ -76,7 +76,7 @@ else
 			
 				<div class='modal-header'>
 					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>";
-    if($owner_flag)
+	/*    if($owner_flag)
 	  {
 		echo "
 					<ul class='inline pull-right'>
@@ -84,15 +84,18 @@ else
 						<li><a title='Deactivate'  href='settings?view=deactivate_post&id=$id'><i class='icon-ban-circle'></i></a></li>
 						<li><a title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></a></li>						
 					</ul>";
-	  }
+					}*/
 
 	echo "
-						<h3 id='post-modal-label' class='centered'><strong>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</strong>".($date != "" ? " <i>on $date</i>" :"")."</h3>
+					<ul class='inline centered'>
+						<li>
+						<li id='post-modal-label'><h3>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</h3></li>".($date != "" ? "<li><h4> <i>on $date</i></h4></li>" :"")."
+					</ul>
 				</div>
 				<div class='modal-body'>
 					<div class='row-fluid'>
 						<div class='span7 top-left' id='post'>
-							<div class='row span12'>
+							<div id='posting-image' class='row span12'>
 								<div class='span12 centered'>";
 
 	$map_used_flag = false;
@@ -168,7 +171,10 @@ else
    		echo $name;
    	}
 	echo $close_link."</h3><br>
-							<div class='row'>
+							<div class='row'>";
+	if($hours != "")
+	  {
+	echo "
 							<div class='span6'>
 								Hours:<br>";
 	$hours = explode(",", $hours);
@@ -178,14 +184,16 @@ else
 								$line<br>";
 	}
 	echo "
-							</div>
+							</div>";
+	  }
+	echo "
 							<div class='span6'>
 								<address>
 								<a id=\"business-address\" href=\"http://maps.google.com/?q=$address, $city, $state $zip\">
 								$address<br>
 								$city, $state, $zip<br>
 								</a>
-								P: $number<br>
+								".($number != "" ? "P: $number<br>":"")."
 								</address>
 							</div>
 						</div>
@@ -197,13 +205,17 @@ else
 
 				<button id='share-button' class='share-button btn btn-info pull-left' title=\"
 Select your method:
-'<button type='button' class='close' onclick='$(&quot;#share-button&quot;).popover(&quot;hide&quot;);'>&times;</button>\" data-content=\"
+<button type='button' class='close' onclick='$(&quot;#share-button&quot;).popover(&quot;hide&quot;);'>&times;</button>\" data-content=\"
+<ul class='inline'>
+
+<a href='mailto:?to=&subject=$title&body=http://tndrbox.com/?p=$p_id'><i class='icon-envelope'></i> E-mail</a><br>
 
 <a href='https://twitter.com/share' class='twitter-share-button' data-url='http://tndrbox.com/?p=$p_id' data-text='$title at $name' data-count='none' data-dnt='true'>Tweet</a>
+
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='//platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>
 
+<iframe src='//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftndrbox.com%2F%3Fp%3D$p_id&amp;&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;font=arial&amp;colorscheme=light&amp;action=recommend&amp;height=21' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:450px; height:21px;' allowTransparency='true'></iframe>
 
-<iframe src='//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ftndrbox.com%2F%3Fp%3D$p_id&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;font=arial&amp;colorscheme=light&amp;action=recommend&amp;height=21' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:450px; height:21px;' allowTransparency='true'></iframe>
 \"
 				>Share</button>
 

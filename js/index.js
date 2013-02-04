@@ -29,7 +29,27 @@ window.onresize = function(){
 
 $(document).ready(function(){
 
-	$('#tag-search').autocomplete({source:'includes/tag_search.php'});
+	$('#tag-search').focus();
+
+	$('#tag-search').autocomplete({
+		source: 'scripts/search_tag?active=1',
+		focus: function(event, ui){
+			$('#tag-search').val(ui.item.label);
+			return false;
+		},
+		select: function(event, ui){
+			window.location = ('?tag='+ui.item.value);
+			return false;
+		}
+	});
+
+	$('#tag-search').keypress(function(e){
+		if(e.keyCode == 13) //enter key
+		{
+			return false;
+		}
+	});
+
 
 	$('#footer').css('background', "#eee");
 

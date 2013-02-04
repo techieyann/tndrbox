@@ -42,7 +42,7 @@ else
 	$GLOBALS['header_html_title'] = "tndrbox - ".$result[0]['name'];
   }
 
-//include jquery form application (jquery.form.js) and specialized javascript for this page (home.js)
+ //include jquery form application (jquery.form.js) and specialized javascript for this page (home.js)
 
 
 $GLOBALS['header_title'] = "";
@@ -79,10 +79,12 @@ function print_body()
 				<li>
 					<h4><a class='nav-link' href='new_user'>Add User</a></h4>
 				</li>
-				<li><form class='navbar-search'>
-					<input type='text' class='search-query span11' placeholder='Edit settings'>
-					<div class='icon-search'></div>
-				</form></li>";
+				<li>
+					<div class='input-prepend'>
+						<span class='add-on'><i class='icon-search'></i></span>
+						<input id='business-search' type='text' class='span11' placeholder='Businesses'>
+					</div>
+				</li>";
 	  }
 	else
 	  {

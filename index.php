@@ -19,12 +19,12 @@ analyze_user();
 //set variables
 //body
 
-$title = "Welcome";
+$title = "";
 $result = array();
 $p_flag = 0;
 
 $result = get_most_popular_tags(1);
-$tag_example = "eg. \"".$result[0]['tag']."\"";
+$tag_example = "Filter by tag, eg. \"".$result[0]['tag']."\"";
 
 $category_selection = "Categories";
 
@@ -44,6 +44,7 @@ if(isset($_GET['p']))
 	  }
 	$p_flag = 1;
 	$result = query_db($query);
+
 	$result['p_flag'] = 1;
 	array_push($result, default_front_page_posts());
   }
@@ -64,14 +65,14 @@ elseif(isset($_GET['tag']))
 
 	if($set_tag_id > 0)
 	  {
-		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1";
+		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1 ORDER BY posting_time DESC";
 		$result = query_db($query);
 		$i=0;
 		$tag_example = $title;
 	  }
 	else
 	  {
-			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE tag_1=$set_tag_id AND active=1";
+			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE tag_1=$set_tag_id AND active=1 ORDER BY posting_time DESC";
 			$result = query_db($query);
 		$category_selection = $title;
 	  }
@@ -88,7 +89,7 @@ $postings = format_rows($result);
 
 
 //head
-$GLOBALS['header_html_title'] = "tndrbox - $title";
+$GLOBALS['header_html_title'] = "tndrbox".($title != "" ? " - $title":"");
 $GLOBALS['header_scripts'] = "
 <link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
 <script src='js/jquery-ui.js'></script>
@@ -174,22 +175,21 @@ function print_body()
 
 				
 
-			<div class='span4'>
-					<form action='scripts/alpha_to_numeric_tag.php' method='get' class='form form-search form-inline span12'>
+			<div class='input-prepend span4'>
+				<span class='add-on'><i class='icon-search'></i></span>	
+				<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
+			</div>";
 
-							<input type='text' id='tag-search' name='tag-search' class='search-query span4' placeholder='$tag_example'>
-
-					</form>
-			</div>
-			<div class='span4'>
+	/*			<div class='span4'>
 			<div class='btn-group pull-right' style='padding-right:10px'>
 				<button title='Tiles' class='btn disabled' href='#'><i class='icon-th-large'></i></button>
-				<button title='List coming soon...' class='btn disabled' href='#'><i class='icon-list'></i></button>";
-	/*				<button title='Map coming soon...' class='btn disabled' href='#'><i class='icon-globe'></i></button>*/
+				<button title='List coming soon...' class='btn disabled' href='#'><i class='icon-list'></i></button>
+				<button title='Map coming soon...' class='btn disabled' href='#'><i class='icon-globe'></i></button>
 
+
+			</div>
+			</div>*/
 	echo "
-			</div>
-			</div>
 		</div>
 		<div id='postings-container' class=''>";
 	print_formatted_rows($postings);

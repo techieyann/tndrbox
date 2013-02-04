@@ -33,7 +33,7 @@ disconnect_from_db();
 function print_body()
 {
   echo "
-	<div id=\"info\" class =\"content-pane\">
+	<div id=\"info\" class='content rounded'>
 	<div id=\"about\">
 			     	  <div id=\"email\">
 			     	  <table><tr><td>

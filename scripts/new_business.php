@@ -29,13 +29,16 @@ $lon = 0;
 								   ('$name', '$category', '$address', '$city',
 									'$state', '$zip', '$lat',' $lon', '$url',
 									'$number', '$hours')";
-	$b_id = get_last_insert_ID();
+
 
 $result = query_db($query);
 
 
+
+
 if($result)
   {
+	$b_id = get_last_insert_ID();
 	if($_FILES['logo_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['logo_upload']['error'];
@@ -65,7 +68,7 @@ if($result)
   }
 else
   {
-	header("location:../settings?view=edit_business?id=$b_id");	
+	header("location:../settings?view=new_business");	
   }
 
 disconnect_from_db($link);

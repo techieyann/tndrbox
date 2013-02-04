@@ -51,11 +51,25 @@ else
 echo "
 		<script>
 			$(function(){
-				$('#tag2').autocomplete({source:'includes/tag_search.php'});	
-				$('#tag3').autocomplete({source:'includes/tag_search.php'});
+				$('#tag2').autocomplete({
+					source:'scripts/search_tag',
+					select: function(event, ui){
+						$('#tag2').val(ui.item.label);
+						return false;
+					}
+				});	
+				$('#tag3').autocomplete({
+					source:'scripts/search_tag',
+					select: function(event, ui){
+						$('#tag3').val(ui.item.label);
+						return false;
+					}
+				});	
 
 					$('#date').datepicker({
-						dateFormat:'yy-mm-dd'
+						dateFormat: 'yy-mm-dd',
+						minDate: 0,
+						maxDate: '+7D'
 					});
 				$('.new-post-form').ajaxForm(function() {
 					loadContentByURL('posts');
@@ -76,6 +90,15 @@ echo "
 					<input type='text' maxlength=50 name='title' id='title' placeholder='Insert title here...' class='span12'>
 				</div>
 			</div>
+			<div class='control-group'>
+				<label class='control-label' for='date'>
+					Date *
+				</label>
+				<div class='controls'>
+					<input required type='text' name='date' id='date' placeholder='Click to add date...' class='span12'>
+				</div>
+			</div>
+
 			<div class='control-group'>
 				<label class='control-label' for='description'>
 					Description * 
@@ -125,12 +148,7 @@ echo "
 						<input type='file' name='image_upload' id='image_upload' class='span12'>
 					</div>
 			</div>
-			<div class='control-group'>
-				<label class='control-label' for='date'>Date</label>
-				<div class='controls'>
-					<input type='text' name='date' id='date' placeholder='Click to add date...' class='span12'>
-				</div>
-			</div>
+
 			<div class='control-group'>
 				<label class='control-label' for='address'>Address</label>
 					<div class='controls'>

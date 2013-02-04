@@ -140,16 +140,16 @@ $(document).ready(function(){
 		e.preventDefault();
 	});
 
-	
-
-	$('#edit-tag1').autocomplete({source:'includes/tag_search.php'});
-	$('#edit-tag2').autocomplete({source:'includes/tag_search.php'});
-	$('#edit-tag3').autocomplete({source:'includes/tag_search.php'});
-
-
-	$('#edit-date').datepicker();
-	$( "#date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-	$( "#edit-date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-
-	$('#post-accordion').accordion({heightStyle:'content', active:false, collapsible:true});
+	$('#busienss-search').focus();
+	$('#business-search').autocomplete({
+		source:'scripts/search_business',
+		focus: function(event, ui){
+			$('#business-search').val(ui.item.label);
+			return false;
+		},
+		select: function(event, ui){
+			window.location = ('?view=edit_profile&id='+ui.item.value);
+			return false;
+		}
+	});
  });

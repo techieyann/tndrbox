@@ -39,12 +39,26 @@ if(isset($_GET['id']))
 	echo "
 		<script>
 			$(document).ready(function(){
+				$('#tag2').autocomplete({
+					source:'scripts/search_tag',
+					select: function(event, ui){
+						$('#tag2').val(ui.item.label);
+						return false;
+					}
+				});	
+				$('#tag3').autocomplete({
+					source:'scripts/search_tag',
+					select: function(event, ui){
+						$('#tag3').val(ui.item.label);
+						return false;
+					}
+				});	
 
-				$('#tag2').autocomplete({source:'includes/tag_search.php'});	
-				$('#tag3').autocomplete({source:'includes/tag_search.php'});
 
 				$('#date').datepicker({
-					dateFormat:'yy-mm-dd'
+					dateFormat: 'yy-mm-dd',
+					minDate: 0,
+					maxDate: '+7D'
 				});
 
 				$('.edit-post-form').ajaxForm(function() {
@@ -66,6 +80,16 @@ if(isset($_GET['id']))
 					<input type='text' maxlength=50 name='title' id='title' value='$title' placeholder='Insert title here...' class='span12'>
 				</div>
 			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='date'>
+					Date *
+				</label>
+				<div class='controls'>
+					<input required type='text' name='date' id='date', value='$date', class='span12'>
+				</div>
+			</div>
+
 			<div class='control-group'>
 				<label class='control-label' for='description'>
 					Description * 
@@ -122,12 +146,7 @@ if(isset($_GET['id']))
 						<input type='file' name='image_upload' id='image_upload' class='span12'>
 					</div>
 			</div>
-			<div class='control-group'>
-				<label class='control-label' for='date'>Date</label>
-				<div class='controls'>
-					<input type='text' name='date' id='date' ".($date != '0000-00-00' ? "value='$date'":"")." placeholder='Click to add date...' class='span12'>
-				</div>
-			</div>
+
 			<div class='control-group'>
 				<label class='control-label' for='address'>Address</label>
 					<div class='controls'>

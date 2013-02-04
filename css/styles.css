@@ -84,7 +84,15 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 /* header styles */
 .modal-body
 {
-	max-height:600px;
+	max-height:70%;
+}
+
+
+
+#posting-image
+{
+	max-height:70%;
+	padding-bottom: 20px;
 }
 
 @media (min-width: 1200px) { 
@@ -137,7 +145,11 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 .modal-body
 {
-	max-height:300px;
+	max-height:280px;
+}
+#posting-image>img
+{
+	max-height:200px;
 }
 #box{
 	visibility:hidden;
@@ -162,21 +174,21 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	height:150px;
 }
 
-
-
-#posting-image
+#post
 {
-	max-height:70%;
-	padding-bottom: 20px;
+	margin-bottom:10px;
 }
+
+
 
 #posting-blurb
 {
-	padding-left:20px;
-	padding-right:20px;
+	padding-left:40px;
+	padding-right:40px;
 }
 #posting-time
 {
+	padding-right:10px;
 	padding-bottom:10px;
 }
 
