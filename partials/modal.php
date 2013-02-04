@@ -8,8 +8,6 @@ if(isset($_GET['p']))
 	connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 	analyze_user();
 
-	
-	require('prints.php');
 
 	$query = "SELECT * FROM postings WHERE id=".$_GET['p'];
 	$result = query_db($query);
@@ -233,5 +231,34 @@ else
 				</div>";
   }
 
+function print_formatted_time($time)
+{
+//YYYY-MM-DD hh:mm:ss -> hh:mm(am/pm) MM/DD/YY
 
+//Hour formatting
+$hours = substr($time,11,2);
+$pmam = "am ";
+if($hours > 12)
+{
+	$hours -= 12;
+	$pmam = "pm ";
+}
+
+//Minute extraction
+$minutes = substr($time,14,2);
+
+//Month extraction
+$month = substr($time,5,2);
+
+//Day extraction
+$day = substr($time,8,2);
+
+//Year extraction
+$year = substr($time,2,2);
+
+//Output
+echo $hours.":".$minutes.$pmam.$month."/".$day."/".$year;
+
+
+}
 ?>

@@ -9,7 +9,7 @@ in includes.php.
  ***********************************************/
 require('includes/includes.php');
 require('includes/tags.php');
-require('includes/front_page.php');
+
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
@@ -85,7 +85,7 @@ else
 
 
 
-$postings = format_rows($result);
+$postings = format_posts($result);
 
 
 //head
@@ -175,7 +175,7 @@ function print_body()
 
 				
 
-			<div class='input-prepend span4'>
+			<div class='input-prepend span4' style='padding-left:10px'>
 				<span class='add-on'><i class='icon-search'></i></span>	
 				<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
 			</div>";
@@ -191,9 +191,11 @@ function print_body()
 			</div>*/
 	echo "
 		</div>
-		<div id='postings-container' class=''>";
-	print_formatted_rows($postings);
+		<div id='postings-container' class=''>
+			<div id='postings'>";
+	print_postings($postings);
 	echo "
+			</div>
 		</div>
 
 <div id='box'>
@@ -206,4 +208,101 @@ function print_body()
 		</div>
 	</div> ";
   }
+
+function format_posts($raw_posts)
+  {
+	$i=-1;
+	$looper = $raw_posts;
+	$processed_id = 0;
+	if(isset($raw_posts['p_flag']))
+	  {
+		$i++;
+		$post = $raw_posts[0];
+		$processed_id = $post['id'];
+		$formatted_postings[$i]['post'] = $post;
+
+		$looper = $raw_posts[1];
+	  }
+	foreach($looper as $post)
+	  {
+		if($post['id'] != $processed_id)
+		  {
+			$i++;
+			$formatted_postings[$i]['post'] = $post;
+		  }
+	  }
+
+	return $formatted_postings;
+  }
+
+
+function print_postings($posts)
+{
+
+	foreach($posts as $post_data)
+	  {
+		$post = $post_data['post'];
+
+
+		if($post != "filler")
+		  {
+		$id = $post['id'];
+
+		$tag_1 = $post['tag_1'];
+		$tags[1] = get_tag($tag_1);
+
+		echo "
+			<a href='?p=$id' class='modal-trigger'>
+			<div class='span3 front-page-button'>
+				<div class='front-page-button-header'>
+				$tags[1]
+				</div>
+
+				<div class='front-page-button-body'>";
+
+		if($post['photo'] != "")
+		  {
+			$img_src = "images/posts/".$post['photo'];
+			echo "
+   			<img src='$img_src' alt='photo for ".$post['title']."'>";
+
+		  }
+
+		$tag_2 = $post['tag_2'];
+		$tag_3 = $post['tag_3'];
+
+ 
+		$tags[2] = get_tag($tag_2); 
+		$tags[3] = get_tag($tag_3);
+
+		echo "
+			<div class='front-page-button-text'>
+			<h4>".$post['title']."</h4>";
+
+		$date = format_date($id);
+
+		if($date != "")
+		  {
+			echo "
+				<p>$date</p>";
+		  }
+		echo "
+					<ul class='inline centered'>
+					<li class='tag'>$tags[2]</li>
+					<li class='tag'>$tags[3]</li>
+					</ul>
+				</div>
+				</div>
+			</div>
+			</a>";
+		  }
+		else
+		  {
+			echo "
+			<div class='$span'>
+			</div>";
+		  }
+	  }
+
+}
 ?>
