@@ -84,15 +84,15 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 /* header styles */
 .modal-body
 {
-	max-height:70%;
+	max-height:500px;
 }
 
 
 
-#posting-image
+#posting-image img
 {
-	max-height:70%;
-	padding-bottom: 20px;
+	max-height:300px;
+	margin-bottom: 20px;
 }
 
 @media (min-width: 1200px) { 
@@ -147,10 +147,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 {
 	max-height:280px;
 }
-#posting-image>img
-{
-	max-height:200px;
-}
+
 #box{
 	visibility:hidden;
 }
@@ -169,7 +166,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 
 
-#box > img
+#box img
 {
 	height:150px;
 }
