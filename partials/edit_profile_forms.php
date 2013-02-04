@@ -27,7 +27,6 @@ if(isset($_GET['id']))
 	$u_id =  $result[0]['admin_id'];
   }
 echo "
-		<div id='js-content'>
 		<script>
 			$(function(){
 				$('.accordion').accordion({
@@ -35,8 +34,18 @@ echo "
 					active:0,
 					heightStyle:'content'
 				});
+
+				$('.edit-business-form').ajaxForm(function() {
+					loadContentByURL('posts');
+				});
+
+				$('.edit-user-form').ajaxForm(function() {
+					loadContentByURL('posts');
+				});
 			});
 		</script>
+		<div id='js-content'>
+		
 		<div class='accordion'>
 			<h3>Edit Business Information</h3>
 			<div>";
@@ -80,7 +89,7 @@ $business = $result[0];
 extract($business);
 
 echo "
-		<form name='edit-business-form' enctype='multipart/form-data' action='scripts/edit_business$append_string' method='post'>
+		<form name='edit-business-form' class='edit-business-form' enctype='multipart/form-data' action='scripts/edit_business$append_string' method='post'>
 			<fieldset>
 
 			<div class='row-fluid span12'>
@@ -207,7 +216,7 @@ function print_edit_user_form($id="")
 	$result = query_db($query);
 	extract($result[0]);
 	echo "
-		<form name='new-user-form' action='scripts/edit_user$append_string' method='post' class='form-horizontal'>
+		<form name='edit-user-form' class='edit-user-form'  action='scripts/edit_user$append_string' method='post' class='form-horizontal'>
 			<fieldset>";
 	if(check_admin())
 	  {
