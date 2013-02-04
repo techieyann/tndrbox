@@ -17,7 +17,7 @@ function increment_tag($tag_id)
 {
 	$query = "SELECT num_ref FROM tags WHERE id=$tag_id";
 	$result = query_db($query);
-	$num_ref = $result[0]['num_ref'];
+	extract($result[0]);
 	if(isset($num_ref))
 	{
 		$num_ref++;
