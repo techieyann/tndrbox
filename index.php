@@ -21,16 +21,20 @@ analyze_user();
 
 $title = "";
 $result = array();
-$p_flag = 0;
+$post_flag = false;
 
 $result = get_most_popular_tags(1);
-$tag_example = "Filter by tag";
+
+$tag_example = "Tag";
+$category_selection = "Categories";
+$date = "Date";
+
 if(isset($result[0]))
   {
 	$tag_example .= ", eg. \"".$result[0]['tag']."\"";
   }
 
-$category_selection = "Categories";
+
 
 if(isset($_GET['p']))
   {
@@ -46,51 +50,73 @@ if(isset($_GET['p']))
 	  {
 		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
 	  }
-	$p_flag = 1;
+	$post_flag = true;
 	$result = query_db($query);
 
-	$result['p_flag'] = 1;
+	$result['post_flag'] = 1;
 	array_push($result, default_front_page_posts());
   }
 elseif(isset($_GET['b']))
   {
 	$b_id = $_GET['b'];
 	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id and active=1";
-	$p_flag = 1;
+	$post_flag = true;
 	$result = query_db($query);
 	$p_id = $result[0]['id'];
-	$result['p_flag'] = 1;
+	$result['post_flag'] = 1;
 	array_push($result, default_front_page_posts());
-  }
-elseif(isset($_GET['tag']))
-  {
-	$set_tag_id = $_GET['tag'];
-	$title = get_tag($set_tag_id);
-
-	if($set_tag_id > 0)
-	  {
-		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE (tag_2='$set_tag_id' OR tag_3='$set_tag_id') AND active=1 ORDER BY posting_time DESC";
-		$result = query_db($query);
-		$i=0;
-		$tag_example = $title;
-	  }
-	else
-	  {
-			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE tag_1=$set_tag_id AND active=1 ORDER BY posting_time DESC";
-			$result = query_db($query);
-		$category_selection = $title;
-	  }
   }
 else
   {
-	$result = default_front_page_posts();
+	$tag_flag = false;
+	$cat_flag = false;
+	$date_flag = false;
+	$title = "";
+
+	if(isset($_GET['date']))
+	  {
+		$date = $_GET['date'];
+		$title = $date;
+		$date_flag = true;
+	  }
+
+	if(isset($_GET['cat']))
+	  {
+		$set_cat_id = $_GET['cat'];
+		$category_selection = get_tag($set_cat_id);
+		$title .= ($date_flag ? " & " : "" ).$category_selection;
+		
+		$cat_flag = true;
+	  }
+
+	if(isset($_GET['tag']))
+	  {
+		$set_tag_id = $_GET['tag'];
+		$tag_example = get_tag($set_tag_id);
+		$title .= ($cat_flag || $date_flag ? " & " : "").$tag_example;
+
+		$tag_flag = true;
+	  }
+
+	if($tag_flag || $cat_flag || $date_flag)
+	  {
+
+		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE"
+		  .($cat_flag ? " tag_1=$set_cat_id" : "" )
+		  .($cat_flag && ($tag_flag || $date_flag) ? " AND" : "" )
+		  .($tag_flag ? " (tag_2='$set_tag_id' OR tag_3='$set_tag_id')" : "" )
+		  .($tag_flag && $date_flag ? " AND" : "" )
+		  .($date_flag ? " date=$date" : "" )
+		  ." AND active=1 ORDER BY posting_time DESC";
+		$result = query_db($query);
+	  }
+	else
+	  {
+		$result = default_front_page_posts();
+	  }
   }
 
-
-
-
 $postings = format_posts($result);
-
 
 //head
 $GLOBALS['header_html_title'] = "tndrbox".($title != "" ? " - $title":"");
@@ -99,7 +125,7 @@ $GLOBALS['header_scripts'] = "
 <script src='js/jquery-ui.js'></script>
 <script src='js/index.js'></script>";
 
-if($p_flag == 1)
+if($post_flag)
   {
 		$GLOBALS['header_scripts'] .= "
 <script type='text/javascript'> 
@@ -146,43 +172,60 @@ disconnect_from_db();
 
 function print_body()
   {
-	global $postings, $tag_example, $category_selection;
+	global $postings, $date, $tag_example, $category_selection;
 	echo "
 		<div id='postings-header' class='row'>
-			<div class='btn-group span4' style='padding-left:10px'>
+			<ul class='inline'>
+			<li><p class='white'>Filter by:</p></li>
+			<li><form class='form-inline'>
+			<div class='btn-group'>
 				<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>
 					".($category_selection != "Categories" ? "<img src='images/$category_selection.svg' width='20'> &nbsp":"")."$category_selection
 					<span class='caret'></span>
 				</a>
 				<ul class='dropdown-menu'>";
 	$count = 0;
+
+	parse_str($_SERVER['QUERY_STRING'], $query_string);
+
 	$categories = get_active_categories();
+
 	foreach($categories as $category)
 	  {
 		extract($category);
 		if($tag != $category_selection)
 		  {
-		if($count++ > 0)
-		  {
-			echo "
-					<li class='divider'></li>";
-		  }
+			if($count++ > 0)
+			  {
+				echo "
+   					<li class='divider'></li>";
+			  }
 
-
+			$query_string['cat'] = $id;
+			$href = http_build_query($query_string);
+	
 			echo "
-					<li><a href='?tag=$id'><img src='images/$tag.svg' width='20'> &nbsp &nbsp $tag</a></li>";
+					<li><a href='?$href'><img src='images/$tag.svg' width='20'> &nbsp &nbsp $tag</a></li>";
 		  }
 	  }
 	echo "
 				</ul>
 	   		</div>
+			
+			
+			<div class='input-prepend'>
+				<span class='add-on'><i class='icon-calendar'></i></span>
+				<input type='text' id='date-select' name='date-select' class='span1' placeholder='$date'>
+			</div>
 
-				
 
-			<div class='input-prepend span4' style='padding-left:10px'>
+
+			<div class='input-prepend'>
 				<span class='add-on'><i class='icon-search'></i></span>	
 				<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
-			</div>";
+			</div>
+
+			</form></li></ul>";
 
 	/*			<div class='span4'>
 			<div class='btn-group pull-right' style='padding-right:10px'>
@@ -219,7 +262,7 @@ function format_posts($raw_posts)
 	$looper = $raw_posts;
 	$processed_id = 0;
 	$formatted_postings = "";
-	if(isset($raw_posts['p_flag']))
+	if(isset($raw_posts['post_flag']))
 	  {
 		$i++;
 		$post = $raw_posts[0];

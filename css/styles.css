@@ -63,8 +63,8 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 #postings-header
 {
 	background:#6C0E0F;
-	padding-top:10px;
-	padding-bottom:10px;
+	padding-top:12px;
+
 	z-index:100;
        -webkit-border-top-left-radius: 5px;
           -moz-border-top-left-radius: 5px;

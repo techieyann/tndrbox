@@ -24,7 +24,33 @@ window.onresize = function(){
 	}
 };
 
+function addParameter(url, param, value) {
+    // Using a positive lookahead (?=\=) to find the
+    // given parameter, preceded by a ? or &, and followed
+    // by a = with a value after than (using a non-greedy selector)
+    // and then followed by a & or the end of the string
+    var val = new RegExp('(\\?|\\&)' + param + '=.*?(?=(&|$))'),
+        qstring = /\?.+$/;
 
+    // Check if the parameter exists
+    if (val.test(url))
+    {
+        // if it does, replace it, using the captured group
+        // to determine & or ? at the beginning
+        return url.replace(val, '$1' + param + '=' + value);
+    }
+    else if (qstring.test(url))
+    {
+        // otherwise, if there is a query string at all
+        // add the param to the end of it
+        return url + '&' + param + '=' + value;
+    }
+    else
+    {
+        // if there's no query string, add one
+        return url + '?' + param + '=' + value;
+    }
+}//http://stackoverflow.com/questions/7640270/adding-modify-query-string-get-variables-in-a-url-with-javascript
 
 
 $(document).ready(function(){
@@ -38,7 +64,21 @@ $(document).ready(function(){
 			return false;
 		},
 		select: function(event, ui){
-			window.location = ('?tag='+ui.item.value);
+			var search = window.location.search;
+			var uri = addParameter(search, 'tag', ui.item.value);
+			window.location = (uri);
+			return false;
+		}
+	});
+
+	$('#date-select').datepicker({
+		dateFormat: 'yy-mm-dd',
+		minDate: 0,
+		maxDate: '+14D',
+		onSelect: function(dateText, ui){
+			var search = window.location.search;
+			var uri = addParameter(search, 'date', dateText);
+			window.location = (uri);
 			return false;
 		}
 	});
