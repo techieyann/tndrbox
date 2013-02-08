@@ -77,7 +77,7 @@ else
 	
 	echo "
 				<script>
-					$(document).ready(function(){$.ga.load('".$GLOBALS['ga_account']."');});				
+					$(document).ready(function(){\$.ga.load('".$GLOBALS['ga_account']."');});				
 				</script>
 				<div class='modal-header'>
 					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>";

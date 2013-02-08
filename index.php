@@ -356,7 +356,8 @@ function print_postings($posts)
 								</div><!-- .font-page-button-text -->
 							</div><!-- front-page-button-body -->
 						</div><!-- front-page-button -->
-					</a>";
+					</a><!-- .modal-trigger -->
+";
 		  }
 		else
 		  {
