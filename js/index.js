@@ -92,6 +92,7 @@ $(document).ready(function(){
 
 
 	$('#footer').css('background', "#eee");
+	$('#footer > p').removeClass('white');
 
 
 

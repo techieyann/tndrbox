@@ -8,21 +8,14 @@ if(isset($_GET['p']))
 	connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 	analyze_user();
 
-
 	$query = "SELECT * FROM postings WHERE id=".$_GET['p'];
 	$result = query_db($query);
+
+	if(isset($result[0]))
+	  {
+
 	$post = $result[0];
 
-	$b_id = $post['b_id'];
-
-	if($post['active'] == 1)
-	  {
-		$active_flag = true;
-	  }
-	else
-	  { 
-		$active_flag = false;
-	  }
 	$owner_flag = false;
 	if(isset($GLOBALS['m_id']))
 	  {
@@ -37,6 +30,18 @@ if(isset($_GET['p']))
 	  {
 		$owner_flag = true;
 	  }
+
+	$b_id = $post['b_id'];
+
+	if($post['active'] == 1)
+	  {
+		$active_flag = true;
+	  }
+	else
+	  { 
+		$active_flag = false;
+	  }
+
 
 	extract($post);
 	$p_id = $id;
@@ -71,18 +76,20 @@ else
 	$date = format_date($id);
 	
 	echo "
-			
+				<script>
+					$(document).ready(function(){$.ga.load('".$GLOBALS['ga_account']."');});				
+				</script>
 				<div class='modal-header'>
 					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>";
-	/*    if($owner_flag)
+    if($owner_flag)
 	  {
 		echo "
 					<ul class='inline pull-right'>
 						<li><a title='Edit' href='settings?view=edit_post&id=$id'><i class='icon-pencil'></i></a></li>
-						<li><a title='Deactivate'  href='settings?view=deactivate_post&id=$id'><i class='icon-ban-circle'></i></a></li>
+						<li><a title='Deactivate'  href='settings?view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></a></li>
 						<li><a title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></a></li>						
 					</ul>";
-					}*/
+					}
 
 	echo "
 					<ul class='inline centered'>
@@ -119,7 +126,7 @@ else
 								</div>
 							</div>
 							<ul class='inline centered'>
-								<li><a href='index?tag=$tag_1' class='tag'><img src='images/$tags[1].svg' width='20'> &nbsp $tags[1]</a></li>
+								<li><a href='index?tag=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
 								<li><a href='index?tag=$tag_2' class='tag'>$tags[2]</a></li>
 								<li><a href='index?tag=$tag_3' class='tag'>$tags[3]</a></li>
 							</ul>
@@ -228,6 +235,7 @@ else
 					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 					<h4 class='error'>Error: no ID specified...</h4>
 				</div>";
+  }
   }
 
 function print_formatted_time($time)

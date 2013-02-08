@@ -29,7 +29,7 @@ if(isset($_GET['admin']))
 	  }
 	else
 	  {
-		header("location:../settings");
+		//		header("location:../settings");
 		disconnect_from_db($link);
 		return;
 	  }
@@ -47,7 +47,7 @@ else
 
 	if (!$resp->is_valid) //recaptcha failed
 	  {
-		header("location:../signup?error=captcha");	
+		//		header("location:../signup?error=captcha");	
 		exit;	    
 	  } 
   }
@@ -57,7 +57,7 @@ $redirect_url = ($admin_flag ? "settings?view=new_user&":"signup?");
 	//email format check ~[text]@[text].[txt]
 if(preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $email, $matches) == 0)
   {
-	header("location:../".$redirect_url."error=email");
+	//	header("location:../".$redirect_url."error=email");
 	disconnect_from_db($link);
 	exit;
   }
@@ -65,16 +65,16 @@ if(preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $email, $matches) =
 //email unique-ness check
 $query = "SELECT id FROM members WHERE email = '$email'";
 $result = query_db($query);
-if($result[0]['id']!="")
+if(isset($result[0]))
   {
-	header("location:../".$redirect_url."error=dup");
+	//	header("location:../".$redirect_url."error=dup");
 	disconnect_from_db($link);
 	exit;	
   }
 
 if(strcmp($pass1,$pass2) != 0 || $pass1 =="")
   {
-	header("location:../".$redirect_url."error=password");
+	//	header("location:../".$redirect_url."error=password");
 	disconnect_from_db($link);
 	exit;
   }	
@@ -87,7 +87,7 @@ $query = "INSERT INTO members (email, password, b_id) VALUES ('$email', '$md5_pa
 $result = query_db($query);
 if(!$result)
   {
-	header("location:../".$redirect_url."error=db");
+	//	header("location:../".$redirect_url."error=db");
   }
 elseif(!$admin_flag)
   {
@@ -105,11 +105,14 @@ elseif(!$admin_flag)
 		$cookie_val = $email.",".$session_id;
 
 		setcookie("login", $cookie_val, time()+(3600*8), "/");
-		header("location:../new-business");
+		//		header("location:../new-business");
   }
 else
   {
-	header("location:../settings");
+	$u_id = get_last_insert_ID();
+	$query = "UPDATE business SET admin_id=$u_id WHERE id=$b_id";
+	$result = query_db($query);
+	//	header("location:../settings");
   }
 disconnect_from_db($link);
 ?>

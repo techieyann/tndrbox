@@ -34,40 +34,48 @@ if(isset($result[0]))
 	$tag_example .= ", eg. \"".$result[0]['tag']."\"";
   }
 
-
-
 if(isset($_GET['p']))
   {
 	$p_id = $_GET['p'];
 	$query = "SELECT active, b_id FROM postings WHERE id=$p_id";
 	$active_result = query_db($query);
-	extract($active_result[0]);
-	if($active == 1)
+	if(isset($active_result[0]))
 	  {
-		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE id='$p_id'";
+		extract($active_result[0]);
+		if($active == 1)
+		  {
+			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE id='$p_id'";
+		  }
+		else
+		  {
+			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
+		  }
+	
+		$result = query_db($query);
+		if(isset($result[0]))
+		  {
+			$post_flag = true;
+			$result['post_flag'] = 1;
+		  }
 	  }
-	else
-	  {
-		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
-	  }
-	$post_flag = true;
-	$result = query_db($query);
-
-	$result['post_flag'] = 1;
-	array_push($result, default_front_page_posts());
   }
 elseif(isset($_GET['b']))
   {
 	$b_id = $_GET['b'];
 	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id and active=1";
-	$post_flag = true;
+
 	$result = query_db($query);
-	$p_id = $result[0]['id'];
-	$result['post_flag'] = 1;
-	array_push($result, default_front_page_posts());
+	
+	if(isset($result[0]))
+	  {
+		$post_flag = true;
+		$p_id = $result[0]['id'];
+		$result['post_flag'] = 1;
+	  }
   }
-else
-  {
+
+
+
 	$tag_flag = false;
 	$cat_flag = false;
 	$date_flag = false;
@@ -79,7 +87,6 @@ else
 		$title = $date;
 		$date_flag = true;
 	  }
-
 	if(isset($_GET['cat']))
 	  {
 		$set_cat_id = $_GET['cat'];
@@ -88,7 +95,6 @@ else
 		
 		$cat_flag = true;
 	  }
-
 	if(isset($_GET['tag']))
 	  {
 		$set_tag_id = $_GET['tag'];
@@ -108,12 +114,20 @@ else
 		  .($tag_flag && $date_flag ? " AND" : "" )
 		  .($date_flag ? " date=$date" : "" )
 		  ." AND active=1 ORDER BY posting_time DESC";
-		$result = query_db($query);
+		$filtered_results = query_db($query);
 	  }
 	else
 	  {
-		$result = default_front_page_posts();
+		$filtered_results = default_front_page_posts();
 	  }
+
+if($post_flag)
+  {
+	array_push($result, $filtered_results);
+  }
+else
+  {
+	$result = $filtered_results;
   }
 
 $postings = format_posts($result);
@@ -121,42 +135,40 @@ $postings = format_posts($result);
 //head
 $GLOBALS['header_html_title'] = "tndrbox".($title != "" ? " - $title":"");
 $GLOBALS['header_scripts'] = "
-<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
-<script src='js/jquery-ui.js'></script>
-<script src='js/index.js'></script>";
+		<script src='js/index.js'></script>";
 
 if($post_flag)
   {
 		$GLOBALS['header_scripts'] .= "
-<script type='text/javascript'> 
-$(document).ready(function(){
-	var url = 'partials/modal?p=".$result[0]['id']."';
+		<script type='text/javascript'> 
+			$(document).ready(function(){
+				var url = 'partials/modal?p=".$result[0]['id']."';
 
-	//hide content divs
-	$('#modal-header').hide();
-	$('#modal-body').hide();
-	$('#modal-footer').hide();	
+				//hide content divs
+				$('#modal-header').hide();
+				$('#modal-body').hide();
+				$('#modal-footer').hide();	
 
-	//show modal
-	$('#post-modal').modal('show');
+				//show modal
+				$('#post-modal').modal('show');
 
-	//display loading div
-	$('#modal-loading').show();
+				//display loading div
+				$('#modal-loading').show();
 
-	//call load
-	$('#post-modal').load(url, function(){
-	$('#modal-loading').hide();
+				//call load
+				$('#post-modal').load(url, function(){
+				$('#modal-loading').hide();
 
-	$('.share-button').popover({
-		html:true
-	});
+				$('.share-button').popover({
+					html:true
+				});
 	
-	$('#modal-header').show();
-	$('#modal-body').show();
-	$('#modal-footer').show();	
-	});
-});
-</script>";
+				$('#modal-header').show();
+				$('#modal-body').show();
+				$('#modal-footer').show();	
+				});
+			});
+		</script>";
   }
 
 $GLOBALS['header_title'] = "";
@@ -174,16 +186,17 @@ function print_body()
   {
 	global $postings, $date, $tag_example, $category_selection;
 	echo "
-		<div id='postings-header' class='row'>
-			<ul class='inline'>
-			<li><p class='white'>Filter by:</p></li>
-			<li><form class='form-inline'>
-			<div class='btn-group'>
-				<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>
-					".($category_selection != "Categories" ? "<img src='images/$category_selection.svg' width='20'> &nbsp":"")."$category_selection
-					<span class='caret'></span>
-				</a>
-				<ul class='dropdown-menu'>";
+			<div id='postings-header' class='row'>
+				<ul class='inline'>
+					<li><p class='white'>Filter by:</p></li>
+					<li>
+						<form class='form-inline form-inline-margin-fix'>
+							<div class='btn-group'>
+								<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>
+									".($category_selection != "Categories" ? "<img src='images/icons/$category_selection.png' width='35'> &nbsp":"")."$category_selection
+									<span class='caret'></span>
+								</a>
+								<ul class='dropdown-menu'>";
 	$count = 0;
 
 	parse_str($_SERVER['QUERY_STRING'], $query_string);
@@ -198,34 +211,33 @@ function print_body()
 			if($count++ > 0)
 			  {
 				echo "
-   					<li class='divider'></li>";
+									<li class='divider'></li>";
 			  }
 
 			$query_string['cat'] = $id;
 			$href = http_build_query($query_string);
 	
 			echo "
-					<li><a href='?$href'><img src='images/$tag.svg' width='20'> &nbsp &nbsp $tag</a></li>";
+									<li><a href='?$href'><img src='images/icons/$tag.png' width='35'> &nbsp &nbsp $tag</a></li>";
 		  }
 	  }
 	echo "
-				</ul>
-	   		</div>
+								</ul>
+							</div><!-- .btn-group -->
 			
-			
-			<div class='input-prepend'>
-				<span class='add-on'><i class='icon-calendar'></i></span>
-				<input type='text' id='date-select' name='date-select' class='span1' placeholder='$date'>
-			</div>
+							<div class='input-prepend'>
+								<span class='add-on'><i class='icon-calendar'></i></span>
+								<input type='text' id='date-select' name='date-select' class='span1' placeholder='$date'>
+							</div><!-- .input-prepend -->
 
+							<div class='input-prepend'>
+								<span class='add-on'><i class='icon-search'></i></span>	
+								<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
+							</div><!-- .input-prepend -->
 
-
-			<div class='input-prepend'>
-				<span class='add-on'><i class='icon-search'></i></span>	
-				<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
-			</div>
-
-			</form></li></ul>";
+						</form>
+					</li>
+				</ul>";
 
 	/*			<div class='span4'>
 			<div class='btn-group pull-right' style='padding-right:10px'>
@@ -237,23 +249,24 @@ function print_body()
 			</div>
 			</div>*/
 	echo "
-		</div>
-		<div id='postings-container' class=''>
-			<div id='postings'>";
+			</div><!-- #postings-header -->
+
+			<div id='postings-container' class=''>
+				<div id='postings'>";
 	print_postings($postings);
 	echo "
-			</div>
-		</div>
+				</div><!-- #postings -->
+			</div><!-- $postings-container -->
 
-<div id='box'>
-	<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
-</div>
+			<div id='box'>
+				<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
+			</div><!-- #box -->
 
-	<div id='post-modal' class='modal hide fade white-bg' tabindex='-1' role='dialog' aria-hidden='true'>
-		<div id='modal-loading' class='centered'>
-			<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
-		</div>
-	</div> ";
+			<div id='post-modal' class='modal hide fade white-bg' tabindex='-1' role='dialog' aria-hidden='true'>
+				<div id='modal-loading' class='centered'>
+					<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
+				</div><!-- #modal-loading -->
+			</div><!-- #post-modal -->";
   }
 
 function format_posts($raw_posts)

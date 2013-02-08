@@ -13,5 +13,6 @@ This file defines global values for site usage.
 	$mysql_pass	='q!32Hj~';
 	$mysql_db	='cream'; //_live';
 
-
+//google analytics metadata
+	$GLOBALS['ga_account'] = 'UA-29414041-1';
 ?>

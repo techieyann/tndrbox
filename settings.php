@@ -25,10 +25,9 @@ verify_logged_in();
 
 //head
 $GLOBALS['header_scripts'] = "
-<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
-<script src='js/jquery.form.js' type='text/javascript'></script>
-<script src='js/jquery-ui.js'></script>
-<script src='js/settings.js' type='text/javascript'></script>";
+
+		<script src='js/jquery.form.js' type='text/javascript'></script>
+		<script src='js/settings.js' type='text/javascript'></script>";
 
 if(check_admin())
   {
@@ -63,34 +62,34 @@ function print_body()
 	echo "
 	<div class='row-fluid'>
 		<div class='span3'>
-			<ul class='nav nav-pills nav-stacked well'>
-				<li>
-					<h4><a class='nav-link' href='posts'>".(	check_admin() ? "Posts"	:"Your Posts")."</a></h4>
+			<ul id='settings-nav' class='nav nav-pills nav-stacked content'>
+				<li id='posts-li'>
+					<a class='nav-link' href='posts'>".(	check_admin() ? "Posts"	:"Your Posts")."</a>
 				</li>
-				<li>
-					<h4><a class='nav-link' href='new_post'>Add Post</a></h4></li>
-				<li>";
+				<li id='new-post-li'>
+					<a class='nav-link' href='new_post'>Add Post</a>
+				</li>";
 	if(check_admin())
 	  {
 		echo "
-				<li>
-					<h4><a class='nav-link' href='new_business'>Add Business</a></h4>
+				<li id='new-business-li'>
+					<a class='nav-link' href='new_business'>Add Business</a>
 				</li>
-				<li>
-					<h4><a class='nav-link' href='new_user'>Add User</a></h4>
+				<li id='new-user-li'>
+					<a class='nav-link' href='new_user'>Add User</a>
 				</li>
-				<li>
+				<li id='profile-li'>
 					<div class='input-prepend'>
 						<span class='add-on'><i class='icon-search'></i></span>
-						<input id='business-search' type='text' class='span11' placeholder='Businesses'>
+						<input id='business-search' type='text' class='span10' placeholder='Businesses'>
 					</div>
 				</li>";
 	  }
 	else
 	  {
 		echo "
-				<li>
-					<h4><a class='nav-link' href='edit_profile'>Settings</a></h4>
+				<li id='profile-li'>
+					<a class='nav-link' href='edit_profile'>Settings</a>
 				</li>";
 	  }
 	echo "

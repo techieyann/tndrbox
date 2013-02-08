@@ -14,8 +14,15 @@ connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 verify_logged_in();
 echo "
+		<script>
+			$(function(){
+				$('.new-business-form').ajaxForm(function() {
+					loadContentByURL('new_user');
+				});
+			});
+		</script>
 		<div id='js-content'>
-		<form name='edit-business-form' enctype='multipart/form-data' action='scripts/new_business' method='post'>
+		<form name='new-business-form' enctype='multipart/form-data' action='scripts/new_business' method='post'>
 			<fieldset>
 
 			<div class='row-fluid span12'>

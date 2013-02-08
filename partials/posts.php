@@ -78,7 +78,7 @@ disconnect_from_db();
 function print_business_posts($b_id)
 {
 $m_id = $GLOBALS['m_id'];
-$query = "SELECT id, active, title FROM postings WHERE a_id=$m_id AND b_id=$b_id";
+$query = "SELECT id, active, title FROM postings WHERE a_id=$m_id AND b_id=$b_id ORDER BY active DESC";
 $posts = query_db($query);
 $count = 0;
 echo "

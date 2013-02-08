@@ -49,6 +49,8 @@ function loadContentByURL(view, id){
 		id = '';
 	}
 
+	$('#settings-nav > li').removeClass('active');
+
 	var append_string = '';
 	if(id != '')
 	{
@@ -63,11 +65,13 @@ function loadContentByURL(view, id){
 	if(view == 'new_post')
 	{
 		smartLoad('partials/new_post_form');
+		$('#new-post-li').addClass('active');
 	}
 
 	if(view == 'edit_post')
 	{
 		smartLoad('partials/edit_post_form'+append_string);
+		$('#posts-li').addClass('active');
 	}
 
 	if(view == 'delete_post')
@@ -76,8 +80,10 @@ function loadContentByURL(view, id){
 			url:'scripts/delete_post',
 			data: {'id': id},
 			type: 'get'
+		}).done(function(){
+			smartLoad('partials/posts');
+			$('#posts-li').addClass('active');
 		});
-		smartLoad('partials/posts');
 	}
 
 	if(view == 'deactivate_post')
@@ -88,28 +94,32 @@ function loadContentByURL(view, id){
 			type: 'get'
 		}).done(function(){
 			smartLoad('partials/posts');
+			$('#posts-li').addClass('active');
 		});
 	}
 
 	if(view == 'posts')
 	{
 		smartLoad('partials/posts');
+		$('#posts-li').addClass('active');
 	}
 
 	if(view == 'edit_profile')
-	{
-	
+	{	
 		smartLoad('partials/edit_profile_forms'+append_string);
+		$('#profile-li').addClass('active');
 	}
 
 	if(view == 'new_business')
 	{
 		smartLoad('partials/new_business_form');
+		$('#new-business-li').addClass('active');
 	}
 
 	if(view == 'new_user')
 	{
 		smartLoad('partials/new_user_form');
+	    $('#new-user-li').addClass('active');
 	}
 	smartPushState(view, id);
 }

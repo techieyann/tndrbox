@@ -79,7 +79,10 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 }
 
-
+.form-inline-margin-fix
+{
+	margin:0;
+}
 
 /* header styles */
 .modal-body
@@ -298,8 +301,8 @@ form
 
 }
 #tndrbox-logo {
-	background: url(../images/logo-alpha.png);
-	width:88px;
+	background: url(../images/logo.png);
+	width:120px;
 	height:20px;
 }
 

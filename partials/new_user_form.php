@@ -15,7 +15,7 @@ verify_logged_in();
 
 if(check_admin())
   {
-	$query = "SELECT id, name FROM business";
+	$query = "SELECT id, name FROM business WHERE admin_id=0";
 	$businesses = query_db($query);
 
 	$businesses_or_captcha  = "
@@ -53,7 +53,15 @@ else
   }
 
 echo "
-		<form name='new-user-form' action='scripts/new_user.php$append_string' method='post' class='form-horizontal'>
+		<script>
+			$(function(){
+				$('.new-user-form').ajaxForm(function() {
+					loadContentByURL('new_post');
+				});
+			});
+		</script>
+		<div id='js-content'>
+		<form name='new-user-form' class='new-user-form form-horizontal' action='scripts/new_user.php$append_string' method='post'>
 			<fieldset>".$businesses_or_captcha."
 			<div class='control-group'>
 				<label class='control-label' for='email'>

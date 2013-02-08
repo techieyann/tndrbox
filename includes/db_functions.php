@@ -51,19 +51,19 @@ function verify_logged_in()
 
 function check_admin()
 {
-  if($GLOBALS['b_id'] == 0)
+  if($GLOBALS['logged_in'])
 	{
-	  return true;
+	  if($GLOBALS['b_id'] == 0)
+		{
+		  return true;
+		}
 	}
-  else
-	{
-	  return false;
-	} 
+  return false;
 }
 
 function default_front_page_posts()
 {
-	$query = "SELECT * FROM postings WHERE active=1 ORDER BY posting_time DESC";
+	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE active=1 ORDER BY posting_time DESC";
 	return query_db($query);
 }
 
@@ -71,7 +71,7 @@ function push_old_post($b_id)
   {
     $query = "SELECT tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
 	$result = query_db($query);
-	if(count($result, 1) != 0)
+	if(isset($result[0]))
 	  {
   		$tags = $result[0];
 		extract($tags);

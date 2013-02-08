@@ -39,7 +39,7 @@ $result = query_db($query);
 if($result)
   {
 	$b_id = get_last_insert_ID();
-	if(isset($_FILES['logo_upload'])
+	if(isset($_FILES['logo_upload']))
 	  {
 	if($_FILES['logo_upload']['error'] > 0)
             {
@@ -67,11 +67,11 @@ if($result)
 				}
 			}
 	  }
-	header("location:../settings?view=new_post");
+	//	header("location:../settings?view=new_post");
   }
 else
   {
-	header("location:../settings?view=new_business");	
+	//	header("location:../settings?view=new_business");	
   }
 
 disconnect_from_db($link);

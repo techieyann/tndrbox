@@ -14,6 +14,7 @@ connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();
 verify_logged_in();
+check_admin() ? $admin_flag = true : $admin_flag = false;
 
 //check that id was passed
 if(isset($_GET['id']))
@@ -26,9 +27,9 @@ if(isset($_GET['id']))
 	extract($result[0]);
 	
 	//check authorship of the post
-	if(check_admin() == false && $a_id != $GLOBALS['m_id'])
+	if(!$admin_flag && $a_id != $GLOBALS['m_id'])
 	  {
-		header('location:settings');
+		header('location:../settings');
 	  }
 
 

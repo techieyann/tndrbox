@@ -16,10 +16,10 @@ if(isset($_GET['id']))
 
 	analyze_user();
 	verify_logged_in();
-
+	check_admin() ? $admin_flag = true : $admin_flag = false;
 	$b_id=$_GET['id'];
 
-	if(!check_admin() && $b_id != $GLOBALS['b_id'])
+	if(!$admin_flag && $b_id != $GLOBALS['b_id'])
 	  {
 		disconnect_from_db();
 		return;
