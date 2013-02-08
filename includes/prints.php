@@ -35,12 +35,6 @@ function print_head()
 		<link rel='shortcut icon' href='images/favicon.ico'>
 		<link rel='apple-touch-icon' href='images/touchicon.png'>
 
-	<!-- CSS -->
-		<!-- homebrewed -->
-		<link rel='stylesheet' type='text/css' href='css/styles.css' media='all'>
-		<!-- jquery -->
-		<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
-
 	<!-- Javascript -->
 		<!-- jquery -->
 		<script src='js/jquery.js' type='text/javascript'></script>
@@ -54,6 +48,13 @@ function print_head()
 		<script>
 			$(document).ready(function(){\$.ga.load('".$GLOBALS['ga_account']."');});
 		</script>
+
+	<!-- CSS -->
+		<!-- homebrewed -->
+		<link rel='stylesheet' type='text/css' href='css/styles.css' media='all'>
+		<!-- jquery -->
+		<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
+
 	<!-- page specific css/js -->".$GLOBALS['header_scripts']."
 
 	</head>

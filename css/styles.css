@@ -90,6 +90,11 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	max-height:500px;
 }
 
+.modal
+{
+	background:#eee;
+}
+
 
 
 #posting-image img
