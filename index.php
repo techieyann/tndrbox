@@ -314,19 +314,19 @@ function print_postings($posts)
 		$tags[1] = get_tag($tag_1);
 
 		echo "
-			<a href='?p=$id' class='modal-trigger'>
-			<div class='span3 front-page-button'>
-				<div class='front-page-button-header'>
-				$tags[1]
-				</div>
+					<a href='?p=$id' class='modal-trigger'>
+						<div class='span3 front-page-button'>
+							<div class='front-page-button-header'>
+								$tags[1]
+							</div><!-- .front-page-button-header -->
 
-				<div class='front-page-button-body'>";
+							<div class='front-page-button-body'>";
 
 		if($post['photo'] != "")
 		  {
 			$img_src = "images/posts/".$post['photo'];
 			echo "
-   			<img src='$img_src' alt='photo for ".$post['title']."'>";
+					   			<img src='$img_src' alt='photo for ".$post['title']."'>";
 
 		  }
 
@@ -338,25 +338,25 @@ function print_postings($posts)
 		$tags[3] = get_tag($tag_3);
 
 		echo "
-			<div class='front-page-button-text'>
-			<h4>".$post['title']."</h4>";
+								<div class='front-page-button-text'>
+									<h4>".$post['title']."</h4>";
 
 		$date = format_date($id);
 
 		if($date != "")
 		  {
 			echo "
-				<p>$date</p>";
+									<p>$date</p>";
 		  }
 		echo "
-					<ul class='inline centered'>
-					<li class='tag'>$tags[2]</li>
-					<li class='tag'>$tags[3]</li>
-					</ul>
-				</div>
-				</div>
-			</div>
-			</a>";
+				  					<ul class='inline centered'>
+	   									<li class='tag'>$tags[2]</li>
+										<li class='tag'>$tags[3]</li>
+									</ul>
+								</div><!-- .font-page-button-text -->
+							</div><!-- front-page-button-body -->
+						</div><!-- front-page-button -->
+					</a>";
 		  }
 		else
 		  {
