@@ -22,7 +22,7 @@ echo "
 			});
 		</script>
 		<div id='js-content'>
-		<form name='new-business-form' enctype='multipart/form-data' action='scripts/new_business' method='post'>
+		<form name='new-business-form' class='new-business-form' enctype='multipart/form-data' action='scripts/new_business' method='post'>
 			<fieldset>
 
 			<div class='row-fluid span12'>

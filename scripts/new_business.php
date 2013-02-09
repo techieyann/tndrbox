@@ -42,7 +42,7 @@ if($result)
 
 	if(isset($_FILES['logo_upload']))
 	  {
-		if($_FILES['logo_upload']['error'] > 0)
+		if($_FILES['logo_upload']['error'] > 0 && $_FILES['logo_upload']['error'] != 4)
             {
               	echo "Error: ".$_FILES['logo_upload']['error'];
 				//                header("location:../settings");
@@ -71,7 +71,7 @@ if($result)
 
 	if(isset($_FILES['photo_upload']))
 	  {
-		if($_FILES['photo_upload']['error'] > 0)
+		if($_FILES['photo_upload']['error'] > 0 && $_FILES['photo_upload']['error'] != 4) 
             {
               	echo "Error: ".$_FILES['photo_upload']['error'];
 				//                header("location:../settings");
