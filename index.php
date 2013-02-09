@@ -26,7 +26,7 @@ $post_flag = false;
 $result = get_most_popular_tags(1);
 
 $tag_example = "Tag";
-$category_selection = "Categories";
+$category_selection = "Category";
 $date = "Date";
 
 if(isset($result[0]))
@@ -193,7 +193,7 @@ function print_body()
 						<form class='form-inline form-inline-margin-fix'>
 							<div class='btn-group'>
 								<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>
-									".($category_selection != "Categories" ? "<img src='images/icons/$category_selection.png' width='35'> &nbsp":"")."$category_selection
+									".($category_selection != "Category" ? "<img src='images/icons/$category_selection.png' width='35'> &nbsp":"")."$category_selection
 									<span class='caret'></span>
 								</a>
 								<ul class='dropdown-menu'>";

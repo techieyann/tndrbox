@@ -125,7 +125,7 @@ echo "
 			
 			<div class='control-group'>
 				<label class='control-label' for='category'>
-					Category *
+					Default Category *
 				</label>
 				<div class='controls'>
 					<select required name='category' id='category' class='span12'>";
@@ -148,11 +148,19 @@ echo "
 			<div class='span6'>
 			<label><strong>Optional fields...</strong></label>
 			<div class='control-group'>
-				<label class='control-label' for='logo'>
+				<label class='control-label' for='logo_upload'>
 					Logo (must be smaller than 2Mb)
 				</label>
 				<div class='controls'>
-					<input type='file' name='logo_upload' id='logo_upload' class='span8'>
+					<input type='file' name='logo_upload' id='logo_upload' size=5>
+				</div>
+			</div>
+			<div class='control-group'>
+				<label class='control-label' for='photo_upload'>
+					Default Post Photo (must be smaller than 2Mb)
+				</label>
+				<div class='controls'>
+					<input type='file' name='photo_upload' id='photo_upload' size=5>
 				</div>
 			</div>
 			<div class='control-group'>

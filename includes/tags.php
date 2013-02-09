@@ -63,7 +63,6 @@ function add_tag($tag)
   {
 	if(is_numeric($tag))
 	{
-	  echo "numeric tag $tag \n";
 		increment_tag($tag);
 		return $tag;
 	}

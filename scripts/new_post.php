@@ -53,29 +53,42 @@ if($result)
 	
 	if(isset($_FILES['image_upload']))
 	  {
-	if($_FILES['image_upload']['error'] > 0)
-      {
-       	echo "Error: ".$_FILES['image_upload']['error'];
-        header("location:../settings");
-      }
-    else
-      {
-		extract($_FILES['image_upload']);
-		if(strcmp("image", substr($type,0,5)) == 0)
+		if($_FILES['image_upload']['error'] > 0)
 	      {
-		    if($size < (2*1024*1024))
-			  {
-			    $ext = substr($type,6);					
-				if(move_uploaded_file($tmp_name, "../images/posts/img_$post_id.$ext"))
-				  {
-			   		$query = "UPDATE postings SET
-			         	       photo='img_$post_id.$ext'
-		   		       	       WHERE id='$post_id'";
-			  	    query_db($query);
-		  		  }
-			  }
+	       	echo "Error: ".$_FILES['image_upload']['error'];
+	        header("location:../settings");
 	      }
+	    else
+	      {
+			extract($_FILES['image_upload']);
+			if(strcmp("image", substr($type,0,5)) == 0)
+		      {
+			    if($size < (2*1024*1024))
+				  {
+				    $ext = substr($type,6);					
+					if(move_uploaded_file($tmp_name, "../images/posts/img_$post_id.$ext"))
+					  {
+				   		$query = "UPDATE postings SET
+				         	       photo='img_$post_id.$ext'
+			   		       	       WHERE id='$post_id'";
+				  	    query_db($query);
+			  		  }
+				  }
+		      }
+		  }
 	  }
+	else
+	  {
+		$query = "SELECT photo FROM business WHERE id=$business_id";
+		$result = query_db($query);
+		if(isset($result[0]))
+		  {
+			$photo = $result[0]['photo'];
+			$query = "UPDATE postings SET
+						photo='$photo'
+						WHERE id='$post_id'";
+			query_db($query);
+		  }
 	  }
 
 	//	header("location:../settings");

@@ -39,9 +39,10 @@ $result = query_db($query);
 if($result)
   {
 	$b_id = get_last_insert_ID();
+
 	if(isset($_FILES['logo_upload']))
 	  {
-	if($_FILES['logo_upload']['error'] > 0)
+		if($_FILES['logo_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['logo_upload']['error'];
                 header("location:../settings");
@@ -60,6 +61,35 @@ if($result)
 						{
 							$query = "UPDATE business SET
 					         	       logo='logo_$b_id.$ext'
+						       	       WHERE id='$b_id'";
+					  	    query_db($query);
+						}
+					}
+				}
+			}
+	  }
+
+	if(isset($_FILES['photo_upload']))
+	  {
+		if($_FILES['photo_upload']['error'] > 0)
+            {
+              	echo "Error: ".$_FILES['photo_upload']['error'];
+				//                header("location:../settings");
+            }
+            else
+            {
+				extract($_FILES['photo_upload']);
+				if(strcmp("image", substr($type,0,5)) == 0)
+				{
+					
+					if($size < (2*1024*1024))
+					{
+					  $ext = substr($type,6);
+									
+						if(move_uploaded_file($tmp_name, "../images/posts/business_$b_id.$ext"))
+						{
+							$query = "UPDATE business SET
+					         	       photo='business_$b_id.$ext'
 						       	       WHERE id='$b_id'";
 					  	    query_db($query);
 						}

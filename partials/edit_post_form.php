@@ -24,6 +24,9 @@ if(isset($_GET['id']))
 	//get post data
 	$query = "SELECT * FROM postings WHERE id=$id";
 	$result = query_db($query);
+	if(isset($result[0]))
+	  {
+
 	extract($result[0]);
 	
 	//check authorship of the post
@@ -32,6 +35,13 @@ if(isset($_GET['id']))
 		header('location:../settings');
 	  }
 
+	$image_label = "Image ";
+	$photo_html = "";
+	if($photo != "")
+	  {
+		$image_label = "Change Image ";
+		$photo_html = "<img src='images/posts/$photo' class='span10 offset1'>";
+	  }
 
 	$tag2 = get_tag($tag_2);
 	$tag3 = get_tag($tag_3);
@@ -141,8 +151,9 @@ if(isset($_GET['id']))
 
 			<div class='span6'>
 			<label><strong>Optional Fields:</strong></label>
+			$photo_html
 			<div class='control-group'>
-				<label class='control-label' for='image_upload'>Image (must be less than 2Mb)</label>
+				<label class='control-label' for='image_upload'>$image_label (must be less than 2Mb)</label>
 					<div class='controls'>
 						<input type='file' name='image_upload' id='image_upload' class='span12'>
 					</div>
@@ -173,6 +184,7 @@ if(isset($_GET['id']))
 			</fieldset>
 			</form>
 			</div>";
+	  }
   }
 disconnect_from_db();
 ?>

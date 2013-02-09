@@ -15,6 +15,8 @@ verify_logged_in();
 
 $new_post_args = "";
 $business_select_box = "";
+$default_photo_html = "";
+$image_label = "Image ";
 
 if(check_admin())
 	{
@@ -44,10 +46,17 @@ if(check_admin())
 	}
 else
   {
-	$query = "SELECT category FROM business WHERE id=".$GLOBALS['b_id'];
+	$b_id = $GLOBALS['b_id'];
+	$query = "SELECT category, photo FROM business WHERE id=$b_id";
 	$result = query_db($query);
-	$category = $result[0]['category'];
+	extract($result[0]);
+	if($photo != "")
+	  {
+		$default_photo_html = "<img src='images/posts/$photo' class='span10 offset1'>";
+		$image_label = "Change Image ";
+	  }
   }
+
 echo "
 		<script>
 			$(function(){
@@ -142,10 +151,11 @@ echo "
 
 			<div class='span6'>
 			<label><strong>Optional Fields:</strong></label>
+			$default_photo_html
 			<div class='control-group'>
-				<label class='control-label' for='image_upload'>Image (must be less than 2Mb)</label>
+				<label class='control-label' for='image_upload'>$image_label(must be less than 2Mb)</label>
 					<div class='controls'>
-						<input type='file' name='image_upload' id='image_upload' class='span12'>
+						<input type='file' name='image_upload' id='image_upload' size=05>
 					</div>
 			</div>
 
