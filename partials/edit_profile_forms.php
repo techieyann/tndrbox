@@ -102,7 +102,7 @@ echo "
 					Name *
 				</label>
 				<div class='controls'>
-					<input required autofocus='true' type='text' maxlength=100 name='name' id='name' value='$name' placeholder='Type your busines name here...' class='span12'>
+					<input required autofocus='true' type='text' maxlength=100 name='bus_name' id='bus_name' value='$name' placeholder='Type your busines name here...' class='span12'>
 				</div>
 			</div>
 

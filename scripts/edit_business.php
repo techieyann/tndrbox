@@ -90,7 +90,7 @@ if(isset($_FILES['photo_upload']))
 		  }
 	  }
   }
-$query = "UPDATE business SET name='$name', category='$category', 
+$query = "UPDATE business SET name='$bus_name', category='$category', 
         address='$address', city='$city',
 		state='$state', zip='$zip', lat='$lat', lon='$lon',
 		url='$url', number='$number', hours='$hours'

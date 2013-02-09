@@ -45,7 +45,7 @@ if($result)
 		if($_FILES['logo_upload']['error'] > 0)
             {
               	echo "Error: ".$_FILES['logo_upload']['error'];
-                header("location:../settings");
+				//                header("location:../settings");
             }
             else
             {

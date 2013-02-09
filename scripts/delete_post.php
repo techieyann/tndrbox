@@ -39,7 +39,7 @@ if(isset($_GET['id']))
 		$result = query_db($query);
 		if($photo != "")
 		  {
-			unlink('../images/posts/'.$photo);
+			//			unlink('../images/posts/'.$photo);
 		  }
 	  }
 	disconnect_from_db($link);
