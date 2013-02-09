@@ -15,7 +15,7 @@ $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();	
 
 extract($_POST);
-$category = add_tag($_POST['category']);
+
 
 //need to write geocoding script to get lat/lon
 $lat = 0;
