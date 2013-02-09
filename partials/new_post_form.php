@@ -78,7 +78,7 @@ echo "
 					$('#date').datepicker({
 						dateFormat: 'yy-mm-dd',
 						minDate: 0,
-						maxDate: '+7D'
+						maxDate: '+14D'
 					});
 				$('.new-post-form').ajaxForm(function() {
 					loadContentByURL('posts');
