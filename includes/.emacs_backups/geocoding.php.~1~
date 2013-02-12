@@ -1,0 +1,16 @@
+<?php
+/***********************************************
+file: includes/geocoding.php
+creator: Ian McEachern
+
+This file contains global functions for geocoding
+ ***********************************************/
+
+function addr_to_latlon($address)
+  {
+	$key = $GLOBALS['mapquest_key'];
+	$url = urlencode('http://www.mapquestapi.com/geocoding/v1/address?key=$key&location=$address&callback=renderGeocode');
+	echo file_get_content($url);
+  }
+
+?>

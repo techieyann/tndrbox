@@ -14,6 +14,7 @@ initializes php settings.
 //Fail to load the page if it does not include the required files
 require('defines.php');
 require('db_interface.php');
+require('geocoding.php');
 require('db_functions.php');
 
 

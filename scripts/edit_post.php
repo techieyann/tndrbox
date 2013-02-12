@@ -11,8 +11,6 @@ if(isset($_GET['id']))
 
 	require('../includes/tags.php');
 
-	require('../includes/geocoding.php');
-
 	$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 	analyze_user();
@@ -52,7 +50,7 @@ else
   {
 	$latlon = addr_to_latlon($address);
 	$lat = $latlon['lat'];
-	$lon = $latlon['lng'];
+	$lon = $latlon['lon'];
   }
 
 	$tag1_id = add_tag($tag1);

@@ -9,8 +9,6 @@ This script edits an existing business.
 require('../includes/includes.php');
 
 require('../includes/tags.php');
-
-require('../includes/geocoding.php');
 	
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
@@ -30,7 +28,7 @@ extract($_POST);
 
 $latlon = addr_to_latlon($address.'+'.$city.'+'.$state.'+'.$zip);
 $lat = $latlon['lat'];
-$lon = $latlon['lng'];
+$lon = $latlon['lon'];
 
 	$logo_upload_flag = false;
 

@@ -24,6 +24,48 @@ window.onresize = function(){
 	}
 };
 
+function setPosition(position){
+	var latitude = position.coords.latitude;
+	var longitude = position.coords.longitude;
+
+	var json_location = {"lat": latitude, "lon": longitude, "source": "html5"};
+	var str_location = JSON.stringify(json_location);
+	
+	setCookie("location", str_location, 8);
+}
+
+function setCookie(name, value, hours)
+{
+	var date = new Date();
+	date.setTime(date.getTime()+(hours*3600000));
+	var expire = date.toGMTString();
+	var new_cookie = name+ "=";
+	new_cookie = new_cookie + value + "; expires="; 
+	new_cookie = new_cookie + expire + "; path=/";
+
+	//set cookie
+	document.cookie = new_cookie;
+}
+
+function getCookie(name){
+	var search_str = name + "=";
+	var cookies = document.cookie.split(';');
+	
+	for(var i=0; i<cookies.length; i++)
+	{
+		var cookie = cookies[i];
+		while(cookie.charAt(0) == ' ')
+		{
+			cookie = cookie.substring(1, cookie.length);
+		}
+		if(cookie.indexOf(search_str) == 0)
+		{
+			return cookie.substring(search_str.length, cookie.length);
+		}
+	}
+	return null;
+}
+
 function addParameter(url, param, value) {
     // Using a positive lookahead (?=\=) to find the
     // given parameter, preceded by a ? or &, and followed
@@ -54,6 +96,17 @@ function addParameter(url, param, value) {
 
 
 $(document).ready(function(){
+
+	var url_location = getCookie('location');
+	var str_location = decodeURIComponent(url_location);
+
+	var json_location = JSON.parse(str_location);
+
+	if(Modernizr.geolocation && json_location.source !='user')
+	{
+		navigator.geolocation.getCurrentPosition(setPosition, {enableHighAccuracy: true, maximumAge:120000);
+	}
+
 
 	$('#tag-search').focus();
 

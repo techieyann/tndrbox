@@ -11,29 +11,58 @@ function analyze_user()
 {
 	//check login cookie
 	$GLOBALS['logged_in'] = false;
-	if(isset($_COOKIE["login"]))
+	if(isset($_COOKIE['login']))
 	{
-		$conc_cookie = $_COOKIE["login"];
+		$conc_cookie = $_COOKIE['login'];
 		$session = explode(",", $conc_cookie);
 		$sid = $session[1];
 		$email = $session[0];
 
-		$query = "SELECT id, b_id, s_id FROM members WHERE email = '".$email."'";
+		$query = "SELECT id, b_id, s_id FROM members WHERE email = '$email'";
 		$result = query_db($query);
-			
-		if(md5($result[0]['s_id']) == $sid)
+		if(isset($result[0]))
 		  {
-			extract($result[0]);
 
-			$GLOBALS['logged_in'] = true;
-			$GLOBALS['email'] = $email;
-			$GLOBALS['m_id'] = $id;
-			$GLOBALS['b_id'] = $b_id;
+			if(md5($result[0]['s_id']) == $sid)
+			  {
+				extract($result[0]);
+
+				$GLOBALS['logged_in'] = true;
+				$GLOBALS['email'] = $email;
+				$GLOBALS['m_id'] = $id;
+				$GLOBALS['b_id'] = $b_id;
+			  }
+		  }
+		else
+		  {
+			//fail and report
 		  }
 	}
 
-	//check metadata cookie
+	//check metadata cookies
 
+	//check location
+	if(isset($_COOKIE['location']))//location found
+	  {
+		$loc_json = $_COOKIE['location'];
+		$location = json_decode($loc_json, true);
+
+		$GLOBALS['lon'] = $location['lon'];
+		$GLOBALS['lat'] = $location['lat'];
+		$GLOBALS['latlon_source'] = $location['source'];
+	  }
+	else
+	  {
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$latlon = ip_to_latlon($ip);
+		$GLOBALS['lat'] = $latlon['lat'];
+		$GLOBALS['lon'] = $latlon['lon'];
+		//set location
+		$cookie_val = $latlon;
+		$cookie_val['source'] = 'ip';
+		$cookie_json = json_encode($cookie_val, true);
+		setcookie("location", $cookie_json, time()+(3600*24), "/");
+	  }
 }
 
 function verify_logged_in()

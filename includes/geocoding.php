@@ -16,7 +16,25 @@ function addr_to_latlon($address_input)
 
 	$json_response = file_get_contents($url);
 	$response = json_decode($json_response, true);
-	return $response['results'][0]['locations'][0]['latLng'];
+
+	$return['lat'] = $response['results'][0]['locations'][0]['latLng']['lat'];
+	$return['lon'] = $response['results'][0]['locations'][0]['latLng']['lng'];
+
+	return $return;
+  }
+
+function ip_to_latlon($ip)
+  {
+	$ip_address = urlencode($ip);
+	$url = "http://freegeoip.net/json/$ip_address";
+	
+	$json_response = file_get_contents($url);
+	$response = json_decode($json_response, true);
+
+	$return['lat'] = $response['latitude'];
+	$return['lon'] = $response['longitude'];
+
+	return $return;
   }
 
 ?>

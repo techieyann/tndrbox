@@ -9,8 +9,6 @@ This script creates a new business.
 require('../includes/includes.php');
 
 require('../includes/tags.php');
-
-require('../includes/geocoding.php');
 	
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
@@ -18,12 +16,9 @@ analyze_user();
 
 extract($_POST);
 
-
-//need to write geocoding script to get lat/lon
 $latlon = addr_to_latlon($address.'+'.$city.'+'.$state.'+'.$zip);
 $lat = $latlon['lat'];
-$lon = $latlon['lng'];
-
+$lon = $latlon['lon'];
 
 	$query = "INSERT INTO business (name, category, address, city, 
 									state, zip, lat, lon, url, 
@@ -72,9 +67,9 @@ if($result)
 			}
 	  }
 
-	if(isset($_FILES['photo_upload']))
+	if($_FILES['photo_upload']['error'] != 4)
 	  {
-		if($_FILES['photo_upload']['error'] > 0 && $_FILES['photo_upload']['error'] != 4) 
+		if($_FILES['photo_upload']['error'] > 0) 
             {
               	echo "Error: ".$_FILES['photo_upload']['error'];
 				//                header("location:../settings");
