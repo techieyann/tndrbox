@@ -1,13 +1,10 @@
 <?php
 /***********************************************
-file: home.php
+file: includes/db_functions.php
 creator: Ian McEachern
 
-This file is the default page for logged in
-users. It displays the user's business info and
-the five most current postings. 
-Redirects to index.php if user is not
-logged in.
+This file contains global functions which
+utilize information from the databases.
  ***********************************************/
 
 function analyze_user()

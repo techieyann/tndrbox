@@ -9,6 +9,8 @@ This script creates a new business.
 require('../includes/includes.php');
 
 require('../includes/tags.php');
+
+require('../includes/geocoding.php');
 	
 $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
@@ -18,8 +20,9 @@ extract($_POST);
 
 
 //need to write geocoding script to get lat/lon
-$lat = 0;
-$lon = 0;
+$latlon = addr_to_latlon($address.'+'.$city.'+'.$state.'+'.$zip);
+$lat = $latlon['lat'];
+$lon = $latlon['lng'];
 
 
 	$query = "INSERT INTO business (name, category, address, city, 

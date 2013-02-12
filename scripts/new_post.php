@@ -1,6 +1,6 @@
 <?php
 /***********************************************
-file: new_post.php
+file: scripts/new_post.php
 creator: Ian McEachern
 
 This script creates a new posting.
@@ -10,7 +10,9 @@ require('../includes/includes.php');
 
 require('../includes/tags.php');
 
-$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+require('../includes/geocoding.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 analyze_user();
 verify_logged_in();
@@ -21,12 +23,34 @@ $author_id=$GLOBALS['m_id'];
 
 if(check_admin())
   {
-		$business_id = $_POST['business'];
+	$business_id = $_POST['business'];
   }
 
 
 
 extract($_POST);
+
+if($address == "")
+  {
+	$query = "SELECT address, city, state, zip, lat, lon FROM business WHERE id=$business_id";
+	$result = query_db($query);
+	if(isset($result[0]))
+	  {
+		extract($result[0]);
+		$address = "$address $city, $state, $zip";
+	  }
+	else
+	  {
+		//fail and report
+	  }
+  }
+else
+  {
+	$latlon = addr_to_latlon($address);
+	$lat = $latlon['lat'];
+	$lon = $latlon['lng'];
+  }
+
 
 push_old_post($business_id);
 
@@ -36,9 +60,9 @@ $tag3_id = add_tag($tag3);
 		
 	
 $query = "INSERT INTO postings (title, blurb, tag_1, tag_2, tag_3,
-								date, alt_address, url, b_id, a_id, posting_time) 
+								date, alt_address, lat, lon, url, b_id, a_id, posting_time) 
 VALUES ('$title', '$description', $tag1_id, $tag2_id, $tag3_id, 
-		'$date', '$address', '$url', $business_id, $author_id, CURRENT_TIMESTAMP)";
+		'$date', '$address', $lat, $lon, '$url', $business_id, $author_id, CURRENT_TIMESTAMP)";
 
 $result = query_db($query);
 

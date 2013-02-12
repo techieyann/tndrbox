@@ -11,6 +11,8 @@ if(isset($_GET['id']))
 
 	require('../includes/tags.php');
 
+	require('../includes/geocoding.php');
+
 	$link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
 	analyze_user();
@@ -31,6 +33,27 @@ if(isset($_GET['id']))
 
 	push_old_post($b_id);	
 
+
+if($address == "")
+  {
+	$query = "SELECT address, city, state, zip, lat, lon FROM business WHERE id=$b_id";
+	$result = query_db($query);
+	if(isset($result[0]))
+	  {
+		extract($result[0]);
+		$address = "$address $city, $state, $zip";
+	  }
+	else
+	  {
+		//fail and report
+	  }
+  }
+else
+  {
+	$latlon = addr_to_latlon($address);
+	$lat = $latlon['lat'];
+	$lon = $latlon['lng'];
+  }
 
 	$tag1_id = add_tag($tag1);
 	$tag2_id = add_tag($tag2);
@@ -65,7 +88,7 @@ if(isset($_GET['id']))
 
 	$query = "UPDATE postings SET active=1, viewed=0, title='$title', blurb='$description', 
 			tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id',
-			date='$date', alt_address='$address', url='$url',
+			date='$date', alt_address='$address', lat='$lat', lon='$lon', url='$url',
 			posting_time=CURRENT_TIMESTAMP"
 	  .($image_upload_flag ? ", photo='img_$id.$ext'" : " ")
 			."WHERE id='$id'";

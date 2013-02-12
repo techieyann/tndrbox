@@ -15,4 +15,7 @@ This file defines global values for site usage.
 
 //google analytics metadata
 	$GLOBALS['ga_account'] = 'UA-29414041-1';
+
+//mapquest metadata
+	$GLOBALS['mapquest_key'] = 'Fmjtd%7Cluub21u2lu%2Cb2%3Do5-96t2da';
 ?>
