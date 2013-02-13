@@ -55,7 +55,7 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 {
 	position:relative;
 	min-height:90%;
-	background:#eee;
+	background:#F4F2E6;
 	padding:0px 10px 0px 10px;
 }
 
@@ -230,12 +230,12 @@ form
 {
 	padding-top:2px;
 	width:100%;
-	color:#eee;
+	color:#F4F2E6;
 }
 
 .front-page-button-body
 {
-	background:#eee;
+	background:#F4F2E6;
        -webkit-border-radius: 10px;
           -moz-border-radius: 10px;
                border-radius: 10px;
@@ -271,11 +271,11 @@ form
 }
 .white-bg
 {
-	background:#eee;
+	background:#F4F2E6;
 }
 .white
 {
-	color:#eee;
+	color:#F4F2E6;
 }
 .centered
 {
@@ -374,7 +374,7 @@ form
 
 .content
 {
-	background:#eee;
+	background:#F4F2E6;
 	padding:10px;
 }
 
@@ -414,7 +414,7 @@ form
 }
 
 /*autocomplete div styling*/
-.autocomplete { border:1px solid #999; background:#eee; cursor:default; text-align:left; max-height:500px; overflow:auto; margin-top:6px; padding-left:6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; }
+.autocomplete { border:1px solid #999; background:#F4F2E6; cursor:default; text-align:left; max-height:500px; overflow:auto; margin-top:6px; padding-left:6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; }
 .autocomplete .selected { background:#fcc; }
 .autocomplete div { padding:2px 5px; white-space:nowrap; overflow:hidden; }
 .autocomplete strong { font-weight:normal; color:#800b0d; }

@@ -30,14 +30,14 @@ if(isset($_GET['id']))
 	extract($result[0]);
 
 $title = add_slashes($title);
-$description = add_slashes($description);
-$address = add_slashes($address);
+
+$alt_address = add_slashes($alt_address);
 $url = add_slashes($url);
 	
 	//check authorship of the post
 	if(!$admin_flag && $a_id != $GLOBALS['m_id'])
 	  {
-		header('location:../settings');
+		//		header('location:../settings');
 	  }
 
 	$image_label = "Image ";
@@ -55,6 +55,10 @@ $url = add_slashes($url);
 	echo "
 		<script>
 			$(document).ready(function(){
+				$('.edit-post-form').ajaxForm(function() {
+					loadContentByURL('posts');
+				});
+				
 				$('#tag2').autocomplete({
 					source:'scripts/search_tag',
 					select: function(event, ui){
@@ -69,16 +73,10 @@ $url = add_slashes($url);
 						return false;
 					}
 				});	
-
-
 				$('#date').datepicker({
 					dateFormat: 'yy-mm-dd',
 					minDate: 0,
 					maxDate: '+28D'
-				});
-
-				$('.edit-post-form').ajaxForm(function() {
-					loadContentByURL('posts');
 				});
 			});
 		</script>
