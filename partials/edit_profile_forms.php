@@ -15,8 +15,6 @@ connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 verify_logged_in();
 
-
-
 $id = "";
 $u_id = "";
 if(isset($_GET['id']))

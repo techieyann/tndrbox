@@ -158,7 +158,7 @@ $(document).ready(function(){
 			return false;
 		},
 		select: function(event, ui){
-			window.location = ('?view=edit_profile&id='+ui.item.value);
+			loadContentByURL('edit_profile', ui.item.value);
 			return false;
 		}
 	});
