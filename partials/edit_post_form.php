@@ -69,7 +69,7 @@ if(isset($_GET['id']))
 				$('#date').datepicker({
 					dateFormat: 'yy-mm-dd',
 					minDate: 0,
-					maxDate: '+14D'
+					maxDate: '+28D'
 				});
 
 				$('.edit-post-form').ajaxForm(function() {
