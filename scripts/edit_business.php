@@ -26,7 +26,7 @@ else
 
 extract($_POST);
 
-$bus_name = add_slashes($name);
+$bus_name = add_slashes($bus_name);
 $address = add_slashes($address);
 $city = add_slashes($city);
 $state = add_slashes($state);
