@@ -298,7 +298,7 @@ else
 	$category_id = $category;
 	$category = get_tag($category_id);
 	echo "
-							<div class='business-info bottom-right'>
+							<div class='business-info business-card'>
 								<h3 style='text-align:center'>";
 	$close_link = "";
 	if($url != "")
