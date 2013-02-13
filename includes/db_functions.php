@@ -106,4 +106,10 @@ function get_active_categories()
 
 }
 
+function add_slashes($input)
+{
+  $output = str_replace('\'', '\\\'', $input);
+  return $output;
+}
+
 ?>

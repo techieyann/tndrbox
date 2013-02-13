@@ -28,6 +28,12 @@ if(check_admin())
 
 extract($_POST);
 
+$title = add_slashes($title);
+$description = add_slashes($description);
+$address = add_slashes($address);
+$url = add_slashes($url);
+
+
 push_old_post($business_id);
 
 $tag1_id = add_tag($tag1);

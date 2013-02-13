@@ -26,7 +26,13 @@ else
 
 extract($_POST);
 
-
+$bus_name = add_slashes($name);
+$address = add_slashes($address);
+$city = add_slashes($city);
+$state = add_slashes($state);
+$url = add_slashes($url);
+$number = add_slashes($number);
+$hours = add_slashes($hours);
 
 
 	//need to write geocoding script to get lat/lon
