@@ -265,7 +265,7 @@ else
 								</div>
 							</div>
 							<ul class='inline centered'>
-								<li><a href='index?tag=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
+								<li><a href='index?cat=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
 								<li><a href='index?tag=$tag_2' class='tag'>$tags[2]</a></li>
 								<li><a href='index?tag=$tag_3' class='tag'>$tags[3]</a></li>
 							</ul>
