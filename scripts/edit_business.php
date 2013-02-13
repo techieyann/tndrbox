@@ -30,6 +30,17 @@ $latlon = addr_to_latlon($address.'+'.$city.'+'.$state.'+'.$zip);
 $lat = $latlon['lat'];
 $lon = $latlon['lon'];
 
+$bus_name = add_slashes($bus_name);
+$address = add_slashes($address);
+$city = add_slashes($city);
+$state = add_slashes($state);
+$url = add_slashes($url);
+$number = add_slashes($number);
+$hours = add_slashes($hours);
+
+
+
+
 	$logo_upload_flag = false;
 
 if(isset($_FILES['logo_upload']))

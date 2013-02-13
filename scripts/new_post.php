@@ -28,6 +28,7 @@ if(check_admin())
 
 extract($_POST);
 
+
 if($address == "")
   {
 	$query = "SELECT address, city, state, zip, lat, lon FROM business WHERE id=$business_id";
@@ -49,6 +50,10 @@ else
 	$lon = $latlon['lon'];
   }
 
+$title = add_slashes($title);
+$description = add_slashes($description);
+$address = add_slashes($address);
+$url = add_slashes($url);
 
 push_old_post($business_id);
 

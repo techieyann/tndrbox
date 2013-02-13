@@ -127,7 +127,7 @@ $(document).ready(function(){
 	$('#date-select').datepicker({
 		dateFormat: 'yy-mm-dd',
 		minDate: 0,
-		maxDate: '+14D',
+		maxDate: '+28D',
 		onSelect: function(dateText, ui){
 			var search = window.location.search;
 			var uri = addParameter(search, 'date', dateText);

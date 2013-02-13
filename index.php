@@ -262,7 +262,7 @@ function print_body()
 				<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
 			</div><!-- #box -->
 
-			<div id='post-modal' class='modal hide fade white-bg' tabindex='-1' role='dialog' aria-hidden='true'>
+			<div id='post-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-hidden='true'>
 				<div id='modal-loading' class='centered'>
 					<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
 				</div><!-- #modal-loading -->

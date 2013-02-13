@@ -16,16 +16,30 @@ analyze_user();
 
 extract($_POST);
 
+
 $latlon = addr_to_latlon($address.'+'.$city.'+'.$state.'+'.$zip);
 $lat = $latlon['lat'];
 $lon = $latlon['lon'];
+
+$name = add_slashes($name);
+$address = add_slashes($address);
+$city = add_slashes($city);
+$state = add_slashes($state);
+$url = add_slashes($url);
+$number = add_slashes($number);
+$hours = add_slashes($hours);
+
+
+
+
+
 
 	$query = "INSERT INTO business (name, category, address, city, 
 									state, zip, lat, lon, url, 
 									number, hours)
 									VALUES
-								   ('$name', '$category', '$address', '$city',
-									'$state', '$zip', '$lat',' $lon', '$url',
+								   ('$name', $category, '$address', '$city',
+									'$state', $zip, '$lat', '$lon', '$url',
 									'$number', '$hours')";
 
 
