@@ -104,7 +104,7 @@ $(document).ready(function(){
 
 	if(Modernizr.geolocation && json_location.source !='user')
 	{
-		navigator.geolocation.getCurrentPosition(setPosition, {enableHighAccuracy: true, maximumAge:120000);
+		navigator.geolocation.getCurrentPosition(setPosition, {enableHighAccuracy: true, maximumAge:120000});
 	}
 
 

@@ -89,7 +89,14 @@ function check_admin()
 
 function default_front_page_posts()
 {
-	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE active=1 ORDER BY posting_time DESC";
+	$lat = $GLOBALS['lat'];
+	$lon = $GLOBALS['lon'];
+	$radius = $GLOBALS['default_latlon_delta']/2;
+	$lat_max = $lat+$radius;
+	$lat_min = $lat-$radius;
+	$lon_max = $lon+$radius;
+	$lon_min = $lon-$radius;
+	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3, lat, lon FROM postings WHERE active=1 AND $lat_min <= lat AND lat <= $lat_max AND ($lon_min) <= lon AND lon <= ($lon_max)";
 	return query_db($query);
 }
 

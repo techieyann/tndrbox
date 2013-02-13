@@ -19,20 +19,9 @@ analyze_user();
 //set variables
 //body
 
-$title = "";
+
 $result = array();
 $post_flag = false;
-
-$result = get_most_popular_tags(1);
-
-$tag_example = "Tag";
-$category_selection = "Category";
-$date = "Date";
-
-if(isset($result[0]))
-  {
-	$tag_example .= ", eg. \"".$result[0]['tag']."\"";
-  }
 
 if(isset($_GET['p']))
   {
@@ -44,11 +33,11 @@ if(isset($_GET['p']))
 		extract($active_result[0]);
 		if($active == 1)
 		  {
-			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE id='$p_id'";
+			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3, lat, lon FROM postings WHERE id='$p_id'";
 		  }
 		else
 		  {
-			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
+			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3, lat, lon FROM postings WHERE b_id=$b_id AND active=1";
 		  }
 	
 		$result = query_db($query);
@@ -62,7 +51,7 @@ if(isset($_GET['p']))
 elseif(isset($_GET['b']))
   {
 	$b_id = $_GET['b'];
-	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id and active=1";
+	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3, lat, lon FROM postings WHERE b_id=$b_id and active=1";
 
 	$result = query_db($query);
 	
@@ -73,74 +62,25 @@ elseif(isset($_GET['b']))
 		$result['post_flag'] = 1;
 	  }
   }
-
-
-
-	$tag_flag = false;
-	$cat_flag = false;
-	$date_flag = false;
-	$title = "";
-
-	if(isset($_GET['date']))
-	  {
-		$date = $_GET['date'];
-		$title = $date;
-		$date_flag = true;
-	  }
-	if(isset($_GET['cat']))
-	  {
-		$set_cat_id = $_GET['cat'];
-		$category_selection = get_tag($set_cat_id);
-		$title .= ($date_flag ? " & " : "" ).$category_selection;
-		
-		$cat_flag = true;
-	  }
-	if(isset($_GET['tag']))
-	  {
-		$set_tag_id = $_GET['tag'];
-		$tag_example = get_tag($set_tag_id);
-		$title .= ($cat_flag || $date_flag ? " & " : "").$tag_example;
-
-		$tag_flag = true;
-	  }
-
-	if($tag_flag || $cat_flag || $date_flag)
-	  {
-
-		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE"
-		  .($cat_flag ? " tag_1=$set_cat_id" : "" )
-		  .($cat_flag && ($tag_flag || $date_flag) ? " AND" : "" )
-		  .($tag_flag ? " (tag_2='$set_tag_id' OR tag_3='$set_tag_id')" : "" )
-		  .($tag_flag && $date_flag ? " AND" : "" )
-		  .($date_flag ? " date=$date" : "" )
-		  ." AND active=1 ORDER BY posting_time DESC";
-		$filtered_results = query_db($query);
-	  }
-	else
-	  {
-		$filtered_results = default_front_page_posts();
-	  }
-
-if($post_flag)
-  {
-	array_push($result, $filtered_results);
-  }
-else
-  {
-	$result = $filtered_results;
-  }
-
-$postings = format_posts($result);
+array_push($result, default_front_page_posts());
+$json_postings = json_encode($result);
 
 //head
-$GLOBALS['header_html_title'] = "tndrbox".($title != "" ? " - $title":"");
+$GLOBALS['header_html_title'] = "tndrbox";
 $GLOBALS['header_scripts'] = "
-		<script src='js/index.js'></script>";
+		<script src='js/index.js'></script>
+		<script>
+			var postings = $json_postings;
+			$(document).ready(function(){
+				$('#postings-container').load('partials/posting_list');
+			});
+		</script>";
 
 if($post_flag)
   {
 		$GLOBALS['header_scripts'] .= "
 		<script type='text/javascript'> 
+
 			$(document).ready(function(){
 				var url = 'partials/modal?p=".$result[0]['id']."';
 
@@ -251,11 +191,10 @@ function print_body()
 	echo "
 			</div><!-- #postings-header -->
 
-			<div id='postings-container' class=''>
-				<div id='postings'>";
+			<div id='postings-container' class=''>";
 	print_postings($postings);
 	echo "
-				</div><!-- #postings -->
+
 			</div><!-- $postings-container -->
 
 			<div id='box'>

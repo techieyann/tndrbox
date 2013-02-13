@@ -140,8 +140,8 @@ window.onpopstate = function(e){
 
 $(document).ready(function(){
 	var view = getParameterByName('view');
-
 	var id = getParameterByName('id');
+
 	loadContentByURL(view, id);
 	
 	$('.nav-link').click(function(e){
