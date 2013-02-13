@@ -28,6 +28,11 @@ if(isset($_GET['id']))
 	  {
 
 	extract($result[0]);
+
+$title = add_slashes($title);
+$description = add_slashes($description);
+$address = add_slashes($address);
+$url = add_slashes($url);
 	
 	//check authorship of the post
 	if(!$admin_flag && $a_id != $GLOBALS['m_id'])

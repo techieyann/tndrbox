@@ -86,6 +86,14 @@ $result = query_db($query);
 $business = $result[0];
 extract($business);
 
+$name = add_slashes($name);
+$address = add_slashes($address);
+$city = add_slashes($city);
+$state = add_slashes($state);
+$url = add_slashes($url);
+$number = add_slashes($number);
+$hours = add_slashes($hours);
+
 echo "
 		<form name='edit-business-form' class='edit-business-form' enctype='multipart/form-data' action='scripts/edit_business$append_string' method='post'>
 			<fieldset>
