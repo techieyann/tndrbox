@@ -70,12 +70,37 @@ $json_postings = json_encode($processed_postings);
 $GLOBALS['header_html_title'] = "tndrbox";
 $GLOBALS['header_scripts'] = "
 		<script src='js/index.js'></script>
+		<script src='js/posting_list.js'></script>
 		<script>
 			var postings = $json_postings;
+		var formattedPostings = [];
+			var url_location = getCookie('location');
+			var str_location = decodeURIComponent(url_location);
+
+			var json_location = JSON.parse(str_location);
+
 			$(document).ready(function(){
+
 				$('#postings-container').load('partials/posting_list');
+			
+				$('.format-button').on('click', function(e){
+					var this_id = $(this).attr('id');
+					if(!document.getElementById(this_id).classList.contains('disabled'))
+{
+					$('.format-button').removeClass('disabled');
+					$('.format-button').each(function(i, obj){
+						$('#postings-container').removeClass($(obj).attr('id'));
+					});
+					$(this).addClass('disabled');
+
+					$('#postings-container').addClass(this_id);
+					reformatPosts(this_id);
+					displayPosts(this_id);
+}
+				});
 			});
-		</script>";
+		</script>
+		<script src='https://maps.googleapis.com/maps/api/js?key=".$GLOBALS['gm_account']."&sensor=false'></script>";
 
 if($post_flag)
   {
@@ -178,24 +203,21 @@ function print_body()
 
 						</form>
 					</li>
-				</ul>";
 
-	/*			<div class='span4'>
-			<div class='btn-group pull-right' style='padding-right:10px'>
-				<button title='Tiles' class='btn disabled' href='#'><i class='icon-th-large'></i></button>
-				<button title='List coming soon...' class='btn disabled' href='#'><i class='icon-list'></i></button>
-				<button title='Map coming soon...' class='btn disabled' href='#'><i class='icon-globe'></i></button>
+
+			<li class='pull-right'>
+			<div class='btn-group'>
+				<button title='Tiles' id='tile' class='format-button btn disabled' href='#'><i class='icon-th-large'></i></button>
+				<button title='List' id='list' class='format-button btn' href='#'><i class='icon-list'></i></button>
+				<button title='Map' id='map' class='format-button btn' href='#'><i class='icon-globe'></i></button>
 
 
 			</div>
-			</div>*/
-	echo "
+			</li>
+				</ul>
 			</div><!-- #postings-header -->
 
-			<div id='postings-container' class=''>";
-	print_postings($postings);
-	echo "
-
+			<div id='postings-container' class='tile'>
 			</div><!-- $postings-container -->
 
 			<div id='box'>

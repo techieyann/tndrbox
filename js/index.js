@@ -72,15 +72,9 @@ function addParameter(url, param, value) {
 
 
 $(document).ready(function(){
-
-	var url_location = getCookie('location');
-	var str_location = decodeURIComponent(url_location);
-
-	var json_location = JSON.parse(str_location);
-
 	if(Modernizr.geolocation && json_location.source !='user')
 	{
-		navigator.geolocation.getCurrentPosition(setPosition, {enableHighAccuracy: true, maximumAge:120000});
+		navigator.geolocation.getCurrentPosition(setPosition);//, {enableHighAccuracy: true, maximumAge:120000});
 	}
 
 
@@ -121,24 +115,7 @@ $(document).ready(function(){
 
 
 	$('#footer').css('background', "#eee");
-	$('#footer > p').removeClass('white');
-
-
-
-
-
-//http://stackoverflow.com/questions/2907367/have-a-div-cling-to-top-of-screen-if-scrolled-down-past-it
-
-
-/*	$('#box').hover(function(){
-		$('#box').css('bottom', '0px');
-	},function(){
-		$('#box').css('bottom', '-80px');
-	});
-*/
-
-	 
-	
+	$('#footer > p').removeClass('white');	
 });
 
 window.onpopstate = function(e){
