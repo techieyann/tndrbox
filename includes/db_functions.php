@@ -96,7 +96,7 @@ function default_front_page_posts()
 	$lat_min = $lat-$radius;
 	$lon_max = $lon+$radius;
 	$lon_min = $lon-$radius;
-	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3, lat, lon FROM postings WHERE active=1 AND $lat_min <= lat AND lat <= $lat_max AND ($lon_min) <= lon AND lon <= ($lon_max)";
+	$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE active=1 AND $lat_min <= postings.lat AND postings.lat <= $lat_max AND ($lon_min) <= postings.lon AND postings.lon <= ($lon_max)";
 	return query_db($query);
 }
 

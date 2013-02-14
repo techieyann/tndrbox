@@ -20,5 +20,5 @@ This file defines global values for site usage.
 	$GLOBALS['mapquest_key'] = 'Fmjtd%7Cluub21u2lu%2Cb2%3Do5-96t2da';
 
 //distance metadata
-	$GLOBALS['default_latlon_delta'] = .02;
+	$GLOBALS['default_latlon_delta'] = .1;
 ?>
