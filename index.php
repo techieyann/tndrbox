@@ -99,8 +99,7 @@ $GLOBALS['header_scripts'] = "
 }
 				});
 			});
-		</script>
-		<script src='https://maps.googleapis.com/maps/api/js?key=".$GLOBALS['gm_account']."&sensor=false'></script>";
+		</script>";
 
 if($post_flag)
   {

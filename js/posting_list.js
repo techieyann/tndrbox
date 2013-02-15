@@ -39,7 +39,7 @@
 				+"";
 			break;
 		case 'map':
-			result = "whee";
+			
 			break;
 		default:
 			return result;
@@ -84,8 +84,12 @@
 
 	function displayPosts(format)
 	{
-		document.getElementById('postings').innerHTML = "";
-
+		var postings = document.getElementById('postings');
+		postings.innerHTML = "";
+		if(postings.classList.contains('masonry'))
+			{
+				$('#postings').masonry('destroy');
+			}
 		switch(format)
 		{
 		case 'tile':
@@ -135,7 +139,10 @@
 			}
 			break;
 		case 'list':
-			$('#postings').masonry('destroy');
+			if(postings.classList.contains('masonry'))
+			{
+				$('#postings').masonry('destroy');
+			}
 			var table = "<table class='table table-hover span12'>"
 				+"<thead>"
 				+"<tr>"
@@ -155,30 +162,28 @@
 			$('#postings').append(table);
 			break;
 		case 'map':
-			$('#postings').masonry('destroy');
-			var map = "<div id='map_canvas' style='width:300px; width:300px'></div>";
-			$('#postings').append(map);
-			initialize_map();
+			$('#postings').append(getMapScript());
 			break;
 		default:
 			break;
 		}
 	}
+//google maps api asynch load
+		function initialize() {
+			var mapOptions = {
+				zoom: 8,
+				center: new google.maps.LatLng(-34.397, 150.644),
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			}
+			var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+		}
 
-
-function initialize_map(){
-		var myLat = json_location.lat;
-		var myLon = json_location.lon;
-
-	var mapOptions = {
-		center: new google.maps.LatLng(-34.397, 150.644),
-		zoom:9,
-		mapTypeId: google.maps.MapTypeId.HYBRID
-	};
-
-	var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-}
-
+		function getMapScript() {
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.src = 'http://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=false&callback=initialize';
+			return script;
+		 }
 	$(document).ready(function(){
 
 });
