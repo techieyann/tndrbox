@@ -22,6 +22,10 @@ $author_id=$GLOBALS['m_id'];
 if(check_admin())
   {
 	$business_id = $_POST['business'];
+
+	$query = "SELECT admin_id FROM business WHERE id=$business_id";
+	$result = query_db($query);
+	$author_id = $result[0]['admin_id'];
   }
 
 

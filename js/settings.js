@@ -37,7 +37,7 @@ function smartPushState(view, id)
 	var url = 'settings?view='+view;
 	if(id!='')
 	{
-		url = url + '&id=' + id;
+		url += '&id=' + id;
 	}
 
 	history.pushState([view, id], null, url);
@@ -59,7 +59,7 @@ function loadContentByURL(view, id){
 	
 	if(view == '')
 	{
-		view = 'posts';
+		view = 'new_post';
 	}
 	
 	if(view == 'new_post')
@@ -100,7 +100,7 @@ function loadContentByURL(view, id){
 
 	if(view == 'posts')
 	{
-		smartLoad('partials/posts');
+		smartLoad('partials/posts'+append_string);
 		$('#posts-li').addClass('active');
 	}
 
@@ -146,11 +146,12 @@ $(document).ready(function(){
 	
 	$('.nav-link').click(function(e){
 		var view = $(this).attr('href');
+
 		loadContentByURL(view);
 		e.preventDefault();
 	});
 
-	$('#busienss-search').focus();
+	$('#business-search').focus();
 	$('#business-search').autocomplete({
 		source:'scripts/search_business',
 		focus: function(event, ui){
@@ -158,7 +159,8 @@ $(document).ready(function(){
 			return false;
 		},
 		select: function(event, ui){
-			loadContentByURL('edit_profile', ui.item.value);
+			loadContentByURL('posts', ui.item.value);
+			$('#business-search').val('');
 			return false;
 		}
 	});
