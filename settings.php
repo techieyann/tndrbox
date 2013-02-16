@@ -70,10 +70,10 @@ function print_body()
 	  {
 		echo "
 				<li id='new-business-li'>
-					<a class='nav-link' href='new_business'>Add Business</a>
+					<a class='nav-link' href='new_business'><i class='icon-plus'></i> New Business</a>
 				</li>
 				<li id='new-user-li'>
-					<a class='nav-link' href='new_user'>Add User</a>
+					<a class='nav-link' href='new_user'><i class='icon-plus'></i> New User</a>
 				</li>
 				<li id='profile-li'>
 					<div class='input-prepend'>
