@@ -35,7 +35,7 @@ echo "
 					Name *
 				</label>
 				<div class='controls'>
-					<input required autofocus='true' type='text' maxlength=100 name='name' id='name' placeholder='Type your busines name here...' class='span12'>
+					<input required autofocus='true' type='text' maxlength=100 name='name' id='name' placeholder='Type your business name here...' class='span12'>
 				</div>
 			</div>
 

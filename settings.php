@@ -63,11 +63,8 @@ function print_body()
 	<div class='row-fluid'>
 		<div class='span3'>
 			<ul id='settings-nav' class='nav nav-pills nav-stacked content'>
-				<li id='posts-li'>
-					<a class='nav-link' href='posts'>".(	check_admin() ? "Posts"	:"Your Posts")."</a>
-				</li>
 				<li id='new-post-li'>
-					<a class='nav-link' href='new_post'>Add Post</a>
+					<a class='nav-link' href='new_post'><i class='icon-plus'></i> New Post</a>
 				</li>";
 	if(check_admin())
 	  {
@@ -88,8 +85,11 @@ function print_body()
 	else
 	  {
 		echo "
+				<li id='posts-li'>
+					<a class='nav-link' href='posts'><i class='icon-folder-open'></i> Posts</a>
+				</li>
 				<li id='profile-li'>
-					<a class='nav-link' href='edit_profile'>Settings</a>
+					<a class='nav-link' href='edit_profile'><i class='icon-cog'></i> Business Profile</a>
 				</li>";
 	  }
 	echo "

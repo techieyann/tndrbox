@@ -41,28 +41,11 @@ echo "
 
 			</script>";
 
-if(check_admin())
+if(check_admin() && isset($_GET['id']))
   {
-	$m_id = $GLOBALS['m_id'];
-	$query = "SELECT DISTINCT b_id FROM postings WHERE a_id=$m_id";
-	$buss = query_db($query);
-	echo "
-			<div class='accordion'>";
-	foreach($buss as $bus)
-	  {
-		$b_id = $bus['b_id'];
-		$query = "SELECT name FROM business WHERE id=$b_id";
-		$result = query_db($query);
-		$name = $result[0]['name'];
-		echo "
-				<h3>$name</h3>
-				<div class='posts'>";
-		print_business_posts($b_id);
-		echo "
-				</div>";
-	  }	
-	echo "
-			</div>";
+	$b_id = $_GET['id'];
+	print_business_posts($b_id);
+
   }
 else
   {
@@ -77,10 +60,21 @@ disconnect_from_db();
 
 function print_business_posts($b_id)
 {
-$m_id = $GLOBALS['m_id'];
-$query = "SELECT id, active, title FROM postings WHERE a_id=$m_id AND b_id=$b_id ORDER BY active DESC";
+
+$query = "SELECT id, active, title FROM postings WHERE b_id=$b_id ORDER BY active DESC";
 $posts = query_db($query);
 $count = 0;
+if(isset($_GET['id']))
+  {
+	$query = "SELECT name FROM business WHERE id=$b_id";
+	$result = query_db($query);
+	$name = $result[0]['name'];
+	echo "
+	<ul class='inline'>
+		<li><h3>$name:</h3></li>
+		<li class='pull-right'><button class='btn post-link' title='Edit' href='edit_profile' id='$b_id'><i class='icon-pencil'></i></button></li>
+	</ul>";
+  }
 echo "
    	<div class='post-accordion'>";
 
@@ -115,10 +109,10 @@ foreach($posts as $post)
 				<h4>$title</h4>
 				</td>
 				<td>
-		   			<ul class='inline pull-right'> 
-						<li><a class='post-link' title='Activate' href='edit_post' id='$id'><i class='icon-fire large'></i></a></li>
-						<li><a class='post-link'title='Delete' href='delete_post' id='$id'><i class='icon-trash'></i></a></li>
-					</ul>
+				<div class='btn-group pull-right'>
+					<button class='btn post-link' title='Activate' href='edit_post' id='$id'><i class='icon-fire large'></i></button>
+						<button class='btn post-link'title='Delete' href='delete_post' id='$id'><i class='icon-trash'></i></button>
+				</div>
 				</td>
 			</tr>";
 		}
@@ -225,12 +219,13 @@ else
 	echo "
 			
 				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-					<ul class='inline pull-right'>
-						<li><a class='post-link' title='Edit' href='edit_post' id='$id'><i class='icon-pencil'></i></a></li>
-						<li><a class='post-link' title='Deactivate' href='deactivate_post' id=$b_id><i class='icon-ban-circle'></i></a></li>
-						<li><a class='post-link' title='Delete' href='delete_post' id='$id'><i class='icon-trash'></i></a></li>						
-					</ul>
+<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>					
+					<div class='btn-group pull-left'>
+						<button class='btn post-link' title='Edit' href='edit_post' id='$id'><i class='icon-pencil'></i></button>
+						<button class='btn post-link' title='Deactivate' href='deactivate_post' id=$b_id><i class='icon-ban-circle'></i></button>
+						<button class='btn post-link' title='Delete' href='delete_post' id='$id'><i class='icon-trash'></i></button>
+
+					</div>
 					<ul class='inline centered'>
 						<li>
 						<li id='post-modal-label'><h3>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</h3></li>".($date != "" ? "<li><h4> <i>on $date</i></h4></li>" :"")."
@@ -299,6 +294,7 @@ else
 	$category = get_tag($category_id);
 	echo "
 							<div class='business-info business-card'>
+<button class='btn post-link' title='Edit' href='edit_profile' id='$id'><i class='icon-pencil'></i></button>
 								<h3 style='text-align:center'>";
 	$close_link = "";
 	if($url != "")
