@@ -258,7 +258,7 @@ function print_body()
 				</div><!-- #postings -->
 			</div><!-- $postings-container -->
 
-			<div id='box'>
+			<div id='box' class='hidden-phone'>
 				<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
 			</div><!-- #box -->
 
