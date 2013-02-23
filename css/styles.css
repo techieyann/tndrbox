@@ -108,30 +108,15 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	.modal{
 	    width: 960px;
 	    margin-left: -480px;}
-	#middle-box{
-		width:1061px;
-	}
-	#box{
-		width:1191px; 
-		margin-left:-602px;
-	}
-
 
  }
  
 /* Portrait tablet to landscape and desktop */
 @media (min-width: 980px) and (max-width: 1199px) {
+
 .modal{
     width: 760px;
     margin-left: -380px;}
-#middle-box{
-	width:831px;
-}
-#box{
-	width:961px;
-	margin-left:-487px;
-}
-
  }
 
 @media (min-width: 768px) and (max-width:979px)
@@ -139,13 +124,6 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 .modal{
     width: 760px;
     margin-left: -380px;}
-#middle-box{
-	width:615px;
-}
-#box{
-	width:745px;
-	margin-left:-379px;
-}
 }
 
 @media (max-width:767px)
@@ -156,10 +134,6 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	max-height:280px;
 }
 
-#box{
-	visibility:hidden;
-}
-
 }
 
 
@@ -168,8 +142,8 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 #box
 {
 	position:fixed;
+	left:5px;
 	bottom:-50px;
-	left:50%;
 }
 
 
@@ -326,6 +300,7 @@ form
 	background: url(../images/logo.png);
 	width:120px;
 	height:20px;
+	margin-left:20px;
 }
 
 /*body styles*/

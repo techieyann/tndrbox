@@ -42,12 +42,14 @@ function print_head()
 		<script src='js/jquery.ga.js'></script>
 		<!-- Bootstrap -->
 		<link href='css/bootstrap.min.css' rel='stylesheet' media='screen'>
-		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<meta name='viewport' content='user-scalable=false, width=device-width, initial-scale=1.0'>
 		<!-- Modernizr -->
 		<script src='js/modernizr.js'></script>
 		<!-- google analytics via jquery.ga -->
 		<script>
-			$(document).ready(function(){\$.ga.load('".$GLOBALS['ga_account']."');});
+			$(document).ready(function(){
+				\$.ga.load('".$GLOBALS['ga_account']."');
+			});
 		</script>
 
 	<!-- CSS -->
@@ -65,7 +67,7 @@ function print_head()
 		<header>
 			<div id='top' class='navbar navbar-inverse navbar-static-top'>
 				<div class='navbar-inner'>
-					<div class='container'>
+
 						<a class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
 							<span class='icon-bar'></span>
 							<span class='icon-bar'></span>
@@ -101,7 +103,7 @@ function print_head()
 	echo "	
 							</ul>
 						</div><!-- .nav-collapse .collapse -->
-					</div><!-- .container -->
+
 				</div><!-- .navbar-inner -->
 			</div><!-- #top -->
 		</header>

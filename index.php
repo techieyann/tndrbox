@@ -173,7 +173,7 @@ function print_body()
 			<div id='postings-container' class='tile'>
 			</div><!-- $postings-container -->
 
-			<div id='box'>
+			<div id='box' class='hidden-phone'>
 				<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
 			</div><!-- #box -->
 
