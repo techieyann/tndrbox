@@ -1,29 +1,17 @@
-<<<<<<< HEAD
-			var formattedPostings = [];
+var formattedPostings = [];
 
-			var url_location = getCookie('location');
-			var str_location = decodeURIComponent(url_location);
+var url_location = getCookie('location');
+var str_location = decodeURIComponent(url_location);
 
-			var json_location = JSON.parse(str_location);
+var json_location = JSON.parse(str_location);
 
-window.onpopstate = function(e){
-	var id = e.state;
-	if(id == null)
-	{	
-		$('#post-modal').modal('hide');
-	}
-	else
+function resizeWindow(){
+	console.log('resizing');
+	resizeContainer();
+	if(postings.classList.contains('masonry'))
 	{
-		loadModal(id);
+		$('#postings').masonry('reload');
 	}
-}
-
-window.onload = function(){
-	$('#postings').masonry({
-		itemSelector: '.front-page-button',
-		isAnimated: true,
-		gutterWidth: 10
-		});
 }
 
 function resizeContainer(){
@@ -78,13 +66,6 @@ function resizeContainer(){
 }
 
 
-window.onresize = function(){
-	resizeContainer();
-	$('#postings').masonry('reload');
-	$('#postings').masonry('option', {gutterWidth:10});
-
-};
-
 function setPosition(position){
 	var latitude = position.coords.latitude;
 	var longitude = position.coords.longitude;
@@ -96,21 +77,21 @@ function setPosition(position){
 }
 
 
-		function map_initialize() {
-			var myLatLon = new google.maps.LatLng(json_location.lat,json_location.lon);
-			var mapOptions = {
-				zoom: 13,
-				center: myLatLon,
-				mapTypeId: google.maps.MapTypeId.HYBRID
-			}
-			map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+function map_initialize() {
+	var myLatLon = new google.maps.LatLng(json_location.lat,json_location.lon);
+	var mapOptions = {
+		zoom: 13,
+		center: myLatLon,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	}
+	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-										var myLocationMarker = new google.maps.Marker({
-								position: myLatLon,
-								map: map,
-								title:'Here I am!'
-							});
-		}
+	var myLocationMarker = new google.maps.Marker({
+		position: myLatLon,
+		map: map,
+		title:'Here I am!'
+	});
+}
 
 function loadModal(id){
 	var url = 'partials/modal?p='+id;
@@ -173,12 +154,11 @@ $(document).ready(function(){
 
 	$('#map-canvas').hide();
 	map_initialize();
-
+	console.log('resizing on load');
 	resizeContainer();
 
-
-
 	$('#postings-container').load('partials/posting_list');
+
 	$('.format-button').on('click', function(e){
 		var this_id = $(this).attr('id');
 		if(!document.getElementById(this_id).classList.contains('disabled'))
@@ -194,6 +174,7 @@ $(document).ready(function(){
 			displayPosts(this_id);
 		}
 	});
+
 	$('#map').click(function(e){
 		var map = document.getElementById('map');
 		if(map.classList.contains('disabled'))
@@ -251,11 +232,24 @@ $(document).ready(function(){
 		}
 	});
 
+window.onpopstate = function(e){
+	var id = e.state;
+	if(id == null)
+	{	
+		$('#post-modal').modal('hide');
+	}
+	else
+	{
+		loadModal(id);
+	}
+}
 
 	var footer = document.getElementById('footer');
 	footer.style.background = '#F4F2E6';
 	$('#footer').children('p').removeClass('white');
 
+	window.onresize = resizeWindow();
+});
 
 function getCookie(name){
 	var search_str = name + "=";

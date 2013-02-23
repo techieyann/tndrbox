@@ -114,15 +114,10 @@
 		switch(format)
 		{
 		case 'tile':
-			var width = 0;
-			if($(window).width() > 1200)
-			{
-				width = 12;
-			}
 			$('#postings').masonry({
 				itemSelector: '.front-page-button',
 				isAnimated: true,
-				gutterWidth: width
+				gutterWidth: 10
 			});
 			break;
 		default:
