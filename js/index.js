@@ -5,15 +5,6 @@ var str_location = decodeURIComponent(url_location);
 
 var json_location = JSON.parse(str_location);
 
-function resizeWindow(){
-	console.log('resizing');
-	resizeContainer();
-	if(postings.classList.contains('masonry'))
-	{
-		$('#postings').masonry('reload');
-	}
-}
-
 function resizeContainer(){
 	var container = document.getElementById('body-container');
 
@@ -65,6 +56,13 @@ function resizeContainer(){
 	}
 }
 
+window.onresize = function(){
+	resizeContainer();
+	if(document.getElementById('postings').classList.contains('masonry'))
+	{
+		$('#postings').masonry('reload');
+	}
+};
 
 function setPosition(position){
 	var latitude = position.coords.latitude;
@@ -78,7 +76,7 @@ function setPosition(position){
 
 
 function map_initialize() {
-	var myLatLon = new google.maps.LatLng(json_location.lat,json_location.lon);
+	var myLatLon = new google.maps.LatLng(json_location.lat, json_location.lon);
 	var mapOptions = {
 		zoom: 13,
 		center: myLatLon,
@@ -153,10 +151,7 @@ function addParameter(url, param, value) {
 $(document).ready(function(){
 
 	$('#map-canvas').hide();
-	map_initialize();
-	console.log('resizing on load');
 	resizeContainer();
-
 	$('#postings-container').load('partials/posting_list');
 
 	$('.format-button').on('click', function(e){
@@ -186,6 +181,7 @@ $(document).ready(function(){
 		{
 			$('#map').addClass('disabled');
 			$('#map-canvas').show();
+			map_initialize();
 		}
 	});
 
@@ -248,7 +244,7 @@ window.onpopstate = function(e){
 	footer.style.background = '#F4F2E6';
 	$('#footer').children('p').removeClass('white');
 
-	window.onresize = resizeWindow();
+
 });
 
 function getCookie(name){

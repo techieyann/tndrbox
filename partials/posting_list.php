@@ -48,21 +48,6 @@ echo "
 		}
 		displayPosts(listing_format);
 
-		window.onresize = function(){
-			if(postings_cont_div.classList.contains('tile'))
-			{
-				$('#postings').masonry('reload');
-				if($(window).width() < 1200)
-				{
-					$('#postings').masonry('option', {gutterWidth: 0});
-				}
-				else
-				{
-					$('#postings').masonry('option', {gutterWidth: 13});
-				}
-			}
-		};
-
 	});
 </script>
 <div id='postings'>
