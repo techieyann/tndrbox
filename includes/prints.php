@@ -106,7 +106,7 @@ function print_head()
 			</div><!-- #top -->
 		</header>
 
-		<div id='body-container' class='container'><br>";
+		<div id='body-container' class='container'>";
 
 }
 

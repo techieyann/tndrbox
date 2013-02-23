@@ -19,157 +19,78 @@ analyze_user();
 //set variables
 //body
 
-$title = "";
+
 $result = array();
 $post_flag = false;
 
-$result = get_most_popular_tags(1);
-
-$tag_example = "Tag";
-$category_selection = "Category";
-$date = "Date";
-
-if(isset($result[0]))
-  {
-	$tag_example .= ", eg. \"".$result[0]['tag']."\"";
-  }
-
 if(isset($_GET['p']))
   {
-	$p_id = $_GET['p'];
-	$query = "SELECT active, b_id FROM postings WHERE id=$p_id";
-	$active_result = query_db($query);
-	if(isset($active_result[0]))
+	if(is_numeric($_GET['p']))
 	  {
-		extract($active_result[0]);
-		if($active == 1)
+		$p_id = $_GET['p'];
+		$query = "SELECT active, b_id FROM postings WHERE id=$p_id";
+		$active_result = query_db($query);
+		if(isset($active_result[0]))
 		  {
-			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE id='$p_id'";
-		  }
-		else
-		  {
-			$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id AND active=1";
-		  }
+			extract($active_result[0]);
+			if($active == 1)
+			  {
+				$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE postings.id='$p_id'";
+			  }
+			else
+			  {
+				$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id AND active=1";
+			  }
 	
-		$result = query_db($query);
-		if(isset($result[0]))
-		  {
-			$post_flag = true;
-			$result['post_flag'] = 1;
+			$result = query_db($query);
+			if(isset($result[0]))
+			  {
+				$post_flag = true;
+				$result['post_flag'] = 1;
+			  }
 		  }
 	  }
   }
 elseif(isset($_GET['b']))
   {
-	$b_id = $_GET['b'];
-	$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE b_id=$b_id and active=1";
+	if(is_numeric($_GET['b']))
+	  {
+		$b_id = $_GET['b'];
+		$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id and active=1";
 
-	$result = query_db($query);
+		$result = query_db($query);
 	
-	if(isset($result[0]))
-	  {
-		$post_flag = true;
-		$p_id = $result[0]['id'];
-		$result['post_flag'] = 1;
+		if(isset($result[0]))
+		  {
+			$post_flag = true;
+			$p_id = $result[0]['id'];
+			$result['post_flag'] = 1;
+		  }
 	  }
   }
-
-
-
-	$tag_flag = false;
-	$cat_flag = false;
-	$date_flag = false;
-	$title = "";
-
-	if(isset($_GET['date']))
-	  {
-		$date = $_GET['date'];
-		$title = $date;
-		$date_flag = true;
-	  }
-	if(isset($_GET['cat']))
-	  {
-		$set_cat_id = $_GET['cat'];
-		$category_selection = get_tag($set_cat_id);
-		$title .= ($date_flag ? " & " : "" ).$category_selection;
-		
-		$cat_flag = true;
-	  }
-	if(isset($_GET['tag']))
-	  {
-		$set_tag_id = $_GET['tag'];
-		$tag_example = get_tag($set_tag_id);
-		$title .= ($cat_flag || $date_flag ? " & " : "").$tag_example;
-
-		$tag_flag = true;
-	  }
-
-	if($tag_flag || $cat_flag || $date_flag)
-	  {
-
-		$query = "SELECT id, title, date, photo, tag_1, tag_2, tag_3 FROM postings WHERE"
-		  .($cat_flag ? " tag_1=$set_cat_id" : "" )
-		  .($cat_flag && ($tag_flag || $date_flag) ? " AND" : "" )
-		  .($tag_flag ? " (tag_2='$set_tag_id' OR tag_3='$set_tag_id')" : "" )
-		  .($tag_flag && $date_flag ? " AND" : "" )
-		  .($date_flag ? " date=$date" : "" )
-		  ." AND active=1 ORDER BY posting_time DESC";
-		$filtered_results = query_db($query);
-	  }
-	else
-	  {
-		$filtered_results = default_front_page_posts();
-	  }
-
-if($post_flag)
-  {
-	array_push($result, $filtered_results);
-  }
-else
-  {
-	$result = $filtered_results;
-  }
-
-$postings = format_posts($result);
+array_push($result, default_front_page_posts());
+$processed_postings = process_postings($result);
+$json_postings = json_encode($processed_postings);
 
 //head
-$GLOBALS['header_html_title'] = "tndrbox".($title != "" ? " - $title":"");
+$GLOBALS['header_html_title'] = "tndrbox";
 $GLOBALS['header_scripts'] = "
-		<script src='js/index.js'></script>";
+		<script src='js/index.js'></script>
+		<script src='js/posting_list.js'></script>
+		<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true'></script>
+		<script>";
 
 if($post_flag)
   {
 		$GLOBALS['header_scripts'] .= "
-		<script type='text/javascript'> 
 			$(document).ready(function(){
-				var url = 'partials/modal?p=".$result[0]['id']."';
-
-				//hide content divs
-				$('#modal-header').hide();
-				$('#modal-body').hide();
-				$('#modal-footer').hide();	
-
-				//show modal
-				$('#post-modal').modal('show');
-
-				//display loading div
-				$('#modal-loading').show();
-
-				//call load
-				$('#post-modal').load(url, function(){
-				$('#modal-loading').hide();
-
-				$('.share-button').popover({
-					html:true
-				});
-	
-				$('#modal-header').show();
-				$('#modal-body').show();
-				$('#modal-footer').show();	
-				});
-			});
-		</script>";
+				loadModal(".$result[0]['id'].");
+			});";
   }
+
+$GLOBALS['header_scripts'] .= "
+			var postings = $json_postings;
+		</script>";
 
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
@@ -231,31 +152,25 @@ function print_body()
 							</div><!-- .input-prepend -->
 
 							<div class='input-prepend'>
-								<span class='add-on'><i class='icon-search'></i></span>	
+								<span class='add-on'><i class='icon-tag'></i></span>	
 								<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
 							</div><!-- .input-prepend -->
 
 						</form>
 					</li>
-				</ul>";
-
-	/*			<div class='span4'>
-			<div class='btn-group pull-right' style='padding-right:10px'>
-				<button title='Tiles' class='btn disabled' href='#'><i class='icon-th-large'></i></button>
-				<button title='List coming soon...' class='btn disabled' href='#'><i class='icon-list'></i></button>
-				<button title='Map coming soon...' class='btn disabled' href='#'><i class='icon-globe'></i></button>
 
 
+			<li class='pull-right'>
+			<div class='btn-group'>
+				<button title='Tiles' id='tile' class='format-button btn disabled' href='#'><i class='icon-th-large'></i></button>
+				<button title='List' id='list' class='format-button btn' href='#'><i class='icon-list'></i></button>
 			</div>
-			</div>*/
-	echo "
+			<button title='Map' id='map' class='btn' href='#'><i class='icon-globe'></i></button>
+			</li>
+				</ul>
 			</div><!-- #postings-header -->
-
-			<div id='postings-container' class=''>
-				<div id='postings'>";
-	print_postings($postings);
-	echo "
-				</div><!-- #postings -->
+			<div id='map-canvas'></div>
+			<div id='postings-container' class='tile'>
 			</div><!-- $postings-container -->
 
 			<div id='box'>
@@ -269,103 +184,61 @@ function print_body()
 			</div><!-- #post-modal -->";
   }
 
-function format_posts($raw_posts)
+function process_postings($raw_posts)
   {
-	$i=-1;
-	$looper = $raw_posts;
+	$looper=$raw_posts[0];
+	$processed_posts = array();
 	$processed_id = 0;
-	$formatted_postings = "";
+	$index = 0;
 	if(isset($raw_posts['post_flag']))
 	  {
-		$i++;
 		$post = $raw_posts[0];
-		$processed_id = $post['id'];
-		$formatted_postings[$i]['post'] = $post;
+		extract($post);
+		$processed_posts[$index]['id'] = $id;
+		$processed_posts[$index]['title'] = $title;
+		$processed_posts[$index]['date'] = format_date($id);
+		$processed_posts[$index]['photo'] = $photo;
+		$processed_posts[$index]['tag_1_id'] = $tag_1;
+		$processed_posts[$index]['tag_1'] = get_tag($tag_1);
+		$processed_posts[$index]['tag_2_id'] = $tag_2;
+		$processed_posts[$index]['tag_2'] = get_tag($tag_2);
+		$processed_posts[$index]['tag_3_id'] = $tag_3;
+		$processed_posts[$index]['tag_3'] = get_tag($tag_3);
+		$processed_posts[$index]['lat'] = $lat;
+		$processed_posts[$index]['lon'] = $lon;
+		$processed_posts[$index]['business'] = $name;
+		//need to calculate speed here
+		$processed_posts[$index]['speed'] = 1;
 
+		$processed_id = $id;
+		$index++;
 		$looper = $raw_posts[1];
 	  }
+
 	foreach($looper as $post)
 	  {
-		if($post['id'] != $processed_id)
+		if(isset($post['id']) && $post['id'] != $processed_id)
 		  {
-			$i++;
-			$formatted_postings[$i]['post'] = $post;
+			extract($post);
+		$processed_posts[$index]['id'] = $id;
+		$processed_posts[$index]['title'] = $title;
+		$processed_posts[$index]['date'] = format_date($id);
+		$processed_posts[$index]['photo'] = $photo;
+		$processed_posts[$index]['tag_1_id'] = $tag_1;
+		$processed_posts[$index]['tag_1'] = get_tag($tag_1);
+		$processed_posts[$index]['tag_2_id'] = $tag_2;
+		$processed_posts[$index]['tag_2'] = get_tag($tag_2);
+		$processed_posts[$index]['tag_3_id'] = $tag_3;
+		$processed_posts[$index]['tag_3'] = get_tag($tag_3);
+		$processed_posts[$index]['lat'] = $lat;
+		$processed_posts[$index]['lon'] = $lon;
+		$processed_posts[$index]['business'] = $name;
+		//need to calculate speed here
+		$processed_posts[$index]['speed'] = 1;
+		$index++;
 		  }
 	  }
-
-	return $formatted_postings;
+	return $processed_posts;
   }
 
-
-function print_postings($posts)
-{
-  if(isset($posts[0]))
-	{
-	foreach($posts as $post_data)
-	  {
-		$post = $post_data['post'];
-
-
-		if($post != "filler")
-		  {
-		$id = $post['id'];
-
-		$tag_1 = $post['tag_1'];
-		$tags[1] = get_tag($tag_1);
-
-		echo "
-					<a href='?p=$id' class='modal-trigger'>
-						<div class='span3 front-page-button'>
-							<div class='front-page-button-header'>
-								$tags[1]
-							</div><!-- .front-page-button-header -->
-
-							<div class='front-page-button-body'>";
-
-		if($post['photo'] != "")
-		  {
-			$img_src = "images/posts/".$post['photo'];
-			echo "
-					   			<img src='$img_src' alt='photo for ".$post['title']."'>";
-
-		  }
-
-		$tag_2 = $post['tag_2'];
-		$tag_3 = $post['tag_3'];
-
- 
-		$tags[2] = get_tag($tag_2); 
-		$tags[3] = get_tag($tag_3);
-
-		echo "
-								<div class='front-page-button-text'>
-									<h4>".$post['title']."</h4>";
-
-		$date = format_date($id);
-
-		if($date != "")
-		  {
-			echo "
-									<p>$date</p>";
-		  }
-		echo "
-				  					<ul class='inline centered'>
-	   									<li class='tag'>$tags[2]</li>
-										<li class='tag'>$tags[3]</li>
-									</ul>
-								</div><!-- .font-page-button-text -->
-							</div><!-- front-page-button-body -->
-						</div><!-- front-page-button -->
-					</a><!-- .modal-trigger -->
-";
-		  }
-		else
-		  {
-			echo "
-			<div class='$span'>
-			</div>";
-		  }
-	  }
-	}
-}
 ?>
