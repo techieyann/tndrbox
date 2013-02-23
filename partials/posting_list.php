@@ -50,6 +50,8 @@ echo "
 
 	});
 </script>
+<div id='map-canvas'>
+</div><!-- #map-canvas -->
 <div id='postings'>
 </div><!-- #postings -->";
 

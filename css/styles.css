@@ -16,7 +16,7 @@
 
 html, body {
 height:100%;
-overflow-x:hidden;
+//overflow-x:hidden;
 }
 body {
 font-family: Helvetica, sans-serif;
@@ -48,15 +48,18 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 #postings
 {
-	margin: 0 auto;
+	left:0;
+//	margin: 0 auto;
 	padding-top:20px;
+
+	position:relative;
 }
 #postings-container
 {
 	position:relative;
 	min-height:90%;
 	background:#F4F2E6;
-	padding:0px 10px 0px 10px;
+	padding-left:15px;
 }
 
 	
@@ -66,17 +69,26 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	padding-top:12px;
 
 	z-index:100;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.45);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.45);
+                box-shadow: 0 1px 2px rgba(0,0,0,.45);
+}
+#postings-header-filler
+{
+	padding-top:12px;
+}
+#postings-header.sticky{
+	position:fixed;
+	top:0px;
+	left:70px;
+}
+#postings-header.rounded-top{
        -webkit-border-top-left-radius: 5px;
           -moz-border-top-left-radius: 5px;
                border-top-left-radius: 5px;
        -webkit-border-top-right-radius: 5px;
           -moz-border-top-right-radius: 5px;
                border-top-right-radius: 5px;
-
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.45);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.45);
-                box-shadow: 0 1px 2px rgba(0,0,0,.45);
-
 }
 
 .form-inline-margin-fix
@@ -248,11 +260,21 @@ form
 {
 	border-bottom: 1px solid black;
 }
-
+#data-container
+{
+	display:inline-block;
+}
 #map-canvas
 {
-	width: 100%;
-	height: 300px;
+	position:relative;
+	float:right;
+	background:#F4F2E6;
+}
+#map-canvas.sticky
+{
+	position:fixed;
+	top:0px;
+	right:0px;
 }
 
 .third
@@ -308,6 +330,10 @@ form
 	height:100%;
 	margin-top:25px;
 	position:relative;
+
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.5);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.5);
+                box-shadow: 0 1px 2px rgba(0,0,0,.5);
 }
 
 

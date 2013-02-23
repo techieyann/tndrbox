@@ -114,6 +114,7 @@
 		switch(format)
 		{
 		case 'tile':
+			resizeContainer();
 			$('#postings').masonry({
 				itemSelector: '.front-page-button',
 				isAnimated: true,

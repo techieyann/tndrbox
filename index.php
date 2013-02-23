@@ -107,9 +107,16 @@ function print_body()
   {
 	global $postings, $date, $tag_example, $category_selection;
 	echo "
-			<div id='postings-header' class='row'>
+			<div id='postings-header' class='row rounded-top'>
 				<ul class='inline'>
-					<li><p class='white'>Filter by:</p></li>
+					<li><p class='white'>View:</p></li>
+					<li>
+			<div class='btn-group'>
+				<button title='Tiles' id='tile' class='format-button btn disabled' href='#'><i class='icon-th-large'></i></button>
+				<button title='List' id='list' class='format-button btn' href='#'><i class='icon-list'></i></button>
+			</div>
+					</li>
+					<li><p class='white'>Filter:</p></li>
 					<li>
 						<form class='form-inline form-inline-margin-fix'>
 							<div class='btn-group'>
@@ -161,17 +168,16 @@ function print_body()
 
 
 			<li class='pull-right'>
-			<div class='btn-group'>
-				<button title='Tiles' id='tile' class='format-button btn disabled' href='#'><i class='icon-th-large'></i></button>
-				<button title='List' id='list' class='format-button btn' href='#'><i class='icon-list'></i></button>
-			</div>
-			<button title='Map' id='map' class='btn' href='#'><i class='icon-globe'></i></button>
+			<button title='Map' id='map-button' class='btn' href='#'><i class='icon-globe'></i></button>
 			</li>
 				</ul>
 			</div><!-- #postings-header -->
-			<div id='map-canvas'></div>
+			<div id='postings-header-filler'>
+			</div>
+
 			<div id='postings-container' class='tile'>
-			</div><!-- $postings-container -->
+
+			</div><!-- #postings-container -->
 
 			<div id='box' class='hidden-phone'>
 				<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
