@@ -25,41 +25,47 @@ $post_flag = false;
 
 if(isset($_GET['p']))
   {
-	$p_id = $_GET['p'];
-	$query = "SELECT active, b_id FROM postings WHERE id=$p_id";
-	$active_result = query_db($query);
-	if(isset($active_result[0]))
+	if(is_numeric($_GET['p']))
 	  {
-		extract($active_result[0]);
-		if($active == 1)
+		$p_id = $_GET['p'];
+		$query = "SELECT active, b_id FROM postings WHERE id=$p_id";
+		$active_result = query_db($query);
+		if(isset($active_result[0]))
 		  {
-			$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE postings.id='$p_id'";
-		  }
-		else
-		  {
-			$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id AND active=1";
-		  }
+			extract($active_result[0]);
+			if($active == 1)
+			  {
+				$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE postings.id='$p_id'";
+			  }
+			else
+			  {
+				$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id AND active=1";
+			  }
 	
-		$result = query_db($query);
-		if(isset($result[0]))
-		  {
-			$post_flag = true;
-			$result['post_flag'] = 1;
+			$result = query_db($query);
+			if(isset($result[0]))
+			  {
+				$post_flag = true;
+				$result['post_flag'] = 1;
+			  }
 		  }
 	  }
   }
 elseif(isset($_GET['b']))
   {
-	$b_id = $_GET['b'];
-	$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id and active=1";
-
-	$result = query_db($query);
-	
-	if(isset($result[0]))
+	if(is_numeric($_GET['b']))
 	  {
-		$post_flag = true;
-		$p_id = $result[0]['id'];
-		$result['post_flag'] = 1;
+		$b_id = $_GET['b'];
+		$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id and active=1";
+
+		$result = query_db($query);
+	
+		if(isset($result[0]))
+		  {
+			$post_flag = true;
+			$p_id = $result[0]['id'];
+			$result['post_flag'] = 1;
+		  }
 	  }
   }
 array_push($result, default_front_page_posts());
@@ -71,70 +77,20 @@ $GLOBALS['header_html_title'] = "tndrbox";
 $GLOBALS['header_scripts'] = "
 		<script src='js/index.js'></script>
 		<script src='js/posting_list.js'></script>
-		<script>
-			var postings = $json_postings;
-		var formattedPostings = [];
-			var url_location = getCookie('location');
-			var str_location = decodeURIComponent(url_location);
-
-			var json_location = JSON.parse(str_location);
-
-			$(document).ready(function(){
-
-				$('#postings-container').load('partials/posting_list');
-			
-				$('.format-button').on('click', function(e){
-					var this_id = $(this).attr('id');
-					if(!document.getElementById(this_id).classList.contains('disabled'))
-{
-					$('.format-button').removeClass('disabled');
-					$('.format-button').each(function(i, obj){
-						$('#postings-container').removeClass($(obj).attr('id'));
-					});
-					$(this).addClass('disabled');
-
-					$('#postings-container').addClass(this_id);
-					reformatPosts(this_id);
-					displayPosts(this_id);
-}
-				});
-			});
-		</script>";
+		<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true'></script>
+		<script>";
 
 if($post_flag)
   {
 		$GLOBALS['header_scripts'] .= "
-		<script type='text/javascript'> 
-
 			$(document).ready(function(){
-				var url = 'partials/modal?p=".$result[0]['id']."';
-
-				//hide content divs
-				$('#modal-header').hide();
-				$('#modal-body').hide();
-				$('#modal-footer').hide();	
-
-				//show modal
-				$('#post-modal').modal('show');
-
-				//display loading div
-				$('#modal-loading').show();
-
-				//call load
-				$('#post-modal').load(url, function(){
-				$('#modal-loading').hide();
-
-				$('.share-button').popover({
-					html:true
-				});
-	
-				$('#modal-header').show();
-				$('#modal-body').show();
-				$('#modal-footer').show();	
-				});
-			});
-		</script>";
+				loadModal(".$result[0]['id'].");
+			});";
   }
+
+$GLOBALS['header_scripts'] .= "
+			var postings = $json_postings;
+		</script>";
 
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
@@ -196,7 +152,7 @@ function print_body()
 							</div><!-- .input-prepend -->
 
 							<div class='input-prepend'>
-								<span class='add-on'><i class='icon-search'></i></span>	
+								<span class='add-on'><i class='icon-tag'></i></span>	
 								<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
 							</div><!-- .input-prepend -->
 
@@ -208,14 +164,12 @@ function print_body()
 			<div class='btn-group'>
 				<button title='Tiles' id='tile' class='format-button btn disabled' href='#'><i class='icon-th-large'></i></button>
 				<button title='List' id='list' class='format-button btn' href='#'><i class='icon-list'></i></button>
-				<button title='Map' id='map' class='format-button btn' href='#'><i class='icon-globe'></i></button>
-
-
 			</div>
+			<button title='Map' id='map' class='btn' href='#'><i class='icon-globe'></i></button>
 			</li>
 				</ul>
 			</div><!-- #postings-header -->
-
+			<div id='map-canvas'></div>
 			<div id='postings-container' class='tile'>
 			</div><!-- $postings-container -->
 

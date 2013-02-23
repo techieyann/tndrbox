@@ -4,8 +4,7 @@
 		switch(format)
 		{
 		case 'tile':
-			result['string'] = "<a id='"+post.id+"' class='modal-trigger' href='?p="+post.id+"'>"
-				+"<div class='span3 front-page-button'>"
+			result['string'] = "<div class='span3 front-page-button'>"
 					+"<div class='front-page-button-header'>"+post.tag_1+"</div>"
 						+"<div class='front-page-button-body'>";
 
@@ -24,22 +23,23 @@
 						+"</ul>"
 					+"</div>" 
 				+"</div>"
-			+"</div>"
-		+"</a>";
+			+"</div>";
 			break;
 		case 'list':
-			result['string'] = ""
-				+"<tr class='modal-trigger' href='?p="+post.id+"'>"
-					+"<td>"+post.title+"</td>"
-					+"<td>"+post.date+"</td>"
-					+"<td>"+post.business+"</td>"
-					+"<td class='hidden-phone'>"+post.tag_1+"<br>"+post.tag_2+"<br>"+post.tag_3+"</td>"
-
-				+"</tr>"
-				+"";
-			break;
-		case 'map':
-			
+			result['string'] = "<div class='front-page-list-element'>"
+					+"<h3 class='centered'>"+post.title+"</h3>"
+					+"<ul class='inline'>"
+						+"<li class='third'><ul class='inline'>"
+							+"<li class='tag' id='"+post.tag_1_id+"'>"
+								+"<img src='images/icons/"+post.tag_1+".png' width='35'>"
+								+post.tag_1+"</li>"
+							+"<li class='tag' id='"+post.tag_2_id+"'>"+post.tag_2+"</li>"
+							+"<li class='tag' id='"+post.tag_3_id+"'>"+post.tag_3+"</li>"
+						+"</ul></li>"
+						+"<li class='centered third'>by "+post.business+"</li>"
+						+"<li class='pull-right'>on "+post.date+"</li>"
+					+"</ul>"
+				+"</div>";
 			break;
 		default:
 			return result;
@@ -90,6 +90,27 @@
 			{
 				$('#postings').masonry('destroy');
 			}
+		for(i in formattedPostings)
+			{
+				var post = document.createElement('a');
+				post.innerHTML = formattedPostings[i]['string'];
+				post.setAttribute('href','#');
+				post.setAttribute('id', formattedPostings[i]['id']);
+				post.setAttribute('class', 'modal-trigger');
+				postings.appendChild(post);
+			}
+		var modalScript = document.createElement('script');
+		modalScript.innerHTML = "$('.modal-trigger').click(function(e){"
+			+"var id = $(this).attr('id');"
+			+"loadModal(id);"
+			+"var stateObj = id;"
+			+"var search = window.location.search;"
+			+"var uri = addParameter(search, 'p', id);"
+			+"history.pushState(stateObj, null, uri);"
+			+"e.preventDefault();"
+			+"});";
+		postings.appendChild(modalScript);
+
 		switch(format)
 		{
 		case 'tile':
@@ -103,87 +124,8 @@
 				isAnimated: true,
 				gutterWidth: width
 			});
-			var modalTriggerScript = "<script>$('.modal-trigger').click(function(e){"
-				+"var id = $(this).attr('href');"
-				+"var url = 'partials/modal' + id;"
-
-				+"$('#modal-header').hide();"
-				+"$('#modal-body').hide();"
-				+"$('#modal-footer').hide();"
-
-				+"$('#post-modal').modal('show');"
-
-				+"$('#modal-loading').show();"
-
-				+"$('#post-modal').load(url, function(){"
-					+"$('#modal-loading').hide();"
-
-					+"$('.share-button').popover({"
-						+"html:true"
-					+"});"
-	
-					+"$('#modal-header').show();"
-					+"$('#modal-body').show();"
-					+"$('#modal-footer').show();"
-	
-					+"var stateObj = id;"
-					+"history.pushState(stateObj, null, id);"
-				+"});"
-	
-				+"e.preventDefault();"
-				+"});</script>";
-			$('#postings').append(modalTriggerScript);
-			for(i in formattedPostings)
-			{
-				$('#postings').append(formattedPostings[i]['string']);
-			}
-			break;
-		case 'list':
-			if(postings.classList.contains('masonry'))
-			{
-				$('#postings').masonry('destroy');
-			}
-			var table = "<table class='table table-hover span12'>"
-				+"<thead>"
-				+"<tr>"
-					+"<th>Title</th>"
-					+"<th>Date</th>"
-					+"<th>Business</th>"
-					+"<th class='hidden-phone'>Tags</th>"
-				+"</tr>"
-				+"</thead>"
-				+"<tbody>";
-
-			for(i in formattedPostings)
-			{
-				table += formattedPostings[i]['string'];
-			}
-			table += "</tbody></table>";
-			$('#postings').append(table);
-			break;
-		case 'map':
-			$('#postings').append(getMapScript());
 			break;
 		default:
 			break;
 		}
 	}
-//google maps api asynch load
-		function initialize() {
-			var mapOptions = {
-				zoom: 8,
-				center: new google.maps.LatLng(-34.397, 150.644),
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			}
-			var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-		}
-
-		function getMapScript() {
-			var script = document.createElement('script');
-			script.type = 'text/javascript';
-			script.src = 'http://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=false&callback=initialize';
-			return script;
-		 }
-	$(document).ready(function(){
-
-});

@@ -269,6 +269,23 @@ form
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.25);
                 box-shadow: 0 1px 2px rgba(0,0,0,.25);
 }
+
+.front-page-list-element
+{
+	border-bottom: 1px solid black;
+}
+
+#map-canvas
+{
+	width: 100%;
+	height:300px;
+
+}
+
+.third
+{
+	width:32%;
+}
 .white-bg
 {
 	background:#eee;
@@ -315,6 +332,7 @@ form
 #body-container
 {
 	height:100%;
+	margin-top:25px;
 	position:relative;
 }
 

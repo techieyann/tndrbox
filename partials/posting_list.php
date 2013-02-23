@@ -28,6 +28,10 @@ echo "
 		{
 			listing_format = 'list';
 		}
+		if(postings_cont_div.classList.contains('map'))
+		{
+			listing_format = 'map';
+		}
 
 		for(i in postings)
 		{
@@ -44,25 +48,25 @@ echo "
 		}
 		displayPosts(listing_format);
 
-
-
-	window.onresize = function(){
-		if(postings_cont_div.classList.contains('tile'))
-{
-		$('#postings').masonry('reload');
-		if($(window).width() < 1200)
-		{
-			$('#postings').masonry('option', {gutterWidth: 0});
-		}
-		else
-		{
-			$('#postings').masonry('option', {gutterWidth: 13});
-		}
-}
-	};
+		window.onresize = function(){
+			if(postings_cont_div.classList.contains('tile'))
+			{
+				$('#postings').masonry('reload');
+				if($(window).width() < 1200)
+				{
+					$('#postings').masonry('option', {gutterWidth: 0});
+				}
+				else
+				{
+					$('#postings').masonry('option', {gutterWidth: 13});
+				}
+			}
+		};
 
 	});
 </script>
 <div id='postings'>
 </div><!-- #postings -->";
+
+disconnect_from_db();
 ?>
