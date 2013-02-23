@@ -266,16 +266,11 @@ form
 }
 #map-canvas
 {
-	position:relative;
+//	position:relative;
 	float:right;
 	background:#F4F2E6;
 }
-#map-canvas.sticky
-{
-	position:fixed;
-	top:0px;
-	right:0px;
-}
+
 
 .third
 {
