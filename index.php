@@ -89,6 +89,7 @@ if($post_flag)
   }
 
 $GLOBALS['header_scripts'] .= "
+
 			var postings = $json_postings;
 		</script>";
 
@@ -107,8 +108,8 @@ function print_body()
   {
 	global $postings, $date, $tag_example, $category_selection;
 	echo "
-			<div id='postings-header' class='row rounded-top'>
-				<ul class='inline'>
+			<div id='postings-header' class='rounded-top'>
+				<ul class='inline short'>
 					<li><p class='white'>View:</p></li>
 					<li>
 			<div class='btn-group'>
