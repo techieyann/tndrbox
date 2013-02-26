@@ -263,10 +263,8 @@ function closePost(){
 		postings.masonry('reload');
 		}
 
-	this.active = 0;
+		this.active = 0;
 		resizeContainer();
-
-	document.documentElement.scrollTop = this.scrollPosition;
 	}
 }
 
