@@ -1,7 +1,7 @@
    	function formatPost(post)
 	{
 		var result = [];
-			result['tile'] = "<div class='span3 front-page-button'>"
+			result['tile'] = "<div class='fp front-page-button'>"
 					+"<div class='front-page-button-header'>"+post.tag_1+"</div>"
 						+"<div class='front-page-button-body'>";
 
@@ -22,7 +22,7 @@
 				+"</div>"
 			+"</div>";
 
-			result['list'] = "<div class='front-page-list-element'>"
+			result['list'] = "<div class='fp front-page-list-element'>"
 					+"<h3 class='centered'>"+post.title+"</h3>"
 					+"<ul class='inline'>"
 						+"<li class='third'><ul class='inline'>"
@@ -61,9 +61,9 @@
 		var marker = new google.maps.Marker({
 			position: postLatLon,
 			title: post.title,
-			icon: 'images/icons/'+post.tag_1+'.png'
+			icon: 'images/markers/'+post.tag_1+'.png'
 		});
-		google.maps.event.addListener(marker, 'click', function(e){loadModal(post.id);});
+		google.maps.event.addListener(marker, 'click', function(e){loadPost(post.id);});
 		google.maps.event.addListener(marker, 'mouseover', function(e){highlightPosting(post.id); scrollTo(post.id);});
 		google.maps.event.addListener(marker, 'mouseout', function(e){lowlightPosting(post.id);});
 		result['marker'] = marker;
@@ -77,6 +77,8 @@
 
 	function displayPosts()
 	{
+		$('#postings').hide();
+		$('#loading').show();
 		var postings, post, id, markers;
 		postings  = document.getElementById('postings');
 		markers = [];
@@ -92,26 +94,28 @@
 				markers[i] = formattedPostings[i]['marker'];
 
 				post.innerHTML = formattedPostings[i][postingsFormat];
+				post.innerHTML 	+= "<div class='js-content'></div>";
 				post.setAttribute('href','#');
 				post.setAttribute('id', id);
-				post.setAttribute('class', 'modal-trigger');
+				post.setAttribute('class', 'post-trigger');
 				post.setAttribute('index', formattedPostings[i]['index']);
 				postings.appendChild(post);
 				
 
 				markers[i].setMap(this.map);
 			}
-		var modalScript = document.createElement('script');
-		modalScript.innerHTML = "$('.modal-trigger').click(function(e){"
+		var postScript = document.createElement('script');
+		postScript.innerHTML = "$('.post-trigger').click(function(e){"
 			+"var id = $(this).attr('id');"
-			+"loadModal(id);"
+			+"if(!document.getElementById(id).classList.contains('triggered')){"
+			+"loadPost(id);"
 			+"var stateObj = id;"
 			+"var search = window.location.search;"
 			+"var uri = addParameter(search, 'p', id);"
-			+"history.pushState(stateObj, null, uri);"
+			+"history.pushState(stateObj, null, uri);}"
 			+"e.preventDefault();"
 			+"});"
-			+"$('.modal-trigger').hover(function(e){"
+			+"$('.post-trigger').hover(function(e){"
 			+"var i = $(this).attr('index');"
 			+"highlightPosting($(this).attr('id'));"
 			+"formattedPostings[i]['marker'].setAnimation(google.maps.Animation.BOUNCE);"
@@ -120,8 +124,9 @@
 			+"lowlightPosting($(this).attr('id'));"
 			+"formattedPostings[i]['marker'].setAnimation(null);"
 			+"});";
-		postings.appendChild(modalScript);
-
+		postings.appendChild(postScript);
+		$('#loading').hide();
+		$('#postings').show();
 		switch(postingsFormat)
 		{
 		case 'tile':
@@ -135,4 +140,5 @@
 		default:
 			break;
 		}
+
 	}

@@ -43,9 +43,14 @@ echo "
 		}
 	});
 </script>
+
 <div id='map-canvas'>
 </div><!-- #map-canvas -->
-<div id='postings'>
+
+<div id='post'>
+</div><!-- #post -->
+
+<div id='postings' class='pull-left'>
 </div><!-- #postings -->";
 
 disconnect_from_db();

@@ -51,8 +51,7 @@ if($id == null)
 	echo "		<script>
 					
 				</script>
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<div class='post-header'>
 					<h4 class='error'>Error: couldn't find post...</h4>
 				</div>";
   }
@@ -77,27 +76,29 @@ else
 	
 	echo "
 				<script>
-					$(document).ready(function(){\$.ga.load('".$GLOBALS['ga_account']."');});				
+					$(document).ready(function(){
+						$('.share-button').popover({
+							html:true
+						});
+					});				
 				</script>
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>";
+				<div class='post-header'>";
     if($owner_flag)
 	  {
 		echo "
-					<ul class='inline pull-right'>
-						<li><a title='Edit' href='settings?view=edit_post&id=$id'><i class='icon-pencil'></i></a></li>
-						<li><a title='Deactivate'  href='settings?view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></a></li>
-						<li><a title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></a></li>						
-					</ul>";
+					<div class='btn-group'>
+						<button class='btn' title='Edit' href='settings?view=edit_post&id=$id'><i class='icon-pencil'></i></button>
+						<button class='btn' title='Deactivate'  href='settings?view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></button
+						<button class='btn' title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></button>
+					</div>";
 					}
 
 	echo "
 					<ul class='inline centered'>
-						<li>
-						<li id='post-modal-label'><h3>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</h3></li>".($date != "" ? "<li><h4> <i>on $date</i></h4></li>" :"")."
+						<li><h3>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</h3></li>".($date != "" ? "<li><h4> <i>on $date</i></h4></li>" :"")."
 					</ul>
 				</div>
-				<div class='modal-body'>
+				<div class='post-body'>
 					<div class='row-fluid'>
 						<div class='span7 top-left' id='post'>
 							<div id='posting-image' class='row span12'>
@@ -111,14 +112,7 @@ else
 									<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>";
 
 	  }
-	else
-	  {
-		echo "
-						   			<a href='http://maps.google.com/?q=$alt_address'>
-						   				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=325x250&markers=color:red|$alt_address&sensor=false' class='rounded'>
-						   			</a>";
-		$map_used_flag = true;
-	  }
+
 
 	
 	
@@ -146,15 +140,7 @@ else
 				 		</div>
 						<div class='span5'>";
 
-	if(!$map_used_flag)
-	  {
-		echo "
-							<div class='centered content'>
-				   			<a href='http://maps.google.com/?q=$alt_address'>
-			   				<img src='http://maps.googleapis.com/maps/api/staticmap?center=$alt_address&zoom=16&size=325x250&markers=color:red|$alt_address&sensor=false' class='rounded'>
-				   			</a>
-							</div>";
-	  }
+
 	extract($business);
 	$category_id = $category;
 	$category = get_tag($category_id);
@@ -206,7 +192,7 @@ else
    					</div>
 				</div>
 		   	</div>
-			<div class='modal-footer'>
+			<div class='post-footer'>
 
 				<button id='share-button' class='share-button btn btn-info pull-left' title=\"
 Select your method:
@@ -223,7 +209,7 @@ Select your method:
 \"
 				>Share</button>
 
-				<button class='btn pull-right' data-dismiss='modal' aria-hidden='true'>Close</button>
+				<button class='btn pull-right' onclick='closePost()'>Close</button>
 			</div>";
   }
 		disconnect_from_db();
@@ -231,8 +217,8 @@ Select your method:
 else
   {
 		echo "
-				<div class='modal-header'>
-					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+				<div class='post-header'>
+				<button class='btn pull-right' onclick='closePost()'>Close</button>
 					<h4 class='error'>Error: no ID specified...</h4>
 				</div>";
   }

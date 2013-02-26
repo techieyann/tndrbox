@@ -78,18 +78,8 @@ $GLOBALS['header_scripts'] = "
 		<script src='js/index.js'></script>
 		<script src='js/posting_list.js'></script>
 		<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true'></script>
-		<script>";
-
-if($post_flag)
-  {
-		$GLOBALS['header_scripts'] .= "
-			$(document).ready(function(){
-				loadModal(".$result[0]['id'].");
-			});";
-  }
-
-$GLOBALS['header_scripts'] .= "
-
+		<script>
+			var postRequest = ".($post_flag ? "true" : "false").";
 			var postings = $json_postings;
 		</script>";
 
@@ -182,13 +172,7 @@ function print_body()
 
 			<div id='box' class='hidden-phone'>
 				<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
-			</div><!-- #box -->
-
-			<div id='post-modal' class='modal hide fade' tabindex='-1' role='dialog' aria-hidden='true'>
-				<div id='modal-loading' class='centered'>
-					<img src='images/loading.gif'><!--Thanks http://www.loadinfo.net -->
-				</div><!-- #modal-loading -->
-			</div><!-- #post-modal -->";
+			</div><!-- #box -->";
   }
 
 function process_postings($raw_posts)
