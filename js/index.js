@@ -43,19 +43,6 @@ function resizeContainer(){
 
 	}
 
-	if(754 < window_width)
-	{
-		var width = (window_width-155);
-		var postingsWidth = (width*.62);
-		var mapWidth = (width-postingsWidth-15);
-		var mapHeight = window_height-header_height-45;
-		var postings_width = postingsWidth-15;
-		$('#map-canvas').addClass('pull-right');
-		container.style.marginLeft = '70px';
-		box.removeAttribute('style', 'left');
-		middle_box.style.width = (width)+'px';			
-
-		//desktop
 		if(1400 < window_width)
 		{
 			this.postColumns = 5;
@@ -69,47 +56,72 @@ function resizeContainer(){
 		{
 			this.postColumns = 3;
 		}
-		//vertical tablet
-		else 
+		else if(754 < window_width)
+		{
+			this.postColumns = 3;
+		}
+		else if(360 < window_width)
 		{
 			this.postColumns = 2;
 		}
-		var button_width = ((postings_width)/this.postColumns)-10
-		$('.front-page-button').width(button_width+'px');
-		var num_columns = this.postColumns;
-		if(postColumns > 3)
+		else
 		{
-			num_columns = 3;
+			this.postColumns = 1;
 		}
-		if(postings.classList.contains('masonry'))
-		   {
-			$('.js-content.triggered').width((button_width*num_columns)+(10*(num_columns-1))+'px');
-		   }
-	}
-	//phones
-	else
+
+	if(980 < window_width)
 	{
-		this.postColumns = 1;
-		var width = (window_width-35);
+		var width = (window_width-155); 
+		var postingsWidth = (width*.62);
+		var mapWidth = (width-postingsWidth-15);
+		var mapHeight = window_height-header_height-45;
+		var postings_width = postingsWidth-15;
+		$('#map-canvas').addClass('pull-right');
+
+		container.style.marginLeft = '70px';
+		box.removeAttribute('style', 'left');
+	}
+	else if(754 < window_width)
+	{
+		var width = (window_width-155); 
 		var postingsWidth = (width);
-		var mapWidth = (postingsWidth);
+		var mapWidth = (postingsWidth-30);
 		var mapHeight = (window_height-header_height)*.38;
 		var postings_width = postingsWidth-15;
 
 		$('#map-canvas').removeClass('pull-right');
-		container.style.marginLeft = '0';
-//		container.removeAttribute('style', 'width');
-
-		var button_width = (postings_width-15);
-		$('.front-page-button').width(button_width+'px')
+		container.style.marginLeft = '70px';
+		box.removeAttribute('style', 'left');
 	}
+	else
+	{
+		var width = (window_width-35);
+		var postingsWidth = (width);
+		var mapWidth = (postingsWidth-30);
+		var mapHeight = (window_height-header_height)*.38;
+		var postings_width = postingsWidth-15;
 
+		$('#map-canvas').removeClass('pull-right');
+		box.setAttribute('style', 'left:-45px');
+		container.style.marginLeft = '0';
+	}
+	var num_columns = this.postColumns;
+		if(this.postColumns > 3)
+		{
+			num_columns = 3;
+		}
+	console.log(num_columns);
+		var button_width = ((postings_width)/this.postColumns)-12;		
+
+
+		$('.front-page-button').width(button_width+'px')
 	container.style.width= width+'px';
-
+	box.style.width = width+130+'px';
 	$('#postings-header').width(width);
 	$('#map-canvas').width(mapWidth);
 	$('#map-canvas').height(mapHeight);
 
+	middle_box.style.width = (width)+'px';
 
 	$('#postings').width(postingsWidth);
 	$('.front-page-list-element').width(postingsWidth-30);
@@ -120,6 +132,7 @@ function resizeContainer(){
 	if(postings.classList.contains('masonry'))
 	{
 		$('#postings').masonry({columnWidth:button_width });
+		$('.js-content.triggered').width((button_width*num_columns)+(10*(num_columns-1))+'px');
 	}
 
 	replacePostingsContainers();
@@ -135,6 +148,8 @@ function replacePostingsContainers()
 	var header_height = postings_header.height();
 	var window_width = theWindow.innerWidth();
 
+
+
 	if($(document).scrollTop() < this.to_top)
 	{
 			postings_header.addClass('rounded-top');
@@ -142,13 +157,10 @@ function replacePostingsContainers()
 			postings_header.css({'left' : ''});
 			postings_header_filler.css('height', postings_header.height()+'px');
 			postings_header_filler.hide();
-		if(window_width < 754)
+
+		if(window_width >= 980)
 		{
-			map_canvas.css({'position':'relative','top': '0', 'left':'-15px'});			
-		}
-		else
-		{
-			map_canvas.css({'position':'relative','top': '', 'left':''});
+			map_canvas.css({'position':'relative','top': '', 'bottom':'', 'left':''});
 
 		}
 	}
@@ -158,13 +170,9 @@ function replacePostingsContainers()
 		postings_header.addClass('sticky');
 		postings_header.removeClass('rounded-top');
 		postings_header_filler.show();
-		if(window_width < 754)
+		if(window_width < 980)
 		{
-			map_canvas.css({'position' : 'fixed', 'top': header_height + 5 + 'px', 'left' :'20px', 'margin-top':'', 'z-index':'99'});
-			postings_header.css({'left' : '20px'});
-			
-			postings_header_filler.css('height', postings_header.height()+map_canvas.height()+'px');
-
+			postings_header.css({'left' : '70px'});
 		}
 		else
 		{
@@ -173,6 +181,16 @@ function replacePostingsContainers()
 			postings_header_filler.css('height', postings_header.height()+'px');
 		}
 	}
+		if(window_width < 980)
+		{
+//			map_canvas.css({'position':'relative','top': '0', 'left':'-15px'});			
+			map_canvas.css({'position' : 'fixed', 'bottom': '40px', 'top':'','left' :'85px', 'margin-top':'', 'z-index':'99'});
+			if(window_width < 754)
+			{
+			map_canvas.css({'left' : '35px'});
+			postings_header.css({'left' : '20px'});
+			}
+		}
 }
 
 

@@ -258,9 +258,9 @@ form
 	z-index=99;
 //	float:right;
 	background:#F4F2E6;
-        -webkit-box-shadow: -3px 0 2px rgba(0,0,0,.25);
-           -moz-box-shadow: -3px 0 2px rgba(0,0,0,.25);
-                box-shadow: -3px 0 2px rgba(0,0,0,.25);
+        -webkit-box-shadow: -3px -3px 2px rgba(0,0,0,.25);
+           -moz-box-shadow: -3px -3px 2px rgba(0,0,0,.25);
+                box-shadow: -3px -3px 2px rgba(0,0,0,.25);
 }
 
 
