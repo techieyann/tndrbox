@@ -1,7 +1,7 @@
    	function formatPost(post)
 	{
 		var result = [];
-			result['tile'] = "<div class='fp front-page-button'>"
+			result['tile'] = "<div class='post-mini button'>"
 					+"<div class='front-page-button-header'>"+post.tag_1+"</div>"
 						+"<div class='front-page-button-body'>";
 
@@ -12,29 +12,26 @@
 
 			result['tile'] += "<div class='front-page-button-text'>"
 						+"<h4>"+post.title+"</h4>"
-						+"<p>by, "+post.business+"</p>"
+						+"<p>"+post.business+"</p>"
 						+"<p>"+post.date+"</p>"
-						+"<ul class='inline centered'>"
+/*						+"<ul class='inline centered'>"
 							+"<li class='tag' id='"+post.tag_2_id+"'>"+post.tag_2+"</li>"
 							+"<li class='tag' id='"+post.tag_3_id+"'>"+post.tag_3+"</li>"
-						+"</ul>"
+						+"</ul>"*/
 					+"</div>" 
 				+"</div>"
 			+"</div>";
 
-			result['list'] = "<div class='fp front-page-list-element'>"
-					+"<h3 class='centered'>"+post.title+"</h3>"
-					+"<ul class='inline'>"
-						+"<li class='third'><ul class='inline'>"
+			result['list'] = "<div class='post-mini li row'>"
+					+"<div class='span7'>"+post.title+" by "+post.business+"</div>"
+					+"<ul class='inline span5'>"
 							+"<li class='tag' id='"+post.tag_1_id+"'>"
 								+"<img src='images/icons/"+post.tag_1+".png' width='35'>"
 								+post.tag_1+"</li>"
 							+"<li class='tag' id='"+post.tag_2_id+"'>"+post.tag_2+"</li>"
 							+"<li class='tag' id='"+post.tag_3_id+"'>"+post.tag_3+"</li>"
-						+"</ul></li>"
-						+"<li class='centered third'>by "+post.business+"</li>"
-						+"<li class='pull-right'>on "+post.date+"</li>"
-					+"</ul>"
+						+"</ul>"
+						+"<p>on "+post.date+"</p>"
 				+"</div>";
 
 		return result;
@@ -79,7 +76,7 @@
 	{
 		$('#postings').hide();
 		$('#loading').show();
-		var postings, post, id, markers;
+		var postings, postLink, id, markers;
 		postings  = document.getElementById('postings');
 		markers = [];
 		postings.innerHTML = "";
@@ -89,17 +86,21 @@
 			}
 		for(i in formattedPostings)
 			{
-				post = document.createElement('a');
+				button = document.createElement('div');
+
+				postLink = document.createElement('a');
 				id = formattedPostings[i]['id'];
 				markers[i] = formattedPostings[i]['marker'];
 
-				post.innerHTML = formattedPostings[i][postingsFormat];
-				post.innerHTML 	+= "<div class='js-content'></div>";
-				post.setAttribute('href','#');
-				post.setAttribute('id', id);
-				post.setAttribute('class', 'post-trigger');
-				post.setAttribute('index', formattedPostings[i]['index']);
-				postings.appendChild(post);
+				postLink.innerHTML = formattedPostings[i][postingsFormat];
+				postLink.setAttribute('href','#');
+				postLink.setAttribute('id', id);
+				postLink.setAttribute('class', 'post-trigger');
+				postLink.setAttribute('index', formattedPostings[i]['index']);
+				button.setAttribute('class', 'posting-list-button');
+				button.appendChild(postLink);
+				button.innerHTML += "<div class='post-big'></div>";
+				postings.appendChild(button);
 				
 
 				markers[i].setMap(this.map);
@@ -115,13 +116,13 @@
 			+"history.pushState(stateObj, null, uri);}"
 			+"e.preventDefault();"
 			+"});"
-			+"$('.post-trigger').hover(function(e){"
-			+"var i = $(this).attr('index');"
-			+"highlightPosting($(this).attr('id'));"
+			+"$('.posting-list-button').hover(function(e){"
+			+"var i = $(this).children('.post-trigger').attr('index');"
+			+"highlightPosting($(this).children('.post-trigger').attr('id'));"
 			+"formattedPostings[i]['marker'].setAnimation(google.maps.Animation.BOUNCE);"
 			+"}, function(e){"
-			+"var i = $(this).attr('index');"
-			+"lowlightPosting($(this).attr('id'));"
+			+"var i = $(this).children('.post-trigger').attr('index');"
+			+"lowlightPosting($(this).children('.post-trigger').attr('id'));"
 			+"formattedPostings[i]['marker'].setAnimation(null);"
 			+"});";
 		postings.appendChild(postScript);
@@ -132,7 +133,7 @@
 		case 'tile':
 			resizeContainer();
 			$('#postings').masonry({
-				itemSelector: '.front-page-button',
+				itemSelector: '.posting-list-button',
 				isAnimated: true,
 				gutterWidth: 10
 			});

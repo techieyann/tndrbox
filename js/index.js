@@ -110,11 +110,11 @@ function resizeContainer(){
 		{
 			num_columns = 3;
 		}
-	console.log(num_columns);
+
 		var button_width = ((postings_width)/this.postColumns)-12;		
 
 
-		$('.front-page-button').width(button_width+'px')
+		$('.post-mini.button').width(button_width+'px')
 	container.style.width= width+'px';
 	box.style.width = width+130+'px';
 	$('#postings-header').width(width);
@@ -124,7 +124,7 @@ function resizeContainer(){
 	middle_box.style.width = (width)+'px';
 
 	$('#postings').width(postingsWidth);
-	$('.front-page-list-element').width(postingsWidth-30);
+	$('.post-mini.li').width(postingsWidth-30);
 	$('#post').width(postingsWidth-30);
 	$('#loading').width(postingsWidth);
 	$('#footer-content').width(postingsWidth);
@@ -132,7 +132,7 @@ function resizeContainer(){
 	if(postings.classList.contains('masonry'))
 	{
 		$('#postings').masonry({columnWidth:button_width });
-		$('.js-content.triggered').width((button_width*num_columns)+(10*(num_columns-1))+'px');
+		$('.triggered>.post-big').width((button_width*num_columns)+(10*(num_columns-1))+'px');
 	}
 
 	replacePostingsContainers();
@@ -228,61 +228,67 @@ function map_initialize(callback) {
 function loadPost(id){
 	closePost();
 	var postings = $('#postings');
+
 	var link = $('#'+id);
-	var post = $('#'+id+'>.fp');
-	var partial = $('#'+id+'>.js-content');
+	var postMini = link.children('.post-mini');
+	var button = link.parent();
+	var partial = button.children('.post-big');
 	var url = 'partials/posting?p='+id;
-
-	
-
-
+	var docPostings = document.getElementById('postings');
+	var loadingDiv = document.createElement('div');
+	loadingDiv.innerHTML = "<div class='loading'><img src='images/loading.gif'></div>";
 	//hide content divs
+	partial.hide('fast');
+	postMini.hide('fast', function(){
+		button.addClass('triggered');
+		button.prepend(loadingDiv);
+		//call load
 
-	//call load
-	partial.load(url, function(){
-		partial.show();
-		post.hide();
-		link.addClass('triggered');
-		if(document.getElementById('postings').classList.contains('masonry'))
-		{
-		post.removeClass('front-page-button');
-		partial.addClass('front-page-button');
-		postings.masonry('reload');
-		}
-		partial.addClass('triggered');
-		
-		resizeContainer();
+		partial.load(url, function(){
+			partial.show('fast', function(){		
+				resizeContainer();
+				if(docPostings.classList.contains('masonry'))
+				{
+					postings.masonry('reload');
+				}
+
+			});
+			$('.loading').remove();
+
+		});
 	});
 		this.active = id;
 }
 
 function closePost(){
 	var id = this.active
+
 	if(id != 0)
 	{
-	var postings = $('#postings');	
-	var link = $('#'+id);
-	var post = $('#'+id+'>.fp');
-	var partial = $('#'+id+'>.js-content');
-	post.show();
-	partial.empty();
-	partial.removeClass('triggered');
-	link.removeClass('triggered');
+		var postings = $('#postings');
+		var link = $('#'+id);
+		var postMini = link.children('.post-mini');
+		var button = link.parent();
+		var partial = button.children('.post-big');
 
-		partial.hide();
+		partial.hide("fast", function(){
+			button.removeClass('triggered');
 
-
-
-	//hide content divs
+		});	
+		postMini.show("fast", function(){
+		partial.empty();
 		if(document.getElementById('postings').classList.contains('masonry'))
 		{
-		partial.removeClass('front-page-button');
-		post.addClass('front-page-button');
-		postings.masonry('reload');
+
+			postings.masonry('reload');
 		}
+			resizeContainer();
+		});
+
+
 
 		this.active = 0;
-		resizeContainer();
+
 	}
 }
 
@@ -447,8 +453,8 @@ window.onresize = function(){
 function scrollTo(id)
 {	
 	var window_width = $(window).innerWidth();
-	var id_string = '#'+id+'>div';
-	var post = $(id_string);
+
+	var post = $('#'+id).parent();
 
 	if(754 < window_width)
 	{
@@ -462,12 +468,12 @@ function scrollTo(id)
 
 function highlightPosting(id)
 {
-	$('#'+id+'>div').addClass('highlight');
+	$('#'+id).parent().addClass('highlight');
 }
 
 function lowlightPosting(id)
 {
-	$('#'+id+'>div').removeClass('highlight');
+	$('#'+id).parent().removeClass('highlight');
 }
 
 function getCookie(name){

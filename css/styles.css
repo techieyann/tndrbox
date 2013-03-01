@@ -46,6 +46,16 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 }
 
 
+.posting-list-button
+{
+	margin-bottom:10px;
+	background:#999;
+       -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+               border-radius: 10px;
+}
+
+
 #postings
 {
 	left:0;
@@ -118,16 +128,13 @@ margin:0;
 {
 float:left;
 }
-#post
-{
-float:left;
-}
+
 
 
 #posting-image img
 {
 	max-height:300px;
-	margin-bottom: 20px;
+	margin-bottom:20px;
 }
 
 
@@ -148,10 +155,7 @@ float:left;
 	height:150px;
 }
 
-#post
-{
-	margin-bottom:10px;
-}
+
 
 
 
@@ -160,10 +164,10 @@ float:left;
 	padding-left:40px;
 	padding-right:40px;
 }
-#posting-time
+.posting-time
 {
-	padding-right:10px;
-	padding-bottom:10px;
+	padding-right:15px;
+	text-align:right;
 }
 
 form
@@ -180,6 +184,13 @@ form
 	color:white;
 }
 
+
+
+.tags>li
+{
+	margin:10px;
+}
+
 .tag
 {
        -webkit-border-radius: 20px;
@@ -190,6 +201,7 @@ form
                 box-shadow: 0 1px 2px rgba(0,0,0,.25);
 	background:#ccc;
 	padding:2px 5px 2px 5px;
+
 	color: #333;
 }
 
@@ -204,7 +216,7 @@ form
 
 .front-page-button-body
 {
-	background:#F4F2E6;
+ 	background:#F4F2E6;
        -webkit-border-radius: 10px;
           -moz-border-radius: 10px;
                border-radius: 10px;
@@ -224,19 +236,65 @@ form
 	color:#333;
 }
 
-.front-page-button
+.post-mod-buttons
 {
-	padding:auto;
-	text-align:center;
-	background:#999;
+	padding-right:5px;
+	padding-top:5px;
+}
 
-	margin-bottom:10px;
+.post-big
+{
+
+
        -webkit-border-radius: 10px;
           -moz-border-radius: 10px;
                border-radius: 10px;
+}
+.post-title
+{
+	padding-top:5px;
+	font-size:30px;
+	line-height:150%;
+}
+.post-title>.date
+{
+	font-size:20px;
+}
+.post-body
+{
+ 	background:#F4F2E6;
+	margin:2px;
+       -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+               border-radius: 10px;
+       -webkit-border-top-left-radius: 5px;
+          -moz-border-top-left-radius: 5px;
+               border-top-left-radius: 5px;
+       -webkit-border-top-right-radius: 5px;
+          -moz-border-top-right-radius: 5px;
+               border-top-right-radius: 5px;
+}
+.post-header
+{
+	color:#F4F2E6;
+}
+.share
+{
+	position:absolute;
+	bottom:0px;
+	right:10px;
+}
+.post-mini.button
+{
+	padding:auto;
+	text-align:center;
+
         -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.25);
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.25);
                 box-shadow: 0 1px 2px rgba(0,0,0,.25);
+       -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+               border-radius: 10px;
 }
 
 .front-page-list-element
@@ -351,22 +409,14 @@ form
 .top-left
 {
 	padding-top:0px;
-	paddint-left:0px;
-/*       border-right: 1px solid;
-       border-bottom: 1px solid;
-        -webkit-border-bottom-right-radius: 5px;
-           -moz-border-bottom-right-radius: 5px;
-                border-bottom-right-radius: 5px;
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);*/
+	padding-left:0px;
 }
 
 .business-card
 {
 	background:#eee;
-	padding-right:0px;
-	padding-bottom:0px;
+	padding-right:5px;
+	margin-bottom:40px;
         -webkit-border-radius: 2px;
            -moz-border-radius: 2px;
                 border-radius: 2px;

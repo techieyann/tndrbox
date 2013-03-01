@@ -16,6 +16,7 @@ analyze_user();
 echo "
 <script>
 	$(document).ready(function(){
+
 		var postings_div = document.getElementById('postings');
 		var postings_cont_div = document.getElementById('postings-container');
 

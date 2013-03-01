@@ -75,41 +75,41 @@ else
 	$date = format_date($id);
 	
 	echo "
-				<script>
-					$(document).ready(function(){
-						$('.share-button').popover({
-							html:true
-						});
-					});				
-				</script>
-				<div class='post-header'>";
+				<div class='post-header'>
+					<div class='btn-group pull-right post-mod-buttons'>";
     if($owner_flag)
 	  {
 		echo "
-					<div class='btn-group'>
-						<button class='btn' title='Edit' href='settings?view=edit_post&id=$id'><i class='icon-pencil'></i></button>
-						<button class='btn' title='Deactivate'  href='settings?view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></button
-						<button class='btn' title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></button>
-					</div>";
-					}
+
+						<button class='btn-mini' title='Edit' href='settings?view=edit_post&id=$id'><i class='icon-pencil'></i></button>
+						<button class='btn-mini' title='Deactivate'  href='settings?view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></button>
+						<button class='btn-mini' title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></button>";
+}
 
 	echo "
-					<ul class='inline centered'>
-						<li><h3>".($url!="" ? "<a href='http://$url'>$title</a>":"$title")."</h3></li>".($date != "" ? "<li><h4> <i>on $date</i></h4></li>" :"")."
+						<button class='btn btn-mini' title='Close' onclick='closePost()'><i class='icon-remove'></i></button>
+					</div>
+
+					<ul class='inline centered post-title'>
+						<li>".($url!="" ? "<a href='http://$url'><b>$title</b></a>":"<b>$title</b>")."</li>".($date != "" ? "<li class='date'> <i>on $date</i></li>" :"")."
 					</ul>
 				</div>
 				<div class='post-body'>
 					<div class='row-fluid'>
-						<div class='span7 top-left' id='post'>
-							<div id='posting-image' class='row span12'>
-								<div class='span12 centered'>";
-
-	$map_used_flag = false;
+						<div class='span7 top-left' id='post'>";
 
 	if($photo != "")
 	  {
 		echo "
-									<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>";
+							<div id='posting-image' class='row span12'>
+								<div class='span12 centered'>
+
+
+
+
+									<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>
+								</div>
+							</div>";
 
 	  }
 
@@ -117,34 +117,38 @@ else
 	
 	
 	echo "
-								</div>
-							</div>
-							<ul class='inline centered'>
-								<li><a href='index?cat=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
-								<li><a href='index?tag=$tag_2' class='tag'>$tags[2]</a></li>
-								<li><a href='index?tag=$tag_3' class='tag'>$tags[3]</a></li>
-							</ul>
+
+
 
    							<div id='posting-blurb' class='posting-blurb content'>
 								<strong>$blurb</strong>
 							</div>
 
-								<div class='row span11'>								
-									<div class='posting-time pull-right muted'>
+
+									<div class='posting-time muted'>
 										<p>Posted at <strong>";
 	print_formatted_time($posting_time);
 	echo "</strong></p>
 									</div>
-								</div>
+
 
 				 		</div>
-						<div class='span5'>";
+						<div class='span5'>
+							<div class='row'>
+							<ul class='unstyled tags'>
+								<li class='centered'><a href='index?cat=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
+								<li><ul class='inline centered'>
+								<li><a href='index?tag=$tag_2' class='tag'>$tags[2]</a></li>
+								<li><a href='index?tag=$tag_3' class='tag'>$tags[3]</a></li>
+								</ul></li>
+							</ul></div>";
 
 
 	extract($business);
 	$category_id = $category;
 	$category = get_tag($category_id);
-	echo "
+	echo "	
+
 							<div class='business-info business-card'>
 								<h3 style='text-align:center'>";
 	$close_link = "";
@@ -166,7 +170,7 @@ else
 	if($hours != "")
 	  {
 	echo "
-							<div class='span6'>
+
 								Hours:<br>";
 	$hours = explode(",", $hours);
 	foreach($hours as $line)
@@ -175,10 +179,10 @@ else
 								$line<br>";
 	}
 	echo "
-							</div>";
+";
 	  }
 	echo "
-							<div class='span6'>
+
 								<address>
 								<a id=\"business-address\" href=\"http://maps.google.com/?q=$address, $city, $state $zip\">
 								$address<br>
@@ -186,30 +190,25 @@ else
 								</a>
 								".($number != "" ? "P: $number<br>":"")."
 								</address>
-							</div>
-						</div>
-						</div>
-   					</div>
-				</div>
-		   	</div>
-			<div class='post-footer'>
 
-				<button id='share-button' class='share-button btn btn-info pull-left' title=\"
-Select your method:
-<button type='button' class='close' onclick='$(&quot;#share-button&quot;).popover(&quot;hide&quot;);'>&times;</button>\" data-content=\"
+						</div>
+						</div>
+
+<div class='share'>			
 <ul class='inline'>
 
-<a href='mailto:?to=&subject=$title&body=http://tndrbox.com/?p=$p_id'><i class='icon-envelope'></i> E-mail</a><br>
+<li><a href='mailto:?to=&subject=$title&body=http://tndrbox.com/?p=$p_id'><i class='icon-envelope'></i> E-mail</a><br></li>
 
-<a href='https://twitter.com/share' class='twitter-share-button' data-url='http://tndrbox.com/?p=$p_id' data-text='$title at $name' data-count='none' data-dnt='true'>Tweet</a>
+<li><a href='https://twitter.com/share' class='twitter-share-button' data-url='http://tndrbox.com/?p=$p_id' data-text='$title at $name' data-count='none' data-dnt='true'>Tweet</a>				<script>
 
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='//platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>
+					!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='//platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');
+		
+				</script></li>
 
-
-\"
-				>Share</button>
-
-				<button class='btn pull-right' onclick='closePost()'>Close</button>
+</ul>
+</div>
+   					</div>
+				</div>
 			</div>";
   }
 		disconnect_from_db();
