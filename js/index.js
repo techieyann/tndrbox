@@ -28,6 +28,36 @@ window.onresize = function(){
 	$('.modal-body').css('height', windowHeight - 200);
 
 };
+function loadModal(id){
+		var url = 'partials/modal' + id;
+
+		//hide content divs
+		$('#modal-header').hide();
+		$('#modal-body').hide();
+		$('#modal-footer').hide();	
+
+		//show modal
+		$('#post-modal').modal('show');
+
+		//display loading div
+		$('#modal-loading').show();
+
+		//call load
+		$('#post-modal').load(url, function(){
+			$('#modal-loading').hide();
+
+			$('.share-button').popover({
+				html:true
+			});
+	
+			$('#modal-header').show();
+			$('#modal-body').show();
+			$('#modal-footer').show();
+	
+			var stateObj = id;	
+			history.pushState(stateObj, null, id);
+		});
+}
 
 function removeParameter(url, param, value) {
     // Using a positive lookahead (?=\=) to find the
@@ -129,94 +159,28 @@ $(document).ready(function(){
 	});
 
 
-	$('#footer').css('background', "#F4F2E6");
+	$('#footer').css('background', '#F4F2E6');
 	$('#footer > p').removeClass('white');
 
-
-
-
-
-//http://stackoverflow.com/questions/2907367/have-a-div-cling-to-top-of-screen-if-scrolled-down-past-it
-
-
-/*	$('#box').hover(function(){
-		$('#box').css('bottom', '0px');
-	},function(){
-		$('#box').css('bottom', '-80px');
-	});
-*/
 
 	$('.modal-trigger').click(function(e){
 
 		var id = $(this).attr('href');
-		var url = 'partials/modal' + id;
-
-		//hide content divs
-		$('#modal-header').hide();
-		$('#modal-body').hide();
-		$('#modal-footer').hide();	
-
-		//show modal
-		$('#post-modal').modal('show');
-
-		//display loading div
-		$('#modal-loading').show();
-
-		//call load
-		$('#post-modal').load(url, function(){
-			$('#modal-loading').hide();
-
-			$('.share-button').popover({
-				html:true
-			});
-	
-			$('#modal-header').show();
-			$('#modal-body').show();
-			$('#modal-footer').show();
-	
-			var stateObj = id;	
-			history.pushState(stateObj, null, id);
-		});
-	
-
+		loadModal(id);
 		//prevent natural click behavior
 		e.preventDefault();
 	});
-	
-});
-
 window.onpopstate = function(e){
 	var id = e.state;
 	if(id == null)
 	{	
-		$('#post-modal').modal('hide');
+//		$('#post-modal').modal('hide');
 	}
 	else
-	{
-		var url = 'partials/modal' + id;
-
-		//hide content divs
-		$('#modal-header').hide();
-		$('#modal-body').hide();
-		$('#modal-footer').hide();	
-
-		//show modal
-		$('#post-modal').modal('show');
-
-		//display loading div
-		$('#modal-loading').show();
-
-		//call load
-		$('#post-modal').load(url, function(){
-			$('#modal-loading').hide();
-
-			$('.share-button').popover({
-				html:true
-			});
-	
-			$('#modal-header').show();
-			$('#modal-body').show();
-			$('#modal-footer').show();
-		});
+	{	
+		loadModal(id);
 	}
-};
+};	
+});
+
+

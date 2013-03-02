@@ -71,7 +71,7 @@ function print_body()
 				  <div id=\"who\" class=\"questions\">
 				       <h3>Who tndrbox?</h3>
 				       <p>We are Oakland natives who love our town. We're building the site that we need to connect to the community around us - a site that does what we love.</p>
-					   <p>We're tired of social media blasts that mean nothing, hip-as-shit city guides that ask us to spend our paycheck on fashionable frivolity and mass coupons that undercut small businesses. We want to grow with our community as a part of it, helping it grow not just financially, but stronger and more vibrant as the fabric that makes up our city.</p>
+					   <p>We're tired of social media blasts that mean nothing, hip city guides that ask us to spend our paycheck on fashionable frivolity and mass coupons that undercut small businesses. We want to grow with our community as a part of it, helping it grow not just financially, but stronger and more vibrant as the fabric that makes up our city.</p>
 				  </div>
 				  <div id=\"when\" class=\"questions\">
 				       <h3>When tndrbox?</h3>
@@ -91,9 +91,9 @@ function print_body()
                        <p>We're just focused on building the thing. But since you asked: we keep our costs low with a DIY mentality and don't need that much to operate. Profitability comes from doing something great, and doing something great is a product of love. We love what we do.</p>
 					   <p>We can promise you this: you are not the product. Ever.</p>
                        <h3>Are you making an app?</h3>
-				       <p>Hold your horses city-boy! A mobile website is in the works, and an app is not far behind.</p>
+				       <p>Hold your horses city-boy! The website is already mobile-friendly, and an app is in the works.</p>
 				       <h3>When are you releasing more features?</h3>
-                       <p>Right now, we're focused on the foundation - having good content and good relations with our community. We don't have a public schedule available, but if you don't see something you'd like, pleae  <a href=\"#contact\">email us!</a></p>
+                       <p>Right now, we're focused on the foundation - having good content and good relations with our community. We don't have a public schedule available, but if you don't see something you'd like, please  <a href=\"#contact\">email us!</a></p>
                        <h3>Why wasn't my question listed?</h3>
 				       <p>Because no one asked us yet!
 				       Feel free to <a href=\"#contact\">contact us</a> with your query.<br>

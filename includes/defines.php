@@ -6,7 +6,7 @@ creator: Ian McEachern
 This file defines global values for site usage.
  ***********************************************/
 //site metadata
-	$version	='0.0.1';
+	$version	='0.2.0';
 
 //mysql metadata
 	$mysql_user	='phpdaemon';

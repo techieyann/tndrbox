@@ -133,43 +133,19 @@ else
 $postings = format_posts($result);
 
 //head
-$GLOBALS['header_html_title'] = "tndrbox".($title != "" ? " - $title":"");
+$GLOBALS['header_html_title'] = "tndrbox - ".($title != "Information on Tap" ? "$title":"");
 $GLOBALS['header_scripts'] = "
 		<script src='js/index.js'></script>";
 
-/*if($post_flag)
+if($post_flag)
   {
 		$GLOBALS['header_scripts'] .= "
 		<script type='text/javascript'> 
 			$(document).ready(function(){
-				var url = 'partials/modal?p=".$result[0]['id']."';
-
-				//hide content divs
-				$('#modal-header').hide();
-				$('#modal-body').hide();
-				$('#modal-footer').hide();	
-
-				//show modal
-				$('#post-modal').modal('show');
-
-				//display loading div
-				$('#modal-loading').show();
-
-				//call load
-				$('#post-modal').load(url, function(){
-				$('#modal-loading').hide();
-
-				$('.share-button').popover({
-					html:true
-				});
-	
-				$('#modal-header').show();
-				$('#modal-body').show();
-				$('#modal-footer').show();	
-				});
+				loadModal('?p=".$result[0]['id']."');
 			});
 		</script>";
-		}*/
+		}
 
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
@@ -187,8 +163,8 @@ function print_body()
 	global $postings, $date, $tag_example, $category_selection;
 	echo "
 			<div id='tndrbox-welcome'>
-				<h3 class='tagline'>Welcome to tndrbox!</h3>
-				<p>We're a community postings board. Community groups post to our site for you to peruse and discover what is happening around you. </p><p>Here is what is happening in Temescal, Oakland, California:</p>
+				<h3 class='tagline'>Welcome to tndrbox, Temescal's Community Events Board</h3>
+				<p>Tap into local events and happenings posted by our neighborhood for our neighborhood.</p>
 			</div>
 			<div id='postings-header' class='row'>
 				<ul class='inline'>
@@ -344,7 +320,7 @@ function print_postings($posts)
 		echo "
 								<div class='front-page-button-text'>
 									<h4>".$post['title']."</h4>
-									<p><b>".$post['business']."</b></p>";
+									<p class='muted'><b>".$post['business']."</b></p>";
 
 		$date = format_date($id);
 
