@@ -137,7 +137,7 @@ $GLOBALS['header_html_title'] = "tndrbox".($title != "" ? " - $title":"");
 $GLOBALS['header_scripts'] = "
 		<script src='js/index.js'></script>";
 
-if($post_flag)
+/*if($post_flag)
   {
 		$GLOBALS['header_scripts'] .= "
 		<script type='text/javascript'> 
@@ -169,7 +169,7 @@ if($post_flag)
 				});
 			});
 		</script>";
-  }
+		}*/
 
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
@@ -215,6 +215,7 @@ function print_body()
 			  }
 
 			$query_string['cat'] = $id;
+			$query_string['p'] = null;
 			$href = http_build_query($query_string);
 	
 			echo "
@@ -225,18 +226,15 @@ function print_body()
 								</ul>
 							</div><!-- .btn-group -->
 			
-							<div class='input-prepend'>
-								<span class='add-on'><i class='icon-calendar'></i></span>
-								<input type='text' id='date-select' name='date-select' class='span1' placeholder='$date'>
-							</div><!-- .input-prepend -->
+
 
 							<div class='input-prepend'>
-								<span class='add-on'><i class='icon-search'></i></span>	
+								<span class='add-on'><i class='icon-tag'></i></span>	
 								<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
 							</div><!-- .input-prepend -->
-
 						</form>
 					</li>
+					<li>							<button class='btn' onclick='resetFilters()'><i class='icon-remove-sign'></i></button></li>
 				</ul>";
 
 	/*			<div class='span4'>
@@ -280,16 +278,23 @@ function format_posts($raw_posts)
 		$i++;
 		$post = $raw_posts[0];
 		$processed_id = $post['id'];
+		$query = "SELECT name FROM postings INNER JOIN business ON business.id = postings.b_id WHERE postings.id=$processed_id";
+		$result = query_db($query);
+		$post['business'] = $result[0]['name'];
 		$formatted_postings[$i]['post'] = $post;
 
 		$looper = $raw_posts[1];
 	  }
 	foreach($looper as $post)
 	  {
-		if($post['id'] != $processed_id)
+		$p_id = $post['id'];
+		if($p_id != $processed_id)
 		  {
 			$i++;
-			$formatted_postings[$i]['post'] = $post;
+			$query = "SELECT name FROM postings INNER JOIN business ON business.id = postings.b_id WHERE postings.id=$p_id";
+			$result = query_db($query);
+			$post['business'] = $result[0]['name'];
+			$formatted_postings[$i]['post'] = $post;			
 		  }
 	  }
 
@@ -330,16 +335,12 @@ function print_postings($posts)
 
 		  }
 
-		$tag_2 = $post['tag_2'];
-		$tag_3 = $post['tag_3'];
 
- 
-		$tags[2] = get_tag($tag_2); 
-		$tags[3] = get_tag($tag_3);
 
 		echo "
 								<div class='front-page-button-text'>
-									<h4>".$post['title']."</h4>";
+									<h4>".$post['title']."</h4>
+									<p><b>".$post['business']."</b></p>";
 
 		$date = format_date($id);
 
@@ -349,10 +350,6 @@ function print_postings($posts)
 									<p>$date</p>";
 		  }
 		echo "
-				  					<ul class='inline centered'>
-	   									<li class='tag'>$tags[2]</li>
-										<li class='tag'>$tags[3]</li>
-									</ul>
 								</div><!-- .font-page-button-text -->
 							</div><!-- front-page-button-body -->
 						</div><!-- front-page-button -->

@@ -89,7 +89,7 @@ function print_body()
 					<a class='nav-link' href='posts'><i class='icon-folder-open'></i> Posts</a>
 				</li>
 				<li id='profile-li'>
-					<a class='nav-link' href='edit_profile'><i class='icon-cog'></i> Business Profile</a>
+					<a class='nav-link' href='edit_profile'><i class='icon-cog'></i> Member Info</a>
 				</li>";
 	  }
 	echo "

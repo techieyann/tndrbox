@@ -22,7 +22,40 @@ window.onresize = function(){
 	{
 		$('#postings').masonry('option', {gutterWidth: 13});
 	}
+
+	var windowHeight = $(window).innerHeight();
+
+	$('.modal-body').css('height', windowHeight - 200);
+
 };
+
+function removeParameter(url, param, value) {
+    // Using a positive lookahead (?=\=) to find the
+    // given parameter, preceded by a ? or &, and followed
+    // by a = with a value after than (using a non-greedy selector)
+    // and then followed by a & or the end of the string
+    var val = new RegExp('(\\?|\\&)' + param + '=.*?(?=(&|$))'),
+        qstring = /\?.+$/;
+
+    // Check if the parameter exists
+    if (val.test(url))
+    {
+        // if it does, replace it, using the captured group
+        // to determine & or ? at the beginning
+        return url.replace(val, '');
+    }
+    else if (qstring.test(url))
+    {
+        // otherwise, if there is a query string at all
+        // add the param to the end of it
+        return url;
+    }
+    else
+    {
+        // if there's no query string, add one
+        return '';
+    }
+}
 
 function addParameter(url, param, value) {
     // Using a positive lookahead (?=\=) to find the
@@ -51,11 +84,14 @@ function addParameter(url, param, value) {
         return url + '?' + param + '=' + value;
     }
 }//http://stackoverflow.com/questions/7640270/adding-modify-query-string-get-variables-in-a-url-with-javascript
-
+function resetFilters()
+{
+		window.location = 'index'
+}
 
 $(document).ready(function(){
-
-	$('#tag-search').focus();
+	var windowHeight = $(window).innerHeight();
+	$('.modal-body').css('height', windowHeight - 200);
 
 	$('#tag-search').autocomplete({
 		source: 'scripts/search_tag?active=1',
@@ -65,13 +101,15 @@ $(document).ready(function(){
 		},
 		select: function(event, ui){
 			var search = window.location.search;
-			var uri = addParameter(search, 'tag', ui.item.value);
+			var uri = removeParameter(search, 'p');
+			uri = addParameter(uri, 'tag', ui.item.value);
+
 			window.location = (uri);
 			return false;
 		}
 	});
 
-	$('#date-select').datepicker({
+/*	$('#date-select').datepicker({
 		dateFormat: 'yy-mm-dd',
 		minDate: 0,
 		maxDate: '+28D',
@@ -81,7 +119,7 @@ $(document).ready(function(){
 			window.location = (uri);
 			return false;
 		}
-	});
+	});*/
 
 	$('#tag-search').keypress(function(e){
 		if(e.keyCode == 13) //enter key
@@ -91,7 +129,7 @@ $(document).ready(function(){
 	});
 
 
-	$('#footer').css('background', "#eee");
+	$('#footer').css('background', "#F4F2E6");
 	$('#footer > p').removeClass('white');
 
 

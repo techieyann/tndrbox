@@ -294,7 +294,7 @@ else
 	$category = get_tag($category_id);
 	echo "
 							<div class='business-info business-card'>
-<button class='btn post-link' title='Edit' href='edit_profile' id='$id'><i class='icon-pencil'></i></button>
+
 								<h3 style='text-align:center'>";
 	$close_link = "";
 	if($url != "")

@@ -95,14 +95,7 @@ $url = add_slashes($url);
 				</div>
 			</div>
 
-			<div class='control-group'>
-				<label class='control-label' for='date'>
-					Date *
-				</label>
-				<div class='controls'>
-					<input required type='text' name='date' id='date', value='$date', class='span12'>
-				</div>
-			</div>
+
 
 			<div class='control-group'>
 				<label class='control-label' for='description'>
@@ -160,6 +153,15 @@ $url = add_slashes($url);
 					<div class='controls'>
 						<input type='file' name='image_upload' id='image_upload' class='span12'>
 					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='date'>
+					Date
+				</label>
+				<div class='controls'>
+					<input type='text' name='date' id='date', ".($date == "0000-00-00" ? "":"value='$date', ")."class='span12'>
+				</div>
 			</div>
 
 			<div class='control-group'>
