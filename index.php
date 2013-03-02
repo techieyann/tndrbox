@@ -133,7 +133,7 @@ else
 $postings = format_posts($result);
 
 //head
-$GLOBALS['header_html_title'] = "tndrbox - ".($title != "Information on Tap" ? "$title":"");
+$GLOBALS['header_html_title'] = "tndrbox - ".($title != "" ? "$title":"Information on Tap");
 $GLOBALS['header_scripts'] = "
 		<script src='js/index.js'></script>";
 
