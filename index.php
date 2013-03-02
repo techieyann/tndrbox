@@ -186,6 +186,10 @@ function print_body()
   {
 	global $postings, $date, $tag_example, $category_selection;
 	echo "
+			<div id='tndrbox-welcome'>
+				<h3 class='tagline'>Welcome to tndrbox!</h3>
+				<p>We're a community postings board. Community groups post to our site for you to peruse and discover what is happening around you. </p><p>Here is what is happening in Temescal, Oakland, California:</p>
+			</div>
 			<div id='postings-header' class='row'>
 				<ul class='inline'>
 					<li><p class='white'>Filter by:</p></li>
@@ -234,7 +238,7 @@ function print_body()
 							</div><!-- .input-prepend -->
 						</form>
 					</li>
-					<li>							<button class='btn' onclick='resetFilters()'><i class='icon-remove-sign'></i></button></li>
+					<li>							<button class='btn' title='Reset Filters' onclick='resetFilters()'><i class='icon-remove-sign'></i></button></li>
 				</ul>";
 
 	/*			<div class='span4'>

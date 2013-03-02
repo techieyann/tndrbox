@@ -45,6 +45,13 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	width:100%;
 }
 
+#tndrbox-welcome
+{
+	color:#F4F2E6;
+	margin-top:0;
+	padding:0 20px 20px 20px;
+	width:62%;
+}
 
 #postings
 {
