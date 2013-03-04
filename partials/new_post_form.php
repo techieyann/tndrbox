@@ -7,6 +7,7 @@ This partial displays the new post form
  ***********************************************/
 
 require('../includes/includes.php');
+require('../includes/tags.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 
@@ -17,7 +18,9 @@ $new_post_args = "";
 $business_select_box = "";
 $default_photo_html = "";
 $image_label = "Image ";
-
+$result = get_most_popular_tags(2);
+$tag2_example = $result[0]['tag'];
+$tag3_example = $result[1]['tag'];
 if(check_admin())
 	{
 	  $category = 0;
@@ -99,14 +102,6 @@ echo "
 					<input type='text' maxlength=50 name='title' id='title' placeholder='Insert title here...' class='span12'>
 				</div>
 			</div>
-			<div class='control-group'>
-				<label class='control-label' for='date'>
-					Date *
-				</label>
-				<div class='controls'>
-					<input required type='text' name='date' id='date' placeholder='Click to add date...' class='span12'>
-				</div>
-			</div>
 
 			<div class='control-group'>
 				<label class='control-label' for='description'>
@@ -157,6 +152,15 @@ echo "
 					<div class='controls'>
 						<input type='file' name='image_upload' id='image_upload' size=05>
 					</div>
+			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='date'>
+					Date 
+				</label>
+				<div class='controls'>
+					<input type='text' name='date' id='date' placeholder='Click to add date...' class='span12'>
+				</div>
 			</div>
 
 			<div class='control-group'>

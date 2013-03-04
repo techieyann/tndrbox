@@ -105,6 +105,7 @@ function resizeContainer(){
 		box.setAttribute('style', 'left:-45px');
 		container.style.marginLeft = '0';
 	}
+
 	var num_columns = this.postColumns;
 		if(this.postColumns > 3)
 		{
@@ -290,6 +291,7 @@ function closePost(){
 		this.active = 0;
 
 	}
+
 }
 
 function addParameter(url, param, value) {
@@ -319,9 +321,13 @@ function addParameter(url, param, value) {
         return url + '?' + param + '=' + value;
     }
 }//http://stackoverflow.com/questions/7640270/adding-modify-query-string-get-variables-in-a-url-with-javascript
-
+function resetFilters()
+{
+		window.location = 'index'
+}
 
 $(document).ready(function(){
+
 
 	if(Modernizr.geolocation && json_location.source !='user')
 	{
@@ -356,13 +362,15 @@ $(document).ready(function(){
 		},
 		select: function(event, ui){
 			var search = window.location.search;
-			var uri = addParameter(search, 'tag', ui.item.value);
+			var uri = removeParameter(search, 'p');
+			uri = addParameter(uri, 'tag', ui.item.value);
+
 			window.location = (uri);
 			return false;
 		}
 	});
 
-	$('#date-select').datepicker({
+/*	$('#date-select').datepicker({
 		dateFormat: 'yy-mm-dd',
 		minDate: 0,
 		maxDate: '+28D',
@@ -372,7 +380,7 @@ $(document).ready(function(){
 			window.location = (uri);
 			return false;
 		}
-	});
+	});*/
 
 	$('#tag-search').keypress(function(e){
 		if(e.keyCode == 13) //enter key
@@ -389,6 +397,7 @@ $(document).ready(function(){
 	postings_header_filler.hide();
 	postings_header_filler.height(header_height);
 	this.to_top = postings_header.offset().top;
+
 
 	$('#map-button').click(function(e){
 		var map_button = document.getElementById('map-button');
@@ -507,3 +516,4 @@ function setCookie(name, value, hours)
 	//set cookie
 	document.cookie = new_cookie;
 }
+

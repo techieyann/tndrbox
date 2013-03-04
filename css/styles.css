@@ -32,7 +32,18 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 }
 
 /*POSITIONING*/
-
+.questions
+{
+	margin: 0 15% 0 15%;
+}
+#contact
+{
+margin:0 10% 0 10%;
+}
+#about
+{
+margin:0 5% 0 5%;
+}
 #footer{ 
 	margin: 0 auto; 
 	text-align: center;
@@ -45,6 +56,13 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	width:100%;
 }
 
+#tndrbox-welcome
+{
+	color:#F4F2E6;
+	margin-top:0;
+	padding:0 20px 20px 20px;
+	width:70%;
+}
 
 .posting-list-button
 {
@@ -124,6 +142,7 @@ margin:0;
 
 /* header styles */
 
+
 #loading
 {
 float:left;
@@ -134,7 +153,64 @@ float:left;
 #posting-image img
 {
 	max-height:300px;
-	margin-bottom:20px;
+	margin-bottom: 20px;
+}
+
+@media (min-width: 1200px) { 
+
+	.modal{
+	    width: 960px;
+	    margin-left: -480px;}
+	#middle-box{
+		width:1061px;
+	}
+	#box{
+		width:1191px; 
+		margin-left:-602px;
+	}
+
+
+ }
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 980px) and (max-width: 1199px) {
+.modal{
+    width: 760px;
+    margin-left: -380px;}
+#middle-box{
+	width:831px;
+}
+#box{
+	width:961px;
+	margin-left:-487px;
+}
+
+ }
+
+@media (min-width: 768px) and (max-width:979px)
+{
+.modal{
+    width: 760px;
+    margin-left: -380px;}
+#middle-box{
+	width:615px;
+}
+#box{
+	width:745px;
+	margin-left:-379px;
+}
+}
+
+@media (max-width:767px)
+{
+
+
+
+#box{
+	visibility:hidden;
+}
+
+
 }
 
 

@@ -34,11 +34,11 @@ echo "
 				});
 
 				$('.edit-business-form').ajaxForm(function() {
-					loadContentByURL('posts');
+					location.reload();
 				});
 
 				$('.edit-user-form').ajaxForm(function() {
-					loadContentByURL('posts');
+					location.reload();
 				});
 			});
 		</script>
@@ -95,6 +95,50 @@ $number = add_slashes($number);
 $hours = add_slashes($hours);
 
 echo "
+							<div class='business-info business-card'>
+								<h3 style='text-align:center'>";
+	$close_link = "";
+	if($url != "")
+	{
+		echo "<a href=\"http://$url\">";
+		$close_link = "</a>";
+	}
+	if($logo != "")
+    {
+ 		echo "<img src='images/logos/$logo' title='$name' alt='$name'>";
+   	}
+   	else
+   	{
+   		echo $name;
+   	}
+	echo $close_link."</h3><br>
+							<div class='row'>";
+	if($hours != "")
+	  {
+	echo "
+							<div class='span6'>
+								Hours:<br>";
+	$hours = explode(",", $hours);
+	foreach($hours as $line)
+	{
+		echo "
+								$line<br>";
+	}
+	echo "
+							</div>";
+	  }
+	echo "
+							<div class='span6'>
+								<address>
+								<a id=\"business-address\" href=\"http://maps.google.com/?q=$address, $city, $state $zip\">
+								$address<br>
+								$city, $state, $zip<br>
+								</a>
+								".($number != "" ? "P: $number<br>":"")."
+								</address>
+							</div>
+						</div>
+					</div>
 		<form name='edit-business-form' class='edit-business-form' enctype='multipart/form-data' action='scripts/edit_business$append_string' method='post'>
 			<fieldset>
 
@@ -160,7 +204,12 @@ echo "
 				<div class='controls'>
 					<input type='file' name='logo_upload' id='logo_upload' size=5>
 				</div>
-			</div>
+			</div>";
+	if($photo!="")
+	  {
+		echo "<img src='images/posts/$photo' alt='default photo for your business' style='width:100%'>";
+	  }
+	echo "
 			<div class='control-group'>
 				<label class='control-label' for='photo_upload'>
 					Default Post Photo (must be smaller than 2Mb)

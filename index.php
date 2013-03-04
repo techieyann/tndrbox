@@ -73,6 +73,7 @@ $processed_postings = process_postings($result);
 $json_postings = json_encode($processed_postings);
 
 //head
+
 $GLOBALS['header_html_title'] = "tndrbox";
 $GLOBALS['header_scripts'] = "
 		<script src='js/index.js'></script>
@@ -82,6 +83,7 @@ $GLOBALS['header_scripts'] = "
 			var postRequest = ".($post_flag ? "true" : "false").";
 			var postings = $json_postings;
 		</script>";
+
 
 $GLOBALS['header_title'] = "";
 $GLOBALS['header_body_includes'] = "";
@@ -108,6 +110,7 @@ function print_body()
 			</div>
 					</li>
 					<li><p class='white'>Filter:</p></li>
+
 					<li>
 						<form class='form-inline form-inline-margin-fix'>
 							<div class='btn-group'>
@@ -134,6 +137,7 @@ function print_body()
 			  }
 
 			$query_string['cat'] = $id;
+			$query_string['p'] = null;
 			$href = http_build_query($query_string);
 	
 			echo "
@@ -144,19 +148,16 @@ function print_body()
 								</ul>
 							</div><!-- .btn-group -->
 			
-							<div class='input-prepend'>
-								<span class='add-on'><i class='icon-calendar'></i></span>
-								<input type='text' id='date-select' name='date-select' class='span1' placeholder='$date'>
-							</div><!-- .input-prepend -->
+
 
 							<div class='input-prepend'>
 								<span class='add-on'><i class='icon-tag'></i></span>	
 								<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
 							</div><!-- .input-prepend -->
-
 						</form>
 					</li>
-
+					<li>							<button class='btn' title='Reset Filters' onclick='resetFilters()'><i class='icon-remove-sign'></i></button></li>
+				</ul>
 
 			<li class='pull-right'>
 			<button title='Map' id='map-button' class='btn' href='#'><i class='icon-globe'></i></button>
@@ -184,6 +185,7 @@ function process_postings($raw_posts)
 	if(isset($raw_posts['post_flag']))
 	  {
 		$post = $raw_posts[0];
+
 		extract($post);
 		$processed_posts[$index]['id'] = $id;
 		$processed_posts[$index]['title'] = $title;
@@ -203,11 +205,13 @@ function process_postings($raw_posts)
 
 		$processed_id = $id;
 		$index++;
+
 		$looper = $raw_posts[1];
 	  }
 
 	foreach($looper as $post)
 	  {
+
 		if(isset($post['id']) && $post['id'] != $processed_id)
 		  {
 			extract($post);
@@ -227,6 +231,7 @@ function process_postings($raw_posts)
 		//need to calculate speed here
 		$processed_posts[$index]['speed'] = 1;
 		$index++;
+
 		  }
 	  }
 	return $processed_posts;
