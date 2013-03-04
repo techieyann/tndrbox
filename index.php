@@ -159,9 +159,7 @@ function print_body()
 					<li>							<button class='btn' title='Reset Filters' onclick='resetFilters()'><i class='icon-remove-sign'></i></button></li>
 				</ul>
 
-			<li class='pull-right'>
-			<button title='Map' id='map-button' class='btn' href='#'><i class='icon-globe'></i></button>
-			</li>
+
 				</ul>
 			</div><!-- #postings-header -->
 			<div id='postings-header-filler'>

@@ -81,9 +81,9 @@ else
 	  {
 		echo "
 
-						<button class='btn-mini' title='Edit' href='settings?view=edit_post&id=$id'><i class='icon-pencil'></i></button>
-						<button class='btn-mini' title='Deactivate'  href='settings?view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></button>
-						<button class='btn-mini' title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></button>";
+						<a class='btn btn-mini' title='Edit' href='settings?view=edit_post&id=$id'><i class='icon-pencil'></i></a>
+						<a class='btn btn-mini' title='Deactivate'  href='settings?view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></a>
+						<a class='btn btn-mini' title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></a>";
 }
 
 	echo "
@@ -192,20 +192,17 @@ else
 								</address>
 
 						</div>
-						</div>
+						</div>";
 
-<div class='share'>			
-<ul class='inline'>
+echo "
 
-<li><a href='mailto:?to=&subject=$title&body=http://tndrbox.com/?p=$p_id'><i class='icon-envelope'></i> E-mail</a><br></li>
+<div class='share btn-group'>
+	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/?p=$p_id\"><img src='images/icons/em.png' width='20px' alt='Email'></a>
+	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=http://tndrbox.com/?p=$p_id\" target='_blank'><img src='images/icons/fb.png'  width='20px' alt='Facebook'></a>
+	<a class='btn' href=\"https://plus.google.com/share?url=http://tndrbox.com/?p=$p_id\" target=_blank'><img src='images/icons/gp.png'  width='20px' alt='Google+'></a>
+	<a class='btn' href=\"http://twitter.com/share?url=http://tndrbox.com/?p=$p_id&text=$title @ $name\" target='_blank'><img src='images/icons/tw.png'  width='20px' alt='Twitter'></a>
 
-<li><a href='https://twitter.com/share' class='twitter-share-button' data-url='http://tndrbox.com/?p=$p_id' data-text='$title at $name' data-count='none' data-dnt='true'>Tweet</a>				<script>
 
-					!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='//platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');
-		
-				</script></li>
-
-</ul>
 </div>
    					</div>
 				</div>

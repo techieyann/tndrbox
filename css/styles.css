@@ -156,62 +156,9 @@ float:left;
 	margin-bottom: 20px;
 }
 
-@media (min-width: 1200px) { 
 
-	.modal{
-	    width: 960px;
-	    margin-left: -480px;}
-	#middle-box{
-		width:1061px;
-	}
-	#box{
-		width:1191px; 
-		margin-left:-602px;
-	}
-
-
- }
  
-/* Portrait tablet to landscape and desktop */
-@media (min-width: 980px) and (max-width: 1199px) {
-.modal{
-    width: 760px;
-    margin-left: -380px;}
-#middle-box{
-	width:831px;
-}
-#box{
-	width:961px;
-	margin-left:-487px;
-}
 
- }
-
-@media (min-width: 768px) and (max-width:979px)
-{
-.modal{
-    width: 760px;
-    margin-left: -380px;}
-#middle-box{
-	width:615px;
-}
-#box{
-	width:745px;
-	margin-left:-379px;
-}
-}
-
-@media (max-width:767px)
-{
-
-
-
-#box{
-	visibility:hidden;
-}
-
-
-}
 
 
 
@@ -357,7 +304,7 @@ form
 .share
 {
 	position:absolute;
-	bottom:0px;
+	bottom:10px;
 	right:10px;
 }
 .post-mini.button
@@ -492,7 +439,7 @@ form
 {
 	background:#eee;
 	padding-right:5px;
-	margin-bottom:40px;
+	margin-bottom:50px;
         -webkit-border-radius: 2px;
            -moz-border-radius: 2px;
                 border-radius: 2px;

@@ -12,13 +12,13 @@
 
 			result['tile'] += "<div class='front-page-button-text'>"
 						+"<h4>"+post.title+"</h4>"
-						+"<p>"+post.business+"</p>"
-						+"<p>"+post.date+"</p>"
-/*						+"<ul class='inline centered'>"
-							+"<li class='tag' id='"+post.tag_2_id+"'>"+post.tag_2+"</li>"
-							+"<li class='tag' id='"+post.tag_3_id+"'>"+post.tag_3+"</li>"
-						+"</ul>"*/
-					+"</div>" 
+			+"<p>"+post.business+"</p>";
+
+		if(post.date != null)
+		{
+			result['tile'] += "<p>"+post.date+"</p>";
+		}
+			result['tile'] +="</div>" 
 				+"</div>"
 			+"</div>";
 

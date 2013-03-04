@@ -16,7 +16,7 @@ function resizeContainer(){
 	var postings_container = document.getElementById('postings-container');
 	var postings_header = document.getElementById('postings-header');
 	
-	var map_button = document.getElementById('map-button');
+
 	var map_canvas = document.getElementById('map-canvas');
 
 	var window_width = $(window).innerWidth();
@@ -33,15 +33,7 @@ function resizeContainer(){
 		this.to_top = $('#postings-header').offset().top;
 	}
 
-	var map_active_flag = false;
-	if(map_button.classList.contains('disabled'))
-	{
-		map_active_flag = true;
-	}
-	else
-	{
 
-	}
 
 		if(1400 < window_width)
 		{
@@ -209,11 +201,13 @@ function setPosition(position){
 
 function map_initialize(callback) {
 	var myLatLon = new google.maps.LatLng(json_location.lat, json_location.lon);
+	var temescalLatLon = new google.maps.LatLng(37.833222, -122.264222);
 	var mapOptions = {
-		zoom: 13,
-		center: myLatLon,
+		zoom: 16,
+		center: temescalLatLon,//myLatLon,
 		mapTypeId: google.maps.MapTypeId.HYBRID
 	}
+	
 	this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	$('#map-canvas').addClass('initialized');
 	var myLocationMarker = new google.maps.Marker({
@@ -370,18 +364,6 @@ $(document).ready(function(){
 		}
 	});
 
-/*	$('#date-select').datepicker({
-		dateFormat: 'yy-mm-dd',
-		minDate: 0,
-		maxDate: '+28D',
-		onSelect: function(dateText, ui){
-			var search = window.location.search;
-			var uri = addParameter(search, 'date', dateText);
-			window.location = (uri);
-			return false;
-		}
-	});*/
-
 	$('#tag-search').keypress(function(e){
 		if(e.keyCode == 13) //enter key
 		{
@@ -399,18 +381,8 @@ $(document).ready(function(){
 	this.to_top = postings_header.offset().top;
 
 
-	$('#map-button').click(function(e){
-		var map_button = document.getElementById('map-button');
 
-		if(map_button.classList.contains('disabled'))
-		{
-			$('#map-button').removeClass('disabled');
-		}
-		else
-		{
-			$('#map-button').addClass('disabled');
-		}
-	});
+
 
 window.onresize = function(){
 	resizeContainer();
