@@ -97,8 +97,8 @@ margin:0 5% 0 5%;
 #postings-header
 {
 	background:#A33539;
-	padding-top:5px;
-
+	padding-top:11px;
+	padding-bottom:1px;
 	z-index:100;
  
 }
@@ -307,6 +307,11 @@ form
 	bottom:10px;
 	right:10px;
 }
+.share > a
+{
+	padding:0px;
+	width:40px;
+}
 .post-mini.button
 {
 	padding:auto;
@@ -320,9 +325,10 @@ form
                border-radius: 10px;
 }
 
-.front-page-list-element
+.post-mini.li
 {
-	border-bottom: 1px solid black;
+	background:#F4F2E6 ;
+	width:90%;
 }
 
 .highlight
@@ -439,7 +445,7 @@ form
 {
 	background:#eee;
 	padding-right:5px;
-	margin-bottom:50px;
+	margin-bottom:60px;
         -webkit-border-radius: 2px;
            -moz-border-radius: 2px;
                 border-radius: 2px;

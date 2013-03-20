@@ -71,7 +71,7 @@ elseif(isset($_GET['b']))
 array_push($result, default_front_page_posts());
 $processed_postings = process_postings($result);
 $json_postings = json_encode($processed_postings);
-
+$categories = json_encode(get_active_categories());
 //head
 
 $GLOBALS['header_html_title'] = "tndrbox";
@@ -82,6 +82,7 @@ $GLOBALS['header_scripts'] = "
 		<script>
 			var postRequest = ".($post_flag ? "true" : "false").";
 			var postings = $json_postings;
+			var categories = $categories;
 		</script>";
 
 
@@ -100,7 +101,7 @@ function print_body()
   {
 	global $postings, $date, $tag_example, $category_selection;
 	echo "
-			<div id='postings-header' class='rounded-top'>
+			<div id='postings-header' class='rounded-top'>";/*
 				<ul class='inline short'>
 					<li><p class='white'>View:</p></li>
 					<li>
@@ -160,7 +161,8 @@ function print_body()
 				</ul>
 
 
-				</ul>
+				</ul>*/
+	echo "
 			</div><!-- #postings-header -->
 			<div id='postings-header-filler'>
 			</div>

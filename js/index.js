@@ -169,7 +169,7 @@ function replacePostingsContainers()
 		}
 		else
 		{
-			map_canvas.css({'position' : 'fixed', 'top': header_height + 5 + 'px', 'left' : $('#postings').width()+85+'px', 'margin-top':''});
+			map_canvas.css({'position' : 'fixed', 'top': header_height + 10 + 'px', 'left' : $('#postings').width()+85+'px', 'margin-top':''});
 			postings_header.css({'left' : ''});
 			postings_header_filler.css('height', postings_header.height()+'px');
 		}
@@ -202,12 +202,54 @@ function setPosition(position){
 function map_initialize(callback) {
 	var myLatLon = new google.maps.LatLng(json_location.lat, json_location.lon);
 	var temescalLatLon = new google.maps.LatLng(37.833222, -122.264222);
+	var style= [
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#A33539" }
+    ]
+  },{
+    "featureType": "administrative",
+    "elementType": "geometry",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "poi",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#A33539" }
+    ]
+  },{
+    "featureType": "landscape.natural",
+    "stylers": [
+      { "color": "#F4F2E6" }
+    ]
+  },{
+    "featureType": "transit",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "landscape.man_made",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  }
+]
 	var mapOptions = {
 		zoom: 16,
 		center: temescalLatLon,//myLatLon,
-		mapTypeId: google.maps.MapTypeId.HYBRID
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		styles: style
 	}
-	
+
 	this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	$('#map-canvas').addClass('initialized');
 	var myLocationMarker = new google.maps.Marker({
@@ -288,6 +330,60 @@ function closePost(){
 
 }
 
+function getPostingsHeader() {
+	headerString = document.createElement('ul');
+	headerString.setAttribute('class', 'inline');
+	headerString.innerHTML = "<li>"
+		+"<div class='btn-group'>"
+			+"<button title='Tiles' id='tile' class='format-button btn disabled'><i class='icon-th-large'></i></button>"
+			+"<button title='List' id='list' class='format-button btn'><i class='icon-list'></i></button>"
+			+"</div>"
+		+"</li>"
+		+"<li>";
+	categoriesDiv = document.createElement('div');
+	categoriesDiv.setAttribute('class', 'btn-group');
+	categoriesDiv.innerHTML = "<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>"
+		+"Category "							
+		+"<span class='caret'></span>"
+		+"</a>";
+	categoriesString = document.createElement('ul');
+	categoriesString.setAttribute('class', 'dropdown-menu');
+		+"<ul class='dropdown-menu'>";
+		jQuery.each(categories, function(i, val){
+			if(i!=0)
+			{
+				categoriesString.innerHTML += "<li class='divider'></li>";
+			}
+			categoriesString.innerHTML += "<li><a href='#cat="+val.id+"'><img src='images/icons/"+val.tag+".png'>&nbsp"+val.tag+"</a></li>";
+		});
+/*
+
+
+			$query_string['cat'] = $id;
+			$query_string['p'] = null;
+			$href = http_build_query($query_string);
+	
+			echo "
+									<li><a href='?$href'><img src='images/icons/$tag.png' width='35'> &nbsp &nbsp $tag</a></li>";
+		  }
+	  }
+	echo "*/
+	categoriesDiv.appendChild(categoriesString);
+	headerString.appendChild(categoriesDiv);
+	headerString.innerHTML +="</li>"
+		+"<li><button title='Filter' id='filters' class='btn'><i class='icon-search'></i></button></li>"
+		+"<li>"
+		+"<form class='form-inline'>"// form-inline-margin-fix'>"
+		+"<div class='input-prepend'>"
+		+"<span class='add-on'><i class='icon-tag'></i></span>"
+		+"<input type='text' id='tag-search' name='tag-search' class='span4' placeholder=''>"
+		+"</div><!-- .input-prepend -->"
+		+"</form>"
+		+"</li>"
+		+"</ul>";
+	return headerString;
+}
+
 function addParameter(url, param, value) {
     // Using a positive lookahead (?=\=) to find the
     // given parameter, preceded by a ? or &, and followed
@@ -320,13 +416,20 @@ function resetFilters()
 		window.location = 'index'
 }
 
+
+
+
+
+
+
 $(document).ready(function(){
-
-
 	if(Modernizr.geolocation && json_location.source !='user')
 	{
 		navigator.geolocation.getCurrentPosition(setPosition);//, {enableHighAccuracy: true, maximumAge:120000});
 	}
+
+	var headerHTML = getPostingsHeader();
+	document.getElementById('postings-header').appendChild(headerHTML);
 
 	$('.format-button').on('click', function(e){
 		var this_id = $(this).attr('id');

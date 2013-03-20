@@ -12,7 +12,7 @@
 
 			result['tile'] += "<div class='front-page-button-text'>"
 						+"<h4>"+post.title+"</h4>"
-			+"<p>"+post.business+"</p>";
+			+"<p class='muted'>"+post.business+"</p>";
 
 		if(post.date != null)
 		{
@@ -22,17 +22,13 @@
 				+"</div>"
 			+"</div>";
 
-			result['list'] = "<div class='post-mini li row'>"
-					+"<div class='span7'>"+post.title+" by "+post.business+"</div>"
-					+"<ul class='inline span5'>"
-							+"<li class='tag' id='"+post.tag_1_id+"'>"
-								+"<img src='images/icons/"+post.tag_1+".png' width='35'>"
-								+post.tag_1+"</li>"
-							+"<li class='tag' id='"+post.tag_2_id+"'>"+post.tag_2+"</li>"
-							+"<li class='tag' id='"+post.tag_3_id+"'>"+post.tag_3+"</li>"
-						+"</ul>"
-						+"<p>on "+post.date+"</p>"
-				+"</div>";
+			result['list'] = "<div class='post-mini li'>"
+					+"<img src='images/icons/"+post.tag_1+".png' width='35'>"+post.title+" by "+post.business;
+		if(post.date!= null)
+		   {			
+			   result['list'] += " on "+post.date;
+		   }
+				result['list'] += "</div>";
 
 		return result;
 	}
