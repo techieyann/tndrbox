@@ -49,7 +49,7 @@ if(isset($_GET['p']))
 if($id == null)
   {
 	echo "		<script>
-					
+
 				</script>
 				<div class='post-header'>
 					<h4 class='error'>Error: couldn't find post...</h4>
@@ -75,6 +75,13 @@ else
 	$date = format_date($id);
 	
 	echo "
+				<script>
+					$(document).ready(function(){
+						this.lastPosition = map.getCenter();
+						var postLatLon = new google.maps.LatLng(".$post['lat'].", ".$post['lon'].");
+						map.panTo(postLatLon);
+					});
+				</script>
 				<div class='post-header'>
 					<div class='btn-group pull-right post-mod-buttons'>";
     if($owner_flag)
@@ -91,7 +98,7 @@ else
 					</div>
 
 					<ul class='inline centered post-title'>
-						<li>".($url!="" ? "<a href='http://$url'><b>$title</b></a>":"<b>$title</b>")."</li>".($date != "" ? "<li class='date'> <i>on $date</i></li>" :"")."
+						<li><b>$title</b></li>".($date != "" ? "<li class='date'> <i>on $date</i></li>" :"")."
 					</ul>
 				</div>
 				<div class='post-body'>
@@ -121,7 +128,18 @@ else
 
 
    							<div id='posting-blurb' class='posting-blurb content'>
-								<strong>$blurb</strong>
+								<strong>$blurb</strong>";
+	if($url!="")
+	  {
+		echo "
+								<br><br>
+								<div style='text-align:right'>
+								Would you like to know more?<br>
+								Click <a href='http://$url'>here.</a>
+								</div>";
+	  }
+
+	echo "
 							</div>
 
 

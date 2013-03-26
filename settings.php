@@ -25,8 +25,6 @@ verify_logged_in();
 
 //head
 $GLOBALS['header_scripts'] = "
-
-		<script src='js/jquery.form.js' type='text/javascript'></script>
 		<script src='js/settings.js' type='text/javascript'></script>";
 
 if(check_admin())

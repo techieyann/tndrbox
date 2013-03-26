@@ -61,6 +61,7 @@ function resizeContainer(){
 			this.postColumns = 1;
 		}
 
+	var buttonsPlaced = false;
 	if(980 < window_width)
 	{
 		var width = (window_width-155); 
@@ -69,7 +70,12 @@ function resizeContainer(){
 		var mapHeight = window_height-header_height-45;
 		var postings_width = postingsWidth-15;
 		$('#map-canvas').addClass('pull-right');
-
+		if(1300 < window_width)
+		{
+			document.getElementById('header-buttons').style.paddingLeft = (postingsWidth-230)+'px';
+			$('#header-buttons').removeClass('pull-right');
+			buttonsPlaced = true;
+		}
 		container.style.marginLeft = '70px';
 		box.removeAttribute('style', 'left');
 	}
@@ -85,7 +91,7 @@ function resizeContainer(){
 		container.style.marginLeft = '70px';
 		box.removeAttribute('style', 'left');
 	}
-	else
+	else if(360 < window_width)
 	{
 		var width = (window_width-35);
 		var postingsWidth = (width);
@@ -97,7 +103,19 @@ function resizeContainer(){
 		box.setAttribute('style', 'left:-45px');
 		container.style.marginLeft = '0';
 	}
+	else
+	{
+		var width = (window_width);
+		var postingsWidth = (width);
+		var mapWidth = (postingsWidth-30);
+		var mapHeight = (window_height-header_height)*.38;
+		var postings_width = postingsWidth;
 
+		$('#map-canvas').removeClass('pull-right');
+		box.setAttribute('style', 'left:-65px');
+		container.style.marginLeft = '-20px';
+		container.style.maringRight = '0px';
+	}
 	var num_columns = this.postColumns;
 		if(this.postColumns > 3)
 		{
@@ -108,13 +126,20 @@ function resizeContainer(){
 
 
 		$('.post-mini.button').width(button_width+'px')
+	if(buttonsPlaced == false)
+	{
+			document.getElementById('header-buttons').style.paddingLeft = '5px';
+		$('#header-buttons').addClass('pull-right');
+	}
 	container.style.width= width+'px';
 	box.style.width = width+130+'px';
 	$('#postings-header').width(width);
+
 	$('#map-canvas').width(mapWidth);
 	$('#map-canvas').height(mapHeight);
-
+	google.maps.event.trigger(map, 'resize');
 	middle_box.style.width = (width)+'px';
+
 
 	$('#postings').width(postingsWidth);
 	$('.post-mini.li').width(postingsWidth-30);
@@ -203,13 +228,7 @@ function map_initialize(callback) {
 	var myLatLon = new google.maps.LatLng(json_location.lat, json_location.lon);
 	var temescalLatLon = new google.maps.LatLng(37.833222, -122.264222);
 	var style= [
-  {
-    "featureType": "road",
-    "elementType": "geometry",
-    "stylers": [
-      { "color": "#A33539" }
-    ]
-  },{
+	{
     "featureType": "administrative",
     "elementType": "geometry",
     "stylers": [
@@ -219,17 +238,6 @@ function map_initialize(callback) {
     "featureType": "poi",
     "stylers": [
       { "visibility": "off" }
-    ]
-  },{
-    "featureType": "water",
-    "elementType": "geometry",
-    "stylers": [
-      { "color": "#A33539" }
-    ]
-  },{
-    "featureType": "landscape.natural",
-    "stylers": [
-      { "color": "#F4F2E6" }
     ]
   },{
     "featureType": "transit",
@@ -264,15 +272,20 @@ function map_initialize(callback) {
 
 function loadPost(id){
 	closePost();
-	var postings = $('#postings');
-
 	var link = $('#'+id);
+	var index = link.attr('index');
+	var post = postings[index];
+	var marker = formattedPostings[index]['marker'];
+
+
 	var postMini = link.children('.post-mini');
 	var button = link.parent();
 	var partial = button.children('.post-big');
 	var url = 'partials/posting?p='+id;
 	var docPostings = document.getElementById('postings');
 	var loadingDiv = document.createElement('div');
+
+
 	loadingDiv.innerHTML = "<div class='loading'><img src='images/loading.gif'></div>";
 	//hide content divs
 	partial.hide('fast');
@@ -286,12 +299,12 @@ function loadPost(id){
 				resizeContainer();
 				if(docPostings.classList.contains('masonry'))
 				{
-					postings.masonry('reload');
+					$('#postings').masonry('reload');
 				}
-
+				scrollTo(id);
 			});
 			$('.loading').remove();
-
+			marker.setIcon('../images/markers/'+post.tag_1+'_a.png');
 		});
 	});
 		this.active = id;
@@ -299,31 +312,34 @@ function loadPost(id){
 
 function closePost(){
 	var id = this.active
+	var lastPosition = this.lastPosition;
 
 	if(id != 0)
 	{
-		var postings = $('#postings');
 		var link = $('#'+id);
+	var index = link.attr('index');
+	var post = postings[index];
+	var marker = formattedPostings[index]['marker'];
 		var postMini = link.children('.post-mini');
 		var button = link.parent();
 		var partial = button.children('.post-big');
 
 		partial.hide("fast", function(){
 			button.removeClass('triggered');
-
 		});	
-		postMini.show("fast", function(){
-		partial.empty();
-		if(document.getElementById('postings').classList.contains('masonry'))
-		{
 
-			postings.masonry('reload');
-		}
+		postMini.show("fast", function(){
+			partial.empty();
+			if(document.getElementById('postings').classList.contains('masonry'))
+			{
+				$('#postings').masonry('reload');
+			}
 			resizeContainer();
+			marker.setIcon('../images/markers/'+post.tag_1+'.png');
 		});
 
 
-
+		this.map.setCenter(lastPosition);
 		this.active = 0;
 
 	}
@@ -331,56 +347,67 @@ function closePost(){
 }
 
 function getPostingsHeader() {
-	headerString = document.createElement('ul');
+	var headerString = document.createElement('ul');
 	headerString.setAttribute('class', 'inline');
-	headerString.innerHTML = "<li>"
-		+"<div class='btn-group'>"
-			+"<button title='Tiles' id='tile' class='format-button btn disabled'><i class='icon-th-large'></i></button>"
-			+"<button title='List' id='list' class='format-button btn'><i class='icon-list'></i></button>"
-			+"</div>"
-		+"</li>"
-		+"<li>";
-	categoriesDiv = document.createElement('div');
+	
+	var logo = document.createElement('li');
+	logo.innerHTML = "<a href='/'><img src='images/logo.png'></a>"		
+
+	var buttons = document.createElement('li');
+	buttons.setAttribute('id', 'header-buttons');
+
+	var buttonsUl = document.createElement('ul');
+	buttonsUl.setAttribute('data-step', '1');
+	buttonsUl.setAttribute('data-intro', 'These buttons let you change the display of the posts and search for both businesses and tags.');
+	buttonsUl.setAttribute('data-position', 'top');
+	buttonsUl.setAttribute('class', 'inline');
+
+	var formatButtons = document.createElement('li');
+	formatButtons.innerHTML = "<div class='btn-group'>"
+		+"<button title='Tiles' id='tile' class='format-button btn disabled'><i class='icon-th-large'></i></button>"
+		+"<button title='List' id='list' class='format-button btn'><i class='icon-list'></i></button>"
+		+"</div>";
+
+	var filterButton = document.createElement('li');
+	filterButton.innerHTML = "<button title='Filter' id='filters' class='btn' ><i class='icon-search'></i></button>";
+
+	var searchBar = document.createElement('li');
+	searchBar.innerHTML = "<form id='search-bar' class='form-inline'>"
+		+"<div class='input-prepend'>"
+		+"<span class='add-on'><i class='icon-tags'></i> | <i class='icon-home'></i></span>"
+		+"<input type='text' id='search' name='search' class='span2' placeholder=''>"
+		+"</div><!-- .input-prepend -->"
+		+"</form>";
+
+	var categoriesDiv = document.createElement('li');
 	categoriesDiv.setAttribute('class', 'btn-group');
+	categoriesDiv.setAttribute('id', 'categories-dropdown');
 	categoriesDiv.innerHTML = "<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>"
-		+"Category "							
+		+"<i class='icon-folder-open'></i>&nbsp Category "							
 		+"<span class='caret'></span>"
 		+"</a>";
-	categoriesString = document.createElement('ul');
+	var categoriesString = document.createElement('ul');
 	categoriesString.setAttribute('class', 'dropdown-menu');
-		+"<ul class='dropdown-menu'>";
+	categoriesString.setAttribute('z-index', '101');
+	categoriesString.innerHTML = "<ul class='dropdown-menu'>";
 		jQuery.each(categories, function(i, val){
-			if(i!=0)
+		if(i != 0)
 			{
 				categoriesString.innerHTML += "<li class='divider'></li>";
 			}
-			categoriesString.innerHTML += "<li><a href='#cat="+val.id+"'><img src='images/icons/"+val.tag+".png'>&nbsp"+val.tag+"</a></li>";
+			categoriesString.innerHTML += "<li><a href='#cat="+val.id+"'><img src='images/icons/"+val.tag+".png' width='30px'>&nbsp"+val.tag+"</a></li>";
 		});
-/*
-
-
-			$query_string['cat'] = $id;
-			$query_string['p'] = null;
-			$href = http_build_query($query_string);
-	
-			echo "
-									<li><a href='?$href'><img src='images/icons/$tag.png' width='35'> &nbsp &nbsp $tag</a></li>";
-		  }
-	  }
-	echo "*/
 	categoriesDiv.appendChild(categoriesString);
-	headerString.appendChild(categoriesDiv);
-	headerString.innerHTML +="</li>"
-		+"<li><button title='Filter' id='filters' class='btn'><i class='icon-search'></i></button></li>"
-		+"<li>"
-		+"<form class='form-inline'>"// form-inline-margin-fix'>"
-		+"<div class='input-prepend'>"
-		+"<span class='add-on'><i class='icon-tag'></i></span>"
-		+"<input type='text' id='tag-search' name='tag-search' class='span4' placeholder=''>"
-		+"</div><!-- .input-prepend -->"
-		+"</form>"
-		+"</li>"
-		+"</ul>";
+	
+	buttonsUl.appendChild(formatButtons);
+	buttonsUl.appendChild(filterButton);
+	buttonsUl.appendChild(searchBar);
+	buttonsUl.appendChild(categoriesDiv);
+
+	buttons.appendChild(buttonsUl);
+
+	headerString.appendChild(logo);
+	headerString.appendChild(buttons);
 	return headerString;
 }
 
@@ -411,9 +438,26 @@ function addParameter(url, param, value) {
         return url + '?' + param + '=' + value;
     }
 }//http://stackoverflow.com/questions/7640270/adding-modify-query-string-get-variables-in-a-url-with-javascript
+
+function toggleFilterView()
+{
+	if(document.getElementById('filters').classList.contains('disabled'))
+	{
+		$('#filters').removeClass('disabled');
+		$('#categories-dropdown').hide();
+		$('#search-bar').hide();
+	}
+	else
+	{
+		$('#filters').addClass('disabled');
+		$('#categories-dropdown').show();
+		$('#search-bar').show();
+	}	
+}
+
 function resetFilters()
 {
-		window.location = 'index'
+	window.location = 'index'
 }
 
 
@@ -430,6 +474,10 @@ $(document).ready(function(){
 
 	var headerHTML = getPostingsHeader();
 	document.getElementById('postings-header').appendChild(headerHTML);
+
+	$('#global-intro-button').click(function(){
+		introJs().start();
+	});
 
 	$('.format-button').on('click', function(e){
 		var this_id = $(this).attr('id');
@@ -448,10 +496,13 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#search-bar').hide();
+	$('#categories-dropdown').hide();
+	$('#filters').click(function() {
+		toggleFilterView();
+	});
 
-	$('#tag-search').focus();
-
-	$('#tag-search').autocomplete({
+	$('#search').autocomplete({
 		source: 'scripts/search_tag?active=1',
 		focus: function(event, ui){
 			$('#tag-search').val(ui.item.label);
@@ -466,13 +517,56 @@ $(document).ready(function(){
 			return false;
 		}
 	});
-
-	$('#tag-search').keypress(function(e){
+	
+	$('#search').keypress(function(e){
 		if(e.keyCode == 13) //enter key
 		{
 			e.preventDefault();
 			return false;
 		}
+	});
+	
+	$('#box-js-content').css('max-height',($(window).innerHeight()-200-$('#postings-header').height())+'px');
+	$('.hide-box-button').hide();
+	$('#logout').hide();
+
+	$('.hide-box-button').click(function(){
+			$('#box-links').children().children().removeClass('active');
+			$('.hide-box-button').hide()
+		$('#box').animate({
+			top: $(window).height()-105
+		},500, function(){
+			$('#box-js-content').hide();
+			});
+	});
+
+	$('#box-links a').click(function(e){
+		var window_height = $(window).innerHeight();
+		e.preventDefault();
+		$(this).parent().parent().children().removeClass('active');
+		$(this).parent().addClass('active');
+			$('.hide-box-button').hide();
+		var url = '/partials/'+$(this).attr('href');
+		$('#box').animate({
+			top: window_height-105
+		},500, function(){
+			$('#box-js-content').hide();
+
+		$('#box-js-content').load(url, function(){		
+			var boxJsContent = $('#box-js-content');
+
+			var topPosition= window_height - (boxJsContent.height() + $('#box-links').height()+100);
+
+
+
+
+			$('#box').animate({
+				top: topPosition
+			},1000, function(){			$('.hide-box-button').show();});
+			$('#box-js-content').show();
+
+		});
+		});
 	});
 
 	var theWindow = $(window);
@@ -538,21 +632,18 @@ function scrollTo(id)
 {	
 	var window_width = $(window).innerWidth();
 
-	var post = $('#'+id).parent();
+	var post = $('#'+id);//.parent();
 
-	if(754 < window_width)
-	{
-		document.documentElement.scrollTop = ((post.offset().top - $('#postings-header').height()) - 10);
-	}
-	else
-	{
-		document.documentElement.scrollTop = post.offset().top - $('#postings-header').height() - $('#map-canvas').height() - 10;
-	}
+		$('html, body'). animate({
+			scrollTop: post.offset().top - $('#postings-header').height() - 10
+			}, 500);
+
 }
 
 function highlightPosting(id)
 {
 	$('#'+id).parent().addClass('highlight');
+	$('#'+id).parent()
 }
 
 function lowlightPosting(id)

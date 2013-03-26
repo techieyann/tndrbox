@@ -40,9 +40,10 @@ function print_head()
 		<script src='js/jquery.js' type='text/javascript'></script>
 		<script src='js/jquery-ui.js'></script>
 		<script src='js/jquery.ga.js'></script>
-		<!-- Bootstrap -->
-		<link href='css/bootstrap.min.css' rel='stylesheet' media='screen'>
-		<meta name='viewport' content='user-scalable=false, width=device-width, initial-scale=1.0'>
+		<!-- Intro tour -->
+		<script src='js/intro.js'></script>
+		<!-- ajax forms -->
+		<script src='js/jquery.form.js' type='text/javascript'></script>
 		<!-- Modernizr -->
 		<script src='js/modernizr.js'></script>
 		<!-- google analytics via jquery.ga -->
@@ -57,57 +58,18 @@ function print_head()
 		<link rel='stylesheet' type='text/css' href='css/styles.css' media='all'>
 		<!-- jquery -->
 		<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
+		<!-- Bootstrap ->-
+		<!-- Bootstrap -->
+		<link href='css/bootstrap.min.css' rel='stylesheet' media='screen'>
+		<meta name='viewport' content='user-scalable=false, width=device-width, initial-scale=1.0'>
+		<!-- Intro tour -->
+		<link rel='stylesheet' type='text/css' href='css/introjs.css' media='all'>
 
 	<!-- page specific css/js -->".$GLOBALS['header_scripts']."
 
 	</head>
 
 	<body>
-
-		<header>
-			<div id='top' class='navbar navbar-inverse navbar-static-top'>
-				<div class='navbar-inner'>
-
-						<a class='btn btn-navbar' data-toggle='collapse' data-target='.nav-collapse'>
-							<span class='icon-bar'></span>
-							<span class='icon-bar'></span>
-							<span class='icon-bar'></span>
-						</a>
-						<a href='index' id='tndrbox-logo' class='brand'></a>
-						<div class='nav-collapse collapse'>
-							<ul class='nav main-nav pull-right'>
-								<li";
-	if($GLOBALS['header_selected_page'] == "about")
-	{
-		echo " class='active'";
-	}
-	echo "><a href='about'>About</a></li>
-								<li";
-	if($GLOBALS['logged_in'] == false)
-	{
-		if($GLOBALS['header_selected_page'] == "login")
-		{
-			echo " class='active'";
-		}
-		echo "><a href='login'>Login</a></li>";
-	}
-	else
-	{
-		if($GLOBALS['header_selected_page'] == "settings")
-		{
-			echo " class='active'";
-		}
-		echo "><a href='settings'>Settings</a></li>
-								<li><a href='scripts/logout'>Logout</a></li>";
-	}
-	echo "	
-							</ul>
-						</div><!-- .nav-collapse .collapse -->
-
-				</div><!-- .navbar-inner -->
-			</div><!-- #top -->
-		</header>
-
 		<div id='body-container' class='container'>";
 
 }
@@ -115,10 +77,9 @@ function print_head()
 function print_foot()
 {
   echo "
-
 			<div id='footer'>
 				<div id='footer-content'>
-				<a href='#top'>
+				<a href='#postings-container'>
 				   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
 				</a>
 				<br>

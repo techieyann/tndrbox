@@ -38,11 +38,15 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 }
 #contact
 {
-margin:0 10% 0 10%;
+	width:60%;
+	min-width:360px;
+	margin:0px auto;
 }
 #about
 {
-margin:0 5% 0 5%;
+	width:60%;
+	min-width:360px;
+	margin:0px auto;
 }
 #footer{ 
 	margin: 0 auto; 
@@ -52,7 +56,7 @@ margin:0 5% 0 5%;
 }
 
 #background-filler{
-	height:100%
+	height:100%;
 	width:100%;
 }
 
@@ -86,22 +90,31 @@ margin:0 5% 0 5%;
 {
 	position:relative;
 	min-height:90%;
-	background:#F4F2E6;
+	background:url('../images/postings-tile.png');
 	padding-left:15px;
-        -webkit-box-shadow: -3px 0 0px rgba(0,0,0,.25);
-           -moz-box-shadow: -3px 0 0px rgba(0,0,0,.25);
-                box-shadow: -3px 0 0px rgba(0,0,0,.25);
+	z-index:0;
+
 }
 
+#welcome-page
+{
+	background:url('../images/paper.png');
+	height:310px;
+	max-width:485px;
+	padding:75px 20px 20px 95px;
+	overflow:hidden;
+	margin-bottom: 50px;
+}
 	
 #postings-header
 {
 	background:#A33539;
-	padding-top:11px;
+	padding-top:10px;
 	padding-bottom:1px;
 	z-index:100;
  
 }
+
 #postings-header-filler
 {
 	padding-top:5px;
@@ -119,9 +132,9 @@ margin:0;
 	top:0px;
 	left:70px;
 
-       -webkit-box-shadow: -3px 2px 2px rgba(0,0,0,.45);
-           -moz-box-shadow: -3px 2px 2px rgba(0,0,0,.45);
-                box-shadow: -3px 2px 2px rgba(0,0,0,.45);
+       -webkit-box-shadow: 0px 2px 2px rgba(0,0,0,.45);
+           -moz-box-shadow: 0px 2px 2px rgba(0,0,0,.45);
+                box-shadow: 0px 2px 2px rgba(0,0,0,.45);
 }
 #postings-header.rounded-top{
        -webkit-border-top-left-radius: 5px;
@@ -130,9 +143,7 @@ margin:0;
        -webkit-border-top-right-radius: 5px;
           -moz-border-top-right-radius: 5px;
                border-top-right-radius: 5px;
-       -webkit-box-shadow: -3px 2px 2px rgba(0,0,0,.45);
-           -moz-box-shadow: -3px 2px 2px rgba(0,0,0,.45);
-                box-shadow: -3px 2px 2px rgba(0,0,0,.45);
+
 }
 
 .form-inline-margin-fix
@@ -165,20 +176,93 @@ float:left;
 #box
 {
 	position:fixed;
-	z-index:100;
 	left:5px;
-	bottom:-50px;
+	bottom:-105px;
 }
 
 
+#box-images
+{
+	position:relative;
+	display:inline;
+	padding:0;
+	margins:0;
+}
 
 
-#box img
+#box-left
+{
+
+	height:150px;
+	float:left;
+	z-index:100;
+}
+#box-right
 {
 	height:150px;
+	z-index:100;
+}
+
+#box-front
+{
+	position:relative;
+	height:90px;
+	width:100%;
+	z-index:100;
+
+}
+#box-back
+{
+	position:relative;
+	height:59px;
+	width:100%;
+	z-index:-100;
+}
+#middle-box
+{
+	position:relative;
+	float:left;
+	margin-top:2px;
+}
+#box-content
+{
+	position:relative;
+	background:#7F1214;
+	width:100%;
+	z-index:101;
+}
+#box-js-content
+{
+	position:relative;
+	background:#7F1214;
+	top:-100px;
+	margin:0px 80px 0px 80px;
+	background:url('../images/box-tile.png');
+	   -webkit-border-bottom-right-radius: 10px;
+          -moz-border-bottom-right-radius: 10px;
+               border-bottom-right-radius: 10px;
+	   -webkit-border-bottom-left-radius: 10px;
+          -moz-border-bottom-left-radius: 10px;
+               border-bottom-left-radius: 10px;
+
 }
 
 
+#box-links
+{
+	position:relative;
+	top: -80px;
+	margin: 0 80px 0px 80px;
+	font-size:18px;
+}
+#box-links a:link
+{
+	color:#eee;
+}
+#box-links a:visited
+{
+	color:#eee;
+}
 
 
 
@@ -285,6 +369,7 @@ form
 }
 .post-body
 {
+	position:relative;
  	background:#F4F2E6;
 	margin:2px;
        -webkit-border-radius: 10px;
@@ -345,9 +430,9 @@ form
 	z-index=99;
 //	float:right;
 	background:#F4F2E6;
-        -webkit-box-shadow: -3px -3px 2px rgba(0,0,0,.25);
-           -moz-box-shadow: -3px -3px 2px rgba(0,0,0,.25);
-                box-shadow: -3px -3px 2px rgba(0,0,0,.25);
+        -webkit-box-shadow: -3px 0px 2px rgba(0,0,0,.25);
+           -moz-box-shadow: -3px 0px 2px rgba(0,0,0,.25);
+                box-shadow: -3px 0px 2px rgba(0,0,0,.25);
 }
 
 
@@ -405,9 +490,7 @@ form
 	margin-top:25px;
 	position:relative;
 
-        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.5);
-           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.5);
-                box-shadow: 0 1px 2px rgba(0,0,0,.5);
+
 }
 
 
@@ -478,7 +561,12 @@ form
 		padding:20px;
 		float:none;
 		max-width:220px;
-		margin:0 auto;
+		margin:0px auto;
+}
+#members
+{
+	width:90%;
+	margin:0px auto;
 }
 
 /*ajax responses*/

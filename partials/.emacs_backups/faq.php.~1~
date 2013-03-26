@@ -1,0 +1,27 @@
+<?php
+	echo "
+	<div id=\"info\" class='content rounded'>
+	<div>
+				  <h2 style=\"text-align:center;padding:20px;\">About</h2>
+
+				  <div class=\"questions\" style=\"border-top:solid black 3px;\">
+				       <h2 style=\"text-align:center;\">F.A.Q.</h2>
+				       <h3>What's your name again?</h3>
+				       <p>We're tndrbox, pronounced tinderbox. Nice to meet you.</p>
+				       <h3> How much does it cost?</h3>
+				       <p>Nothing! It is free.</p>
+				       <h3>So how are you going to make money?</h3>
+                       <p>We're just focused on building the thing. But since you asked: we keep our costs low with a DIY mentality and don't need that much to operate. Profitability comes from doing something great, and doing something great is a product of love. We love what we do.</p>
+					   <p>We can promise you this: you are not the product. Ever.</p>
+                       <h3>Are you making an app?</h3>
+				       <p>Hold your horses city-boy! The website is already mobile-friendly, and an app is in the works.</p>
+				       <h3>When are you releasing more features?</h3>
+                       <p>Right now, we're focused on the foundation - having good content and good relations with our community. We don't have a public schedule available, but if you don't see something you'd like, please  <a href=\"#contact\">email us!</a></p>
+                       <h3>Why wasn't my question listed?</h3>
+				       <p>Because no one asked us yet!
+				       Feel free to <a href=\"#contact\">contact us</a> with your query.<br>
+                                       Don't worry, we're very nice.</p>
+				  </div>
+			     </div>
+	</div>";
+?>

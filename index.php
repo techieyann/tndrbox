@@ -101,69 +101,19 @@ function print_body()
   {
 	global $postings, $date, $tag_example, $category_selection;
 	echo "
-			<div id='postings-header' class='rounded-top'>";/*
-				<ul class='inline short'>
-					<li><p class='white'>View:</p></li>
-					<li>
-			<div class='btn-group'>
-				<button title='Tiles' id='tile' class='format-button btn disabled' href='#'><i class='icon-th-large'></i></button>
-				<button title='List' id='list' class='format-button btn' href='#'><i class='icon-list'></i></button>
+			<div id='welcome-page' class='hidden-phone'>
+				<ul class='inline'>
+				<li><h1>Welcome to tndrbox</h1></li>
+				<li class='pull-right'>".date('n/j/y')."</li>
+				<h4>We are a community events board. We hope you find something that interests you.<br><br>
+				For an introduction to our site, click <button id='global-intro-button' class='btn-primary'>here</button><br><br>
+				Please get <a href='mailto:tndrbox@gmail.com'>in touch</a> with us if you would like to post on the site!</h4>
+				
 			</div>
-					</li>
-					<li><p class='white'>Filter:</p></li>
+			<div id='postings-header' class='rounded-top'>
 
-					<li>
-						<form class='form-inline form-inline-margin-fix'>
-							<div class='btn-group'>
-								<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>
-									".($category_selection != "Category" ? "<img src='images/icons/$category_selection.png' width='35'> &nbsp":"")."$category_selection
-									<span class='caret'></span>
-								</a>
-								<ul class='dropdown-menu'>";
-	$count = 0;
-
-	parse_str($_SERVER['QUERY_STRING'], $query_string);
-
-	$categories = get_active_categories();
-
-	foreach($categories as $category)
-	  {
-		extract($category);
-		if($tag != $category_selection)
-		  {
-			if($count++ > 0)
-			  {
-				echo "
-									<li class='divider'></li>";
-			  }
-
-			$query_string['cat'] = $id;
-			$query_string['p'] = null;
-			$href = http_build_query($query_string);
-	
-			echo "
-									<li><a href='?$href'><img src='images/icons/$tag.png' width='35'> &nbsp &nbsp $tag</a></li>";
-		  }
-	  }
-	echo "
-								</ul>
-							</div><!-- .btn-group -->
-			
-
-
-							<div class='input-prepend'>
-								<span class='add-on'><i class='icon-tag'></i></span>	
-								<input type='text' id='tag-search' name='tag-search' class='span4' placeholder='$tag_example'>
-							</div><!-- .input-prepend -->
-						</form>
-					</li>
-					<li>							<button class='btn' title='Reset Filters' onclick='resetFilters()'><i class='icon-remove-sign'></i></button></li>
-				</ul>
-
-
-				</ul>*/
-	echo "
 			</div><!-- #postings-header -->
+
 			<div id='postings-header-filler'>
 			</div>
 
@@ -172,7 +122,29 @@ function print_body()
 			</div><!-- #postings-container -->
 
 			<div id='box' class=''>
-				<img src='images/box-L.png'><img id='middle-box' src='images/box-M.png'><img src='images/box-R.png'>
+				<div id='box-images'>
+					<img id='box-left' src='images/box-L.png'>
+					<div id='middle-box'>
+						<img id='box-back' src='images/box-B.png'> 
+						<img id='box-front' src='images/box-M.png'>
+					</div>
+					<img id='box-right' src='images/box-R.png'>
+				</div>
+				<div id='box-content'>
+					<div id='box-links'>
+						<ul class='nav nav-tabs'>
+							<li><a href='about'>About</a></li>
+							<li><a href='contact'>Contact</a></li>
+							<li><a href='faq'>FAQ</a></li>
+							<li><a href='login'>Members</a></li>
+							<li id='logout'><a href='logout'>Logout</a></li>
+							<li class='pull-right'><button class='btn btn-small hide-box-button'><i class='icon-arrow-down'></i></button></li>
+						</ul>
+
+					</div>				
+					<div id='box-js-content'>
+					</div>
+				</div>
 			</div><!-- #box -->";
   }
 

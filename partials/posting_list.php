@@ -29,9 +29,9 @@ echo "
 			post['id'] = postings[i].id;
 			formattedPostings[i] = post;
 
-			formattedPostings.sort(function(a, b){
+/*			formattedPostings.sort(function(a, b){
 				return a['time']-b['time'];
-			});
+			});*/
 		}
 		for(i in formattedPostings)
 		{	
@@ -45,13 +45,13 @@ echo "
 	});
 </script>
 
-<div id='map-canvas'>
+<div id='map-canvas' data-step='3' data-intro='This is our map. It maps things.' data-position='left'>
 </div><!-- #map-canvas -->
 
 <div id='post'>
 </div><!-- #post -->
 
-<div id='postings' class='pull-left'>
+<div id='postings' class='pull-left' data-step='1' data-intro='This where our posts go. Click one, they don't bite.' data-position='top'>
 </div><!-- #postings -->";
 
 disconnect_from_db();

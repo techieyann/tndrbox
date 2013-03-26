@@ -37,7 +37,7 @@
 	{
 		var result = [];
 		
-		//distance and speed
+/*		//distance and speed
 		var myLat = json_location.lat;
 		var myLon = json_location.lon;
 
@@ -47,7 +47,7 @@
 
 		result['distance'] = (latDelta^2 + lonDelta^2)^(.5);
 		result['time'] = result['distance']/post.speed;
-
+*/
 
 		//map marker
 		var postLatLon = new google.maps.LatLng(post.lat, post.lon);
@@ -57,7 +57,7 @@
 			icon: 'images/markers/'+post.tag_1+'.png'
 		});
 		google.maps.event.addListener(marker, 'click', function(e){loadPost(post.id);});
-		google.maps.event.addListener(marker, 'mouseover', function(e){highlightPosting(post.id); scrollTo(post.id);});
+		google.maps.event.addListener(marker, 'mouseover', function(e){highlightPosting(post.id);});
 		google.maps.event.addListener(marker, 'mouseout', function(e){lowlightPosting(post.id);});
 		result['marker'] = marker;
 		return result;
@@ -83,11 +83,10 @@
 		for(i in formattedPostings)
 			{
 				button = document.createElement('div');
-
+			
 				postLink = document.createElement('a');
 				id = formattedPostings[i]['id'];
 				markers[i] = formattedPostings[i]['marker'];
-
 				postLink.innerHTML = formattedPostings[i][postingsFormat];
 				postLink.setAttribute('href','#');
 				postLink.setAttribute('id', id);
