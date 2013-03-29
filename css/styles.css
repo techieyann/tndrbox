@@ -48,10 +48,13 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	min-width:360px;
 	margin:0px auto;
 }
-#footer{ 
+#footer{
+//	position:absolute;
+//	bottom:75px;
 	margin: 0 auto; 
 	text-align: center;
-	padding-bottom:100px;
+
+	z-index: 1;
 
 }
 
@@ -62,8 +65,10 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 
 #tndrbox-welcome
 {
+	position:relative;
+	z-index:10;
 	color:#F4F2E6;
-	margin-top:0;
+	margin-top:0px;
 	padding:0 20px 20px 20px;
 	width:70%;
 }
@@ -75,6 +80,10 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
        -webkit-border-radius: 10px;
           -moz-border-radius: 10px;
                border-radius: 10px;
+       -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,.45);
+           -moz-box-shadow: 2px 2px 2px rgba(0,0,0,.45);
+                box-shadow: 2px 2px 2px rgba(0,0,0,.45);
+
 }
 
 
@@ -83,19 +92,27 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	left:0;
 //	margin: 0 auto;
 	padding-top:20px;
-
+//	padding-left:1px;
+	margin-bottom:200px;
 	position:relative;
 }
 #postings-container
 {
 	position:relative;
 	min-height:90%;
-	background:url('../images/postings-tile.png');
 	padding-left:15px;
-	z-index:0;
+	z-index:10;
+	background:none;
+
 
 }
-
+#left-pane
+{
+	position:relative;
+	background:url('../images/postings-tile.png');
+	min-height:100%;
+	z-index:10;
+}
 #welcome-page
 {
 	background:url('../images/paper.png');
@@ -103,11 +120,15 @@ font-family: "Helvetica Neue", "Helvetica", sans-serif;
 	max-width:485px;
 	padding:75px 20px 20px 95px;
 	overflow:hidden;
-	margin-bottom: 50px;
+//	margin: 0px auto 50px auto;
+	margin-bottom:50px;
+	position:relative;
+	z-index:1;
 }
 	
 #postings-header
 {
+	position:relative;
 	background:#A33539;
 	padding-top:10px;
 	padding-bottom:1px;
@@ -208,7 +229,7 @@ float:left;
 	position:relative;
 	height:90px;
 	width:100%;
-	z-index:100;
+	z-index:200;
 
 }
 #box-back
@@ -216,34 +237,46 @@ float:left;
 	position:relative;
 	height:59px;
 	width:100%;
-	z-index:-100;
+	z-index:0;
 }
 #middle-box
 {
 	position:relative;
 	float:left;
 	margin-top:2px;
+
 }
 #box-content
 {
 	position:relative;
-	background:#7F1214;
+//	background:#7F1214;
 	width:100%;
-	z-index:101;
+	z-index:201;
+background: #7f1214; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzdmMTIxNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #7f1214 0%, #000000 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7f1214), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #7f1214 0%,#000000 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #7f1214 0%,#000000 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #7f1214 0%,#000000 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #7f1214 0%,#000000 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f1214', endColorstr='#000000',GradientType=0 ); /* IE6-8 */
+
 }
 #box-js-content
 {
 	position:relative;
-	background:#7F1214;
+
 	top:-100px;
 	margin:0px 80px 0px 80px;
-	background:url('../images/box-tile.png');
-	   -webkit-border-bottom-right-radius: 10px;
+
+/*	   -webkit-border-bottom-right-radius: 10px;
           -moz-border-bottom-right-radius: 10px;
                border-bottom-right-radius: 10px;
 	   -webkit-border-bottom-left-radius: 10px;
           -moz-border-bottom-left-radius: 10px;
-               border-bottom-left-radius: 10px;
+               border-bottom-left-radius: 10px;*/
 
 }
 
@@ -255,15 +288,19 @@ float:left;
 	margin: 0 80px 0px 80px;
 	font-size:18px;
 }
-#box-links a:link
-{
-	color:#eee;
-}
-#box-links a:visited
+#box-links a
 {
 	color:#eee;
 }
 
+#box-links a:hover
+{
+	color:#A33539;
+}
+#box-links .active a
+{
+	color:#A33539;
+}
 
 
 #posting-blurb
@@ -293,10 +330,11 @@ form
 
 
 
-.tags>li
+.tags li
 {
-	margin:10px;
+	margin:10px 10px 10px 10px;
 }
+
 
 .tag
 {
@@ -307,9 +345,9 @@ form
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.25);
                 box-shadow: 0 1px 2px rgba(0,0,0,.25);
 	background:#ccc;
-	padding:2px 5px 2px 5px;
-
-	color: #333;
+//	margin:2px;
+	padding:5px 5px 5px 5px;
+//	color: #333;
 }
 
 
@@ -386,12 +424,12 @@ form
 {
 	color:#F4F2E6;
 }
+
 .share
 {
-	position:absolute;
-	bottom:10px;
-	right:10px;
+	margin:5px;
 }
+
 .share > a
 {
 	padding:0px;
@@ -426,8 +464,8 @@ form
 }
 #map-canvas
 {
-//	position:relative;
-	z-index=99;
+	position:relative;
+	z-index:100;
 //	float:right;
 	background:#F4F2E6;
         -webkit-box-shadow: -3px 0px 2px rgba(0,0,0,.25);
@@ -440,6 +478,9 @@ form
 {
 	width:32%;
 }
+
+
+
 .white-bg
 {
 	background:#F4F2E6;
@@ -456,6 +497,34 @@ form
 .front-page-button > a
 {
 	color:#333;
+}
+.highlight .post-spacetime
+{
+	border-color:#A33539;
+}
+
+#post-address
+{
+
+}
+#post-time
+{
+
+	max-width:80%;
+	float:right;
+
+}
+
+.post-spacetime
+{
+	text-align:right;
+	font-size:12px;
+	padding:10px 5px 5px 5px;
+	border-left:solid 2px #999999;
+	border-bottom:solid 2px #999999;
+       -webkit-border-bottom-left-radius: 10px;
+          -moz-border-bottom-left-radius: 10px;
+               border-bottom-left-radius: 10px;
 }
 
 .business-info > img
@@ -486,6 +555,7 @@ form
 /*body styles*/
 #body-container
 {
+	display:none;
 	height:100%;
 	margin-top:25px;
 	position:relative;
@@ -528,7 +598,7 @@ form
 {
 	background:#eee;
 	padding-right:5px;
-	margin-bottom:60px;
+	margin-bottom:20px;
         -webkit-border-radius: 2px;
            -moz-border-radius: 2px;
                 border-radius: 2px;

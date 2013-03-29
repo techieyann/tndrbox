@@ -68,9 +68,10 @@ else
    	$tags[2] = get_tag($tag_2); 
    	$tags[3] = get_tag($tag_3);
 
+
 	if($post['alt_address'] == "")
       {
-		$alt_address = $business['address']." ".$business['city'].", ".$business['state'].", ".$business['zip'];
+		$alt_address = $business['address'].", ".$business['city'].", ".$business['state'].", ".$business['zip'];
 	  }
 	$date = format_date($id);
 	
@@ -98,7 +99,7 @@ else
 					</div>
 
 					<ul class='inline centered post-title'>
-						<li><b>$title</b></li>".($date != "" ? "<li class='date'> <i>on $date</i></li>" :"")."
+						<li><b>$title</b></li>
 					</ul>
 				</div>
 				<div class='post-body'>
@@ -152,19 +153,30 @@ else
 
 				 		</div>
 						<div class='span5'>
+							<a href='http://maps.google.com/?q=$alt_address'>
+							<div id='post-address' class='post-spacetime'>
+								<img class='pull-left' src='images/icons/target.png'>
+								<address>$alt_address</address>
+							</div></a>";
+
+	if($date != "")
+	  {
+		echo "
+							<div id='post-time' class='post-spacetime'>
+								<img class='pull-left' src='images/icons/calendar.png'>
+								$date								
+							</div>";
+	  }
+	echo "
 							<div class='row'>
-							<ul class='unstyled tags'>
-								<li class='centered'><a href='index?cat=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
-								<li><ul class='inline centered'>
+							<ul class='inline tags centered'>
 								<li><a href='index?tag=$tag_2' class='tag'>$tags[2]</a></li>
 								<li><a href='index?tag=$tag_3' class='tag'>$tags[3]</a></li>
-								</ul></li>
-							</ul></div>";
+								<li class=''><a href='index?cat=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
+								</ul></div>";
 
 
 	extract($business);
-	$category_id = $category;
-	$category = get_tag($category_id);
 	echo "	
 
 							<div class='business-info business-card'>
@@ -202,10 +214,6 @@ else
 	echo "
 
 								<address>
-								<a id=\"business-address\" href=\"http://maps.google.com/?q=$address, $city, $state $zip\">
-								$address<br>
-								$city, $state, $zip<br>
-								</a>
 								".($number != "" ? "P: $number<br>":"")."
 								</address>
 
@@ -213,8 +221,7 @@ else
 						</div>";
 
 echo "
-
-<div class='share btn-group'>
+<div class='share btn-group pull-right'>
 	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/?p=$p_id\"><img src='images/icons/em.png' alt='Email'></a>
 	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=http://tndrbox.com/?p=$p_id\" target='_blank'><img src='images/icons/fb.png' alt='Facebook'></a>
 	<a class='btn' href=\"http://twitter.com/share?url=http://tndrbox.com/?p=$p_id&text=$title @ $name\" target='_blank'><img src='images/icons/tw.png' alt='Twitter'></a>

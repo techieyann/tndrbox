@@ -1,10 +1,11 @@
 var formattedPostings = [];
 var postingsFormat = 'tile';
 
-var url_location = getCookie('location');
+//location variables
+/*var url_location = getCookie('location');
 var str_location = decodeURIComponent(url_location);
 
-var json_location = JSON.parse(str_location);
+var json_location = JSON.parse(str_location);*/
 
 var to_top_initialized = false;
 
@@ -62,8 +63,8 @@ function resizeContainer(){
 		}
 
 	var buttonsPlaced = false;
-	if(980 < window_width)
-	{
+//	if(980 < window_width)
+//	{
 		var width = (window_width-155); 
 		var postingsWidth = (width*.62);
 		var mapWidth = (width-postingsWidth-15);
@@ -78,8 +79,8 @@ function resizeContainer(){
 		}
 		container.style.marginLeft = '70px';
 		box.removeAttribute('style', 'left');
-	}
-	else if(754 < window_width)
+//	}
+/*	else if(754 < window_width)
 	{
 		var width = (window_width-155); 
 		var postingsWidth = (width);
@@ -115,11 +116,11 @@ function resizeContainer(){
 		box.setAttribute('style', 'left:-65px');
 		container.style.marginLeft = '-20px';
 		container.style.maringRight = '0px';
-	}
+	}*/
 	var num_columns = this.postColumns;
-		if(this.postColumns > 3)
+		if(this.postColumns > 4)
 		{
-			num_columns = 3;
+			num_columns = 4;
 		}
 
 		var button_width = ((postings_width)/this.postColumns)-12;		
@@ -134,7 +135,7 @@ function resizeContainer(){
 	container.style.width= width+'px';
 	box.style.width = width+130+'px';
 	$('#postings-header').width(width);
-
+	$('#footer-content').css('left', postingsWidth/2-50+'px');
 	$('#map-canvas').width(mapWidth);
 	$('#map-canvas').height(mapHeight);
 	google.maps.event.trigger(map, 'resize');
@@ -145,7 +146,7 @@ function resizeContainer(){
 	$('.post-mini.li').width(postingsWidth-30);
 	$('#post').width(postingsWidth-30);
 	$('#loading').width(postingsWidth);
-	$('#footer-content').width(postingsWidth);
+//	$('#footer-content').width(postingsWidth);
 
 	if(postings.classList.contains('masonry'))
 	{
@@ -212,7 +213,7 @@ function replacePostingsContainers()
 }
 
 
-
+/*Location functionality
 function setPosition(position){
 	var latitude = position.coords.latitude;
 	var longitude = position.coords.longitude;
@@ -221,11 +222,12 @@ function setPosition(position){
 	var str_location = JSON.stringify(json_location);
 	
 	setCookie("location", str_location, 8);
-}
+}*/
 
 
 function map_initialize(callback) {
-	var myLatLon = new google.maps.LatLng(json_location.lat, json_location.lon);
+//location functionality
+//var myLatLon = new google.maps.LatLng(json_location.lat, json_location.lon);
 	var temescalLatLon = new google.maps.LatLng(37.833222, -122.264222);
 	var style= [
 	{
@@ -260,11 +262,12 @@ function map_initialize(callback) {
 
 	this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	$('#map-canvas').addClass('initialized');
+/*Location functionality
 	var myLocationMarker = new google.maps.Marker({
 		position: myLatLon,
 		map: map,
 		title:'Here I am!'
-	});
+	});*/
 	callback();
 }
 
@@ -467,10 +470,11 @@ function resetFilters()
 
 
 $(document).ready(function(){
+/*location functionality
 	if(Modernizr.geolocation && json_location.source !='user')
 	{
 		navigator.geolocation.getCurrentPosition(setPosition);//, {enableHighAccuracy: true, maximumAge:120000});
-	}
+	}*/
 
 	var headerHTML = getPostingsHeader();
 	document.getElementById('postings-header').appendChild(headerHTML);
@@ -555,9 +559,9 @@ $(document).ready(function(){
 		$('#box-js-content').load(url, function(){		
 			var boxJsContent = $('#box-js-content');
 
-			var topPosition= window_height - (boxJsContent.height() + $('#box-links').height()+100);
-
-
+			var topPosition= 20;//window_height - (boxJsContent.height() + $('#box-links').height()+100);
+			$('#box-content').css('height', window_height-20+'px');
+			$('#box-js-content').css('height', window_height+'px');
 
 
 			$('#box').animate({
@@ -623,9 +627,8 @@ window.onresize = function(){
 		resizeContainer();
 	}
 
-	var footer = document.getElementById('footer');
-	footer.style.background = '#F4F2E6';
-	$('#footer-content').children('p').removeClass('white');
+
+
 });
 
 function scrollTo(id)

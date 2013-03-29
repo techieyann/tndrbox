@@ -77,16 +77,6 @@ function print_head()
 function print_foot()
 {
   echo "
-			<div id='footer'>
-				<div id='footer-content'>
-				<a href='#postings-container'>
-				   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
-				</a>
-				<br>
-				<p class='white'>version ".$GLOBALS['version']."</p>
-				</div><!-- #footer-content -->
-			</div><!-- #footer -->
-
 		</div><!-- #body-container -->
 
 	<!-- minimized javascript -->

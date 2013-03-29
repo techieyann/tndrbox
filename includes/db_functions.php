@@ -124,7 +124,7 @@ function push_old_post($b_id)
 
 function format_date($id)
 {
-	$query = "SELECT DATE_FORMAT(date, '%a, %M %D') FROM postings WHERE id=$id";
+	$query = "SELECT DATE_FORMAT(date, '%W, %M %D') FROM postings WHERE id=$id";
 	$formatted_date = query_db($query);
 	$date = $formatted_date[0][0];
 	return $date;

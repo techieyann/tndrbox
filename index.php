@@ -116,11 +116,14 @@ function print_body()
 
 			<div id='postings-header-filler'>
 			</div>
+			<div id='left-pane'>
 
 			<div id='postings-container' class='tile'>
 
 			</div><!-- #postings-container -->
 
+
+			</div>
 			<div id='box' class=''>
 				<div id='box-images'>
 					<img id='box-left' src='images/box-L.png'>
@@ -132,11 +135,9 @@ function print_body()
 				</div>
 				<div id='box-content'>
 					<div id='box-links'>
-						<ul class='nav nav-tabs'>
+						<ul class='nav nav-tabs gray'>
 							<li><a href='about'>About</a></li>
-							<li><a href='contact'>Contact</a></li>
-							<li><a href='faq'>FAQ</a></li>
-							<li><a href='login'>Members</a></li>
+							<li><a href='login'>Member's Login</a></li>
 							<li id='logout'><a href='logout'>Logout</a></li>
 							<li class='pull-right'><button class='btn btn-small hide-box-button'><i class='icon-arrow-down'></i></button></li>
 						</ul>
@@ -145,7 +146,17 @@ function print_body()
 					<div id='box-js-content'>
 					</div>
 				</div>
-			</div><!-- #box -->";
+			</div><!-- #box -->
+
+				<div id='footer-content'>
+				<a href='#welcome-page'>
+				   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
+				</a>
+				<br>
+				<p>version ".$GLOBALS['version']."</p>
+				</div><!-- #footer-content -->
+
+";
   }
 
 function process_postings($raw_posts)
