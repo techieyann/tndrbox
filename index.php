@@ -72,92 +72,10 @@ array_push($result, default_front_page_posts());
 $processed_postings = process_postings($result);
 $json_postings = json_encode($processed_postings);
 $categories = json_encode(get_active_categories());
-//head
-
-$GLOBALS['header_html_title'] = "tndrbox";
-$GLOBALS['header_scripts'] = "
-		<script src='js/index.js'></script>
-		<script src='js/posting_list.js'></script>
-		<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true'></script>
-		<script>
-			var postRequest = ".($post_flag ? "true" : "false").";
-			var postings = $json_postings;
-			var categories = $categories;
-		</script>";
-
-
-$GLOBALS['header_title'] = "";
-$GLOBALS['header_body_includes'] = "";
-$GLOBALS['header_selected_page'] = "landing";
-require('includes/prints.php');
-
-print_head();
-print_body();
-print_foot();
 
 disconnect_from_db();
 
-function print_body()
-  {
-	global $postings, $date, $tag_example, $category_selection;
-	echo "
-			<div id='welcome-page' class='hidden-phone'>
-				<ul class='inline'>
-				<li><h1>Welcome to tndrbox</h1></li>
-				<li class='pull-right'>".date('n/j/y')."</li>
-				<h4>We are a community events board. We hope you find something that interests you.<br><br>
-				For an introduction to our site, click <button id='global-intro-button' class='btn-primary'>here</button><br><br>
-				Please get <a href='mailto:tndrbox@gmail.com'>in touch</a> with us if you would like to post on the site!</h4>
-				
-			</div>
-			<div id='postings-header' class='rounded-top'>
 
-			</div><!-- #postings-header -->
-
-			<div id='postings-header-filler'>
-			</div>
-			<div id='left-pane'>
-
-			<div id='postings-container' class='tile'>
-
-			</div><!-- #postings-container -->
-
-
-			</div>
-			<div id='box' class=''>
-				<div id='box-images'>
-					<img id='box-left' src='images/box-L.png'>
-					<div id='middle-box'>
-						<img id='box-back' src='images/box-B.png'> 
-						<img id='box-front' src='images/box-M.png'>
-					</div>
-					<img id='box-right' src='images/box-R.png'>
-				</div>
-				<div id='box-content'>
-					<div id='box-links'>
-						<ul class='nav nav-tabs gray'>
-							<li><a href='about'>About</a></li>
-							<li><a href='login'>Member's Login</a></li>
-							<li id='logout'><a href='logout'>Logout</a></li>
-							<li class='pull-right'><button class='btn btn-small hide-box-button'><i class='icon-arrow-down'></i></button></li>
-						</ul>
-
-					</div>				
-					<div id='box-js-content'>
-					</div>
-				</div>
-			</div><!-- #box -->
-
-				<div id='footer-content'>
-				<a href='#welcome-page'>
-				   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
-				</a>
-				<br>
-				<p>version ".$GLOBALS['version']."</p>
-				</div><!-- #footer-content -->
-
-";
-  }
 
 function process_postings($raw_posts)
   {
@@ -221,3 +139,134 @@ function process_postings($raw_posts)
   }
 
 ?>
+
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+	<!-- Meta data -->
+		<title>tndrbox</title>
+		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+	   	<meta name='author' content='Ian McEachern'>
+
+	<!-- Icons -->
+		<link rel='icon' type='image/ico' href='images/favicon.ico'>
+		<link rel='shortcut icon' href='images/favicon.ico'>
+		<link rel='apple-touch-icon' href='images/touchicon.png'>
+
+	<!-- Javascript -->
+		<!-- jquery -->
+		<script src='js/jquery.js' type='text/javascript'></script>
+		<script src='js/jquery-ui.js'></script>
+		<script src='js/jquery.ga.js'></script>
+		<!-- Intro tour -->
+		<script src='js/intro.js'></script>
+		<!-- ajax forms -->
+		<script src='js/jquery.form.js' type='text/javascript'></script>
+		<!-- Modernizr -->
+		<script src='js/modernizr.js'></script>
+		<!-- google analytics via jquery.ga -->
+		<script>
+			$(document).ready(function(){
+				$.ga.load('<?php print $GLOBALS['ga_account']?>');
+			});
+		</script>
+
+	<!-- CSS -->
+		<!-- jquery -->
+		<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
+		<!-- Bootstrap ->-
+		<!-- Bootstrap -->
+		<link href='css/bootstrap.min.css' rel='stylesheet' media='screen'>
+		<meta name='viewport' content='user-scalable=false, width=device-width, initial-scale=1.0'>
+		<!-- Intro tour -->
+		<link rel='stylesheet' type='text/css' href='css/introjs.css' media='all'>
+		<!-- Google Maps -->
+		<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true'></script>
+  
+	<!-- homebrewed css/js -->
+		<script src='js/tndrbox.js'></script>
+		<script src='js/posting_list.js'></script>
+		<!-- homebrewed -->
+		<link rel='stylesheet' type='text/css' href='css/tndrbox.css' media='all'>
+
+		<script>
+			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
+			var postings = <?php print $json_postings ?>;
+			var categories = <?php print $categories ?>;
+		</script>
+
+	</head>
+
+	<body>
+
+			<div id='box' class=''>
+				<div id='box-images'>
+					<img id='box-left' src='images/box-L.png'>
+					<div id='middle-box'>
+						<img id='box-back' src='images/box-B.png'>
+<img id="box-front" src="images/box-M.png"> 
+					</div>
+					<img id='box-right' src='images/box-R.png'>
+				</div>
+				<div id='box-content'>
+					<div id='box-links'>
+						<ul class='nav nav-tabs gray'>
+							<li><a href='about'>About</a></li>
+							<li><a href='login'>Member's Login</a></li>
+							<li id='logout'><a href='logout'>Logout</a></li>
+							<li class='pull-right'><button class='btn btn-small hide-box-button'><i class='icon-arrow-down'></i></button></li>
+						</ul>
+					</div>				
+					<div id='box-js-content'>
+					</div>
+				</div>
+			</div><!-- #box -->
+
+<div id='welcome-page' class='hidden-phone'>
+				<ul class='inline'>
+				<li><h1>Welcome to tndrbox</h1></li>
+				<li class='pull-right'><?php print date('n/j/y') ?></li>
+				</ul>
+				<div id='welcome-page-content'>
+					<h4>Hello traveler, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
+				</div>
+				<h4>Please get <a href='mailto:tndrbox@gmail.com'>in touch</a> with us if you would like to post on the site!</h4>
+			</div>
+
+		<div id='body-container' class='container'>
+
+			<div id='postings-header' class='rounded-top'>
+
+			</div><!-- #postings-header -->
+
+			<div id='postings-header-filler'>
+			</div>
+			<div id='left-pane'>
+
+			<div id='postings-container' class='tile'>
+
+			</div><!-- #postings-container -->
+				<div id='footer'>
+				<a href='#welcome-page'>
+				   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
+				</a>
+				<br>
+				<p>version <?php print $GLOBALS['version'] ?></p>
+				</div><!-- #footer-content -->
+
+			</div>
+		</div><!-- #body-container -->
+
+
+
+	<!-- minimized javascript -->
+		<!--Bootstrap-->
+		<script src='js/bootstrap.min.js'></script>
+		<!--Masonry-->
+		<script src='js/jquery.masonry.min.js'></script>
+	</body>
+
+</html>
