@@ -173,7 +173,7 @@ $(document).ready(function(){
 		{
 			if(query.b == 'logout')
 			{
-				$.ajax('../scripts/logout');
+				$.ajax('scripts/logout');
 				$('#logout-link').hide();
 				$('#settings-link').hide();
 				$('#login-link').show();
@@ -192,7 +192,7 @@ $(document).ready(function(){
 				}
 				if(query.b != 'members' && query.b != lastBoxState())
 				{
-					$('#box-js-content').load('../partials/'+query.b, function(){	
+					$('#box-js-content').load('partials/'+query.b, function(){	
 						$('#'+query.b+'-link').addClass('active');
 					});
 				}
@@ -200,7 +200,7 @@ $(document).ready(function(){
 			    {
 					if(lastBoxState() != 'members')
 					{
-						$('#box-js-content').load('../partials/'+query.b, function(){	
+						$('#box-js-content').load('partials/'+query.b, function(){	
 							$('#'+query.b+'-link').addClass('active');
 							loadBoxContentByURL();
 						});
