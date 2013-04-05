@@ -105,12 +105,8 @@ $(document).ready(function(){
 		var dateFlag = (query.d != null && query.d != '');
 		var boxFlag = (query.b != null && query.b != '');
 		var filterFlag = false;
-//post requests
-		if(postFlag)
-		{
-			loadPost(query.p);
-		}
-		else
+
+		if(!postFlag)
 		{
 			closePost();
 		}
@@ -167,7 +163,11 @@ $(document).ready(function(){
 			displayPosts();
 
 		}
-
+//post requests
+		if(postFlag)
+		{
+			loadPost(query.p);
+		}
 //box requests
 		if(boxFlag)
 		{
@@ -585,7 +585,7 @@ function loadPost(id){
 					var postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
 					map.panTo(postLatLon);
 
-					marker.setIcon('../images/markers/'+post.tag_1+'_a.png');
+					marker.setIcon('images/markers/'+post.tag_1+'_a.png');
 					$('.loading').remove();
 
 				});
@@ -605,6 +605,7 @@ function closePost(){
 	{
 		var link = $('#'+id);
 		var index = link.attr('index');
+
 		var post = postings[index];
 		var marker = formattedPostings[index]['marker'];
 		var postMini = link.children('.post-mini');
