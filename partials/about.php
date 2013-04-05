@@ -1,5 +1,5 @@
 <?php
-  echo "<br><br>
+  echo "
 	<div id='about' class='tabbable content'>
 		<ul class='nav nav-tabs'>
 			<li class='active'><a href='#contact' data-toggle='tab'>Contact</a></li>
@@ -95,6 +95,5 @@
 		</div>
 		</div>
 	</div>
-</div>
-<br><br>";
+</div>";
 ?>

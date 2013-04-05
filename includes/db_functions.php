@@ -51,7 +51,7 @@ function analyze_user()
 		$GLOBALS['lat'] = $location['lat'];
 		$GLOBALS['latlon_source'] = $location['source'];
 	  }
-	else
+	else//get location from ip address
 	  {
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$latlon = ip_to_latlon($ip);
@@ -69,7 +69,7 @@ function verify_logged_in()
 {
 	if($GLOBALS['logged_in'] == false)
 	{
-		header("location:index");
+		header("location:#b=login");
 		$GLOBALS['DBH'] = null;
 		exit;
 	}

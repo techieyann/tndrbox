@@ -20,8 +20,9 @@ login via a session id number.
 
 	if(preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $email, $matches) == 0)
 	{
-		print($matches);
-		header("location:../login?error=email");
+		echo "email format";
+		disconnect_from_db();
+		return;
 	}
 	$password = md5($pass);
 	$query = "SELECT id FROM members WHERE email = '$email' AND password = '$password'";
@@ -39,11 +40,11 @@ login via a session id number.
 		$cookie_val = $email.",".md5($session_id);
 
 		setcookie("login", $cookie_val, time()+(3600*8), "/");
-   		header("location:../settings");
+		echo "logged in";
 	}
 	else
 	{
-	  header("location:../login?error=match");
+	  echo "email password combo";
 	}
 	disconnect_from_db();
 ?>

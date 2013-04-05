@@ -8,8 +8,36 @@ verify_logged_in();
 $b_id = $GLOBALS['b_id'];
 
 	echo "
-	<script src='js/settings.js' type='text/javascript'></script>
-	<br><br>
+	<script>
+		$(document).ready(function(){
+			$('#login-link').removeClass('active').hide();
+			$('#settings-link').addClass('active').show();
+			$('#logout-link').show();	
+			$('#box-js-content').show();
+	$('#settings-nav>li a').click(function(e){
+		var view = $(this).attr('href');
+		$.bbq.removeState('id');
+		$.bbq.pushState('view='+view);
+		e.preventDefault();
+	});
+
+
+	$('#business-search').autocomplete({
+		source:'scripts/search_business.php?',
+		focus: function(event, ui){
+			$('#business-search').val(ui.item.label);
+			return false;
+		},
+		select: function(event, ui){
+			$.bbq.pushState('view=posts&id='+ui.item.value);
+			$('#business-search').val('');
+			return false;
+		}
+	});
+
+
+	});
+	</script>
 	<div id='members' class='row-fluid'>
 		<div class='span3'>
 			<ul id='settings-nav' class='nav nav-pills nav-stacked content'>
@@ -50,6 +78,5 @@ $b_id = $GLOBALS['b_id'];
 				<img src='images/loading.gif' alt='Loading...'>
 			</div>
 		</div>
-	</div>
-	<br><br>";
+	</div>";
 ?>

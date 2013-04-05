@@ -56,7 +56,7 @@
 			title: post.title,
 			icon: 'images/markers/'+post.tag_1+'.png'
 		});
-		google.maps.event.addListener(marker, 'click', function(e){loadPost(post.id);});
+		google.maps.event.addListener(marker, 'click', function(e){window.location.hash = 'p='+post.id;});
 		google.maps.event.addListener(marker, 'mouseover', function(e){highlightPosting(post.id);});
 		google.maps.event.addListener(marker, 'mouseout', function(e){lowlightPosting(post.id);});
 		result['marker'] = marker;
@@ -68,50 +68,72 @@
 
 	}
 
+function formatPosts()
+{
+		var postings_div = document.getElementById('postings');
+		var postings_cont_div = document.getElementById('postings-container');
+
+		for(i in postings)
+		{
+			var post = calculateMeta(postings[i]);
+			post['content'] = postings[i];
+
+
+			post['id'] = postings[i].id;
+			formattedPostings[i] = post;
+		}
+		for(i in formattedPostings)
+		{	
+			var post = formattedPostings[i];
+			post['index'] = i;
+			formattedPost = formatPost(post['content']);			
+			post['tile'] = formattedPost['tile'];
+			post['list'] = formattedPost['list'];
+			formattedPostings[i] = post;
+			if(!initialized && i<30)
+			{
+				activePostings[i] = i;
+			}
+		}
+
+}
+
 	function displayPosts()
 	{
-		$('#postings').hide();
-		$('#loading').show();
 		var postings, postLink, id, markers;
-		postings  = document.getElementById('postings');
+		postings  = document.getElementById('tndr');
 		markers = [];
 		postings.innerHTML = "";
 		if(postings.classList.contains('masonry'))
 			{
-				$('#postings').masonry('destroy');
+				$('#tndr').masonry('destroy');
 			}
-		for(i in formattedPostings)
+
+				
+
+		for(i in activePostings)
 			{
+				var index = activePostings[i];
 				button = document.createElement('div');
-			
+
 				postLink = document.createElement('a');
-				id = formattedPostings[i]['id'];
-				markers[i] = formattedPostings[i]['marker'];
-				postLink.innerHTML = formattedPostings[i][postingsFormat];
-				postLink.setAttribute('href','#');
+				id = formattedPostings[index]['id'];
+				markers[i] = formattedPostings[index]['marker'];
+				postLink.innerHTML = formattedPostings[index][postingsFormat];
+				postLink.setAttribute('href','#p='+id);
 				postLink.setAttribute('id', id);
 				postLink.setAttribute('class', 'post-trigger');
-				postLink.setAttribute('index', formattedPostings[i]['index']);
-				button.setAttribute('class', 'posting-list-button');
+				postLink.setAttribute('index', formattedPostings[index]['index']);
+				button.setAttribute('class', 'posting-list-button ' + postingsFormat);
+
 				button.appendChild(postLink);
 				button.innerHTML += "<div class='post-big'></div>";
 				postings.appendChild(button);
 				
-
 				markers[i].setMap(this.map);
 			}
 		var postScript = document.createElement('script');
-		postScript.innerHTML = "$('.post-trigger').click(function(e){"
-			+"var id = $(this).attr('id');"
-			+"if(!document.getElementById(id).classList.contains('triggered')){"
-			+"loadPost(id);"
-			+"var stateObj = id;"
-			+"var search = window.location.search;"
-			+"var uri = addParameter(search, 'p', id);"
-			+"history.pushState(stateObj, null, uri);}"
-			+"e.preventDefault();"
-			+"});"
-			+"$('.posting-list-button').hover(function(e){"
+		postScript.innerHTML = "$('.posting-list-button').hover(function(e){"
 			+"var i = $(this).children('.post-trigger').attr('index');"
 			+"highlightPosting($(this).children('.post-trigger').attr('id'));"
 			+"formattedPostings[i]['marker'].setAnimation(google.maps.Animation.BOUNCE);"
@@ -121,20 +143,10 @@
 			+"formattedPostings[i]['marker'].setAnimation(null);"
 			+"});";
 		postings.appendChild(postScript);
-		$('#loading').hide();
-		$('#postings').show();
-		switch(postingsFormat)
-		{
-		case 'tile':
-			resizeContainer();
-			$('#postings').masonry({
-				itemSelector: '.posting-list-button',
-				isAnimated: true,
-				gutterWidth: 10
-			});
-			break;
-		default:
-			break;
-		}
 
+		repositionContainers();
+			if(postingsFormat == 'tile')
+			{
+				$('#tndr').masonry('reload');
+			}
 	}

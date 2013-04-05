@@ -148,51 +148,57 @@ function process_postings($raw_posts)
 	<head>
 	<!-- Meta data -->
 		<title>tndrbox</title>
-		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-	   	<meta name='author' content='Ian McEachern'>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	   	<meta name="author" content="Ian McEachern">
 
 	<!-- Icons -->
-		<link rel='icon' type='image/ico' href='images/favicon.ico'>
-		<link rel='shortcut icon' href='images/favicon.ico'>
-		<link rel='apple-touch-icon' href='images/touchicon.png'>
+		<link rel="icon" type="image/ico" href="images/favicon.ico">
+		<link rel="shortcut icon" href="images/favicon.ico">
+		<link rel="apple-touch-icon" href="images/touchicon.png">
 
 	<!-- Javascript -->
 		<!-- jquery -->
-		<script src='js/jquery.js' type='text/javascript'></script>
-		<script src='js/jquery-ui.js'></script>
-		<script src='js/jquery.ga.js'></script>
+		<script src="js/jquery.js" type="text/javascript"></script>
+		<script src="js/jquery-ui.js"></script>
+		<!-- google analytics -->
+		<script src="js/jquery.ga.js"></script>
+		<!-- bbq hashchange -->
+		<script src="js/jquery.ba-hashchange.js"></script>
+		<!-- timepicker -->
+		<script src="js/jquery.ui.timepicker"></script>
 		<!-- Intro tour -->
-		<script src='js/intro.js'></script>
+		<script src="js/intro.js"></script>
 		<!-- ajax forms -->
-		<script src='js/jquery.form.js' type='text/javascript'></script>
-		<!-- Modernizr -->
-		<script src='js/modernizr.js'></script>
+		<script src="js/jquery.form.js" type="text/javascript"></script>
+		<!-- Modernizr
+		<script src="js/modernizr.js"></script> -->
 		<!-- google analytics via jquery.ga -->
 		<script>
 			$(document).ready(function(){
-				$.ga.load('<?php print $GLOBALS['ga_account']?>');
+				$.ga.load("<?php print $GLOBALS['ga_account']?>");
 			});
 		</script>
 
 	<!-- CSS -->
 		<!-- jquery -->
-		<link rel='stylesheet' type='text/css' href='css/jquery-ui.css' media='all'>
-		<!-- Bootstrap ->-
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" media="all">
 		<!-- Bootstrap -->
-		<link href='css/bootstrap.min.css' rel='stylesheet' media='screen'>
-		<meta name='viewport' content='user-scalable=false, width=device-width, initial-scale=1.0'>
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<meta name="viewport" content="user-scalable=false, width=device-width, initial-scale=1.0">
 		<!-- Intro tour -->
-		<link rel='stylesheet' type='text/css' href='css/introjs.css' media='all'>
+		<link rel="stylesheet" type="text/css" href="css/introjs.css" media="all">
 		<!-- Google Maps -->
-		<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true'></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true"></script>
   
 	<!-- homebrewed css/js -->
-		<script src='js/tndrbox.js'></script>
-		<script src='js/posting_list.js'></script>
+		<script src="js/tndrbox.js"></script>
+
+		<script src="js/posting_list.js"></script>
 		<!-- homebrewed -->
-		<link rel='stylesheet' type='text/css' href='css/tndrbox.css' media='all'>
+		<link rel="stylesheet" type="text/css" href="css/tndrbox.css" media="all">
 
 		<script>
+			var loggedIn = <?php ($GLOBALS['logged_in'] ? print "true" : print "false") ?>;
 			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
 			var postings = <?php print $json_postings ?>;
 			var categories = <?php print $categories ?>;
@@ -202,71 +208,89 @@ function process_postings($raw_posts)
 
 	<body>
 
-			<div id='box' class=''>
-				<div id='box-images'>
-					<img id='box-left' src='images/box-L.png'>
-					<div id='middle-box'>
-						<img id='box-back' src='images/box-B.png'>
-<img id="box-front" src="images/box-M.png"> 
-					</div>
-					<img id='box-right' src='images/box-R.png'>
-				</div>
-				<div id='box-content'>
-					<div id='box-links'>
-						<ul class='nav nav-tabs gray'>
-							<li><a href='about'>About</a></li>
-							<li><a href='login'>Member's Login</a></li>
-							<li id='logout'><a href='logout'>Logout</a></li>
-							<li class='pull-right'><button class='btn btn-small hide-box-button'><i class='icon-arrow-down'></i></button></li>
-						</ul>
-					</div>				
-					<div id='box-js-content'>
-					</div>
-				</div>
-			</div><!-- #box -->
-
-<div id='welcome-page' class='hidden-phone'>
-				<ul class='inline'>
+		<div id="welcome-page" class="hidden-phone">
+			<ul class="inline">
 				<li><h1>Welcome to tndrbox</h1></li>
-				<li class='pull-right'><?php print date('n/j/y') ?></li>
-				</ul>
-				<div id='welcome-page-content'>
-					<h4>Hello traveler, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
-				</div>
-				<h4>Please get <a href='mailto:tndrbox@gmail.com'>in touch</a> with us if you would like to post on the site!</h4>
-			</div>
+				<li class="pull-right"><?php print date('n/j/y') ?></li>
+			</ul>
 
-		<div id='body-container' class='container'>
+			<div id="welcome-page-content">
+				<h4>Hello traveler, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
+			</div><!-- #welcome-page-content -->
 
-			<div id='postings-header' class='rounded-top'>
+			<h4>Please get <a href="mailto:tndrbox@gmail.com">in touch</a> with us if you would like to post on the site!</h4>
+		</div><!-- #welcome-page -->
 
-			</div><!-- #postings-header -->
+		<div id="body-container" class="container">
+			<div id="tndr-header" class="rounded-top">
 
-			<div id='postings-header-filler'>
-			</div>
-			<div id='left-pane'>
+			</div><!-- #tndr-header -->
 
-			<div id='postings-container' class='tile'>
+			<div id="tndr-header-filler">
 
-			</div><!-- #postings-container -->
-				<div id='footer'>
-				<a href='#welcome-page'>
-				   <img id='footer-icon' src='images/footer-logo.png' alt='footer-logo' width='50' height='62'>
-				</a>
-				<br>
-				<p>version <?php print $GLOBALS['version'] ?></p>
-				</div><!-- #footer-content -->
+			</div><!-- #tndr-header-filler -->
 
-			</div>
+			<div id="left-pane" data-step="1" data-intro="This where our posts go. Click one, they don't bite." data-position="right" class="active">
+				<div id="tndr">
+	
+				</div><!-- #tndr -->
+
+				<div id="footer">
+					<a href="#">
+						<img id="footer-icon" src="images/footer-logo.png" alt="footer-logo" width="50" height="62">
+					</a>
+					<br>
+					<p>version <?php print $GLOBALS['version'] ?></p>
+				</div><!-- #footer -->
+
+			</div><!-- #left-pane -->
+
+			<div id="right-pane" data-step="3" data-intro="This is our map. It maps things." data-position="left">
+					<div id="map-canvas">
+
+					</div><!-- #map-canvas -->
+
+			</div><!-- #right-pane -->
+
 		</div><!-- #body-container -->
 
+		<div id="box" class="inactive">
+			<div id="box-images">
+				<img id="box-left" src="images/box-L.png">
 
+				<div id="middle-box">
+					<!--<img id="box-back" src="images/box-B.png">-->
+					<img id="box-front" src="images/box-M.png"> 
+				</div><!-- #middle-box -->
 
+				<img id="box-right" src="images/box-R.png">
+			</div><!-- #box-images -->
+
+			<div id="box-content">
+				<div id="box-links">
+					<ul class="nav nav-tabs gray">
+						<li><a href="#b=about">About</a></li>
+						<li id="login-link"><a href="#b=login">Members' Login</a></li>
+						<li id="settings-link"><a href="#b=members">Settings</a></li>
+						<li id="logout-link"><a href="#b=logout">Logout</a></li>
+						<li class="pull-right"><button id="show-box-button" onclick="showBox()"><i class="icon-arrow-up"></i></button></li>
+						<li class="pull-right"><button id="hide-box-button"  onclick="deactivateBox()"><i class="icon-arrow-down"></i></button></li>
+					</ul>
+				</div><!-- #box-links -->				
+
+				<div id="box-js-content">
+
+				</div><!-- #box-js-content -->
+
+			</div><!-- #box-content -->
+
+		</div><!-- #box -->
 	<!-- minimized javascript -->
 		<!--Bootstrap-->
-		<script src='js/bootstrap.min.js'></script>
+		<script src="js/bootstrap.min.js"></script>
 		<!--Masonry-->
-		<script src='js/jquery.masonry.min.js'></script>
+		<script src="js/jquery.masonry.min.js"></script>
+
 	</body>
 
 </html>

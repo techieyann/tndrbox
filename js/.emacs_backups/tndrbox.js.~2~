@@ -1,0 +1,128 @@
+var initialized = false;
+
+
+function resizeContainers()
+{
+
+}
+
+$(document).ready(function(){
+	//define common variables
+	var tndr = $('#body-container');
+	var box = $('#box');
+	var middleBox = $('#middle-box');
+	var frontBox = $('#front-of-box');
+	var boxLinks = $('#box-links');
+
+	//launch the welcome boat!
+	$('#welcome-page-content').html("<h4>We are a community events board. We hope you find something that interests you.<br><br> For an introduction to our site, click <button id='global-intro-button' class='btn-primary'>here</button></h4><br>");
+	//so anticlimactic, I know..
+	var headerHTML = getPostingsHeader();
+	document.getElementById('postings-header').appendChild(headerHTML);
+	//place everything
+	var windowHeight = $(window).innerHeight();
+	var defaultBoxTop = windowHeight - 150 + 'px';
+	box.css('top', windowHeight);
+	
+	middleBox.width(1);
+	var $frontBox = $('')
+	middleBox.append($frontBox);
+	boxLinks.css('top', 0);
+	box.show();
+	tndr.css('margin-top', windowHeight-$('#welcome-page').height());
+	//show box
+
+	
+	box.animate({
+		top: defaultBoxTop
+	}, 1000, function(){
+	//show middle-box
+
+		middleBox.animate({
+			width: 800
+		}, 1000, function(){
+
+			tndr.show();
+
+			tndr.animate({
+				marginTop: 25
+			}, 3000, function(){
+
+			});
+				
+			//show box-links and tndr
+			boxLinks.animate({
+				top: -38}, 500);
+			
+		});
+	});
+
+
+
+
+});
+
+function getPostingsHeader() {
+	var headerString = document.createElement('ul');
+	headerString.setAttribute('class', 'inline');
+	
+	var logo = document.createElement('li');
+	logo.innerHTML = "<a href='/'><img src='images/logo.png'></a>"		
+
+	var buttons = document.createElement('li');
+	buttons.setAttribute('id', 'header-buttons');
+
+	var buttonsUl = document.createElement('ul');
+	buttonsUl.setAttribute('data-step', '1');
+	buttonsUl.setAttribute('data-intro', 'These buttons let you change the display of the posts and search for both businesses and tags.');
+	buttonsUl.setAttribute('data-position', 'top');
+	buttonsUl.setAttribute('class', 'inline');
+
+	var formatButtons = document.createElement('li');
+	formatButtons.innerHTML = "<div class='btn-group'>"
+		+"<button title='Tiles' id='tile' class='format-button btn disabled'><i class='icon-th-large'></i></button>"
+		+"<button title='List' id='list' class='format-button btn'><i class='icon-list'></i></button>"
+		+"</div>";
+
+	var filterButton = document.createElement('li');
+	filterButton.innerHTML = "<button title='Filter' id='filters' class='btn' ><i class='icon-search'></i></button>";
+
+	var searchBar = document.createElement('li');
+	searchBar.innerHTML = "<form id='search-bar' class='form-inline'>"
+		+"<div class='input-prepend'>"
+		+"<span class='add-on'><i class='icon-tags'></i> | <i class='icon-home'></i></span>"
+		+"<input type='text' id='search' name='search' class='span2' placeholder=''>"
+		+"</div><!-- .input-prepend -->"
+		+"</form>";
+
+	var categoriesDiv = document.createElement('li');
+	categoriesDiv.setAttribute('class', 'btn-group');
+	categoriesDiv.setAttribute('id', 'categories-dropdown');
+	categoriesDiv.innerHTML = "<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>"
+		+"<i class='icon-folder-open'></i>&nbsp Category "							
+		+"<span class='caret'></span>"
+		+"</a>";
+	var categoriesString = document.createElement('ul');
+	categoriesString.setAttribute('class', 'dropdown-menu');
+	categoriesString.setAttribute('z-index', '101');
+	categoriesString.innerHTML = "<ul class='dropdown-menu'>";
+		jQuery.each(categories, function(i, val){
+		if(i != 0)
+			{
+				categoriesString.innerHTML += "<li class='divider'></li>";
+			}
+			categoriesString.innerHTML += "<li><a href='#cat="+val.id+"'><img src='images/icons/"+val.tag+".png' width='30px'>&nbsp"+val.tag+"</a></li>";
+		});
+	categoriesDiv.appendChild(categoriesString);
+	
+	buttonsUl.appendChild(formatButtons);
+	buttonsUl.appendChild(filterButton);
+	buttonsUl.appendChild(searchBar);
+	buttonsUl.appendChild(categoriesDiv);
+
+	buttons.appendChild(buttonsUl);
+
+	headerString.appendChild(logo);
+	headerString.appendChild(buttons);
+	return headerString;
+}

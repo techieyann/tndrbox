@@ -182,7 +182,7 @@ echo "
 			</div>
 
 			<div class='form-actions'>				
-				<button type='button' class='btn pull-left' id='cancel-button' onclick='loadContentByURL(\"\"); smartPushState(\"\")' tabindex=-1>Cancel</button>
+				<button type='button' class='btn pull-left' id='cancel-button' onclick='$.bbq.pushState(\"view=posts\")' tabindex=-1>Cancel</button>
 				<button type='submit' class='btn btn-primary pull-right' id='add-submit'>Submit</button>
 			</div>
 			</fieldset>

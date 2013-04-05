@@ -118,8 +118,8 @@ echo "
 	echo "
 							<div class='span6'>
 								Hours:<br>";
-	$hours = explode(",", $hours);
-	foreach($hours as $line)
+	$exploded_hours = explode(",", $hours);
+	foreach($exploded_hours as $line)
 	{
 		echo "
 								$line<br>";
@@ -152,7 +152,7 @@ echo "
 					Name *
 				</label>
 				<div class='controls'>
-					<input required autofocus='true' type='text' maxlength=100 name='bus_name' id='bus_name' value='$name' placeholder='Type your busines name here...' class='span12'>
+					<input required autofocus='true' type='text' maxlength=100 name='bus_name' id='bus_name' value='$name' placeholder='Type your business name here...' class='span12'>
 				</div>
 			</div>
 

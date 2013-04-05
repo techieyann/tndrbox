@@ -28,11 +28,6 @@ if(isset($_GET['id']))
 	  {
 
 	extract($result[0]);
-
-$title = add_slashes($title);
-
-$alt_address = add_slashes($alt_address);
-$url = add_slashes($url);
 	
 	//check authorship of the post
 	if(!$admin_flag && $a_id != $GLOBALS['m_id'])
@@ -183,7 +178,7 @@ $url = add_slashes($url);
 			</div>
 
 			<div class='form-actions'>				
-				<button type='button' class='btn pull-left' id='cancel-button' onclick='loadContentByURL(\"posts\"); smartPushState(\"posts\")' tabindex=-1>Cancel</button>
+				<button type='button' class='btn pull-left' id='cancel-button' onclick='$.bbq.removeState(\"id\"); $.bbq.pushState(\"view=new_post\")' tabindex=-1>Cancel</button>
 				<button type='submit' class='btn btn-primary pull-right' id='edit-submit'>Submit</button>
 			</div>
 			</fieldset>

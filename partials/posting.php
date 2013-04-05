@@ -78,9 +78,7 @@ else
 	echo "
 				<script>
 					$(document).ready(function(){
-						this.lastPosition = map.getCenter();
-						var postLatLon = new google.maps.LatLng(".$post['lat'].", ".$post['lon'].");
-						map.panTo(postLatLon);
+
 					});
 				</script>
 				<div class='post-header'>
@@ -89,18 +87,17 @@ else
 	  {
 		echo "
 
-						<a class='btn btn-mini' title='Edit' href='settings?view=edit_post&id=$id'><i class='icon-pencil'></i></a>
-						<a class='btn btn-mini' title='Deactivate'  href='settings?view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></a>
-						<a class='btn btn-mini' title='Delete' href='settings?view=delete_post&id=$id'><i class='icon-trash'></i></a>";
+						<a class='btn btn-mini' title='Edit' href='#b=members&view=edit_post&id=$id'><i class='icon-pencil'></i></a>
+						<a class='btn btn-mini' title='Deactivate'  href='#b=members&view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></a>
+						<a class='btn btn-mini' title='Delete' href='#b=members&view=delete_post&id=$id'><i class='icon-trash'></i></a>";
 }
 
 	echo "
-						<button class='btn btn-mini' title='Close' onclick='closePost()'><i class='icon-remove'></i></button>
+						<button class='btn btn-mini' title='Close' onclick='closePostButton()'><i class='icon-remove'></i></button>
 					</div>
 
-					<ul class='inline centered post-title'>
-						<li><b>$title</b></li>
-					</ul>
+<p class='post-title centered'><b>$title</b><p>
+
 				</div>
 				<div class='post-body'>
 					<div class='row-fluid'>
@@ -153,26 +150,28 @@ else
 
 				 		</div>
 						<div class='span5'>
-							<a href='http://maps.google.com/?q=$alt_address'>
-							<div id='post-address' class='post-spacetime'>
-								<img class='pull-left' src='images/icons/target.png'>
-								<address>$alt_address</address>
-							</div></a>";
-
+							<div class='post-spacetime'>
+								<a href='http://maps.google.com/?q=".urlencode($alt_address)."' target='blank'>
+								<div id='post-address'>
+									<img class='pull-left' src='images/icons/target.png'>
+									<address>$alt_address</address>
+								</div></a>";
 	if($date != "")
 	  {
 		echo "
-							<div id='post-time' class='post-spacetime'>
-								<img class='pull-left' src='images/icons/calendar.png'>
-								$date								
-							</div>";
+								<div id='post-time'>
+									<img class='pull-left' src='images/icons/calendar.png'>
+									$date								
+								</div>";
 	  }
+
 	echo "
+							</div>
 							<div class='row'>
 							<ul class='inline tags centered'>
-								<li><a href='index?tag=$tag_2' class='tag'>$tags[2]</a></li>
-								<li><a href='index?tag=$tag_3' class='tag'>$tags[3]</a></li>
-								<li class=''><a href='index?cat=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
+								<li><a href='#t=$tag_2' class='tag'>$tags[2]</a></li>
+								<li><a href='#t=$tag_3' class='tag'>$tags[3]</a></li>
+								<li class=''><a href='#c=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
 								</ul></div>";
 
 
@@ -222,11 +221,11 @@ else
 
 echo "
 <div class='share btn-group pull-right'>
-	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/?p=$p_id\"><img src='images/icons/em.png' alt='Email'></a>
-	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=http://tndrbox.com/?p=$p_id\" target='_blank'><img src='images/icons/fb.png' alt='Facebook'></a>
-	<a class='btn' href=\"http://twitter.com/share?url=http://tndrbox.com/?p=$p_id&text=$title @ $name\" target='_blank'><img src='images/icons/tw.png' alt='Twitter'></a>
+	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/#p=$p_id\"><img src='images/icons/em.png' alt='Email'></a>
+	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=http://tndrbox.com/#p=$p_id\" target='_blank'><img src='images/icons/fb.png' alt='Facebook'></a>
+	<a class='btn' href=\"http://twitter.com/share?url=http://tndrbox.com/#p=$p_id&text=$title @ $name\" target='_blank'><img src='images/icons/tw.png' alt='Twitter'></a>
 
-	<a class='btn' href=\"https://plus.google.com/share?url=http://tndrbox.com/?p=$p_id\" target=_blank'><img src='images/icons/gp.png' alt='Google+'></a>
+	<a class='btn' href=\"https://plus.google.com/share?url=http://tndrbox.com/#p=$p_id\" target=_blank'><img src='images/icons/gp.png' alt='Google+'></a>
 
 </div>
    					</div>

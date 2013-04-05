@@ -24,8 +24,7 @@ echo "
 
 						var view = $(this).attr('href');
 						var id = $(this).attr('id');
-
-						loadContentByURL(view, id);
+						$.bbq.pushState('view='+view+'&id='+id);
 				   	});
 					$('.accordion').accordion({
 						collapsible:true,
