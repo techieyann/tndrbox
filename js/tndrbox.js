@@ -23,7 +23,7 @@ function initPage()
 	var boxLinks = $('#box-links');
 
 	//if js enabled, launch the welcome boat!
-	$('#welcome-page-content').html("<h4>We are a community events board. We hope you find something that interests you.");//<br><br> For an introduction to our site, click <button id='global-intro-button' class='btn-primary' onclick='introJs().start()'>here</button></h4><br>");
+	$('#welcome-page-content').html("<h4>In the coming months, Tndrbox, our Oakland-based community events website, will grow alongside our local businesses and communities as we make it easier to know what's going on around you.</h4><h4>Plan your route up and down Telegraph by searching for <a href='#t=96'>First Friday events</a>.</h4>");
 	//so anticlimactic, I know..
 
 	//write header
@@ -300,8 +300,6 @@ $(document).ready(function(){
 		$('#search').attr('placeholder','');
 	});
 
-
-
 	$('#search').autocomplete({
 		source: 'scripts/search.php?type=t&active=1',
 		focus: function(event, ui){
@@ -323,6 +321,7 @@ $(document).ready(function(){
 			return false;
 		}
 	});
+
 
 	$('#box-links a').click(function(e){
 		if($(this).parent().hasClass('active'))

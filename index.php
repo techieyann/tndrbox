@@ -210,15 +210,16 @@ function process_postings($raw_posts)
 
 		<div id="welcome-page" class="hidden-phone">
 			<ul class="inline">
-				<li><h1>Welcome to tndrbox</h1></li>
 				<li class="pull-right"><?php print date('n/j/y') ?></li>
+				<li><h1>Welcome to First Friday in Temescal!</h1></li>
 			</ul>
 
 			<div id="welcome-page-content">
 				<h4>Hello traveler, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
 			</div><!-- #welcome-page-content -->
+			
+			<h4>If you're a frequent event host and want to get in your neighborhood's ear, please <a href="mailto:tndrbox@gmail.com">contact</a> us!</h4> 
 
-			<h4>Please get <a href="mailto:tndrbox@gmail.com">in touch</a> with us if you would like to post on the site!</h4>
 		</div><!-- #welcome-page -->
 
 		<div id="body-container" class="container">

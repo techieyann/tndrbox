@@ -21,12 +21,12 @@ body.inactive
 #welcome-page
 {
 	background:url('../images/paper.png');
-	height:310px;
+	height:360px;
 	max-width:485px;
-	padding:75px 20px 20px 95px;
+	padding:20px 20px 20px 95px;
 	overflow:hidden;
-	margin: 0px 20px 50px 70px ;
-	margin-bottom:50px;
+	margin: 0px 20px 0px 70px ;
+
 	position:relative;
 
 }
@@ -38,7 +38,7 @@ body.inactive
 	position:relative;
 	display:none;
 	height:100%;
-	margin-top:25px;
+	margin-top:0px;
 	margin-left:70px;
 	z-index:10;
 }

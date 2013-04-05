@@ -79,6 +79,16 @@ else
 				<script>
 					$(document).ready(function(){
 
+					$('a.tag').click(function(e){
+						if(!$('#filters').hasClass('disabled'))
+						{
+							toggleFilterView();
+						}
+						if(!$(this).hasClass('category'))
+						{
+							$('#search').attr('placeholder', $(this).html());
+						}
+					});
 					});
 				</script>
 				<div class='post-header'>
@@ -171,7 +181,7 @@ else
 							<ul class='inline tags centered'>
 								<li><a href='#t=$tag_2' class='tag'>$tags[2]</a></li>
 								<li><a href='#t=$tag_3' class='tag'>$tags[3]</a></li>
-								<li class=''><a href='#c=$tag_1' class='tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
+								<li><a href='#c=$tag_1' class='category tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
 								</ul></div>";
 
 
@@ -218,7 +228,7 @@ else
 
 						</div>
 						</div>";
-	$tndrbox_share = urlencode('http://tndrbox.com/#p=$p_id');
+	$tndrbox_share = urlencode('http://tndrbox.com/#p='.$p_id);
 echo "
 <div class='share btn-group pull-right'>
 	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/#p=$p_id\"><img src='images/icons/em.png' alt='Email' target='blank'></a>
