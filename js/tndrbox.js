@@ -85,6 +85,7 @@ function initPage()
 
 		repositionContainers();
 
+
 	}
 
 }
@@ -447,12 +448,15 @@ function repositionContainers()
 		else
 		{
 
+
+
 			tndr.masonry({
 				itemSelector: '.posting-list-button',
 				isAnimated: true,
 				gutterWidth: 10,
 				columnWidth: buttonWidth
 			});
+			tndr.masonry('reload');
 
 		}
 	}
