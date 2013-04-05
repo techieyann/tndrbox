@@ -206,7 +206,7 @@ function process_postings($raw_posts)
 
 	</head>
 
-	<body>
+	<body onload='repositionContainers()'>
 
 		<div id="welcome-page" class="hidden-phone">
 			<ul class="inline">
