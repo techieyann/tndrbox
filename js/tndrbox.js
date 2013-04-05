@@ -622,7 +622,7 @@ function closePost(){
 				$('#tndr').masonry('reload');
 			}
 			repositionContainers();
-			marker.setIcon('../images/markers/'+post.tag_1+'.png');
+			marker.setIcon('images/markers/'+post.tag_1+'.png');
 		});
 
 		map.setCenter(lastPosition);
