@@ -380,14 +380,17 @@ body.inactive
 	display:none;
 	position:fixed;
 	left: 5px;
-	bottom:-105px;
+	bottom:0px;
 	z-index:200;
 }
-
 #box.active
 {
-top:-62px;
+
 overflow-y:scroll;
+}
+#box.inactive
+{
+	height:105px;
 }
 #box-images
 {

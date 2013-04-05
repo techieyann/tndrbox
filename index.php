@@ -290,6 +290,8 @@ function process_postings($raw_posts)
 		<script src="js/bootstrap.min.js"></script>
 		<!--Masonry-->
 		<script src="js/jquery.masonry.min.js"></script>
+		<!--Spiderfier-->
+		<script src="js/oms.min.js"></script>
 
 	</body>
 

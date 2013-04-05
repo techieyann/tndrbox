@@ -218,14 +218,14 @@ else
 
 						</div>
 						</div>";
-
+	$tndrbox_share = urlencode('http://tndrbox.com/#p=$p_id');
 echo "
 <div class='share btn-group pull-right'>
-	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/#p=$p_id\"><img src='images/icons/em.png' alt='Email'></a>
-	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=http://tndrbox.com/#p=$p_id\" target='_blank'><img src='images/icons/fb.png' alt='Facebook'></a>
-	<a class='btn' href=\"http://twitter.com/share?url=http://tndrbox.com/#p=$p_id&text=$title @ $name\" target='_blank'><img src='images/icons/tw.png' alt='Twitter'></a>
+	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/#p=$p_id\"><img src='images/icons/em.png' alt='Email' target='blank'></a>
+	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=$tndrbox_share\" target='_blank'><img src='images/icons/fb.png' alt='Facebook'></a>
+	<a class='btn' href=\"http://twitter.com/share?url=$tndrbox_share&text=$title @ $name\" target='_blank'><img src='images/icons/tw.png' alt='Twitter'></a>
 
-	<a class='btn' href=\"https://plus.google.com/share?url=http://tndrbox.com/#p=$p_id\" target=_blank'><img src='images/icons/gp.png' alt='Google+'></a>
+	<a class='btn' href=\"https://plus.google.com/share?url=$tndrbox_share\" target=_blank'><img src='images/icons/gp.png' alt='Google+'></a>
 
 </div>
    					</div>

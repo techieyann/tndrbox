@@ -54,9 +54,10 @@
 		var marker = new google.maps.Marker({
 			position: postLatLon,
 			title: post.title,
+			id: post.id,
 			icon: 'images/markers/'+post.tag_1+'.png'
 		});
-		google.maps.event.addListener(marker, 'click', function(e){window.location.hash = 'p='+post.id;});
+
 		google.maps.event.addListener(marker, 'mouseover', function(e){highlightPosting(post.id);});
 		google.maps.event.addListener(marker, 'mouseout', function(e){lowlightPosting(post.id);});
 		result['marker'] = marker;
@@ -90,7 +91,7 @@ function formatPosts()
 			post['tile'] = formattedPost['tile'];
 			post['list'] = formattedPost['list'];
 			formattedPostings[i] = post;
-			if(!initialized && i<30)
+			if(!initialized)
 			{
 				activePostings[i] = i;
 			}
@@ -100,25 +101,25 @@ function formatPosts()
 
 	function displayPosts()
 	{
-		var postings, postLink, id, markers;
-		postings  = document.getElementById('tndr');
-		markers = [];
+		var postings= document.getElementById('tndr'), 
+		markers = [],
+		activeFlag, postLink, id;
+
 		postings.innerHTML = "";
 		if(postings.classList.contains('masonry'))
 			{
 				$('#tndr').masonry('destroy');
 			}
-
-				
-
-		for(i in activePostings)
+		for(i in formattedPostings)
 			{
-				var index = activePostings[i];
+				var index = i;
+				activeFlag = false;
 				button = document.createElement('div');
 
 				postLink = document.createElement('a');
 				id = formattedPostings[index]['id'];
 				markers[i] = formattedPostings[index]['marker'];
+				markers[i].setMap();
 				postLink.innerHTML = formattedPostings[index][postingsFormat];
 				postLink.setAttribute('href','#p='+id);
 				postLink.setAttribute('id', id);
@@ -129,18 +130,30 @@ function formatPosts()
 				button.appendChild(postLink);
 				button.innerHTML += "<div class='post-big'></div>";
 				postings.appendChild(button);
-				
-				markers[i].setMap(this.map);
+				for(j=0; j<=i; j++)
+				{
+					if(activePostings[j] == index)
+					{
+						activeFlag = true;
+					}
+				}
+				if(activeFlag)
+				{
+					markers[i].setMap(map);
+				}
+				else
+				{
+					$('#'+id).hide();
+					$('#'+id).parent().hide();
+				}
 			}
 		var postScript = document.createElement('script');
 		postScript.innerHTML = "$('.posting-list-button').hover(function(e){"
 			+"var i = $(this).children('.post-trigger').attr('index');"
 			+"highlightPosting($(this).children('.post-trigger').attr('id'));"
-			+"formattedPostings[i]['marker'].setAnimation(google.maps.Animation.BOUNCE);"
 			+"}, function(e){"
 			+"var i = $(this).children('.post-trigger').attr('index');"
 			+"lowlightPosting($(this).children('.post-trigger').attr('id'));"
-			+"formattedPostings[i]['marker'].setAnimation(null);"
 			+"});";
 		postings.appendChild(postScript);
 
