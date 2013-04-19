@@ -4,8 +4,10 @@ creator: Ian McEachern
 
 This is the javascript responsible for page 
 initialization, responsive div placement and 
-sizing, and # link handling. 
+sizing, and # link handling. And all that other 
+stuff I'd rather not talking about.
  ***********************************************/
+
 var initialized = false;
 var formattedPostings = [];
 var activePostings = [];
@@ -22,50 +24,46 @@ function initPage()
 	var frontBox = $('#front-of-box');
 	var boxLinks = $('#box-links');
 
-	//if js enabled, launch the welcome boat!
-	$('#welcome-page-content').html("<h4>In the coming months, Tndrbox, our Oakland-based community events website, will grow alongside our local businesses and communities as we make it easier to know what's going on around you.</h4><h4>Plan your route up and down Telegraph by searching for <a href='#t=96'>First Friday events</a>.</h4>");
-	//so anticlimactic, I know..
 
-	//write header
-	var headerHTML = getTndrHeader();
-	document.getElementById('tndr-header').appendChild(headerHTML);
-	map_initialize(afterMapInitialize);
 
+	mapInitialize(afterMapInitialize);
+
+	//prep the meta tndr buttons
+	$('#reset-filters-button').hide();
+	$('#search-bar').hide();
+	$('#categories-dropdown').hide();
+	$('#tndr-buttons').show();
+
+	$('#welcome-close').show();
+
+	//prep the box links
+	if(loggedIn)
+	{
+		$('#login-link').hide();
+	}
+	else
+	{
+		$('#settings-link').hide();
+		$('#logout-link').hide();
+	}
+
+	$('#hide-box-button').hide();
+	$('#show-box-button').hide();
+	$('#box-links').show();
+
+	getPosts();
+
+
+	endLoading('tndr');
+	repositionContainers();
 
 	initialized = true;
 
 	function afterMapInitialize(){
-/*		var tndrContainer = $('#body-container');
-		var box = $('#box');*/
-
-		$('#reset-filters-button').hide();
-		$('#search-bar').hide();
-		$('#categories-dropdown').hide();
-
-//box off
-		$('#box-links').hide();
-
-		if(loggedIn)
-		{
-			$('#login-link').hide();
-		}
-		else
-		{
-			$('#settings-link').hide();
-			$('#logout-link').hide();
-		}
-		$('#hide-box-button').hide();
-		$('#show-box-button').hide();
-
 		if($(window).innerWidth()<360)
 		{
 			toggleViewFormat();
 		}
-		displayPosts();
-		
-		//show content
-		box.show();
-		tndrContainer.show();
 
 		oms = new OverlappingMarkerSpiderfier(map);
 
@@ -77,20 +75,13 @@ function initPage()
 		{
 			oms.addMarker(formattedPostings[i]['marker']);
 		}
-
-		//initilialize header offset
-		this.tndrHeader_toTop = $('#tndr-header').offset().top;
-
-
-
-		repositionContainers();
-
-
 	}
-
 }
 
 $(document).ready(function(){
+
+	initPage();
+
 	var tndr = $('#body-container');
 	var box = $('#box');
 	var middleBox = $('#middle-box');
@@ -98,14 +89,6 @@ $(document).ready(function(){
 	var boxLinks = $('#box-links');
 	var rightPane = $('#right-pane');
 	var leftPane = $('#left-pane');
-
-	formatPosts();
-
-	initPage();
-
-	window.onscroll = function(){
-		toggleStickyHeader();
-	};
 
 	window.onresize = function(){
 		repositionContainers();
@@ -188,9 +171,9 @@ $(document).ready(function(){
 					activePostings[j] = i;
 					j++;
 				}
-				else if(dateFlag )
+				else if(dateFlag)
 				{
-
+//herp derp
 				}
 			}
 			displayPosts();
@@ -342,8 +325,101 @@ $(document).ready(function(){
 });
 
 
+function getPosts()
+{
+	var url = 'partials/posting_list.php';
+	var query = $.deparam.querystring();
+	if(query.hasOwnProperty('p'))
+	{		
+		url += '?p='+query.p;
+	}
+	$.getJSON(url, function(data){
+		postings = data;
+		writePosts();
+	});
+
+}
+
+function writePosts()
+{
+	var markers = [];
+
+		for(i in postings)
+			{
+				var index = i;
+				var post = postings[i];
+				activeFlag = false;
+				list = document.createElement('div');
+				button = document.createElement('div');
+
+				postLink = document.createElement('a');
+				id = post['id'];
+/*				markers[i] = post['marker'];
+				console.log(post['marker']);
+				markers[i].setMap();*/
+				postLink.innerHTML = post['tile'] + "<div class='post-big'></div>";
+				postLink.setAttribute('href','#p='+id);
+				postLink.setAttribute('id', id);
+				postLink.setAttribute('class', 'post-trigger');
+				postLink.setAttribute('index', index);
+				button.setAttribute('class', 'posting-list-button tile');
+
+				button.appendChild(postLink);
 
 
+
+				postLink.innerHTML = '';
+				postLink.innerHTML = post['list'] + "<div class='post-big'></div>";
+				list.setAttribute('class', 'posting-list-button list');
+				list.appendChild(postLink);
+
+				document.getElementById('tiles').appendChild(button);
+				document.getElementById('list').appendChild(list);
+				for(j=0; j<=i; j++)
+				{
+					if(activePostings[j] == index)
+					{
+						activeFlag = true;
+					}
+				}
+				if(activeFlag)
+				{
+//					markers[i].setMap(map);
+				}
+				else
+				{
+					$('#'+id).hide();
+					$('#'+id).parent().hide();
+				}
+			}
+		var postScript = document.createElement('script');
+		postScript.innerHTML = "$('.posting-list-button').hover(function(e){"
+			+"var i = $(this).children('.post-trigger').attr('index');"
+			+"highlightPosting($(this).children('.post-trigger').attr('id'));"
+			+"}, function(e){"
+			+"var i = $(this).children('.post-trigger').attr('index');"
+			+"lowlightPosting($(this).children('.post-trigger').attr('id'));"
+			+"});";
+	var ref = document.getElementsByTagName('script')[0];
+	ref.parentNode.insertBefore(postScript, ref);
+	displayPosts();
+}
+function displayPosts()
+{
+	$('.posting-list-button').show().children().show();
+		repositionContainers();
+}
+
+function startLoading(targetDiv)
+{
+	$('#'+targetDiv).prepend('<div class="loading"><img src="images/loading.gif"></div>');
+}
+
+function endLoading(targetDiv)
+{
+
+	$('#'+targetDiv+'>.loading').remove();
+}
 
 function repositionContainers()
 {
@@ -366,12 +442,9 @@ function repositionContainers()
 	var header_height = tndrHeader.height();
 
 	//box top position is the same no matter the screen size
-	box.css('height', 105);
 	$('#box.active').css('height',window_height);
 
-
-	
-	rightPane.css('height', window_height - (45 + header_height));
+	rightPane.css('height', window_height - (35 + header_height));
 	//reset margins
 	tndrContainer.css('margin-left', '');
 	box.css('margin-left', '');
@@ -380,6 +453,7 @@ function repositionContainers()
 	var tndrContainerWidth = window_width - 140;
 	var leftPaneWidth = tndrContainerWidth*.62;
 	var rightPaneWidth = tndrContainerWidth - leftPaneWidth;
+	var rightPaneLeft = leftPaneWidth + 70
 	var postColumns;
 
 	if(1400 < window_width)
@@ -405,14 +479,15 @@ function repositionContainers()
 		tndrContainerWidth = window_width;
 		leftPaneWidth = tndrContainerWidth*.91;
 		rightPaneWidth = leftPaneWidth;
-		tndrContainer.css('margin-left',-20);
-		box.css('margin-left', -70);
+
+
+		rightPaneLeft = window_width-rightPaneWidth;
 		postColumns = 3;
 		if(window_width < 500)
 		{	
 			postColumns = 2;
 		}	
-		if(window_width < 360)
+		if(window_width	< 360)
 		{	
 			postColumns = 1;
 		}	
@@ -429,6 +504,7 @@ function repositionContainers()
 	var buttonWidth = (leftPaneWidth-10)/postColumns - 10
 	$('.post-mini.button').css('width', buttonWidth);
 	rightPane.css('width', rightPaneWidth);
+	rightPane.css('left', rightPaneLeft);
 	if(rightPane.children().hasClass('initialized'))
 	{
 		google.maps.event.trigger(map, 'resize');
@@ -447,9 +523,6 @@ function repositionContainers()
 		}
 		else
 		{
-
-
-
 			tndr.masonry({
 				itemSelector: '.posting-list-button',
 				isAnimated: true,
@@ -457,35 +530,9 @@ function repositionContainers()
 				columnWidth: buttonWidth
 			});
 			tndr.masonry('reload');
-
 		}
 	}
-	if(tndrHeader.hasClass('sticky'))
-   {
 
-		rightPane.css('top', tndrHeader.height()+2);
-		var marginLeft = parseInt(tndrContainer.css('marginLeft'), 10);
-		if(marginLeft == -20)
-		{
-			marginLeft = 0;
-		}
-		rightPane.css('left', tndrContainer.width()-rightPane.width()+marginLeft);
-	   if(window_width > 754)
-	   {
-		tndrHeader.css({'left' : ''});
-	   }
-	   else
-	   {
-		tndrHeader.css({'left' : '0'});
-	   }
-	tndrHeader_toTop = headerFiller.offset().top;
-   }
-	else
-	{
-		rightPane.css('top', '');
-		rightPane.css('left', '');
-		tndrHeader.css({'left' : ''});
-	}
 }
 
 function lastBoxState()
@@ -520,70 +567,29 @@ function deactivateBox()
 	$.bbq.removeState(['b', 'view', 'id']);
 	
 }
-function toggleStickyHeader(){
-	var tndrContainer = $('#body-container');
-	var header = $('#tndr-header');
-	var headerFiller = $('#tndr-header-filler');
-	var rightPane = $('#right-pane');
-	var leftPane = $('#left-pane');
-	var window_width = $(window).innerWidth();
-	//if stickty and shoudln't be
-	if(header.hasClass('sticky'))
-	{
-		tndrHeader_toTop = headerFiller.offset().top;
-		if($(document).scrollTop() < tndrHeader_toTop)
-		{
-			header.addClass('rounded-top');
-			header.removeClass('sticky');
-			header.css({'left' : ''});
-			headerFiller.hide();
-			rightPane.removeClass('sticky');
-			rightPane.css('top', '');
-			rightPane.css('left', '');
-		}
-	}
-	else if($(document).scrollTop() > this.tndrHeader_toTop)
-	{
-		header.addClass('sticky');
-		rightPane.addClass('sticky');
-		rightPane.css('top', header.height()+2);
-		var marginLeft = parseInt(tndrContainer.css('marginLeft'), 10);
-		if(marginLeft == -20)
-		{
-			marginLeft = 0;
-		}
-		rightPane.css('left', tndrContainer.width()-rightPane.width()+marginLeft);
-		header.removeClass('rounded-top');
-		headerFiller.css('height', header.height());
-		headerFiller.show();
 
-		if(window_width < 754)
-		{
-			header.css('left', 0);
-		}
-		
-	}
-}
 function toggleViewFormat()
 {
-	var tileFormat = $('#tile');
-	var listFormat = $('#list');
+	var tileFormat = $('#tile-format');
+	var listFormat = $('#list-format');
 	var	tndr = $('#tndr');
 	if(tileFormat.hasClass('disabled'))
     {
 		listFormat.addClass('disabled');
 		tileFormat.removeClass('disabled');
 		postingsFormat = 'list';
-
+		$('#tile').hide();
+		$('#list').show();
 	}
 	else
 	{
 		tileFormat.addClass('disabled');
 		listFormat.removeClass('disabled');
 		postingsFormat = 'tile';
+		$('#list').hide();
+		$('#tile').show();
 	}
 	closePost();
-	displayPosts();
 	$(window).trigger('hashchange');
 }
 function toggleFilterView()
@@ -776,76 +782,8 @@ function scrollTo(id)
 }
 
 
-function getTndrHeader() {
-	var headerString = document.createElement('ul');
-	headerString.setAttribute('class', 'inline');
-	
-	var logo = document.createElement('li');
-	logo.innerHTML = "<a href='/'><img src='images/logo.png'></a>"		
 
-	var buttons = document.createElement('li');
-	buttons.setAttribute('id', 'header-buttons');
-
-	var buttonsUl = document.createElement('ul');
-	buttonsUl.setAttribute('data-step', '1');
-	buttonsUl.setAttribute('data-intro', 'These buttons let you change the display of the posts and search for both businesses and tags.');
-	buttonsUl.setAttribute('data-position', 'top');
-	buttonsUl.setAttribute('class', 'inline');
-
-	var formatButtons = document.createElement('li');
-	formatButtons.innerHTML = "<div class='btn-group'>"
-		+"<button title='Tiles' id='tile' class='format-button btn btn-small disabled'><i class='icon-th-large'></i></button>"
-		+"<button title='List' id='list' class='format-button btn btn-small'><i class='icon-list'></i></button>"
-		+"</div>";
-
-	var filterButtons = document.createElement('li');
-	filterButtons.innerHTML =  "<div class='btn-group'>"
-		+"<button title='Clear Filters' id='reset-filters-button' class='btn btn-small' ><i class='icon-remove-circle'></i></button>"
-		+"<button title='Filter' id='filters' class='btn btn-small' ><i class='icon-search'></i></button>"
-		+"</div>";
-
-	var searchBar = document.createElement('li');
-	searchBar.innerHTML = "<form id='search-bar' class='form-inline'>"
-		+"<div class='input-prepend'>"
-		+"<span class='add-on'><i class='icon-tags'></i></span>"
-		+"<input type='text' id='search' name='search' class='span2' placeholder=''>"
-		+"</div><!-- .input-prepend -->"
-		+"</form>";
-
-	var categoriesDiv = document.createElement('li');
-	categoriesDiv.setAttribute('class', 'btn-group');
-	categoriesDiv.setAttribute('id', 'categories-dropdown');
-	categoriesDiv.innerHTML = "<a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>"
-		+"<i class='icon-folder-open'></i>&nbsp Category "							
-		+"<span class='caret'></span>"
-		+"</a>";
-	var categoriesString = document.createElement('ul');
-	categoriesString.setAttribute('class', 'dropdown-menu');
-	categoriesString.setAttribute('z-index', '101');
-	categoriesString.innerHTML = "<ul class='dropdown-menu'>";
-		jQuery.each(categories, function(i, val){
-		if(i != 0)
-			{
-				categoriesString.innerHTML += "<li class='divider'></li>";
-			}
-			categoriesString.innerHTML += "<li><a href='#c="+val.id+"'><img src='images/icons/"+val.tag+".png' width='30px'>&nbsp"+val.tag+"</a></li>";
-		});
-	categoriesDiv.appendChild(categoriesString);
-	
-	buttonsUl.appendChild(formatButtons);
-	buttonsUl.appendChild(filterButtons);
-	buttonsUl.appendChild(categoriesDiv);
-	buttonsUl.appendChild(searchBar);
-
-
-	buttons.appendChild(buttonsUl);
-
-	headerString.appendChild(logo);
-	headerString.appendChild(buttons);
-	return headerString;
-}
-
-function map_initialize(callback) {
+function mapInitialize(callback) {
 //location functionality
 //var myLatLon = new google.maps.LatLng(json_location.lat, json_location.lon);
 	var temescalLatLon = new google.maps.LatLng(37.833222, -122.264222);
@@ -875,10 +813,10 @@ function map_initialize(callback) {
 ]
 	var mapOptions = {
 		zoom: 15,
-		minZoom: 15,
-		maxZoom: 15,
+		minZoom: 11,
+		maxZoom: 18,
 		center: temescalLatLon,//myLatLon,
-		disableDefaultUI: true,
+//		disableDefaultUI: true,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 		styles: style
 	}
@@ -888,6 +826,7 @@ function map_initialize(callback) {
 
 	callback();
 }
+
 
 function loadBoxContentByURL()
 {

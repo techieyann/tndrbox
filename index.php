@@ -10,23 +10,12 @@ in includes.php.
 require('includes/includes.php');
 require('includes/tags.php');
 
-
-connect_to_db($mysql_user, $mysql_pass, $mysql_db);
-
-analyze_user();
-//verify_logged_in();
-
-//set variables
-//body
-
-
-$result = array();
 $post_flag = false;
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+analyze_user();
 
-if(isset($_GET['p']))
+if(isset($_GET['p']) && is_numeric($_GET['p']))
   {
-	if(is_numeric($_GET['p']))
-	  {
 		$p_id = $_GET['p'];
 		$query = "SELECT active, b_id FROM postings WHERE id=$p_id";
 		$active_result = query_db($query);
@@ -35,196 +24,320 @@ if(isset($_GET['p']))
 			extract($active_result[0]);
 			if($active == 1)
 			  {
-				$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE postings.id='$p_id'";
+				$query = "SELECT title, blurb, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE postings.id='$p_id'";
 			  }
 			else
 			  {
-				$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id AND active=1";
+				$query = "SELECT postings.id, title, blurb, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id AND active=1";
 			  }
 	
 			$result = query_db($query);
+
 			if(isset($result[0]))
 			  {
 				$post_flag = true;
-				$result['post_flag'] = 1;
+				extract($result[0]);
 			  }
-		  }
-	  }
+		  }	  
   }
-elseif(isset($_GET['b']))
-  {
-	if(is_numeric($_GET['b']))
-	  {
-		$b_id = $_GET['b'];
-		$query = "SELECT postings.id, title, date, postings.photo, tag_1, tag_2, tag_3, postings.lat, postings.lon, business.name FROM postings INNER JOIN business ON postings.b_id=business.id WHERE b_id=$b_id and active=1";
-
-		$result = query_db($query);
-	
-		if(isset($result[0]))
-		  {
-			$post_flag = true;
-			$p_id = $result[0]['id'];
-			$result['post_flag'] = 1;
-		  }
-	  }
-  }
-array_push($result, default_front_page_posts());
-$processed_postings = process_postings($result);
-$json_postings = json_encode($processed_postings);
-$categories = json_encode(get_active_categories());
-
+$categories = get_active_categories();
 disconnect_from_db();
 
-
-
-function process_postings($raw_posts)
-  {
-	$looper=$raw_posts[0];
-	$processed_posts = array();
-	$processed_id = 0;
-	$index = 0;
-	if(isset($raw_posts['post_flag']))
-	  {
-		$post = $raw_posts[0];
-
-		extract($post);
-		$processed_posts[$index]['id'] = $id;
-		$processed_posts[$index]['title'] = $title;
-		$processed_posts[$index]['date'] = format_date($id);
-		$processed_posts[$index]['photo'] = $photo;
-		$processed_posts[$index]['tag_1_id'] = $tag_1;
-		$processed_posts[$index]['tag_1'] = get_tag($tag_1);
-		$processed_posts[$index]['tag_2_id'] = $tag_2;
-		$processed_posts[$index]['tag_2'] = get_tag($tag_2);
-		$processed_posts[$index]['tag_3_id'] = $tag_3;
-		$processed_posts[$index]['tag_3'] = get_tag($tag_3);
-		$processed_posts[$index]['lat'] = $lat;
-		$processed_posts[$index]['lon'] = $lon;
-		$processed_posts[$index]['business'] = $name;
-		//need to calculate speed here
-		$processed_posts[$index]['speed'] = 1;
-
-		$processed_id = $id;
-		$index++;
-
-		$looper = $raw_posts[1];
-	  }
-
-	foreach($looper as $post)
-	  {
-
-		if(isset($post['id']) && $post['id'] != $processed_id)
-		  {
-			extract($post);
-		$processed_posts[$index]['id'] = $id;
-		$processed_posts[$index]['title'] = $title;
-		$processed_posts[$index]['date'] = format_date($id);
-		$processed_posts[$index]['photo'] = $photo;
-		$processed_posts[$index]['tag_1_id'] = $tag_1;
-		$processed_posts[$index]['tag_1'] = get_tag($tag_1);
-		$processed_posts[$index]['tag_2_id'] = $tag_2;
-		$processed_posts[$index]['tag_2'] = get_tag($tag_2);
-		$processed_posts[$index]['tag_3_id'] = $tag_3;
-		$processed_posts[$index]['tag_3'] = get_tag($tag_3);
-		$processed_posts[$index]['lat'] = $lat;
-		$processed_posts[$index]['lon'] = $lon;
-		$processed_posts[$index]['business'] = $name;
-		//need to calculate speed here
-		$processed_posts[$index]['speed'] = 1;
-		$index++;
-
-		  }
-	  }
-	return $processed_posts;
-  }
-
 ?>
-
 
 <!DOCTYPE html>
 
 <html>
-
 	<head>
+		<title>tndrbox<?php print ($post_flag ? " -- $title":"") ?></title>
+
+	<!-- Above the fold CSS -->
+
+		<style>
+
+
+html{font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+a:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px;}
+a:hover,a:active{outline:0;}
+
+img{max-width:100%;width:auto\9;height:auto;vertical-align:middle;border:0;-ms-interpolation-mode:bicubic;}
+input{max-width:100%;}
+
+ul
+{
+margin:0 !important;
+padding:0;
+}
+
+html, body
+{
+height:100%;
+margin:0px;
+width:100%;
+  overflow-x:hidden;
+}
+body
+{
+background:url('../images/bg-tile.png');
+}
+#body-container
+{
+	position:relative;
+width:80%;
+	min-height:100%;
+	margin-top:0px;
+	margin-left:70px;
+	z-index:10;
+}
+
+#left-pane
+{
+	position:absolute;
+	left:0;
+	background:url('../images/postings-tile.png');
+	z-index:501;
+	min-height:100%;
+        -webkit-box-shadow: 3px 0px 2px rgba(0,0,0,.25);
+           -moz-box-shadow: 3px 0px 2px rgba(0,0,0,.25);
+                box-shadow: 3px 0px 2px rgba(0,0,0,.25);
+width:90%;
+	
+}
+
+#welcome-page
+{
+background:#d5d5d5;
+	max-width: 600px;
+	padding:20px 20px 0px 20px;
+	overflow:hidden;
+	margin: 0px auto;
+
+	position:relative;
+        -webkit-box-shadow: 0px 1px 2px rgba(0,0,0,.25);
+           -moz-box-shadow: 0px 1px 2px rgba(0,0,0,.25);
+                box-shadow: 0px 1px 2px rgba(0,0,0,.25);
+
+}
+
+#welcome-close
+{
+display:none;
+}
+
+#tndr
+{
+	margin-left:10px;
+	margin-top:10px;
+}
+.loading
+{
+	margin: 20px auto 50px auto;
+	text-align:center;
+}
+#footer{
+
+	margin: 0px auto 10px auto; 
+	text-align: center;
+	
+}
+
+#right-pane
+{
+	position:fixed;
+left:70px;
+width:80%;
+height:100%;
+	z-index:500;
+background:#aaa;
+
+}
+/************* header*/
+#tndr-header
+{
+	position:fixed;
+	top:0px;
+	left:70px;
+	z-index:600;
+       -webkit-box-shadow: 0px 2px 2px rgba(0,0,0,.45);
+           -moz-box-shadow: 0px 2px 2px rgba(0,0,0,.45);
+                box-shadow: 0px 2px 2px rgba(0,0,0,.45);
+
+	background:#A33539;
+	padding-top:2px;
+	padding-bottom:2px;
+width:80%;
+ 
+}
+
+
+#tndr-header-filler
+{
+height:40px;
+}
+
+#tndr-buttons
+{
+	display:none;
+	padding:10px;
+}
+
+#box
+{
+width:200%;
+	position:fixed;
+	left: 5px;
+	bottom:-55px;
+	z-index:200;
+}
+#box-content
+{
+	position:relative;
+	min-height:90%;
+
+	z-index:300;
+background: #7f1214; 
+
+}
+
+#box-links
+{
+	position:relative;
+display:none;
+	top: -85px;
+	margin: 0 80px 0px 80px;
+	font-size:18px;
+}
+#box-links a
+{
+
+	color:#eee;
+}
+
+#box-links a:hover
+{
+	color:#A33539;
+}
+
+
+
+#box-images
+{
+	position:relative;
+	display:inline;
+	padding:0;
+	margins:0;
+
+}
+#box-left
+{
+
+	height:150px;
+	float:left;
+
+
+}
+#box-right
+{
+	height:150px;
+
+}
+
+
+#middle-box
+{
+width:40%;
+	float:left;
+	margin-top:2px;
+
+}
+
+#box-front
+{
+	position:relative;
+	top:59px;
+	height:90px;
+	width:100%;
+	z-index:200;
+}
+@media all and (max-width:760px){
+	body
+	  {
+	  background:none;	
+	  width:100%;
+	  }
+	#body-container
+	  {
+		margin-left:-5px;
+	  width:100%;
+	  }
+	#tndr-header, #right-pane
+  {
+  left:0px;
+  width:100%;
+  }
+#tndr-header-filler
+  {
+  height:25px;
+  }
+#logo
+{
+  max-width:70%;
+}
+#welcome-page
+  {
+  max-width:100%;
+  }
+	#box
+	  {
+	  left:-65px;
+	  }
+	#middle-box
+	  {
+	  width:50%;
+	  }
+	
+}
+
+//bootstrap.min code
+
+
+li{line-height:20px;}
+ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{display:inline-block;*display:inline;*zoom:1;padding-left:5px;padding-right:5px;}
+		</style>
+
+	<!-- Global js variables -->
+		<script>
+			var loggedIn = <?php ($GLOBALS['logged_in'] ? print "true" : print "false") ?>;
+			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
+			var postings;
+		</script>
+
 	<!-- Meta data -->
-		<title>tndrbox</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	   	<meta name="author" content="Ian McEachern">
+		<meta name="viewport" content="user-scalable=false, width=device-width, initial-scale=1.0">
+		<!-- Open Graph Data -->
+		<meta property="og:title" content="<?php print ($post_flag ? "$title at $name":"A posting board for Temescal") ?>">
+	    <meta property="og:description" content="<?php print ($post_flag ? substr($blurb, 0, 100)."...":"tndrbox is a community events board in Oakland. Come see what is happening around you.") ?>">
+		<meta property="og:site_name" content="tndrbox">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="tndrbox.com/<?php print ($post_flag ? "?p=$p_id":"") ?>">
+	    <meta property="og:image" content="<?php print ($post_flag ? "images/posts/$photo": "images/logo.png") ?>">
 
 	<!-- Icons -->
 		<link rel="icon" type="image/ico" href="images/favicon.ico">
 		<link rel="shortcut icon" href="images/favicon.ico">
 		<link rel="apple-touch-icon" href="images/touchicon.png">
 
-	<!-- Javascript -->
-		<!-- jquery -->
-		<script src="js/jquery.js" type="text/javascript"></script>
-		<script src="js/jquery-ui.js"></script>
-		<!-- google analytics -->
-		<script src="js/jquery.ga.js"></script>
-		<!-- bbq hashchange -->
-		<script src="js/jquery.ba-hashchange.js"></script>
-		<!-- timepicker -->
-		<script src="js/jquery.ui.timepicker"></script>
-		<!-- Intro tour -->
-		<script src="js/intro.js"></script>
-		<!-- ajax forms -->
-		<script src="js/jquery.form.js" type="text/javascript"></script>
-		<!-- Modernizr
-		<script src="js/modernizr.js"></script> -->
-		<!-- google analytics via jquery.ga -->
-		<script>
-			$(document).ready(function(){
-				$.ga.load("<?php print $GLOBALS['ga_account']?>");
-			});
-		</script>
-
-	<!-- CSS -->
-		<!-- jquery -->
-		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" media="all">
-		<!-- Bootstrap -->
-		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-		<meta name="viewport" content="user-scalable=false, width=device-width, initial-scale=1.0">
-		<!-- Intro tour -->
-		<link rel="stylesheet" type="text/css" href="css/introjs.css" media="all">
-		<!-- Google Maps -->
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true"></script>
-  
-	<!-- homebrewed css/js -->
-		<script src="js/tndrbox.js"></script>
-
-		<script src="js/posting_list.js"></script>
-		<!-- homebrewed -->
-		<link rel="stylesheet" type="text/css" href="css/tndrbox.css" media="all">
-
-		<script>
-			var loggedIn = <?php ($GLOBALS['logged_in'] ? print "true" : print "false") ?>;
-			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
-			var postings = <?php print $json_postings ?>;
-			var categories = <?php print $categories ?>;
-		</script>
-
 	</head>
 
-	<body onload='repositionContainers()'>
+	<body onload='loadTheRest()'>
 
-		<div id="welcome-page" class="hidden-phone">
-			<ul class="inline">
-				<li class="pull-right"><?php print date('n/j/y') ?></li>
-				<li><h1>Welcome to First Friday in Temescal!</h1></li>
-			</ul>
-
-			<div id="welcome-page-content">
-				<h4>Hello traveler, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
-			</div><!-- #welcome-page-content -->
-			
-			<h4>If you're a frequent event host and want to get in your neighborhood's ear, please <a href="mailto:tndrbox@gmail.com">contact</a> us!</h4> 
-
-		</div><!-- #welcome-page -->
-
-		<div id="body-container" class="container">
+		<div id="body-container" class="">
 			<div id="tndr-header" class="rounded-top">
-
+				<ul class="inline">
+					<li><a href="index"><img id="logo" src="images/logo.png"></a></li>
+				</ul>
 			</div><!-- #tndr-header -->
 
 			<div id="tndr-header-filler">
@@ -232,8 +345,72 @@ function process_postings($raw_posts)
 			</div><!-- #tndr-header-filler -->
 
 			<div id="left-pane" data-step="1" data-intro="This where our posts go. Click one, they don't bite." data-position="right" class="active">
+
+			<div id="welcome-page">
+			  <button class="btn btn-small pull-right" id="welcome-close" onclick="$('#welcome-page').hide()">&times</button>
+						<div id="welcome-page-content">
+							<h4>Hello traveller, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
+						</div><!-- #welcome-page-content -->
+			  <p class="pull-right"><?php print date('F jS, Y')?></p>
+			</div><!-- #welcome-page -->
+
+				<div id="tndr-buttons">
+						<ul class="inline">
+							<li>
+
+									<button title="Filter" id="filters" class="btn btn-small" ><i class="icon-search"></i></button>
+
+							</li>
+							<li>
+									<button title="Clear Filters" id="reset-filters-button" class="btn btn-small" ><i class="icon-remove-circle"></i></button>
+							</li>
+							<li class='pull-right'>
+								<div class="btn-group">
+									<button title="Tiles" id="tile-format" class="format-button btn btn-small disabled"><i class="icon-th-large"></i></button>
+									<button title="List" id="list-format" class="format-button btn btn-small"><i class="icon-list"></i></button>
+								</div>
+							</li>
+
+						</ul>
+						<ul class="inline">
+							<li class="btn-group" id="categories-dropdown">
+								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								<i class="icon-folder-open"></i>&nbsp Category
+								<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<?php
+										
+			  foreach($categories as $index =>$category)
+			{
+			  extract($category);
+			  if($index != 0)
+				{
+				  print "<li class='divider'></li>";
+				}
+			  print "<li><a href='#c=$id'><div class='$tag'></div> $tag</a></li>";
+			}
+									?>	
+								</ul>
+							</li>
+							<li>
+								<form id='search-bar' class='form-inline'>
+									<div class='input-prepend'>
+										<span class='add-on'><i class='icon-tags'></i></span>
+										<input type='text' id='search' name='search' class='span2' placeholder=''>
+									</div><!-- .input-prepend -->
+								</form>
+							</li>
+						</ul>
+				</div><!-- tndr-buttons -->
 				<div id="tndr">
-	
+
+					<div id="list">
+
+					</div><!-- #list -->
+					<div id="tiles">
+
+					</div><!-- #tiles -->					
 				</div><!-- #tndr -->
 
 				<div id="footer">
@@ -246,7 +423,7 @@ function process_postings($raw_posts)
 
 			</div><!-- #left-pane -->
 
-			<div id="right-pane" data-step="3" data-intro="This is our map. It maps things." data-position="left">
+			<div id="right-pane" data-step="2" data-intro="This is our map. It maps things." data-position="left">
 					<div id="map-canvas">
 
 					</div><!-- #map-canvas -->
@@ -286,13 +463,71 @@ function process_postings($raw_posts)
 			</div><!-- #box-content -->
 
 		</div><!-- #box -->
+	<script>
+		function loadTheRest()
+		{
+	document.getElementById('welcome-page-content').innerHTML = "<h1 class='centered'>Welcome!</h1><h4>In the coming months, Tndrbox, our Oakland-based community events website, will grow alongside our local businesses and communities as we make it easier to know what's going on around you.</h4><h4>Plan your route up and down Telegraph by searching for <a href='#t=96'>First Friday events</a>.</h4><h4>If you're a frequent event host and want to get in your neighborhood's ear, please <a href='mailto:tndrbox@gmail.com'>contact</a> us!</h4>";
+
+			var tndr = document.getElementById('tndr');
+			var loadingDiv = document.createElement('div');
+			loadingDiv.innerHTML = '<img src="images/loading.gif">';
+			loadingDiv.setAttribute('class', 'loading');
+			tndr.insertBefore(loadingDiv, tndr.firstChild);
+
+			var homebrewCSS = document.createElement('link');
+			homebrewCSS.type = 'text/css';
+			homebrewCSS.rel = 'stylesheet';
+			homebrewCSS.href = 'css/tndrbox.css';
+
+			var modularCSS = document.createElement('link');
+			modularCSS.type = 'text/css';
+			modularCSS.rel = 'stylesheet';
+			modularCSS.href = 'css/modules.css';
+
+			var googleMaps = document.createElement('script');
+			googleMaps.type = 'text/javascript';
+			googleMaps.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4&sensor=true&callback=afterMapsLoad';
+
+			var ref = document.getElementsByTagName('script')[0];
+			ref.parentNode.insertBefore(modularCSS, ref);
+			ref.parentNode.insertBefore(homebrewCSS, ref);
+			ref.parentNode.insertBefore(googleMaps, ref);
+		}
+
+
+		function afterMapsLoad()
+		{
+
+			var modularJs = document.createElement('script');
+			modularJs.type = 'text/javascript';
+			modularJs.src = 'js/modules.js';
+			modularJs.setAttribute('onload', 'afterModulesLoad()');
+
+			var ref = document.getElementsByTagName('script')[0];
+			ref.parentNode.insertBefore(modularJs, ref);
+		}
+		function afterModulesLoad()
+		{
+			var bootstrapJs = document.createElement('script');
+			bootstrapJs.type = 'text/javascript';
+			bootstrapJs.src = 'js/bootstrap.min.js';
+
+
+
+			$.ga.load("<?php print $GLOBALS['ga_account']?>");
+
+			var homebrewJs = document.createElement('script');
+			homebrewJs.type = 'text/javascript';
+			homebrewJs.src = 'js/tndrbox.js';
+
+			var ref = document.getElementsByTagName('script')[0];
+			ref.parentNode.insertBefore(bootstrapJs, ref);
+			ref.parentNode.insertBefore(homebrewJs, ref);
+		}
+
+	</script>
+
 	<!-- minimized javascript -->
-		<!--Bootstrap-->
-		<script src="js/bootstrap.min.js"></script>
-		<!--Masonry-->
-		<script src="js/jquery.masonry.min.js"></script>
-		<!--Spiderfier-->
-		<script src="js/oms.min.js"></script>
 
 	</body>
 

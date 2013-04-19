@@ -1,3 +1,4 @@
+/*my god why would i ever....*/
    	function formatPost(post)
 	{
 		var result = [];

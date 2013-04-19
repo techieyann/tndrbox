@@ -181,7 +181,7 @@ else
 							<ul class='inline tags centered'>
 								<li><a href='#t=$tag_2' class='tag'>$tags[2]</a></li>
 								<li><a href='#t=$tag_3' class='tag'>$tags[3]</a></li>
-								<li><a href='#c=$tag_1' class='category tag'><img src='images/icons/$tags[1].png' width='35'> &nbsp $tags[1]</a></li>
+								<li><a href='#c=$tag_1' class='category tag'><span class='$tags[1]'></span> &nbsp $tags[1]</a></li>
 								</ul></div>";
 
 
