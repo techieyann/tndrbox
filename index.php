@@ -84,7 +84,7 @@ background:url('../images/bg-tile.png');
 {
 	position:relative;
 width:80%;
-	min-height:100%;
+	height:100%;
 	margin-top:0px;
 	margin-left:70px;
 	z-index:10;
@@ -101,7 +101,6 @@ width:80%;
            -moz-box-shadow: 3px 0px 2px rgba(0,0,0,.25);
                 box-shadow: 3px 0px 2px rgba(0,0,0,.25);
 width:90%;
-	
 }
 
 #welcome-page
@@ -128,15 +127,19 @@ display:none;
 {
 	margin-left:10px;
 	margin-top:10px;
+  min-heigth:100%;
 }
 .loading
 {
 	margin: 20px auto 50px auto;
 	text-align:center;
 }
+
+
+
 #footer{
 
-	margin: 0px auto 10px auto; 
+	margin: 25px auto 105px auto; 
 	text-align: center;
 	
 }
@@ -179,6 +182,7 @@ height:40px;
 {
 	display:none;
 	padding:10px;
+  padding-bottom:0px;
 }
 
 #box
@@ -192,7 +196,7 @@ width:200%;
 #box-content
 {
 	position:relative;
-	min-height:90%;
+	min-height:100%;
 
 	z-index:300;
 background: #7f1214; 
@@ -347,7 +351,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 			<div id="left-pane" data-step="1" data-intro="This where our posts go. Click one, they don't bite." data-position="right" class="active">
 
 			<div id="welcome-page">
-			  <button class="btn btn-small pull-right" id="welcome-close" onclick="$('#welcome-page').hide()">&times</button>
+			  <button class="btn btn-mini pull-right" id="welcome-close" onclick="$('#welcome-page').hide()"><i class='icon-remove'></i></button>
 						<div id="welcome-page-content">
 							<h4>Hello traveller, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
 						</div><!-- #welcome-page-content -->
@@ -372,7 +376,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 							</li>
 
 						</ul>
-						<ul class="inline">
+						<ul class="inline" id="search-options">
 							<li class="btn-group" id="categories-dropdown">
 								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 								<i class="icon-folder-open"></i>&nbsp Category
@@ -388,7 +392,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 				{
 				  print "<li class='divider'></li>";
 				}
-			  print "<li><a href='#c=$id'><div class='$tag'></div> $tag</a></li>";
+			  print "<li  class='category-link'><a href='#c=$id'><div class='pull-left $tag'></div>$tag</a></li>";
 			}
 									?>	
 								</ul>
@@ -405,12 +409,13 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 				</div><!-- tndr-buttons -->
 				<div id="tndr">
 
-					<div id="list">
 
-					</div><!-- #list -->
 					<div id="tiles">
 
 					</div><!-- #tiles -->					
+					<div id="list">
+
+					</div><!-- #list -->
 				</div><!-- #tndr -->
 
 				<div id="footer">
@@ -508,9 +513,9 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		}
 		function afterModulesLoad()
 		{
-			var bootstrapJs = document.createElement('script');
-			bootstrapJs.type = 'text/javascript';
-			bootstrapJs.src = 'js/bootstrap.min.js';
+//			var bootstrapJs = document.createElement('script');
+//			bootstrapJs.type = 'text/javascript';
+//			bootstrapJs.src = 'js/bootstrap.min.js';
 
 
 
@@ -521,7 +526,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 			homebrewJs.src = 'js/tndrbox.js';
 
 			var ref = document.getElementsByTagName('script')[0];
-			ref.parentNode.insertBefore(bootstrapJs, ref);
+//			ref.parentNode.insertBefore(bootstrapJs, ref);
 			ref.parentNode.insertBefore(homebrewJs, ref);
 		}
 

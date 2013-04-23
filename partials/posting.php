@@ -163,14 +163,14 @@ else
 							<div class='post-spacetime'>
 								<a href='http://maps.google.com/?q=".urlencode($alt_address)."' target='blank'>
 								<div id='post-address'>
-									<img class='pull-left' src='images/icons/target.png'>
+									<div class='target pull-left'></div>
 									<address>$alt_address</address>
 								</div></a>";
 	if($date != "")
 	  {
 		echo "
 								<div id='post-time'>
-									<img class='pull-left' src='images/icons/calendar.png'>
+									<div class='date pull-left'></div>
 									$date								
 								</div>";
 	  }
@@ -181,7 +181,7 @@ else
 							<ul class='inline tags centered'>
 								<li><a href='#t=$tag_2' class='tag'>$tags[2]</a></li>
 								<li><a href='#t=$tag_3' class='tag'>$tags[3]</a></li>
-								<li><a href='#c=$tag_1' class='category tag'><span class='$tags[1]'></span> &nbsp $tags[1]</a></li>
+								<li><a href='#c=$tag_1' class='category tag'><div class='$tags[1] pull-left'></div> $tags[1]</a></li>
 								</ul></div>";
 
 
@@ -231,11 +231,10 @@ else
 	$tndrbox_share = urlencode('http://tndrbox.com/#p='.$p_id);
 echo "
 <div class='share btn-group pull-right'>
-	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/#p=$p_id\"><img src='images/icons/em.png' alt='Email' target='blank'></a>
-	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=$tndrbox_share\" target='_blank'><img src='images/icons/fb.png' alt='Facebook'></a>
-	<a class='btn' href=\"http://twitter.com/share?url=$tndrbox_share&text=$title @ $name\" target='_blank'><img src='images/icons/tw.png' alt='Twitter'></a>
-
-	<a class='btn' href=\"https://plus.google.com/share?url=$tndrbox_share\" target=_blank'><img src='images/icons/gp.png' alt='Google+'></a>
+	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/#p=$p_id\" target='_blank'><div class='email'></div></a>
+	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=$tndrbox_share\" target='_blank'><div class='facebook'></div></a>
+	<a class='btn' href=\"http://twitter.com/share?url=$tndrbox_share&text=$title @ $name\" target='_blank'><div class='twitter'></div></a>
+	<a class='btn' href=\"https://plus.google.com/share?url=$tndrbox_share\" target=_blank'><div class='google_plus'></div></a>
 
 </div>
    					</div>

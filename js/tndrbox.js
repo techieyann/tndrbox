@@ -14,6 +14,7 @@ var activePostings = [];
 var postingsFormat = 'tile';
 var lastURL = '';
 var oms = '';
+var markerSprites = [];
 this.active = 0;
 
 function initPage()
@@ -30,8 +31,7 @@ function initPage()
 
 	//prep the meta tndr buttons
 	$('#reset-filters-button').hide();
-	$('#search-bar').hide();
-	$('#categories-dropdown').hide();
+	$('#search-options').hide();
 	$('#tndr-buttons').show();
 
 	$('#welcome-close').show();
@@ -50,31 +50,27 @@ function initPage()
 	$('#hide-box-button').hide();
 	$('#show-box-button').hide();
 	$('#box-links').show();
+	
+	var tileFormat = $('#tile-format');
+	var listFormat = $('#list-format');
+	var	tndr = $('#tndr');
 
-	getPosts();
 
 
-	endLoading('tndr');
-	repositionContainers();
 
-	initialized = true;
+
 
 	function afterMapInitialize(){
-		if($(window).innerWidth()<360)
-		{
-			toggleViewFormat();
-		}
-
+		initMarkerSprites();
 		oms = new OverlappingMarkerSpiderfier(map);
 
 		oms.addListener('click', function(marker) {
 			$.bbq.pushState('p='+marker.id);
 		});
 
-		for(i in formattedPostings)
-		{
-			oms.addMarker(formattedPostings[i]['marker']);
-		}
+		getPosts();
+
+
 	}
 }
 
@@ -125,9 +121,10 @@ $(document).ready(function(){
 			{
 				if($.deparam($(this).attr('href').substring(1)).c == query.c)
 				{
-
 					categoryHtml = $(this).html();
-					categoryHtml += ' <span class="caret">'
+					category = categoryHtml.substr(categoryHtml.lastIndexOf('>')+1)
+			
+					categoryHtml = "<div class='pull-left "+category+"_sm'></div> "+category+" <span class='caret'>";
 				}
 			});
 			$('#categories-dropdown>a').html(categoryHtml);
@@ -135,7 +132,6 @@ $(document).ready(function(){
 		}
 		if(tagFlag && (query.t != $.deparam(lastURL, 't')))
 		{
-
 			filterFlag = true;
 		}
 		if(dateFlag && (query.d != $.deparam(lastURL, 'd')))
@@ -184,7 +180,6 @@ $(document).ready(function(){
 		activePostings = [];
 			for(i in formattedPostings)
 			{
-
 				activePostings[i] = i;
 			}
 			displayPosts();
@@ -258,20 +253,25 @@ $(document).ready(function(){
 	rightPane.click(function(e){
 		if(leftPane.hasClass('active'))
 		{
+			e.preventDefault();
 			leftPane.removeClass('active');
 			rightPane.addClass('active');
-
 		}
 	});
 	leftPane.click(function(e){
 		if(rightPane.hasClass('active'))
 		{
+			e.preventDefault();
 			rightPane.removeClass('active');
 			leftPane.addClass('active');
 		}
+		
 	});
 	$('.format-button').on('click', function(e){
-		toggleViewFormat();
+		if(!$(this).hasClass('disabled'))
+		{
+			toggleViewFormat();
+		}
 	});
 
 	$('#filters').click(function() {
@@ -281,6 +281,8 @@ $(document).ready(function(){
 	$('#reset-filters-button').click(function(){
 		$.bbq.pushState({'c':'', 't':''});
 		$('#categories-dropdown>a').html("<i class='icon-folder-open'></i>&nbsp Category <span class='caret'></span>");
+	$('#tndr a').fragment(window.location.hash, 1);
+
 		$('#search').attr('placeholder','');
 	});
 
@@ -320,8 +322,7 @@ $(document).ready(function(){
 		}
 	});
 
-		$(window).trigger('hashchange');	
-		lastUrl = window.location.hash;
+
 });
 
 
@@ -343,39 +344,58 @@ function getPosts()
 function writePosts()
 {
 	var markers = [];
-
-		for(i in postings)
+	var list, button, tileLink, listLink, id;
+	$.each(postings, function(index, post)
 			{
-				var index = i;
-				var post = postings[i];
+
 				activeFlag = false;
 				list = document.createElement('div');
 				button = document.createElement('div');
 
-				postLink = document.createElement('a');
+				tileLink = document.createElement('a');
+				listLink = document.createElement('a');
 				id = post['id'];
-/*				markers[i] = post['marker'];
-				console.log(post['marker']);
-				markers[i].setMap();*/
-				postLink.innerHTML = post['tile'] + "<div class='post-big'></div>";
-				postLink.setAttribute('href','#p='+id);
-				postLink.setAttribute('id', id);
-				postLink.setAttribute('class', 'post-trigger');
-				postLink.setAttribute('index', index);
+
+				var postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
+				markers[index] = new google.maps.Marker({
+					position: postLatLon,
+					title: post['title'],
+					id: post['id'],
+					icon: markerSprites[post.tag_1]
+				});
+				google.maps.event.addListener(markers[index], 'mouseover', function(e){highlightPosting(post.id);});
+				google.maps.event.addListener(markers[index], 'mouseout', function(e){lowlightPosting(post.id);});
+					markers[index].setMap(map);
+				postings[index]['marker']=markers[index];
+				oms.addMarker(markers[index]);
+
+
+				tileLink.innerHTML = post['tile'];
+				tileLink.setAttribute('href','#p='+id);
+				tileLink.setAttribute('id', id);
+				tileLink.setAttribute('class', 'post-trigger');
+				tileLink.setAttribute('index', index);
+
 				button.setAttribute('class', 'posting-list-button tile');
+				button.appendChild(tileLink);
+				button.innerHTML += "<div class='post-big'></div>";
 
-				button.appendChild(postLink);
+				listLink.innerHTML = post['list'];
+				listLink.setAttribute('href','#p='+id);
+				listLink.setAttribute('id', id);
+				listLink.setAttribute('class', 'post-trigger');
+				listLink.setAttribute('index', index);
+				listLink.innerHTML = post['list'] + "<div class='post-big'></div>";
 
-
-
-				postLink.innerHTML = '';
-				postLink.innerHTML = post['list'] + "<div class='post-big'></div>";
 				list.setAttribute('class', 'posting-list-button list');
-				list.appendChild(postLink);
+				list.appendChild(listLink);
+				list.innerHTML += "<div class='post-big'></div>";
 
-				document.getElementById('tiles').appendChild(button);
+
 				document.getElementById('list').appendChild(list);
-				for(j=0; j<=i; j++)
+				document.getElementById('tiles').appendChild(button);
+
+				for(j=0; j<=index; j++)
 				{
 					if(activePostings[j] == index)
 					{
@@ -384,14 +404,14 @@ function writePosts()
 				}
 				if(activeFlag)
 				{
-//					markers[i].setMap(map);
+					markers[i].setMap(map);
 				}
 				else
 				{
 					$('#'+id).hide();
 					$('#'+id).parent().hide();
 				}
-			}
+			});
 		var postScript = document.createElement('script');
 		postScript.innerHTML = "$('.posting-list-button').hover(function(e){"
 			+"var i = $(this).children('.post-trigger').attr('index');"
@@ -406,19 +426,21 @@ function writePosts()
 }
 function displayPosts()
 {
-	$('.posting-list-button').show().children().show();
-		repositionContainers();
+	$('.posting-list-button').show();
+	$('.post-trigger').show();
+
+	repositionContainers();
 }
 
 function startLoading(targetDiv)
 {
-	$('#'+targetDiv).prepend('<div class="loading"><img src="images/loading.gif"></div>');
+	targetDiv.prepend('<div class="loading"><img src="images/loading.gif"></div>');
 }
 
 function endLoading(targetDiv)
 {
 
-	$('#'+targetDiv+'>.loading').remove();
+	targetDiv.children('.loading').remove();
 }
 
 function repositionContainers()
@@ -429,6 +451,7 @@ function repositionContainers()
 	var headerFiller = $('#tndr-header-filler');
 	var leftPane = $('#left-pane');
 	var tndr = $('#tndr');
+	var tiles = $('#tiles');
 	var rightPane = $('#right-pane');
 	
 	var box = $('#box.inactive');
@@ -515,22 +538,35 @@ function repositionContainers()
 	$('#box-content').css('width', tndrContainerWidth+130);
 	if(postingsFormat == 'tile')
 	{
-		if(tndr.hasClass('masonry'))
+		if(tiles.hasClass('masonry'))
 		{
-			$('.triggered>.post-big').css('width', (buttonWidth*numColumns)+(10*(numColumns-1)));
-			tndr.masonry({columnWidth: buttonWidth});
-			tndr.masonry('reload');
+			$('.tile>.post-big').css('width', (buttonWidth*numColumns)+(10*(numColumns-1)));
+			tiles.masonry({columnWidth: buttonWidth});
+			tiles.masonry('reload');
 		}
 		else
 		{
-			tndr.masonry({
-				itemSelector: '.posting-list-button',
+			tiles.masonry({
+				itemSelector: '.tile',
 				isAnimated: true,
 				gutterWidth: 10,
 				columnWidth: buttonWidth
 			});
-			tndr.masonry('reload');
+			tiles.masonry('reload');
 		}
+	}
+	if(!initialized)
+	{
+		endLoading($('#tndr'));
+		toggleViewFormat();
+		if($(window).innerWidth()>360)
+		{
+			toggleViewFormat();
+		}
+
+		initialized = true;
+		$(window).trigger('hashchange');	
+		lastUrl = window.location.hash;
 	}
 
 }
@@ -578,7 +614,7 @@ function toggleViewFormat()
 		listFormat.addClass('disabled');
 		tileFormat.removeClass('disabled');
 		postingsFormat = 'list';
-		$('#tile').hide();
+		$('#tiles').hide();
 		$('#list').show();
 	}
 	else
@@ -587,24 +623,28 @@ function toggleViewFormat()
 		listFormat.removeClass('disabled');
 		postingsFormat = 'tile';
 		$('#list').hide();
-		$('#tile').show();
+		$('#tiles').show();
+		if(initialized)
+		{
+			repositionContainers();
+		}
 	}
-	closePost();
-	$(window).trigger('hashchange');
+
+//	$(window).trigger('hashchange');
+//	repositionContainers();
 }
 function toggleFilterView()
 {
 	if(document.getElementById('filters').classList.contains('disabled'))
 	{
 		$('#filters').removeClass('disabled');
-		$('#categories-dropdown').hide();
-		$('#search-bar').hide();
+		$('#search-options').hide();
 	}
 	else
 	{
 		$('#filters').addClass('disabled');
-		$('#categories-dropdown').show();
-		$('#search-bar').show();
+		$('#search-options').show();
+
 	}	
 }
 function highlightPosting(id)
@@ -612,10 +652,10 @@ function highlightPosting(id)
 	var link = $('#'+id);
 	var index = link.attr('index');
 	var post = postings[index];
-	var marker = formattedPostings[index]['marker'];
+//	var marker = postings[index]['marker'];
 	link.parent().addClass('highlight');
-	marker.setMap(map);
-	marker.setIcon('images/markers/'+post.tag_1+'_a.png');
+//	marker.setMap(map);
+//	marker.setIcon('images/markers/'+post.tag_1+'_a.png');
 
 
 }
@@ -625,16 +665,16 @@ function lowlightPosting(id)
 	var link = $('#'+id);
 	var index = link.attr('index');
 	var post = postings[index];
-	var marker = formattedPostings[index]['marker'];
+//	var marker = postings[index]['marker'];
 	link.parent().removeClass('highlight');
 
 
 	if(active!=id &&  active !=0)
 	{
-		marker.setMap();
+//		marker.setMap();
 	}
 
-	marker.setIcon('images/markers/'+post.tag_1+'.png');
+//	marker.setIcon('images/markers/'+post.tag_1+'.png');
 
 }
 
@@ -674,58 +714,73 @@ function displayActiveMarkers()
 
 function loadPost(id){
 	closePost();
-	var link = $('#'+id);
+
+	var link = $('.tile>#'+id+', .list>#'+id);
+
 	var index = link.attr('index');
 	var post = postings[index];
-	var marker = formattedPostings[index]['marker'];
+//	var marker = postings[index]['marker'];
 
 	var rightPane = $('#right-pane');
 	var leftPane = $('#left-pane');
 
 	var postMini = link.children('.post-mini');
 	var button = link.parent();
-	var partial = button.children('.post-big');
+
+	var fullPost = link.next();
 	var url = 'partials/posting?p='+id;
 	var docPostings = document.getElementById('tndr');
-	var loadingDiv = document.createElement('div');
 
-	resetMarkers();
 
-	loadingDiv.innerHTML = "<div class='loading'><img src='images/loading.gif'></div>";
+//	resetMarkers();
+
+
 	//hide content divs
-	partial.hide('fast');
-	postMini.hide('fast', function(){
+	$('.post-big').hide();
+	postMini.hide('fast');
 		button.addClass('triggered');
-		button.prepend(loadingDiv);
-			//call load
+		if(fullPost.hasClass('loaded'))
+		{
+			active = id;
+			fullPost.show('fast', function(){repositionContainers();});
 
-			partial.load(url, function(){
+		}
+		else
+		{
+		startLoading(button);
+			//call load
+		$.get(url, function(data){
+			fullPost.html(data);
+
 				$('.tags a').fragment(window.location.hash, 1);
-				partial.show('fast', function(){		
+				if(rightPane.hasClass('active'))
+				{
+					rightPane.removeClass('active');
+					leftPane.addClass('active');
+				}
+					endLoading(button);
+				fullPost.show('fast', function(){		
+
 					repositionContainers();
-					if($('#tndr').hasClass('masonry'))
-					{
-						$('#tndr').masonry('reload');
-					}
 					scrollTo(id);
 
-					this.lastPosition = map.getCenter();
-					var postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
-					map.panTo(postLatLon);
-					marker.setMap(map);
-					marker.setAnimation(google.maps.Animation.BOUNCE);
-					$('.loading').remove();
-					if(rightPane.hasClass('active'))
-					{
-						rightPane.removeClass('active');
-						leftPane.addClass('active');
-					}
+//					this.lastPosition = map.getCenter();
+//					var postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
+//					map.panTo(postLatLon);
+//					marker.setMap(map);
+//					marker.setAnimation(google.maps.Animation.BOUNCE);
+
+
 				});
-					active = id;
-
+			fullPost.addClass('loaded');
+				active = id;	
 			});
+		}
 
-	});
+/*					if($('#tiles').hasClass('masonry'))
+					{
+						$('#tiles').masonry('reload');
+					}*/
 
 }
 
@@ -735,31 +790,34 @@ function closePost(){
 
 	if(id != 0)
 	{
-		var link = $('#'+id);
+		var link = $('.tile>#'+id+', .list>#'+id);
 		var index = link.attr('index');
 
 		var post = postings[index];
-		var marker = formattedPostings[index]['marker'];
+//		var marker = formattedPostings[index]['marker'];
 		var postMini = link.children('.post-mini');
 		var button = link.parent();
-		var partial = button.children('.post-big');
+		var fullPost = button.children('.post-big');
 
 
-		partial.hide("fast", function(){
-			button.removeClass('triggered');
-		});	
 
-		postMini.show("fast", function(){
-			if(document.getElementById('tndr').classList.contains('masonry'))
-			{
-				$('#tndr').masonry('reload');
-			}
-			repositionContainers();
-			marker.setAnimation(null);
 
-		});
-		displayActiveMarkers();
-		map.setCenter(lastPosition);
+
+		fullPost.hide('fast');//, function(){
+			postMini.show('fast', function(){
+				repositionContainers();
+			});
+//		}); 
+		button.removeClass('triggered');
+
+
+
+
+//			marker.setAnimation(null);
+
+
+//		displayActiveMarkers();
+//		map.setCenter(lastPosition);
 		active = 0;
 	}
 
@@ -781,7 +839,63 @@ function scrollTo(id)
 
 }
 
-
+function initMarkerSprites()
+{
+	var path = 'images/tndr-sprites.png';
+	var size = new google.maps.Size(30, 50, 'px', 'px');
+	var origin = new google.maps.Point(0, 52);
+	markerSprites['Advocacy'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(0, 104);
+	markerSprites['Advocacy_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(28, 52);
+	markerSprites['Art'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(29, 105);
+	markerSprites['Art_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(57, 53);
+	markerSprites['Community'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(60, 105);
+	markerSprites['Community_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(87, 53);
+	markerSprites['Drinks'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(89, 104);
+	markerSprites['Drinks_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(118, 53);
+	markerSprites['Education'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(117, 105);
+	markerSprites['Education_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(148, 54);
+	markerSprites['Entertainment'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(148, 106);
+	markerSprites['Entertainment_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(180, 54);
+	markerSprites['Fashion'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(178, 107);
+	markerSprites['Fashion_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(209, 53);
+	markerSprites['Food'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(207, 105);
+	markerSprites['Food_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(237, 53);
+	markerSprites['Health'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(237, 105);
+	markerSprites['Health_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(266, 53);
+	markerSprites['Music'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(267, 104);
+	markerSprites['Music_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(294, 54);
+	markerSprites['Other'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(296, 104);
+	markerSprites['Other_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(325, 55);
+	markerSprites['Recreation'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(325, 104);
+	markerSprites['Recreation_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(353, 53);
+	markerSprites['Spirituality'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var origin = new google.maps.Point(353, 104);
+	markerSprites['Spirituality_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+}
 
 function mapInitialize(callback) {
 //location functionality
