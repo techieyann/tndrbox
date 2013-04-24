@@ -4,11 +4,12 @@ body.inactive
 {
 	overflow:hidden;
 }
+
 /*general*/
 /*map fix*/
 #map-canvas img{max-width:none}
 /*tndr sprites*/
-.Advocacy, .Community, .Drinks, .Education, .Entertainment, .Fashion, .Food, .Health, .Music, .Other, .Recreation, .Spirituality, .Advocacy_m, .Advocacy_ma, .Art_m, .Art_ma, .Community_m, .Community_ma, .Drinks_m, .Drinks_ma, .Education_m, .Education_ma, .Entertainment_m, .Entertainment_ma, .Fashion_m, .Fashion_ma, .Food_m, .Food_ma, .Health_m, .Health_ma, .Music_m, .Music_ma, .Other_m, .Other_ma, .Recreation_m, .Recreation_ma, .Spirituality_m, .Spirituality_ma, .date, .date_time, .email, .facebook, .google_plus, .time, .twitter, .Advocacy_sm, .Community_sm, .Drinks_sm, .Education_sm, .Entertainment_sm, .Fashion_sm, .Food_sm, .Health_sm, .Music_sm, .Other_sm, .Recreation_sm, .Spirituality_sm, .Art, .Art_sm, .tinder, .on-fiya, .sparked, .target{
+.Advocacy, .Community, .Drinks, .Education, .Entertainment, .Fashion, .Food, .Health, .Music, .Other, .Recreation, .Spirituality, .date, .date_time, .email, .facebook, .google_plus, .time, .twitter, .Advocacy_sm, .Community_sm, .Drinks_sm, .Education_sm, .Entertainment_sm, .Fashion_sm, .Food_sm, .Health_sm, .Music_sm, .Other_sm, .Recreation_sm, .Spirituality_sm, .Art, .Art_sm, .target{
 	background: url('../images/tndr-sprites.png') no-repeat;
 }
 

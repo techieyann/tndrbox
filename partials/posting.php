@@ -49,7 +49,7 @@ if(isset($_GET['p']))
 if($id == null)
   {
 	echo "		<script>
-
+				
 				</script>
 				<div class='post-header'>
 					<h4 class='error'>Error: couldn't find post...</h4>
@@ -78,7 +78,6 @@ else
 	echo "
 				<script>
 					$(document).ready(function(){
-
 					$('a.tag').click(function(e){
 						if(!$('#filters').hasClass('disabled'))
 						{
@@ -91,7 +90,7 @@ else
 					});
 					});
 				</script>
-				<div class='post-header'>
+				<div class='post-header' onload=\"$('.tiles').masonry('reload');\">
 					<div class='btn-group pull-right post-mod-buttons'>";
     if($owner_flag)
 	  {

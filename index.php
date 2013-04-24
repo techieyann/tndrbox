@@ -14,6 +14,13 @@ $post_flag = false;
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 
+$tag_example = "Tag";
+$result = get_most_popular_tags(1);
+if(isset($result[0]))
+  {
+	$tag_example .= ", eg. \"".$result[0]['tag']."\"";
+  }
+
 if(isset($_GET['p']) && is_numeric($_GET['p']))
   {
 		$p_id = $_GET['p'];
@@ -401,7 +408,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 								<form id='search-bar' class='form-inline'>
 									<div class='input-prepend'>
 										<span class='add-on'><i class='icon-tags'></i></span>
-										<input type='text' id='search' name='search' class='span2' placeholder=''>
+										<input type='text' id='search' name='search' class='span3' placeholder='<?php print $tag_example ?>'>
 									</div><!-- .input-prepend -->
 								</form>
 							</li>
