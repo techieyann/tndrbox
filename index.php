@@ -56,7 +56,7 @@ disconnect_from_db();
 
 <html>
 	<head>
-		<title>tndrbox<?php print ($post_flag ? " -- $title":"") ?></title>
+		<title>tndrbox</title>
 
 	<!-- Above the fold CSS -->
 
@@ -297,6 +297,8 @@ width:40%;
 #welcome-page
   {
   max-width:100%;
+  height:75px;
+  overflow:hidden;
   }
 	#box
 	  {
@@ -358,11 +360,11 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 			<div id="left-pane" data-step="1" data-intro="This where our posts go. Click one, they don't bite." data-position="right" class="active">
 
 			<div id="welcome-page">
-			  <button class="btn btn-mini pull-right" id="welcome-close" onclick="$('#welcome-page').hide()"><i class='icon-remove'></i></button>
 						<div id="welcome-page-content">
 							<h4>Hello traveller, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
 						</div><!-- #welcome-page-content -->
 			  <p class="pull-right"><?php print date('F jS, Y')?></p>
+			  <button class="btn btn-mini pull-left" id="welcome-close" onclick="$('#welcome-page').hide('fast')"><i class="icon-remove"></i></button>
 			</div><!-- #welcome-page -->
 
 				<div id="tndr-buttons">
@@ -403,6 +405,9 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 			}
 									?>	
 								</ul>
+							</li>
+							<li>
+								<button class="btn" id="tag-op">and</button>
 							</li>
 							<li>
 								<form id='search-bar' class='form-inline'>

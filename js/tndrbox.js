@@ -9,14 +9,20 @@ stuff I'd rather not talking about.
  ***********************************************/
 
 var initialized = false;
-var formattedPostings = [];
 var activePostings = [];
-var postingsFormat = 'tile';
 var lastURL = '';
 var oms = '';
 var markerSprites = [];
 var ogSearchPlaceholder = '';
-this.active = 0;
+
+var activePost = 0;
+var activeCat = 0;
+
+var activeTag = 0;
+
+var activeTagOp = 'and';
+var tagOpChange = false;
+var welcomePageExpanded = true;
 
 function initPage()
 {
@@ -25,6 +31,11 @@ function initPage()
 	var middleBox = $('#middle-box');
 	var frontBox = $('#front-of-box');
 	var boxLinks = $('#box-links');
+
+	if($(window).innerWidth() < 760)
+	{
+		welcomePageExpanded = false;
+	}
 
 	ogSearchPlaceholder = $('#search').attr('placeholder');
 
@@ -69,6 +80,7 @@ function initPage()
 		getPosts();
 
 
+
 	}
 }
 
@@ -111,7 +123,7 @@ $(document).ready(function(){
 		{
  			$('#reset-filters-button').hide();	
 		}
-		if(categoryFlag && (query.c != $.deparam(lastURL, 'c')))
+		if(categoryFlag && query.c!=activeCat)
 		{
 			var dropdownList = $('#categories-dropdown>ul').children();
 			var categoryHtml = $('#categories-dropdown>a').html()
@@ -126,26 +138,30 @@ $(document).ready(function(){
 				}
 			});
 			$('#categories-dropdown>a').html(categoryHtml);
+			activeCat = query.c;
 			filterFlag = true;
 		}
-		else
-		{
-		$('#categories-dropdown>a').html("<i class='icon-folder-open'></i>&nbsp Category <span class='caret'></span>");
 
-		}
-		if(tagFlag && (query.t != $.deparam(lastURL, 't')))
+		if(tagFlag && (query.t != activeTag))
 		{
+			activeTag = query.t;
 			filterFlag = true;
 		}
-		else
-		{
-			$('#search').attr('placeholder', ogSearchPlaceholder);
-		}
-		if(dateFlag && (query.d != $.deparam(lastURL, 'd')))
+		
+/*		if(dateFlag && (query.d != activeDate))
 		{
 
 			filterFlag = true;
+		}*/
+
+		if(!filterFlag)
+		{
+			if(tagOpChange)
+			{
+				filterFlag = true;
+			}
 		}
+
 		if(filterFlag && initialized)
 		{
 			activePostings = [];
@@ -153,39 +169,45 @@ $(document).ready(function(){
 			for(var i=0;i<postings.length; i++)
 			{
 				currentPostActive = false;
-				if(tagFlag && (query.t == postings[i]['tag_2_id'])||(query.t == postings[i]['tag_3_id']))
+				if(categoryFlag && query.c == postings[i]['tag_1_id'])
 				{
-					if(categoryFlag)
+					if(activeTagOp == 'and' && tagFlag)
 					{
-						if(query.c == postings[i]['tag_1_id'])
+						if((query.t == postings[i]['tag_2_id'])||(query.t == postings[i]['tag_3_id']))
 						{
 
-							activePostings[j] = i;
-							j++;
 							currentPostActive = true;
 						}
 					}
 					else
 					{
 
-						activePostings[j] = i;
-						j++;
 						currentPostActive = true;
 					}
 				}
-				else if(categoryFlag && query.c == postings[i]['tag_1_id'])
+
+				if(activeTagOp == 'or')
+				{
+
+				if(tagFlag && (query.t == postings[i]['tag_2_id'])||(query.t == postings[i]['tag_3_id']))
+				{
+
+					currentPostActive = true;
+				}
+				}
+
+
+/*				else if(dateFlag)
+				{
+
+				}*/
+				if(currentPostActive)
 				{
 					activePostings[j] = i;
 					j++;
-					currentPostActive = true;
-				}
-				else if(dateFlag)
-				{
-//herp derp
-				}
-				if(currentPostActive)
-				{
-					$('.tile>#'+postings[i]['id']).parent().addClass('active-brick');
+					postId = postings[i]['id'];
+					$('.tile>#'+postId).parent().addClass('active-brick');
+					$('.tile>#'+postId+', .list>#'+postId).fragment({'c':query.c, 't': query.t});
 					postings[i]['marker'].setMap(map);
 				}
 				else
@@ -204,12 +226,16 @@ $(document).ready(function(){
 
 			for(var i=0; i<postings.length; i++)
 			{
+				postId = postings[i]['id'];
 				activePostings[i] = i;
-				$('.tile>#'+postings[i]['id']).parent().addClass('active-brick');
+				$('.tile>#'+postId).parent().addClass('active-brick');
+				$('.tile>#'+postId+', .list>#'+postId).fragment({'c':'', 't':''});
 				postings[i]['marker'].setMap(map);
 			}
-			displayPosts();
 
+			displayPosts();
+			activeCat = 0;
+			activeTag = 0;
 		}
 //post requests
 		if(postFlag)
@@ -255,7 +281,7 @@ $(document).ready(function(){
 			
 					}
 
-						loadBoxContentByURL();
+				loadBoxContentByURL();
 
 				}
 	
@@ -269,13 +295,47 @@ $(document).ready(function(){
 				deactivateBox();
 			}
 		}
+		if(activeCat == 0)
+		{
+			$('#categories-dropdown>a').html("<i class='icon-folder-open'></i>&nbsp Category <span class='caret'></span>");
+		}
+		if(activeTag == 0)
+		{
+			$('#search').attr('placeholder', ogSearchPlaceholder);
+		}
+		if(categoryFlag == 0 && tagFlag == 0)
+		{
+			$('#tag-op').hide();
+		}
+		else
+		{
+			$('#tag-op').show();
+		}
 	lastURL = window.location.hash;
-	$('.posting-list-button a').fragment(window.location.hash, 1);
+
 
 
 	});
 
+	$('#welcome-page').hover(function(e){
+		var welcome = $('#welcome-page');
 
+		if(!welcomePageExpanded)
+		{
+			var welcomeNow = welcome.height();
+			welcome.css('height', 'auto');
+			var welcomeHeight = welcome.height();
+
+			welcome.css('height', welcomeNow);
+
+
+			welcome.animate({
+				height: welcomeHeight
+			}, 500);
+			
+			welcomePageExpanded = true;
+		}
+	});
 
 	rightPane.click(function(e){
 		if(leftPane.hasClass('active'))
@@ -307,6 +367,20 @@ $(document).ready(function(){
 
 	$('#reset-filters-button').click(function(){
 		$.bbq.pushState({'c':'', 't':''});
+	});
+
+	$('#tag-op').click(function(e){
+		if(activeTagOp == 'and')
+		{
+			activeTagOp = 'or';
+		}
+		else if(activeTagOp == 'or')
+		{
+			activeTagOp = 'and';
+		}
+		$('#tag-op').html(activeTagOp);
+		tagOpChange = true;
+		$(window).trigger('hashchange');	
 	});
 
 	$('#search').autocomplete({
@@ -467,7 +541,7 @@ function displayPosts()
 		link.show().parent().show();
 
 
-		if(active!=0 && active!=id)
+		if(activePost!=0 && activePost!=id)
 		{
 			post.marker.setMap(null);
 			post.marker.setIcon(markerSprites['tndr']);
@@ -586,8 +660,7 @@ function repositionContainers()
 
 	box.css('width', tndrContainerWidth+160);
 	$('#box-content').css('width', tndrContainerWidth+130);
-	if(postingsFormat == 'tile')
-	{
+
 		if(tiles.hasClass('masonry'))
 		{
 			$('.tile>.post-big').css('width', (buttonWidth*numColumns)+(10*(numColumns-1)));
@@ -604,7 +677,7 @@ function repositionContainers()
 			});
 			tiles.masonry('reload');
 		}
-	}
+
 	if(!initialized)
 	{
 		endLoading($('#tndr'));
@@ -614,9 +687,17 @@ function repositionContainers()
 			toggleViewFormat();
 		}
 		initialized = true;
-		lastURL = window.location.hash;
-		$(window).trigger('hashchange');	
 
+		lastURL = window.location.hash;
+		if(postRequest)
+		{
+			var postId = $.deparam.querystring().p;
+			$.bbq.pushState('p='+postId);
+		}
+		else
+		{
+			$(window).trigger('hashchange');	
+		}
 	}
 
 }
@@ -663,7 +744,7 @@ function toggleViewFormat()
     {
 		listFormat.addClass('disabled');
 		tileFormat.removeClass('disabled');
-		postingsFormat = 'list';
+
 		$('#tiles').hide();
 		$('#list').show();
 	}
@@ -671,7 +752,7 @@ function toggleViewFormat()
 	{
 		tileFormat.addClass('disabled');
 		listFormat.removeClass('disabled');
-		postingsFormat = 'tile';
+
 		$('#list').hide();
 		$('#tiles').show();
 		if(initialized)
@@ -715,7 +796,7 @@ function lowlightPosting(id)
 	link.parent().removeClass('highlight');
 
 
-	if(active!=id && active !=0)
+	if(activePost!=id && activePost !=0)
 	{
 		marker.setIcon(markerSprites['tndr']);
 	}
@@ -799,7 +880,7 @@ function loadPost(id){
 					}
 		if(fullPost.hasClass('loaded'))
 		{
-			active = id;
+			activePost = id;
 			fullPost.show('fast', function(){repositionContainers();});
 		}
 		else
@@ -829,19 +910,16 @@ function loadPost(id){
 
 				});
 			fullPost.addClass('loaded');
-				active = id;	
+				activePost = id;	
 			});
 		}
 
-/*					if($('#tiles').hasClass('masonry'))
-					{
-						$('#tiles').masonry('reload');
-					}*/
+
 
 }
 
 function closePost(){
-	var id = active
+	var id = activePost;
 	var lastPosition = this.lastPosition;
 
 	if(id != 0)
@@ -882,7 +960,7 @@ function closePost(){
 
 //		displayActiveMarkers();
 //		map.setCenter(lastPosition);
-		active = 0;
+		activePost = 0;
 	}
 
 }
@@ -897,7 +975,7 @@ function scrollTo(id)
 
 	var post = $('#'+id);//.parent();
 
-		$('html, body'). animate({
+		$('html, body').animate({
 			scrollTop: post.offset().top -100
 			}, 500);
 
