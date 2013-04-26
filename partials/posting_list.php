@@ -98,7 +98,7 @@ function process_posting($raw_post)
 						<div class='post-mini button'>
 							<div class='front-page-button-header'>$tag_1</div>
 							<div class='front-page-button-body'>
-								".($photo != "" ? "<img alt='photo for $title+' src='images/posts/$photo'>":"").
+								".($photo != "" ? "<img alt='photo for $title+' src='images/posts/$photo' onload='$(\"#tiles\").masonry(\"reload\")'>":"").
 								"<div class='front-page-button-text'>
 									<h4>$title</h4>
 									<p class='muted'>$name</p>
