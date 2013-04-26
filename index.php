@@ -469,7 +469,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 						<li id="settings-link"><a href="#b=members">Settings</a></li>
 						<li id="logout-link"><a href="#b=logout">Logout</a></li>
 						<li class="pull-right"><button id="show-box-button" onclick="showBox()"><i class="icon-arrow-up"></i></button></li>
-						<li class="pull-right"><button id="hide-box-button"  onclick="deactivateBox()"><i class="icon-arrow-down"></i></button></li>
+						<li class="pull-right"><button id="hide-box-button"  onclick="deactivateBox()"><i class="icon-remove"></i></button></li>
 					</ul>
 				</div><!-- #box-links -->				
 

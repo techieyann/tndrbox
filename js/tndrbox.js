@@ -24,6 +24,9 @@ var activeTagOp = 'and';
 var tagOpChange = false;
 var welcomePageExpanded = true;
 
+var lastBoxState = '';
+
+
 function initPage()
 {
 	var tndrContainer = $('#body-container');
@@ -159,6 +162,7 @@ $(document).ready(function(){
 			if(tagOpChange)
 			{
 				filterFlag = true;
+				tagOpChange = false;
 			}
 		}
 
@@ -264,21 +268,22 @@ $(document).ready(function(){
 				{
 					activateBox();
 				}
-				if(query.b != 'members' && query.b != lastBoxState())
+				if(query.b != 'members' && query.b != lastBoxState)
 				{
 					$('#box-js-content').load('partials/'+query.b, function(){	
 						$('#'+query.b+'-link').addClass('active');
 					});
+					lastBoxState = query.b;
 				}
 				else if(query.b == 'members')
 			    {
-					if(lastBoxState() != 'members')
+					if(lastBoxState != 'members')
 					{
 						$('#box-js-content').load('partials/'+query.b, function(){	
 							$('#'+query.b+'-link').addClass('active');
 							loadBoxContentByURL();
 						});
-			
+					lastBoxState = query.b;			
 					}
 
 				loadBoxContentByURL();
@@ -702,15 +707,11 @@ function repositionContainers()
 
 }
 
-function lastBoxState()
-{
-	var url = $.deparam(lastURL);
-	return url.b;
-}
+
 
 function showBox()
 {
-	$.bbq.pushState('b='+lastBoxState());
+	$.bbq.pushState('b='+lastBoxState);
 }
 
 function activateBox()
