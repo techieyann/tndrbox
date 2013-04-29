@@ -142,7 +142,7 @@ else
 								<br><br>
 								<div style='text-align:right'>
 								Would you like to know more?<br>
-								Click <a href='http://$url'>here.</a>
+								Click <a href='http://$url' target='_blank'>here.</a>
 								</div>";
 	  }
 
@@ -160,7 +160,7 @@ else
 				 		</div>
 						<div class='span5'>
 							<div class='post-spacetime'>
-								<a href='http://maps.google.com/?q=".urlencode($alt_address)."' target='blank'>
+								<a href='http://maps.google.com/?q=".urlencode($alt_address)."' target='_blank'>
 								<div id='post-address'>
 									<div class='target pull-left'></div>
 									<address>$alt_address</address>

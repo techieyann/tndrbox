@@ -298,6 +298,9 @@ width:40%;
   max-width:100%;
   height:75px;
   overflow:hidden;
+        -webkit-box-shadow: inset 0px -10px 10px rgba(0,0,0,.25);
+           -moz-box-shadow: inset 0px -10px 10px rgba(0,0,0,.25);
+                box-shadow: inset 0px -10px 10px rgba(0,0,0,.25);
   }
 	#box
 	  {
@@ -390,7 +393,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 								<i class="icon-folder-open"></i>&nbsp Category
 								<span class="caret"></span>
 								</a>
-								<ul class="dropdown-menu">
+								<ul id="categories-ul" class="dropdown-menu">
 									<?php
 										
 			  foreach($categories as $index =>$category)
@@ -481,7 +484,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 	<script>
 		function loadTheRest()
 		{
-	document.getElementById('welcome-page-content').innerHTML = "<h1 class='centered'>Welcome!</h1><h4>In the coming months, Tndrbox, our Oakland-based community events website, will grow alongside our local businesses and communities as we make it easier to know what's going on around you.</h4><h4>Plan your route up and down Telegraph by searching for <a href='#t=96'>First Friday events</a>.</h4><h4>If you're a frequent event host and want to get in your neighborhood's ear, please <a href='mailto:tndrbox@gmail.com'>contact</a> us!</h4>";
+	document.getElementById('welcome-page-content').innerHTML = "<h1 class='centered'>Welcome!</h1><h4>In the coming months, Tndrbox, our Oakland-based community events website, will grow alongside our local businesses and communities as we make it easier to know what's going on around you.</h4></h4><h4>If you're a frequent event host and want to get in your neighborhood's ear, please <a href='mailto:tndrbox@gmail.com'>contact</a> us!</h4>";
 
 			var tndr = document.getElementById('tndr');
 			var loadingDiv = document.createElement('div');
