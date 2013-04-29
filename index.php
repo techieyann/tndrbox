@@ -85,7 +85,7 @@ width:100%;
 }
 body
 {
-background:url('../images/bg-tile.png');
+background:url('images/bg-tile.png');
 }
 #body-container
 {
@@ -101,7 +101,7 @@ width:80%;
 {
 	position:absolute;
 	left:0;
-	background:url('../images/postings-tile.png');
+	background:url('images/postings-tile.png');
 	z-index:501;
 	min-height:100%;
         -webkit-box-shadow: 3px 0px 2px rgba(0,0,0,.25);
