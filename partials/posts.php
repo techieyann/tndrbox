@@ -29,12 +29,17 @@ echo "
 					$('.accordion').accordion({
 						collapsible:true,
 						active:false,
-						heightStyle:'content'
+						heightStyle:'content',
+						activate: function(event, ui){repositionContainers();}
+					});
+					$('.ui-accordion-header').click(function(e){
+						repositionContainers();
 					});
   					$('.post-accordion').accordion({
 						collapsible:true,
 						active:0,
-						heightStyle:'content'
+						heightStyle:'content',
+						activate: function(event, ui){repositionContainers();}
 					});
 				});
 

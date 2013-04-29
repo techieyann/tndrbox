@@ -204,7 +204,7 @@ else
    		echo $name;
    	}
 	echo $close_link."</h3><br>
-							<div class='row'>";
+							<div class='business-information'>";
 	if($hours != "")
 	  {
 	echo "
