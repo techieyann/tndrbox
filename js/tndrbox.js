@@ -192,7 +192,7 @@ $(document).ready(function(){
 					}
 				}
 
-				if(activeTagOp == 'or')
+				if(activeTagOp == 'or' || !categoryFlag)
 				{
 
 				if(tagFlag && (query.t == postings[i]['tag_2_id'])||(query.t == postings[i]['tag_3_id']))
