@@ -91,7 +91,7 @@ function process_posting($raw_post)
 		$date = $processed_post['date'];
 		$processed_post['list'] = "
 						<div class='post-mini li'>
-							<div class='pull-left ".$tag_1."_sm'></div><ul class='inline'><li>$title</li><li>by $name</li>".($date != null ? "<li>on $date</li>":"")."</ul>
+							<ul class='inline'><li><div class='".$tag_1."_sm'></div></li><li>$title</li><li>by $name</li>".($date != null ? "<li>on $date</li>":"")."</ul>
 						</div>";
 
 		$processed_post['tile'] = "
