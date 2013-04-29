@@ -85,7 +85,7 @@ width:100%;
 }
 body
 {
-background:url('images/bg-tile.png');
+
 }
 #body-container
 {
@@ -101,7 +101,7 @@ width:80%;
 {
 	position:absolute;
 	left:0;
-	background:url('images/postings-tile.png');
+	background:#dedede;
 	z-index:501;
 	min-height:100%;
         -webkit-box-shadow: 3px 0px 2px rgba(0,0,0,.25);
@@ -452,17 +452,6 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		</div><!-- #body-container -->
 
 		<div id="box" class="inactive">
-			<div id="box-images">
-				<img id="box-left" src="images/box-L.png">
-
-				<div id="middle-box">
-					<!--<img id="box-back" src="images/box-B.png">-->
-					<img id="box-front" src="images/box-M.png"> 
-				</div><!-- #middle-box -->
-
-				<img id="box-right" src="images/box-R.png">
-			</div><!-- #box-images -->
-
 			<div id="box-content">
 				<div id="box-links">
 					<ul class="nav nav-tabs gray">
@@ -485,6 +474,12 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		function loadTheRest()
 		{
 	document.getElementById('welcome-page-content').innerHTML = "<h1 class='centered'>Welcome!</h1><h4>In the coming months, Tndrbox, our Oakland-based community events website, will grow alongside our local businesses and communities as we make it easier to know what's going on around you.</h4></h4><h4>If you're a frequent event host and want to get in your neighborhood's ear, please <a href='mailto:tndrbox@gmail.com'>contact</a> us!</h4>";
+
+			var boxImages = document.createElement('div');
+			boxImages.setAttribute('id', 'box-images');
+			boxImages.innerHTML = '<img id="box-left" src="images/box-L.png"><div id="middle-box"><!--<img id="box-back" src="images/box-B.png">--><img id="box-front" src="images/box-M.png"></div><!-- #middle-box --><img id="box-right" src="images/box-R.png">';
+			var box = document.getElementById('box');
+			box.insertBefore(boxImages, box.firstChild);
 
 			var tndr = document.getElementById('tndr');
 			var loadingDiv = document.createElement('div');

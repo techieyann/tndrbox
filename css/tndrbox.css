@@ -1,5 +1,10 @@
 /*html styles*/
-
+@media all and (min-width:765px){
+	body
+	{
+		background:url('../images/bg-tile.png');
+	}
+}
 body.inactive
 {
 	overflow:hidden;
@@ -422,7 +427,10 @@ body.inactive
 
 
 /************* postings*/
-
+#left-pane
+{
+	background:url('../images/postings-tile.png');
+}
 #left-pane.active
 {
 	z-index:501;
