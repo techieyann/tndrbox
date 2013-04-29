@@ -197,13 +197,12 @@ height:40px;
 width:200%;
 	position:fixed;
 	left: 5px;
-	bottom:-55px;
+	bottom:-25px;
 	z-index:200;
 }
 #box-content
 {
 	position:relative;
-	min-height:100%;
 
 	z-index:300;
 background: #7f1214; 
@@ -270,7 +269,7 @@ width:40%;
 	width:100%;
 	z-index:200;
 }
-@media all and (max-width:760px){
+@media all and (max-width:765px){
 	body
 	  {
 	  background:none;	
@@ -468,7 +467,6 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 						<li id="login-link"><a href="#b=login">Members' Login</a></li>
 						<li id="settings-link"><a href="#b=members">Settings</a></li>
 						<li id="logout-link"><a href="#b=logout">Logout</a></li>
-						<li class="pull-right"><button id="show-box-button" onclick="showBox()"><i class="icon-arrow-up"></i></button></li>
 						<li class="pull-right"><button id="hide-box-button"  onclick="deactivateBox()"><i class="icon-remove"></i></button></li>
 					</ul>
 				</div><!-- #box-links -->				
