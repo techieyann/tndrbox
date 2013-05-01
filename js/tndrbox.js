@@ -319,6 +319,7 @@ $(document).ready(function(){
 
 
 					}
+					activateBox();
 				}
 	
 			}
@@ -1192,41 +1193,47 @@ function loadBoxContentByURL()
 	
 					if(view == '' || typeof view == 'undefined')
 					{
-						view = 'new_post';
+						view = 'new-post';
 					}
 
-					if(view == 'new_post')
+					if(view == 'new-post')
 					{
 						smartLoad('partials/new_post_form');
 						$('#new-post-li').addClass('active');
 					}
 
-					if(view == 'edit_post')
+					if(view == 'edit-post')
 					{
 						smartLoad('partials/edit_post_form'+append_string);
 						$('#posts-li').addClass('active');
 					}
 
-					if(view == 'delete_post')
+					if(view == 'preview-post')
+					{
+						smartLoad('partials/preview'+append_string);
+						$('#posts-li').addClass('active');
+					}
+
+					if(view == 'delete-post')
 					{	
 						$.ajax({
 							url:'scripts/delete_post',
 							data: {'id': id},
 							type: 'get'
 						}).done(function(){
-							smartLoad('partials/posts');
+							$.bbq.pushState({'b':'members','view':'posts'});
 							$('#posts-li').addClass('active');
 						});
 					}
 				
-					if(view == 'deactivate_post')
+					if(view == 'deactivate-post')
 					{	
 						$.ajax({
 							url:'scripts/deactivate_post',
 							data: {'id': id},
 							type: 'get'
 						}).done(function(){
-							smartLoad('partials/posts');
+							$.bbq.pushState({'b':'members','view':'posts'});
 							$('#posts-li').addClass('active');
 						});
 					}
@@ -1237,19 +1244,19 @@ function loadBoxContentByURL()
 						$('#posts-li').addClass('active');
 					}
 				
-					if(view == 'edit_profile')
+					if(view == 'edit-profile')
 					{	
 						smartLoad('partials/edit_profile_forms'+append_string);
 						$('#profile-li').addClass('active');
 					}
 				
-					if(view == 'new_business')
+					if(view == 'new-business')
 					{
 						smartLoad('partials/new_business_form');
 						$('#new-business-li').addClass('active');
 					}
 				
-					if(view == 'new_user')
+					if(view == 'new-user')
 					{
 						smartLoad('partials/new_user_form');
 					    $('#new-user-li').addClass('active');

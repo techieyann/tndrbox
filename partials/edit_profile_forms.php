@@ -29,9 +29,11 @@ echo "
 			$(function(){
 				$('.accordion').accordion({
 					collapsible:true,
-					active:0,
-					heightStyle:'content'
+					active:false,
+					heightStyle:'content',
+					activate:function(){repositionContainers();}
 				});
+
 
 				$('.edit-business-form').ajaxForm(function() {
 					location.reload();

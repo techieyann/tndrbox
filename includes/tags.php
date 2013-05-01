@@ -63,7 +63,7 @@ function add_tag($tag)
   {
 	if(is_numeric($tag))
 	{
-		increment_tag($tag);
+	  //increment_tag($tag);
 		return $tag;
 	}
 	else
@@ -78,14 +78,14 @@ function add_tag($tag)
 		  $result = query_db($query);
 		  if(count($result, 1) == 0) //count recursively
 			{
-			  $query = "INSERT INTO tags (tag, num_ref) VALUES ('$tag', '1')";
+			  $query = "INSERT INTO tags (tag, num_ref) VALUES ('$tag', '0')";
 			  $result = query_db($query);
 			  $id = get_last_insert_ID();
 		    }
 		  else
 			{
 			  $id = $result[0]['id'];
-			  increment_tag($id);
+			  //increment_tag($id);
 			}
 		  return $id;
 		}

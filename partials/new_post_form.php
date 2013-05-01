@@ -59,8 +59,10 @@ else
 		$image_label = "Change Image ";
 	  }
   }
+	$result = get_categories();
+disconnect_from_db();
 
-echo "
+?>
 		<script>
 			$(function(){
 				$('#tag2').autocomplete({
@@ -83,97 +85,120 @@ echo "
 						minDate: 0,
 						maxDate: '+28D'
 					});
-				$('.new-post-form').ajaxForm(function() {
-					loadContentByURL('posts');
-				});
+				$('.new-post-form').ajaxForm({success: parseNewPostReturn});
+				function parseNewPostReturn(responseText, statusText, xhr, $form)
+				{
+				  if(statusText == 'success')
+					{
+					  if(responseText.substring(0,7) == 'postId=')
+						{
+						  var id = responseText.substring(7);
+						  $.bbq.pushState({'b':'members','view':'preview-post', 'id':id});
+						}
+						  else if(responseText.substring(0,6) == 'error=')
+							{
+							  var errorCode = responseText.substring(6);
+							  console.log(errorCode)
+							}
+					  
+					}
+
+				}
 			});
 		</script>
-		<div id='js-content'>
-		<form name='new-post-form' class='new-post-form'  enctype='multipart/form-data' action='scripts/new_post$new_post_args' method='post'>
+		<div id="js-content">
+		<form name="new-post-form" class="new-post-form"  enctype="multipart/form-data" action="scripts/new_post<?php print $new_post_args ?>" method="post">
 			<fieldset>
-			<div class='row-fluid span12'>
-			<div class='span6'>
-			<label><strong>Required fields...</strong></label>".$business_select_box."
-   			<div class='control-group'>
-				<label class='control-label' for='title'>
+			<div class="row-fluid span12">
+			<div class="span6">
+			<label><strong>Required fields...</strong></label>
+			<?php print $business_select_box ?>
+   			<div class="control-group">
+				<label class="control-label" for="title">
 					Title *
 				</label>
-				<div class='controls'>
-					<input type='text' maxlength=50 name='title' id='title' placeholder='Insert title here...' class='span12'>
+				<div class="controls">
+					<input type="text" maxlength=50 name="title" id="title" placeholder="Insert title here..." class="span12">
 				</div>
 			</div>
 
-			<div class='control-group'>
-				<label class='control-label' for='description'>
+			<div class="control-group">
+				<label class="control-label" for="description">
 					Description * 
 				</label>
-					<div class='controls'>
-					    <textarea name='description' rows=5 maxlength=255 placeholder='Write a description here in less than 250 characters' class='span12'></textarea>
+					<div class="controls">
+					    <textarea name="description" rows=5 maxlength=255 placeholder="Write a description here in less than 250 characters" class="span12"></textarea>
 					</div>
 			</div>
-			<div class='control-group'>
-				<label class='control-label' for='tag1'>
+			<div class="control-group">
+				<label class="control-label" for="tag1">
 					Category *
 				</label>
-				<div class='controls'>
-					<select required name='tag1' id='tag1' class='span12'>
-						".($category == 0 ? "<option selected='selected'></option>":"");
+				<div class="controls">
+					<select required name="tag1" id="tag1" class="span12">
+<?php
+  if($category == 0)
+	{
+	  print "<option selected='selected'></option>";
+	}
 
-	$result = get_categories();
+
+
 	foreach($result as $curr_category)
 	  {
 		$index = $curr_category['id'];
 		$cat= $curr_category['tag'];
-		echo "
+		print "
 						<option ".($category == $index ? "selected='selected'":"")."value='$index'>$cat</option>";
       }
 	
-	echo "
+
+?>
 					</select>
 				</div>
 			</div>
-			<div class='control-group'>
-				<label class='control-label' for='tag2'>
+			<div class="control-group">
+				<label class="control-label" for="tag2">
 					Tags * 
 				</label>
-					<div class='controls-row'>
-						<input required type='text' name='tag2' id='tag2' placeholder='$tag2_example' class='span6'>
-						<input required type='text' name='tag3' id='tag3' placeholder='$tag3_example' class='span6'>
+					<div class="controls-row">
+						<input required type="text" name="tag2" id="tag2" placeholder="<?php print $tag2_example ?>" class="span6">
+						<input required type="text" name="tag3" id="tag3" placeholder="<?php print $tag3_example?>" class="span6">
 					</div>
 			</div>
 			</div>
 
 
-			<div class='span6'>
+			<div class="span6">
 			<label><strong>Optional Fields:</strong></label>
-			$default_photo_html
-			<div class='control-group'>
-				<label class='control-label' for='image_upload'>$image_label(must be less than 2Mb)</label>
-					<div class='controls'>
-						<input type='file' name='image_upload' id='image_upload' size=05>
+			<?php print $default_photo_html ?>
+			<div class="control-group">
+				<label class="control-label" for="image_upload"><?php print $image_label ?> (must be less than 2Mb)</label>
+					<div class="controls">
+						<input type="file" name="image_upload" id="image_upload" size=05>
 					</div>
 			</div>
 
-			<div class='control-group'>
-				<label class='control-label' for='date'>
+			<div class="control-group">
+				<label class="control-label" for="date">
 					Date 
 				</label>
-				<div class='controls'>
-					<input type='text' name='date' id='date' placeholder='Click to add date...' class='span12'>
+				<div class="controls">
+					<input type="text" name="date" id="date" placeholder="Click to add date..." class="span12">
 				</div>
 			</div>
 
-			<div class='control-group'>
-				<label class='control-label' for='address'>Address</label>
-					<div class='controls'>
-						<input type='text' maxlength=250 name='address' id='address' placeholder='Insert address of event here...' class='span12'>
+			<div class="control-group">
+				<label class="control-label" for="address">Address</label>
+					<div class="controls">
+						<input type="text" maxlength=250 name="address" id="address" placeholder="Insert address of event here..." class="span12">
 					</div>
 			</div>
 
-			<div class='control-group'>
-				<label class='control-label' for='url'>Purchase URL</label>
-					<div class='controls'>
-					    <input type='text' maxlength=250 name='url' id='url' placeholder='Do not include \"http://\"' class='span12'>
+			<div class="control-group">
+				<label class="control-label" for="url">Purchase URL</label>
+					<div class="controls">
+					    <input type="text" maxlength=250 name="url" id="url" placeholder="Do not include \"http://\"" class="span12">
 					</div>
 			</div>
 
@@ -181,13 +206,11 @@ echo "
 
 			</div>
 
-			<div class='form-actions'>				
-				<button type='button' class='btn pull-left' id='cancel-button' onclick='$.bbq.pushState(\"view=posts\")' tabindex=-1>Cancel</button>
-				<button type='submit' class='btn btn-primary pull-right' id='add-submit'>Submit</button>
+			<div class="form-actions">				
+				<button type="button" class="btn pull-left" id="cancel-button" onclick="$.bbq.pushState({'b':'members', 'view':'posts')" tabindex=-1>Cancel</button>
+				<button type="submit" class="btn btn-primary pull-right" id="add-submit">Submit</button>
 			</div>
 			</fieldset>
 			</form>
-			</div>";
+			</div>
 
-disconnect_from_db();
-?>

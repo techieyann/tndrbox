@@ -34,7 +34,7 @@ if(isset($_GET['id']))
 	$address = add_slashes($address);
 	$url = add_slashes($url);
 
-	push_old_post($b_id);	
+
 
 
 if($address == "")
@@ -68,7 +68,7 @@ else
 	  {
 	if($_FILES['image_upload']['error'] > 0)
       {
-       	echo "Error: ".$_FILES['image_upload']['error'];
+       	echo "error=".$_FILES['image_upload']['error'];
       }
     else
       {
@@ -89,7 +89,7 @@ else
 	  }	
 
 
-	$query = "UPDATE postings SET active=1, viewed=0, title='$title', blurb='$description', 
+	$query = "UPDATE postings SET active=0, viewed=0, title='$title', blurb='$description', 
 			tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id',
 			date='$date', alt_address='$address', lat='$lat', lon='$lon', url='$url',
 			posting_time=CURRENT_TIMESTAMP"
@@ -97,10 +97,9 @@ else
 			."WHERE id='$id'";
 
 	query_db($query);
-	$query = "UPDATE business SET active_post=1, last_touched=CURRENT_TIMESTAMP WHERE id=$b_id";
-	query_db($query);
+
+	echo "postId=$id";
 
 	disconnect_from_db($link);
-	return true;
   }
 ?>

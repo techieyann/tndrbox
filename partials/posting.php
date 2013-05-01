@@ -2,6 +2,11 @@
 //expects $_GET[p] to be set as id of post
 if(isset($_GET['p']))
   {
+	$type = "";
+	if(isset($_GET['type']))
+	  {
+		$type = $_GET['type'];
+	  }
 	require('../includes/includes.php');
 	require('../includes/tags.php');
 
@@ -90,20 +95,28 @@ else
 					});
 					});
 				</script>
-				<div class='post-header'>
+				<div class='post-header'>";
+	if($type != "preview")
+	  {
+		echo "
 					<div class='btn-group pull-right post-mod-buttons'>";
+
+
     if($owner_flag)
 	  {
 		echo "
 
-						<a class='btn btn-mini' title='Edit' href='#b=members&view=edit_post&id=$id'><i class='icon-pencil'></i></a>
-						<a class='btn btn-mini' title='Deactivate'  href='#b=members&view=deactivate_post&id=$b_id'><i class='icon-ban-circle'></i></a>
-						<a class='btn btn-mini' title='Delete' href='#b=members&view=delete_post&id=$id'><i class='icon-trash'></i></a>";
-}
+						<a class='btn btn-mini' title='Edit' href='#b=members&view=edit-post&id=$id'><i class='icon-pencil'></i></a>
+						<a class='btn btn-mini' title='Deactivate'  href='#b=members&view=deactivate-post&id=$b_id'><i class='icon-ban-circle'></i></a>
+						<a class='btn btn-mini' title='Delete' href='#b=members&view=delete-post&id=$id'><i class='icon-trash'></i></a>";
+		}
 
 	echo "
 						<button class='btn btn-mini' title='Close' onclick='closePostButton()'><i class='icon-remove'></i></button>
-					</div>
+
+					</div>";
+	  }
+	echo "
 
 <p class='post-title centered'><b>$title</b><p>
 
@@ -227,6 +240,8 @@ else
 
 						</div>
 						</div>";
+	if($type != "preview")
+	  {
 	$tndrbox_share = urlencode('http://tndrbox.com/?p='.$p_id);
 echo "
 <div class='share btn-group pull-right'>
@@ -235,10 +250,13 @@ echo "
 	<a class='btn' href=\"http://twitter.com/share?url=$tndrbox_share&text=$title @ $name\" target='_blank'><div class='twitter'></div></a>
 	<a class='btn' href=\"https://plus.google.com/share?url=$tndrbox_share\" target=_blank'><div class='google_plus'></div></a>
 
-</div>
+</div>";
+}
+	echo"
    					</div>
 				</div>
 			</div>";
+	  
   }
 		disconnect_from_db();
   }

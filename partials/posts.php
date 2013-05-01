@@ -19,6 +19,8 @@ echo "
 			<div id='js-content' class='span12'>
 			<script>
 				$(document).ready(function(){
+					$('.edit-buttons').hide();
+
 					$('.post-link').click(function(e){
 						e.preventDefault();
 
@@ -26,21 +28,17 @@ echo "
 						var id = $(this).attr('id');
 						$.bbq.pushState('view='+view+'&id='+id);
 				   	});
-					$('.accordion').accordion({
-						collapsible:true,
-						active:false,
-						heightStyle:'content',
-						activate: function(event, ui){repositionContainers();}
+
+					$('.post-list-element').hover(function(){
+						$('.edit-buttons').hide();
+						var buttons = '#edit-'+$(this).attr('id');
+						$(buttons).show();
 					});
+
 					$('.ui-accordion-header').click(function(e){
 						repositionContainers();
 					});
-  					$('.post-accordion').accordion({
-						collapsible:true,
-						active:0,
-						heightStyle:'content',
-						activate: function(event, ui){repositionContainers();}
-					});
+
 				});
 
 			</script>";
@@ -79,56 +77,39 @@ if(isset($_GET['id']))
 		<li class='pull-right'><button class='btn post-link' title='Edit' href='edit_profile' id='$b_id'><i class='icon-pencil'></i></button></li>
 	</ul>";
   }
-echo "
-   	<div class='post-accordion'>";
 
+	echo "
+	<ul class='unstyled'>";
 foreach($posts as $post)
   {
 	if($post['active'] == 1)
 	  {
 		echo "
-	   	<h3>Active Post</h3>
-		<div>";
-		$id = $post['id'];
-		echo "
-			<div class='span12 modal white-bg' style='position:relative; left:auto; right:auto; margin:0; max-width:100%;'>";
-		print_modal($id);
-		echo "
-			</div>
-		</div>";
+   	   	<li class='post-list-element'><h3>Active Post</h3></li>";
 	  }
-	if($count++ == 0)
-	  {
-		echo "
-		<h3>Archived Posts</h3>
-		<table class='table table-hover'>
-			<tbody>";
-	  }
-	if($post['active'] == 0)
-	  {
+
 		extract($post);
 		echo "
-			<tr>
-				<td>
-				<h4>$title</h4>
-				</td>
-				<td>
-				<div class='btn-group pull-right'>
-					<button class='btn post-link' title='Activate' href='edit_post' id='$id'><i class='icon-fire large'></i></button>
-						<button class='btn post-link'title='Delete' href='delete_post' id='$id'><i class='icon-trash'></i></button>
-				</div>
-				</td>
-			</tr>";
-		}
-  }
-echo "
-			</tbody>
-		</table>
-	</div>";
+			<li id='$id' class='post-list-element'><ul class='inline'>
+				<li><button class='btn post-link' title='Preview' href='preview-post' id='$id'><i class='icon-search'></i></button></li>
+				<li><h4>$title</h4></li>
+  <li class='pull-right'><div id='edit-$id' class='edit-buttons btn-group'><a class='btn' title='Save' href='#b=members&view=posts'><i class='icon-folder-close'></i></a>
+<a class='btn' title='Edit' href='#b=members&view=edit-post&id=$id'><i class='icon-pencil'></i></a>
+<a class='btn' title='Activate' href='#b=members&view=activate-post&id=$id'><i class='icon-check'></i></a>
+<a class='btn' title='Delete' href='#b=members&view=delete-post&id=$id'><i class='icon-trash'></i></a></div></li>
+			</ul></li>";
+	if($post['active'] == 1)
+	  {
+		echo "
+   	   	<li class='post-list-element'><h3>Archived Posts</h3></li>"; 
+	  }
+
 
 
 }
-
+echo "
+	 </ul>";
+}
 function print_formatted_time($time)
 {
 //YYYY-MM-DD hh:mm:ss -> hh:mm(am/pm) MM/DD/YY

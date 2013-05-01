@@ -44,7 +44,9 @@ if($address == "")
 	  }
 	else
 	  {
-		//fail and report
+		echo "error=business not found";
+		disconnect_from_db();
+		return;
 	  }
   }
 else
@@ -59,7 +61,7 @@ $description = add_slashes($description);
 $address = add_slashes($address);
 $url = add_slashes($url);
 
-push_old_post($business_id);
+
 
 $tag1_id = add_tag($tag1);
 $tag2_id = add_tag($tag2);
@@ -77,17 +79,13 @@ if($result)
 {
 
 	$post_id = get_last_insert_ID();
-	$query = "UPDATE business SET active_post=1, last_touched=CURRENT_TIMESTAMP WHERE id=$business_id";
-	query_db($query);
-	$query = "UPDATE postings SET active=1 WHERE id=$post_id";
-	query_db($query);
+
 	
 	if(isset($_FILES['image_upload']))
 	  {
 		if($_FILES['image_upload']['error'] > 0)
 	      {
-	       	echo "Error: ".$_FILES['image_upload']['error'];
-	        header("location:../settings");
+	       	echo "error=".$_FILES['image_upload']['error'];
 	      }
 	    else
 	      {
@@ -121,13 +119,13 @@ if($result)
 			query_db($query);
 		  }
 	  }
+	echo "postId=$post_id";
 
-	//	header("location:../settings");
 }
 else
 {
-  // header("location:../edit-post.php?error=1&title=$title&date=$date&blurb=$description&tag1=$tag1&tag2=$tag2&tag3=$tag3");
+  echo "error=".$result;
 }
-disconnect_from_db($link);
+disconnect_from_db();
 
 ?>
