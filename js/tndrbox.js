@@ -1264,7 +1264,7 @@ function loadBoxContentByURL()
 					{
 						if(b_id != null)
 						{
-							append_string = 'id='+b_id;
+							append_string = '?id='+b_id;
 						}
 						else
 						{
