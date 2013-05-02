@@ -1,0 +1,37 @@
+<?php
+/***********************************************
+file: partials/preview.php
+creator: Ian McEachern
+
+This partial displays a preview of a post.
+ ***********************************************/
+
+if(isset($_GET['id']))
+  {
+	/*	require('../includes/includes.php');
+	require('../includes/tags.php');
+
+	connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+
+	analyze_user();
+	verify_logged_in();
+
+	disconnect_from_db();*/
+	
+  }
+else
+  {
+
+  }
+?>
+
+<script>
+	$.ajax({
+		url:'scripts/deactivate_post',
+		data: {'id': id},
+		type: 'get'
+		}).done(function(){
+			$.bbq.pushState({'b':'members','view':'posts');
+			$('#posts-li').addClass('active');
+		});
+</script>

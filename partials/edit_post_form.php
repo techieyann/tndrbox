@@ -50,10 +50,6 @@ if(isset($_GET['id']))
 	echo "
 		<script>
 			$(document).ready(function(){
-				$('.edit-post-form').ajaxForm(function() {
-					loadContentByURL('posts');
-				});
-				
 				$('#tag2').autocomplete({
 					source:'scripts/search_tag',
 					select: function(event, ui){
@@ -73,6 +69,25 @@ if(isset($_GET['id']))
 					minDate: 0,
 					maxDate: '+28D'
 				});
+				$('.edit-post-form').ajaxForm({success: parseEditPostReturn});
+				function parseEditPostReturn(responseText, statusText, xhr, \$form)
+				{
+				  if(statusText == 'success')
+					{
+					  if(responseText.substring(0,7) == 'postId=')
+						{
+						  var id = responseText.substring(7);
+						  $.bbq.pushState({'b':'members','view':'preview-post', 'id':id});
+						}
+						  else if(responseText.substring(0,6) == 'error=')
+							{
+							  var errorCode = responseText.substring(6);
+							  console.log(errorCode)
+							}
+					  
+					}
+
+				}
 			});
 		</script>
 		<div id='js-content'>
@@ -178,7 +193,7 @@ if(isset($_GET['id']))
 			</div>
 
 			<div class='form-actions'>				
-				<button type='button' class='btn pull-left' id='cancel-button' onclick='$.bbq.removeState(\"id\"); $.bbq.pushState(\"view=new_post\")' tabindex=-1>Cancel</button>
+				<button type='button' class='btn pull-left' id='cancel-button' onclick='$.bbq.removeState(\"id\"); $.bbq.pushState(\"view=posts\")' tabindex=-1>Cancel</button>
 				<button type='submit' class='btn btn-primary pull-right' id='edit-submit'>Submit</button>
 			</div>
 			</fieldset>

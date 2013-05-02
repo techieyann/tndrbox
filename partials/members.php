@@ -29,7 +29,7 @@ $b_id = $GLOBALS['b_id'];
 			return false;
 		},
 		select: function(event, ui){
-			$.bbq.pushState('view=posts&id='+ui.item.value);
+			$.bbq.pushState('view=posts&b_id='+ui.item.value);
 			$('#business-search').val('');
 			return false;
 		}
@@ -42,16 +42,16 @@ $b_id = $GLOBALS['b_id'];
 		<div class='span3'>
 			<ul id='settings-nav' class='nav nav-pills nav-stacked content'>
 				<li id='new-post-li'>
-					<a class='nav-link' href='new_post'><i class='icon-plus'></i> New Post</a>
+					<a class='nav-link' href='new-post'><i class='icon-plus'></i> New Post</a>
 				</li>";
 	if(check_admin())
 	  {
 		echo "
 				<li id='new-business-li'>
-					<a class='nav-link' href='new_business'><i class='icon-plus'></i> New Business</a>
+					<a class='nav-link' href='new-business'><i class='icon-plus'></i> New Business</a>
 				</li>
 				<li id='new-user-li'>
-					<a class='nav-link' href='new_user'><i class='icon-plus'></i> New User</a>
+					<a class='nav-link' href='new-user'><i class='icon-plus'></i> New User</a>
 				</li>
 				<li id='profile-li'>
 					<div class='input-prepend'>
@@ -67,7 +67,7 @@ $b_id = $GLOBALS['b_id'];
 					<a class='nav-link' href='posts'><i class='icon-folder-open'></i> Posts</a>
 				</li>
 				<li id='profile-li'>
-					<a class='nav-link' href='edit_profile'><i class='icon-cog'></i> Member Info</a>
+					<a class='nav-link' href='edit-profile'><i class='icon-cog'></i> Member Info</a>
 				</li>";
 	  }
 	echo "

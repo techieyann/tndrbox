@@ -319,6 +319,7 @@ $(document).ready(function(){
 
 
 					}
+					activateBox();
 				}
 	
 			}
@@ -622,8 +623,14 @@ function repositionContainers()
 
 	var header_height = tndrHeader.height();
 
-
-	rightPane.css('height', window_height - (35 + header_height));
+	if(window_width > 765)
+	{
+		rightPane.css('height', window_height - (65 + header_height));
+	}
+	else
+	{
+		rightPane.css('height', window_height - (30 + header_height));
+	}
 	//reset margins
 	tndrContainer.css('margin-left', '');
 
@@ -789,7 +796,7 @@ function deactivateBox()
 		$('#box-content').css('height', '');
 
 	box.switchClass('active', 'inactive');
-
+		$('#box-links a').parent().removeClass('active');
 
 
 	$('body').removeClass('inactive');
@@ -1175,7 +1182,9 @@ function mapInitialize(callback) {
 
 function loadBoxContentByURL()
 {
+
 					var id = $.bbq.getState('id');
+	var b_id = $.bbq.getState('b_id');
 					var view = $.bbq.getState('view');
 					if(typeof id == 'undefined')
 					{
@@ -1192,64 +1201,92 @@ function loadBoxContentByURL()
 	
 					if(view == '' || typeof view == 'undefined')
 					{
-						view = 'new_post';
+						view = 'new-post';
 					}
 
-					if(view == 'new_post')
+					if(view == 'new-post')
 					{
 						smartLoad('partials/new_post_form');
 						$('#new-post-li').addClass('active');
 					}
 
-					if(view == 'edit_post')
+					if(view == 'edit-post')
 					{
 						smartLoad('partials/edit_post_form'+append_string);
 						$('#posts-li').addClass('active');
 					}
 
-					if(view == 'delete_post')
+					if(view == 'preview-post')
+					{
+						smartLoad('partials/preview'+append_string);
+						$('#posts-li').addClass('active');
+					}
+
+					if(view == 'delete-post')
 					{	
 						$.ajax({
 							url:'scripts/delete_post',
 							data: {'id': id},
 							type: 'get'
 						}).done(function(){
-							smartLoad('partials/posts');
+							$.bbq.pushState({'b':'members','view':'posts'});
+							$('#posts-li').addClass('active');
+						});
+					}
+
+					if(view == 'activate-post')
+					{	
+						$('#js-content').hide();
+						$.ajax({
+							url:'scripts/activate_post',
+							data: {'id': id},
+							type: 'get'
+						}).done(function(){
+							$.bbq.pushState({'b':'members','view':'posts'});
 							$('#posts-li').addClass('active');
 						});
 					}
 				
-					if(view == 'deactivate_post')
+					if(view == 'deactivate-post')
 					{	
+						$('#js-content').hide();
 						$.ajax({
 							url:'scripts/deactivate_post',
 							data: {'id': id},
 							type: 'get'
 						}).done(function(){
-							smartLoad('partials/posts');
+							$.bbq.pushState({'b':'members','view':'posts'});
 							$('#posts-li').addClass('active');
 						});
 					}
 				
 					if(view == 'posts')
 					{
+						if(b_id != null)
+						{
+							append_string = 'id='+b_id;
+						}
+						else
+						{
+							append_string = '';
+						}
 						smartLoad('partials/posts'+append_string);
 						$('#posts-li').addClass('active');
 					}
 				
-					if(view == 'edit_profile')
+					if(view == 'edit-profile')
 					{	
 						smartLoad('partials/edit_profile_forms'+append_string);
 						$('#profile-li').addClass('active');
 					}
 				
-					if(view == 'new_business')
+					if(view == 'new-business')
 					{
 						smartLoad('partials/new_business_form');
 						$('#new-business-li').addClass('active');
 					}
 				
-					if(view == 'new_user')
+					if(view == 'new-user')
 					{
 						smartLoad('partials/new_user_form');
 					    $('#new-user-li').addClass('active');

@@ -121,7 +121,23 @@ function push_old_post($b_id)
 		query_db($query);
 	  }
   }
-
+function activate_post($p_id)
+  {
+    $query = "SELECT tag_1, tag_2, tag_3, b_id FROM postings WHERE id=$p_id";
+	$result = query_db($query);
+	if(isset($result[0]))
+	  {
+		extract($result[0]);
+		increment_tag($tag_1);
+		increment_tag($tag_2);
+		increment_tag($tag_3);	
+		$query = "UPDATE postings SET active=1 WHERE id=$p_id";
+		query_db($query);
+		$query = "UPDATE business SET active_post=1, last_touched=CURRENT_TIMESTAMP WHERE id=$b_id";
+		echo query_db($query);
+		
+	  }
+  }
 function format_date($id)
 {
 	$query = "SELECT DATE_FORMAT(date, '%W, %M %D') FROM postings WHERE id=$id";

@@ -10,7 +10,7 @@
 			{
 				if(responseText == 'logged in')
 				{
-					$.bbq.pushState('b=members&view=new_post');
+					$.bbq.pushState('b=members&view=new-post');
 				}
 				else if(responseText == 'email format')
 				{
