@@ -68,7 +68,7 @@ $(document).ready(function(){
 	postPreviewDiv.hide();
 	postPreviewDiv.load('partials/posting?type=preview&p=<?php print $id ?>', function(){
 		$('#preview-loading').hide();
-		postPreviewDiv.show('fast', function(){
+		postPreviewDiv.show('slow', function(){
 			repositionContainers();
 		  });
 
@@ -79,14 +79,37 @@ $(document).ready(function(){
 <ul class="inline centered hidden-phone" style="padding-bottom:10px; border-bottom:solid 1px black;">
 <li><a class="btn" title="Save" href="#b=members&view=posts"><i class="icon-folder-close"></i> Save</a></li>
 <li><a class="btn" title="Edit" href="#b=members&view=edit-post&id=<?php print $id ?>"><i class="icon-pencil"></i> Edit</a></li>
-<li><a class="btn" title="Activate" href="#b=members&view=activate-post&id=<?php print $id ?>"><i class="icon-check"></i> Activate</a></li>
+<?php 
+  if($active == 1)
+	{
+	  echo "
+<li><a class='btn' title='Deactivate' href='#b=members&view=deactivate-post&id=$b_id'><i class='icon-remove-sign'></i> Deactivate</a></li>";
+	}
+   else
+	 {
+	  echo "
+<li><a class='btn' title='Activate' href='#b=members&view=activate-post&id=$id'><i class='icon-check'></i> Activate</a></li>";
+	 }
+?>
 <li><a class="btn" title="Delete" href="#b=members&view=delete-post&id=<?php print $id ?>"><i class="icon-trash"></i> Delete</a></li>
 
 </ul>
 <ul class="inline centered visible-phone" style="padding-bottom:10px; border-bottom:solid 1px black;">
   <li><a class="btn" title="Save" href="#b=members&view=posts"><i class="icon-folder-close"></i></a></li>
 <li><a class="btn" title="Edit" href="#b=members&view=edit-post&id=<?php print $id ?>"><i class="icon-pencil"></i></a></li>
-<li><a class="btn" title="Activate" href="#b=members&view=activate-post&id=<?php print $id ?>"><i class="icon-check"></i></a></li>
+<?php 
+  if($active == 1)
+	{
+	  echo "
+<li><a class='btn' title='Deactivate' href='#b=members&view=deactivate-post&id=$b_id'><i class='icon-remove-sign'></i></a></li>";
+	}
+   else
+	 {
+	  echo "
+<li><a class='btn' title='Activate' href='#b=members&view=activate-post&id=$id'><i class='icon-check'></i></a></li>";
+	 }
+?>
+
 <li><a class="btn" title="Delete" href="#b=members&view=delete-post&id=<?php print $id ?>"><i class="icon-trash"></i></a></li>
 </ul>
 <br>

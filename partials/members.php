@@ -29,7 +29,7 @@ $b_id = $GLOBALS['b_id'];
 			return false;
 		},
 		select: function(event, ui){
-			$.bbq.pushState('view=posts&id='+ui.item.value);
+			$.bbq.pushState('view=posts&b_id='+ui.item.value);
 			$('#business-search').val('');
 			return false;
 		}

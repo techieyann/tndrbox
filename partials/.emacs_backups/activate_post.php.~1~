@@ -5,7 +5,6 @@ creator: Ian McEachern
 
 This script activates the indicated post
  ***********************************************/
-echo "hello world";
 if(isset($_GET['id']))
   {
 	require('../includes/includes.php');
@@ -20,8 +19,7 @@ if(isset($_GET['id']))
 
 	$query = "SELECT b_id FROM postings WHERE id=$p_id";
 	$result = query_db($query);
-
-	if(isset($result[0]))
+	if($result)
 	  {
 		extract($result[0]);
 		if(!$admin_flag && $b_id != $GLOBALS['b_id'])
@@ -29,9 +27,10 @@ if(isset($_GET['id']))
 			disconnect_from_db();
 			return;
 		  }
-
+	
 		push_old_post($b_id);
-		activate_post($p_id);
+		activate_post($id);
+
 
 		disconnect_from_db();
 	  }

@@ -305,6 +305,7 @@ width:40%;
 	#box
 	  {
 	  left:-65px;
+	  bottom:-55px;;
 	  }
 	#middle-box
 	  {

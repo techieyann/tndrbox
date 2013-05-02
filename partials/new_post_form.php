@@ -207,7 +207,7 @@ disconnect_from_db();
 			</div>
 
 			<div class="form-actions">				
-				<button type="button" class="btn pull-left" id="cancel-button" onclick="$.bbq.pushState({'b':'members', 'view':'posts')" tabindex=-1>Cancel</button>
+				<button type="button" class="btn pull-left" id="cancel-button" onclick="$.bbq.pushState({'b':'members', 'view':'posts'})" tabindex=-1>Cancel</button>
 				<button type="submit" class="btn btn-primary pull-right" id="add-submit">Submit</button>
 			</div>
 			</fieldset>

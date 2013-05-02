@@ -82,23 +82,35 @@ if(isset($_GET['id']))
 	<ul class='unstyled'>";
 foreach($posts as $post)
   {
-	if($post['active'] == 1)
+	extract($post);
+	if($active == 1)
 	  {
 		echo "
    	   	<li class='post-list-element'><h3>Active Post</h3></li>";
 	  }
 
-		extract($post);
+
 		echo "
 			<li id='$id' class='post-list-element'><ul class='inline'>
 				<li><button class='btn post-link' title='Preview' href='preview-post' id='$id'><i class='icon-search'></i></button></li>
 				<li><h4>$title</h4></li>
-  <li class='pull-right'><div id='edit-$id' class='edit-buttons btn-group'><a class='btn' title='Save' href='#b=members&view=posts'><i class='icon-folder-close'></i></a>
-<a class='btn' title='Edit' href='#b=members&view=edit-post&id=$id'><i class='icon-pencil'></i></a>
-<a class='btn' title='Activate' href='#b=members&view=activate-post&id=$id'><i class='icon-check'></i></a>
+  <li class='pull-right'><div id='edit-$id' class='edit-buttons btn-group'>
+<a class='btn' title='Edit' href='#b=members&view=edit-post&id=$id'><i class='icon-pencil'></i></a>";
+		if($active == 1)
+		  {
+			echo "
+<a class='btn' title='Deactivate' href='#b=members&view=deactivate-post&id=$b_id'><i class='icon-remove-sign'></i></a>";
+		  }
+		else
+		  {
+			echo "
+<a class='btn' title='Activate' href='#b=members&view=activate-post&id=$id'><i class='icon-check'></i></a>";
+		  }
+
+		echo "
 <a class='btn' title='Delete' href='#b=members&view=delete-post&id=$id'><i class='icon-trash'></i></a></div></li>
 			</ul></li>";
-	if($post['active'] == 1)
+	if($active == 1)
 	  {
 		echo "
    	   	<li class='post-list-element'><h3>Archived Posts</h3></li>"; 

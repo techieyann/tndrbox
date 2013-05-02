@@ -623,8 +623,14 @@ function repositionContainers()
 
 	var header_height = tndrHeader.height();
 
-
-	rightPane.css('height', window_height - (35 + header_height));
+	if(window_width > 765)
+	{
+		rightPane.css('height', window_height - (65 + header_height));
+	}
+	else
+	{
+		rightPane.css('height', window_height - (30 + header_height));
+	}
 	//reset margins
 	tndrContainer.css('margin-left', '');
 
@@ -790,7 +796,7 @@ function deactivateBox()
 		$('#box-content').css('height', '');
 
 	box.switchClass('active', 'inactive');
-
+		$('#box-links a').parent().removeClass('active');
 
 
 	$('body').removeClass('inactive');
@@ -1176,7 +1182,9 @@ function mapInitialize(callback) {
 
 function loadBoxContentByURL()
 {
+
 					var id = $.bbq.getState('id');
+	var b_id = $.bbq.getState('b_id');
 					var view = $.bbq.getState('view');
 					if(typeof id == 'undefined')
 					{
@@ -1225,9 +1233,23 @@ function loadBoxContentByURL()
 							$('#posts-li').addClass('active');
 						});
 					}
+
+					if(view == 'activate-post')
+					{	
+						$('#js-content').hide();
+						$.ajax({
+							url:'scripts/activate_post',
+							data: {'id': id},
+							type: 'get'
+						}).done(function(){
+							$.bbq.pushState({'b':'members','view':'posts'});
+							$('#posts-li').addClass('active');
+						});
+					}
 				
 					if(view == 'deactivate-post')
 					{	
+						$('#js-content').hide();
 						$.ajax({
 							url:'scripts/deactivate_post',
 							data: {'id': id},
@@ -1240,6 +1262,14 @@ function loadBoxContentByURL()
 				
 					if(view == 'posts')
 					{
+						if(b_id != null)
+						{
+							append_string = 'id='+b_id;
+						}
+						else
+						{
+							append_string = '';
+						}
 						smartLoad('partials/posts'+append_string);
 						$('#posts-li').addClass('active');
 					}

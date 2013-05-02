@@ -193,7 +193,7 @@ if(isset($_GET['id']))
 			</div>
 
 			<div class='form-actions'>				
-				<button type='button' class='btn pull-left' id='cancel-button' onclick='$.bbq.removeState(\"id\"); $.bbq.pushState(\"view=new_post\")' tabindex=-1>Cancel</button>
+				<button type='button' class='btn pull-left' id='cancel-button' onclick='$.bbq.removeState(\"id\"); $.bbq.pushState(\"view=posts\")' tabindex=-1>Cancel</button>
 				<button type='submit' class='btn btn-primary pull-right' id='edit-submit'>Submit</button>
 			</div>
 			</fieldset>
