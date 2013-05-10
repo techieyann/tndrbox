@@ -48,6 +48,7 @@ if(isset($_GET['p']) && is_numeric($_GET['p']))
 		  }	  
   }
 $categories = get_active_categories();
+$json_categories = json_encode(get_categories());
 disconnect_from_db();
 
 ?>
@@ -91,7 +92,7 @@ body
 {
 	position:relative;
 width:80%;
-	height:100%;
+	min-height:100%;
 	margin-top:0px;
 	margin-left:70px;
 	z-index:10;
@@ -197,7 +198,7 @@ height:40px;
 width:200%;
 	position:fixed;
 	left: 5px;
-	bottom:-25px;
+	bottom:-86px;
 	z-index:200;
 }
 #box-content
@@ -227,27 +228,24 @@ display:none;
 {
 	color:#A33539;
 }
-
-
-
 #box-images
 {
-	position:relative;
-	display:inline;
-	padding:0;
-	margins:0;
-
+display:inline;
 }
 #box-left
 {
-
+position:fixed;
+bottom:-25px;
 	height:150px;
-	float:left;
+left:5px;
 
 
 }
 #box-right
 {
+position:fixed;
+bottom:-25px;
+right:5px;
 	height:150px;
 
 }
@@ -256,20 +254,26 @@ display:none;
 #middle-box
 {
 width:40%;
-	float:left;
-	margin-top:2px;
+  margin-left:65px;
+margin-top:0px;
 
 }
 
 #box-front
 {
 	position:relative;
-	top:59px;
 	height:90px;
 	width:100%;
 	z-index:200;
 }
-@media all and (max-width:765px){
+#box-footer
+{
+	position:relative;
+	top:-85px;
+	color:white;
+	text-align:center;
+}
+@media all and (max-width:768px){
 	body
 	  {
 	  background:none;	
@@ -305,7 +309,7 @@ width:40%;
 	#box
 	  {
 	  left:-65px;
-	  bottom:-55px;;
+	  bottom:-117px;
 	  }
 	#middle-box
 	  {
@@ -325,6 +329,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		<script>
 			var loggedIn = <?php ($GLOBALS['logged_in'] ? print "true" : print "false") ?>;
 			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
+			var categories = <?php print $json_categories ?>;
 			var postings;
 		</script>
 
@@ -332,6 +337,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	   	<meta name="author" content="Ian McEachern">
 		<meta name="viewport" content="user-scalable=false, width=device-width, initial-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
 		<!-- Open Graph Data -->
 		<meta property="og:title" content="<?php print ($post_flag ? "$title at $name":"A posting board for Temescal") ?>">
 	    <meta property="og:description" content="<?php print ($post_flag ? substr($blurb, 0, 100)."...":"tndrbox is a community events board in Oakland. Come see what is happening around you.") ?>">
@@ -467,20 +473,37 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 				<div id="box-js-content">
 
 				</div><!-- #box-js-content -->
-
+				<div id='box-footer'>tndrbox &copy; 2013</div>
 			</div><!-- #box-content -->
 
 		</div><!-- #box -->
 	<script>
 		function loadTheRest()
 		{
-	document.getElementById('welcome-page-content').innerHTML = "<h1 class='centered'>Welcome!</h1><h4>In the coming months, Tndrbox, our Oakland-based community events website, will grow alongside our local businesses and communities as we make it easier to know what's going on around you.</h4></h4><h4>If you're a frequent event host and want to get in your neighborhood's ear, please <a href='mailto:tndrbox@gmail.com'>contact</a> us!</h4>";
+	document.getElementById('welcome-page-content').innerHTML = "<h1 class='centered'>Welcome to tndrbox, Oakland's Community Events Board</h1><h4>Tap into local events and happenings posted by our neighborhood for our neighborhood</h4>";
 
-			var boxImages = document.createElement('div');
-			boxImages.setAttribute('id', 'box-images');
-			boxImages.innerHTML = '<img id="box-left" src="images/box-L.png"><div id="middle-box"><!--<img id="box-back" src="images/box-B.png">--><img id="box-front" src="images/box-M.png"></div><!-- #middle-box --><img id="box-right" src="images/box-R.png">';
+			var boxImage = document.createElement('div');
+			boxImage.setAttribute('id', 'box-images');
+			boxImage.innerHTML = '<div id="middle-box"><!--<img id="box-back" src="images/box-B.png">--><img id="box-front" src="images/box-M.png"></div>';
+//<img id="box-right" src="images/box-R.png" class="hidden-phone inactive">
+//<img id="box-left" src="images/box-L.png" class="hidden-phone inactive">
 			var box = document.getElementById('box');
-			box.insertBefore(boxImages, box.firstChild);
+			box.insertBefore(boxImage, box.firstChild);
+
+			boxImage = document.createElement('img');
+				boxImage.setAttribute('id', 'box-left');
+				boxImage.setAttribute('class', 'hidden-phone inactive');
+				boxImage.setAttribute('src', 'images/box-L.png');
+
+				box.parentNode.insertBefore(boxImage, box);
+
+				boxImage = document.createElement('img');
+				boxImage.setAttribute('id', 'box-right');
+				boxImage.setAttribute('class', 'hidden-phone inactive');
+				boxImage.setAttribute('src', 'images/box-R.png');
+
+				box.parentNode.insertBefore(boxImage, box.nextSibling);
+
 
 			var tndr = document.getElementById('tndr');
 			var loadingDiv = document.createElement('div');

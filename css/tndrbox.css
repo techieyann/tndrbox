@@ -1,5 +1,5 @@
 /*html styles*/
-@media all and (min-width:765px){
+@media all and (min-width:768px){
 	body
 	{
 		background:url('../images/bg-tile.png');
@@ -14,236 +14,9 @@ body.inactive
 /*map fix*/
 #map-canvas img{max-width:none}
 /*tndr sprites*/
-.Advocacy, .Community, .Drinks, .Education, .Entertainment, .Fashion, .Food, .Health, .Music, .Other, .Recreation, .Spirituality, .date, .date_time, .email, .facebook, .google_plus, .time, .twitter, .Advocacy_sm, .Community_sm, .Drinks_sm, .Education_sm, .Entertainment_sm, .Fashion_sm, .Food_sm, .Health_sm, .Music_sm, .Other_sm, .Recreation_sm, .Spirituality_sm, .Art, .Art_sm, .target{
+.Advocacy, .Community, .Drinks, .Education, .Entertainment, .Fashion, .Food, .Health, .Music, .Other, .Recreation, .Spirituality, .date, .date_time, .email, .facebook, .google_plus, .time, .twitter, .Advocacy_sm, .Community_sm, .Drinks_sm, .Education_sm, .Entertainment_sm, .Fashion_sm, .Food_sm, .Health_sm, .Music_sm, .Other_sm, .Recreation_sm, .Spirituality_sm, .Art, .Art_sm, .target, .unlit, .lighting, .lit, .tinder, .sparked, .on-fiya {
+//	margin-top:2px;
 	background: url('../images/tndr-sprites.png') no-repeat;
-}
-
-.Advocacy{
-	background-position: 0 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Community{
-	background-position: -48px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Drinks{
-	background-position: -95px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Education{
-	background-position: -137px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Entertainment{
-	background-position: -186px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Fashion{
-	background-position: -241px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Food{
-	background-position: -287px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Health{
-	background-position: -334px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Music{
-	background-position: -377px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Other{
-	background-position: -420px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Recreation{
-	background-position: -458px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Spirituality{
-	background-position: -506px -3px ;
-	width: 45px;
-	height: 25px;
-}
-
-.Advocacy_m{
-	background-position: 0 -52px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Advocacy_ma{
-	background-position: 0 -104px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Art_m{
-	background-position: -28px -52px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Art_ma{
-	background-position: -29px -105px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Community_m{
-	background-position: -57px -53px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Community_ma{
-	background-position: -60px -105px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Drinks_m{
-	background-position: -87px -53px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Drinks_ma{
-	background-position: -89px -104px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Education_m{
-	background-position: -118px -53px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Education_ma{
-	background-position: -117px -105px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Entertainment_m{
-	background-position: -148px -54px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Entertainment_ma{
-	background-position: -148px -106px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Fashion_m{
-	background-position: -180px -54px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Fashion_ma{
-	background-position: -178px -107px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Food_m{
-	background-position: -209px -53px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Food_ma{
-	background-position: -207px -105px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Health_m{
-	background-position: -237px -53px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Health_ma{
-	background-position: -237px -105px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Music_m{
-	background-position: -266px -53px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Music_ma{
-	background-position: -267px -104px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Other_m{
-	background-position: -294px -54px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Other_ma{
-	background-position: -296px -104px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Recreation_m{
-	background-position: -323px -55px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Recreation_ma{
-	background-position: -325px -104px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Spirituality_m{
-	background-position: -353px -53px ;
-	width: 30px;
-	height: 50px;
-}
-
-.Spirituality_ma{
-	background-position: -353px -104px ;
-	width: 30px;
-	height: 50px;
 }
 
 .date{
@@ -252,14 +25,8 @@ body.inactive
 	height: 30px;
 }
 
-.date_time{
-	background-position: -178px -160px ;
-	width: 50px;
-	height: 50px;
-}
-
 .email{
-	background-position: -100px -163px ;
+	background-position: -103px -161px ;
 	width: 35px;
 	height: 22px;
 }
@@ -271,7 +38,7 @@ body.inactive
 }
 
 .google_plus{
-	background-position: -38px -158px ;
+	background-position: -38px -161px ;
 	width: 35px;
 	height: 22px;
 }
@@ -283,111 +50,9 @@ body.inactive
 }
 
 .twitter{
-	background-position: 0 -159px ;
+	background-position: 0 -161px ;
 	width: 35px;
 	height: 22px;
-}
-
-.Advocacy_sm{
-	background-position: 0 -31px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Community_sm{
-	background-position: -31px -30px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Drinks_sm{
-	background-position: -58px -31px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Education_sm{
-	background-position: -83px -32px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Entertainment_sm{
-	background-position: -114px -32px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Fashion_sm{
-	background-position: -146px -32px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Food_sm{
-	background-position: -174px -31px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Health_sm{
-	background-position: -200px -32px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Music_sm{
-	background-position: -227px -32px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Other_sm{
-	background-position: -252px -31px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Recreation_sm{
-	background-position: -277px -31px ;
-	width: 31px;
-	height: 19px;
-}
-
-.Spirituality_sm{
-	background-position: -307px -34px ;
-	width: 28px;
-	height: 16px;
-}
-
-.Art{
-	background-position: -544px 0;
-	width: 50px;
-	height: 30px;
-}
-
-.Art_sm{
-	background-position: -332px -31px ;
-	width: 31px;
-	height: 19px;
-}
-
-.tinder{
-	background-position: -294px -169px ;
-	width: 20px;
-	height: 13px;
-}
-
-.on-fiya{
-	background-position: -349px -165px ;
-	width: 20px;
-	height: 29px;
-}
-
-.sparked{
-	background-position: -321px -163px ;
-	width: 20px;
-	height: 25px;
 }
 
 .target{
@@ -395,6 +60,206 @@ body.inactive
 	width: 30px;
 	height: 30px;
 }
+
+.Music{
+	background-position: -416px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Art{
+	background-position: -47px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Spirituality{
+	background-position: -546px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Health{
+	background-position: -372px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Advocacy{
+	background-position: 0 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Community{
+	background-position: -95px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Drinks{
+	background-position: -145px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Education{
+	background-position: -187px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Entertainment{
+	background-position: -237px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Food{
+	background-position: -331px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Fashion{
+	background-position: -289px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Other{
+	background-position: -462px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Recreation{
+	background-position: -502px 0;
+	width: 50px;
+	height: 30px;
+}
+
+.Advocacy_sm{
+	background-position: 0 -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Art_sm{
+	background-position: -27px -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Community_sm{
+	background-position: -56px -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Drinks_sm{
+	background-position: -88px -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Education_sm{
+	background-position: -117px -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Entertainment_sm{
+	background-position: -146px -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Fashion_sm{
+	background-position: -177px -34px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Food_sm{
+	background-position: -208px -33px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Health_sm{
+	background-position: -236px -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Music_sm{
+	background-position: -266px -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Other_sm{
+	background-position: -294px -32px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Recreation_sm{
+	background-position: -322px -33px ;
+	width: 31px;
+	height: 19px;
+}
+
+.Spirituality_sm{
+	background-position: -353px -34px ;
+	width: 28px;
+	height: 16px;
+}
+
+.date_time{
+	background-position: -176px -159px ;
+	width: 50px;
+	height: 50px;
+}
+
+.unlit{
+	background-position: 0 -203px ;
+	width: 70px;
+	height: 44px;
+}
+
+.lighting{
+	background-position: -62px -203px ;
+	width: 70px;
+	height: 44px;
+}
+
+.lit{
+	background-position: -126px -203px ;
+	width: 70px;
+	height: 44px;
+}
+
+.tinder{
+	background-position: -295px -164px ;
+	width: 20px;
+	height: 13px;
+}
+
+.sparked{
+	background-position: -319px -160px ;
+	width: 20px;
+	height: 25px;
+}
+
+.on-fiya{
+	background-position: -343px -161px ;
+	width: 20px;
+	height: 29px;
+}
+
+
 
 
 /*end sprites*/
@@ -415,7 +280,10 @@ body.inactive
 /************* general*/
 
 /************* header*/
-
+#tndr
+{
+min-height:100%;
+}
 #search-bar
 {
 	margin-bottom:0px;
@@ -520,10 +388,24 @@ body.inactive
 
 }
 /************* posts*/
-.highlight .post-spacetime
+.highlight .post-spacetime, .highlight .post-interact
 {
 	border-color:#A33539;
 }
+.post-interact
+{
+	position:relative;
+	max-width:100%;
+	bottom:0px;
+	padding:1px;
+	border-top:solid 2px #999999;
+	border-left:solid 2px #999999;
+	border-bottom:none;
+       -webkit-border-top-left-radius: 10px;
+          -moz-border-top-left-radius: 10px;
+               border-top-left-radius: 10px;
+}
+
 .post-spacetime
 {
 	max-width:100%;
@@ -531,18 +413,29 @@ body.inactive
 	text-align:right;
 	font-size:12px;
 	padding:5px;
-	border-top:solid 2px #999999;
+	border-top:none;
 	border-left:solid 2px #999999;
 	border-bottom:solid 2px #999999;
-       -webkit-border-top-right-radius: 5px;
-          -moz-border-top-right-radius: 5px;
-               border-top-right-radius: 5px;
-       -webkit-border-top-left-radius: 5px;
-          -moz-border-top-left-radius: 5px;
-               border-top-left-radius: 5px;
        -webkit-border-bottom-left-radius: 10px;
           -moz-border-bottom-left-radius: 10px;
                border-bottom-left-radius: 10px;
+}
+@media all and (max-width:765px){
+.post-spacetime
+{
+	border-top:solid 2px #999999;
+	border-left:none;
+       -webkit-border-bottom-left-radius: 0px;
+          -moz-border-bottom-left-radius: 0px;
+               border-bottom-left-radius: 0px;
+}
+.post-interact
+{
+	border-left:none;
+       -webkit-border-top-left-radius: 0px;
+          -moz-border-top-left-radius: 0px;
+               border-top-left-radius: 0px;
+}
 }
 #post-time
 {
@@ -631,10 +524,14 @@ body.inactive
 {
 	color:#F4F2E6;
 }
-
+.spark-button
+{
+	padding:1px;
+	margin:10px;
+}
 .share
 {
-	margin:5px;
+	margin:1px;
 }
 
 .share > a
@@ -705,12 +602,25 @@ body.inactive
 #box.active
 {
 overflow-y:scroll;
+top:65px;
 }
 #box.inactive
 {
 	height:150px;
+top:auto;
 }
+#box-left.active, #box-right.active
+{
+	bottom:auto;
+	top:4px;
 
+}
+#box-left.inactive, #box-right.inactive
+{
+	top:auto;
+	bottom:-25px;
+
+}
 
 
 
@@ -725,7 +635,9 @@ overflow-y:scroll;
 }
 #box-content
 {
+
 position:relative;
+top:-1px;
 height:100%;
 /* IE9 SVG, needs conditional override of 'filter' to 'none' */
 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzdmMTIxNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMzNzA1MDciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -744,15 +656,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f1214', end
 	top:-85px;
 	margin:0px 80px 0px 80px;
 }
+
 #signin-form
 {
 		padding:20px;
 		float:none;
 		max-width:220px;
-//		margin:0px auto;
+		margin:0px auto;
 }
 
-
+#the-basics, #faq, .about-tab 
+{
+	margin:10px;
+}
 #box-links .active a
 {
 	color:#A33539;

@@ -83,6 +83,7 @@ else
 	echo "
 				<script>
 					$(document).ready(function(){
+
 					$('a.tag').click(function(e){
 						if(!$('#filters').hasClass('disabled'))
 						{
@@ -93,6 +94,7 @@ else
 							$('#search').attr('placeholder', $(this).html());
 						}
 					});
+
 					});
 				</script>
 				<div class='post-header'>";
@@ -121,7 +123,7 @@ else
 <p class='post-title centered'><b>$title</b><p>
 
 				</div>
-				<div class='post-body'  onload=\"$('.tiles').masonry('reload');\">
+				<div class='post-body'  onload=\"repositionContainers()\">
 					<div class='row-fluid'>
 						<div class='span7 top-left' id='post'>";
 
@@ -244,11 +246,20 @@ else
 	  {
 	$tndrbox_share = urlencode('http://tndrbox.com/?p='.$p_id);
 echo "
-<div class='share btn-group pull-right'>
+<div class='post-interact'>
+<ul class='unstyled centered'>
+<li>
+<button class='btn btn-primary spark-button' id='spark-$p_id' onCLick='sparkPost($p_id)'><div class='unlit'></div></button>
+</li>
+<li>
+<div class='share btn-group'>
 	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/?p=$p_id\" target='_blank'><div class='email'></div></a>
 	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=$tndrbox_share\" target='_blank'><div class='facebook'></div></a>
 	<a class='btn' href=\"http://twitter.com/share?url=$tndrbox_share&text=$title @ $name\" target='_blank'><div class='twitter'></div></a>
 	<a class='btn' href=\"https://plus.google.com/share?url=$tndrbox_share\" target=_blank'><div class='google_plus'></div></a>
+</li>
+</ul>
+</div>
 
 </div>";
 }

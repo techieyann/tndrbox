@@ -36,7 +36,7 @@ function initPage()
 	var frontBox = $('#front-of-box');
 	var boxLinks = $('#box-links');
 
-	if($(window).innerWidth() < 765)
+	if($(window).innerWidth() < 768)
 	{
 		welcomePageExpanded = false;
 	}
@@ -82,14 +82,10 @@ function initPage()
 		});
 
 		getPosts();
-
-
-
 	}
 }
 
 $(document).ready(function(){
-
 	initPage();
 
 	var tndr = $('#body-container');
@@ -99,6 +95,8 @@ $(document).ready(function(){
 	var boxLinks = $('#box-links');
 	var rightPane = $('#right-pane');
 	var leftPane = $('#left-pane');
+
+
 
 	window.onresize = function(){
 		repositionContainers();
@@ -374,20 +372,22 @@ $(document).ready(function(){
 	});
 
 	rightPane.click(function(e){
-		if(leftPane.hasClass('active') && ($(window).innerWidth() < 765))
+		if(leftPane.hasClass('active') && ($(window).innerWidth() < 768))
 		{
 			e.preventDefault();
 			leftPane.removeClass('active');
 			rightPane.addClass('active');
 		}
+
 	});
 	leftPane.click(function(e){
-		if(rightPane.hasClass('active')  && ($(window).innerWidth() < 765))
+		if(rightPane.hasClass('active')  && ($(window).innerWidth() < 768))
 		{
 			e.preventDefault();
 			rightPane.removeClass('active');
 			leftPane.addClass('active');
 		}
+
 		
 	});
 	$('.format-button').on('click', function(e){
@@ -451,7 +451,13 @@ $(document).ready(function(){
 			$(this).parent().addClass('active');
 		}
 	});
-
+	$('#body-container').click(function(e){
+		if($('body').hasClass('inactive'))
+		   {
+			   e.preventDefault();
+			   deactivateBox();
+		   }
+	});
 
 });
 
@@ -498,7 +504,8 @@ function writePosts()
 				});
 				google.maps.event.addListener(markers[index], 'mouseover', function(e){highlightPosting(post.id);});
 				google.maps.event.addListener(markers[index], 'mouseout', function(e){lowlightPosting(post.id);});
-					markers[index].setMap(map);
+
+				markers[index].setMap(map);
 				postings[index]['marker']=markers[index];
 				oms.addMarker(markers[index]);
 
@@ -615,6 +622,8 @@ function repositionContainers()
 	var box = $('#box');
 	var activeBox = $('#box.active');
 	var middleBox = $('#middle-box');
+	var leftBox = $('#box-left');
+	var rightBox = $('#box-right');
 	var frontBox = $('#front-of-box');
 	var boxLinks = $('#box-links');
 
@@ -623,7 +632,7 @@ function repositionContainers()
 
 	var header_height = tndrHeader.height();
 
-	if(window_width > 765)
+	if(window_width > 768)
 	{
 		rightPane.css('height', window_height - (65 + header_height));
 	}
@@ -654,7 +663,7 @@ function repositionContainers()
 	{
 		postColumns = 3
 	}
-	else if(765 < window_width)
+	else if(768 < window_width)
 	{
 		postColumns = 2
 	}
@@ -697,18 +706,20 @@ function repositionContainers()
 	}
 	middleBox.css('width', tndrContainerWidth);
 
-	box.css('width', tndrContainerWidth+160);
+//	box.css('width', tndrContainerWidth+160);
 	$('#box-content').css('width', tndrContainerWidth+130);
 
-	if($('#box-js-content').height() > window_height-105 && box.hasClass('active'))
+	if(box.hasClass('active'))
 	{
-		box.css('top',0);
-		$('#box-content').css('height', 'auto');
+//		box.css('top',65);		
+		$('#box-content').css('min-height', '100%');
+
 	}
 	else
 	{
-		box.css('top','');
-		$('#box-content').css('height', '');
+//		box.css('top','');
+
+		$('#box-content').css('min-height', '');
 	}
 
 		if(tiles.hasClass('masonry'))
@@ -767,7 +778,8 @@ function activateBox()
 	if(!box.hasClass('active'))
 	{
 		$('#box-js-content').hide();
-		box.switchClass('inactive', 'active');
+		$('#box-left, #box-right, #box').switchClass('inactive', 'active');
+
 		$('body').addClass('inactive');
 		$('#hide-box-button').show();
 
@@ -788,14 +800,15 @@ function deactivateBox()
 	var box = $('#box');
 	if(box.hasClass('active'))
 	{
-	$('#hide-box-button').hide();
 
+	$('#hide-box-button').hide();
+			$('#box-left, #box-right, #box').switchClass('active', 'inactive');
 	$('#box-js-content').hide();
 
-		box.css('top','');
+	box.css('top','');
 		$('#box-content').css('height', '');
 
-	box.switchClass('active', 'inactive');
+
 		$('#box-links a').parent().removeClass('active');
 
 
@@ -855,7 +868,7 @@ function highlightPosting(id)
 	var post = postings[index];
 	var marker = postings[index]['marker'];
 	link.parent().addClass('highlight');
-	marker.setMap(map);
+
 	marker.setIcon(markerSprites[post.tag_1+'_a']);
 
 
@@ -957,6 +970,9 @@ function loadPost(id){
 			activePostId = id;
 			fullPost.show('fast', function(){repositionContainers();});
 			fullPost.addClass('active');
+			var postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
+			map.panTo(postLatLon);
+
 		}
 		else
 		{
@@ -975,12 +991,11 @@ function loadPost(id){
 
 					repositionContainers();
 
-
-//					this.lastPosition = map.getCenter();
 					var postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
+
 					map.panTo(postLatLon);
-//					marker.setMap(map);
-//					marker.setAnimation(google.maps.Animation.BOUNCE);
+					fullPost.find('.share').hide();
+
 
 
 				});
@@ -1048,6 +1063,27 @@ function closePostButton(){
 	$.bbq.pushState('p=');
 }
 
+function sparkPost(id)
+{
+	var sparkButtons = $('.tile,.list').find('#spark-'+id);
+
+	sparkButtons.addClass('disabled');
+	sparkButtons.children().switchClass('unlit','lighting', function(){
+		sparkButtons.parent().next().children().slideDown('fast', function(){
+			if($('#tile-format').hasClass('disabled'))	
+			{
+				$('#tiles').masonry('reload');	
+			}
+		});	
+	});
+	var url = 'scripts/spark_post?p='+id;
+	$.getJSON(url, function(data){
+
+		sparkButtons.children().switchClass('lighting','lit');
+	});
+
+}
+
 function scrollToActive()
 {	
 	if(activePostId != 0)
@@ -1065,7 +1101,8 @@ function scrollToActive()
 
 		}
 
-		top -= 100;
+//		top -= 100;
+
 		$('html, body').animate({
 			scrollTop: top
 			}, 'fast');
@@ -1077,62 +1114,27 @@ function initMarkerSprites()
 	var path = 'images/tndr-sprites.png';
 	var size = new google.maps.Size(20, 13, 'px', 'px');
 
-	var origin = new google.maps.Point(294, 169);
+	var origin = new google.maps.Point(295, 164);
 	markerSprites['tndr'] = new google.maps.MarkerImage(path, size, origin, null, null);
 	
 	size = new google.maps.Size(30, 50, 'px', 'px');
-	origin = new google.maps.Point(0, 52);
-	markerSprites['Advocacy'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(0, 104);
-	markerSprites['Advocacy_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(28, 52);
-	markerSprites['Art'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(29, 105);
-	markerSprites['Art_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(57, 53);
-	markerSprites['Community'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(60, 105);
-	markerSprites['Community_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(87, 53);
-	markerSprites['Drinks'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(89, 104);
-	markerSprites['Drinks_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(118, 53);
-	markerSprites['Education'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(117, 105);
-	markerSprites['Education_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(148, 54);
-	markerSprites['Entertainment'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(148, 106);
-	markerSprites['Entertainment_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(180, 54);
-	markerSprites['Fashion'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(178, 107);
-	markerSprites['Fashion_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(209, 53);
-	markerSprites['Food'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(207, 105);
-	markerSprites['Food_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(237, 53);
-	markerSprites['Health'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(237, 105);
-	markerSprites['Health_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(266, 53);
-	markerSprites['Music'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(267, 104);
-	markerSprites['Music_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(294, 54);
-	markerSprites['Other'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(296, 104);
-	markerSprites['Other_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(325, 55);
-	markerSprites['Recreation'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(325, 104);
-	markerSprites['Recreation_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(353, 53);
-	markerSprites['Spirituality'] = new google.maps.MarkerImage(path, size, origin, null, null);
-	origin = new google.maps.Point(353, 104);
-	markerSprites['Spirituality_a'] = new google.maps.MarkerImage(path, size, origin, null, null);
+	var xPos = -29;
+	var yPos;
+
+	$.each(categories, function(index, value) {
+		yPos = 53;
+		xPos = xPos + 29;
+		var markerIndex = value.tag;			
+
+		origin = new google.maps.Point(xPos, yPos); // 0, 53
+		markerSprites[markerIndex] = new google.maps.MarkerImage(path, size, origin, null, null);
+
+		yPos = 105;
+		markerIndex += '_a';
+
+		origin = new google.maps.Point(xPos, yPos); // 0, 53
+		markerSprites[markerIndex] = new google.maps.MarkerImage(path, size, origin, null, null);
+	});
 }
 
 function mapInitialize(callback) {
