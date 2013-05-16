@@ -34,6 +34,7 @@ function query_db($query)
 		switch($query_type)
 		  {
 		  case 'UPDATE':
+			$STH->execute();
 		  case 'INSERT':
 			return $STH->execute();	
 			break;

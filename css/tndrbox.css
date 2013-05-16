@@ -602,25 +602,9 @@ min-height:100%;
 #box.active
 {
 overflow-y:scroll;
-top:65px;
 }
-#box.inactive
-{
-	height:150px;
-top:auto;
-}
-#box-left.active, #box-right.active
-{
-	bottom:auto;
-	top:4px;
 
-}
-#box-left.inactive, #box-right.inactive
-{
-	top:auto;
-	bottom:-25px;
 
-}
 
 
 

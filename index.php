@@ -198,7 +198,6 @@ height:40px;
 width:200%;
 	position:fixed;
 	left: 5px;
-	bottom:-86px;
 	z-index:200;
 }
 #box-content
@@ -235,19 +234,18 @@ display:inline;
 #box-left
 {
 position:fixed;
-bottom:-25px;
 	height:150px;
 left:5px;
-
+z-index:1000;
 
 }
 #box-right
 {
 position:fixed;
-bottom:-25px;
+
 right:5px;
 	height:150px;
-
+z-index:1000;
 }
 
 
@@ -309,7 +307,7 @@ margin-top:0px;
 	#box
 	  {
 	  left:-65px;
-	  bottom:-117px;
+//	  bottom:-117px;
 	  }
 	#middle-box
 	  {
@@ -326,12 +324,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		</style>
 
 	<!-- Global js variables -->
-		<script>
-			var loggedIn = <?php ($GLOBALS['logged_in'] ? print "true" : print "false") ?>;
-			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
-			var categories = <?php print $json_categories ?>;
-			var postings;
-		</script>
+
 
 	<!-- Meta data -->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -339,8 +332,8 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		<meta name="viewport" content="user-scalable=false, width=device-width, initial-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<!-- Open Graph Data -->
-		<meta property="og:title" content="<?php print ($post_flag ? "$title at $name":"A posting board for Temescal") ?>">
-	    <meta property="og:description" content="<?php print ($post_flag ? substr($blurb, 0, 100)."...":"tndrbox is a community events board in Oakland. Come see what is happening around you.") ?>">
+		<meta property="og:title" content="<?php print ($post_flag ? "$title at $name":"A posting board for Oakland") ?>">
+	    <meta property="og:description" content="<?php print ($post_flag ? substr($blurb, 0, 100)."...":"tndrbox is a community events board in Oakland. Come see what is happening around you!") ?>">
 		<meta property="og:site_name" content="tndrbox">
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="tndrbox.com/<?php print ($post_flag ? "?p=$p_id":"") ?>">
@@ -351,6 +344,12 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		<link rel="shortcut icon" href="images/favicon.ico">
 		<link rel="apple-touch-icon" href="images/touchicon.png">
 
+		<script>
+			var loggedIn = <?php ($GLOBALS['logged_in'] ? print "true" : print "false") ?>;
+			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
+			var categories = <?php print $json_categories ?>;
+			var postings;
+		</script>
 	</head>
 
 	<body onload='loadTheRest()'>
@@ -485,21 +484,20 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 			var boxImage = document.createElement('div');
 			boxImage.setAttribute('id', 'box-images');
 			boxImage.innerHTML = '<div id="middle-box"><!--<img id="box-back" src="images/box-B.png">--><img id="box-front" src="images/box-M.png"></div>';
-//<img id="box-right" src="images/box-R.png" class="hidden-phone inactive">
-//<img id="box-left" src="images/box-L.png" class="hidden-phone inactive">
+
 			var box = document.getElementById('box');
 			box.insertBefore(boxImage, box.firstChild);
 
 			boxImage = document.createElement('img');
 				boxImage.setAttribute('id', 'box-left');
-				boxImage.setAttribute('class', 'hidden-phone inactive');
+				boxImage.setAttribute('class', 'inactive');
 				boxImage.setAttribute('src', 'images/box-L.png');
 
 				box.parentNode.insertBefore(boxImage, box);
 
 				boxImage = document.createElement('img');
 				boxImage.setAttribute('id', 'box-right');
-				boxImage.setAttribute('class', 'hidden-phone inactive');
+				boxImage.setAttribute('class', 'inactive');
 				boxImage.setAttribute('src', 'images/box-R.png');
 
 				box.parentNode.insertBefore(boxImage, box.nextSibling);
