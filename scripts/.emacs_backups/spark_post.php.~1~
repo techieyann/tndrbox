@@ -1,0 +1,23 @@
+<?php
+/***********************************************
+file: scripts/search_tag.php
+creator: Ian McEachern
+
+This is the php script used to search through 
+the database for matching tags when a user 
+enters values into a tag field.
+ ***********************************************/
+
+require('../includes/includes.php');
+require('../includes/tags.php');
+
+connect_to_db($mysql_user, $mysql_pass, $mysql_db);
+$active_flag = false;
+if(isset($_GET['id']))
+  {
+	$id = $_GET['id'];
+	return "['success']";
+  }
+
+disconnect_from_db();
+?>

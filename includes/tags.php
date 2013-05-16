@@ -30,8 +30,12 @@ function get_tag($tag)
 	if(is_numeric($tag))
 	{
 		$query = "SELECT tag FROM tags WHERE id=$tag";
+
 		$result = query_db($query);
-		return $result[0]['tag'];
+		if(isset($result[0]))
+		{	
+			return $result[0]['tag'];
+		}
 	}
 	else
 	{
