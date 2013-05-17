@@ -716,10 +716,11 @@ function repositionContainers()
 		var boxWingsTop = 5;
 		if(boxHeight < window_height-65)
 		{
-			boxTop = window_height - boxHeight + 2;
+			boxTop = window_height - boxHeight -7;
 			boxWingsTop = boxTop-61;
 		}
 		activeBox.css('top',boxTop);
+	activeBox.css('min-height', window_height-boxHeight);
 		activeBoxWings.css('top',boxWingsTop);		
 
 	if(box.hasClass('active'))
