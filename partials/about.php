@@ -13,6 +13,7 @@
 				<br>
 				<p>send us an email:<strong><a href=\"mailto:tndrbox@gmail.com\">tndrbox@gmail.com</a></strong></p>
 		</div>
+
 		<div id='the-basics' class='tab-pane'>
 			<div class='tabbable tabs-left content'>
 				<ul class='nav nav-tabs'>
