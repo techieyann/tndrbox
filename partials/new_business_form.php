@@ -39,22 +39,6 @@ echo "
 				</div>
 			</div>
 
-			<div class='control-group'>
-				<label class='control-label' for='address'>
-					Address *
-				</label>
-				<div class='controls'>
-					<input required type='text' maxlength=100 name='address' id='address' placeholder='Address of your business...' class='span11'>
-				</div>
-   			</div>
-
-			<div class='control-group'>
-				<div class='controls'>
-					<input required type='text' maxlength=32 name='city' id='city' placeholder='City...' class='span5'>
-					<input required type='text' maxlength=2 name='state' id='state' placeholder='State...' class='span2'>
-					<input required type='text' maxlength=5 name='zip' id='zip' placeholder='Zip...' class='span4'>
-				</div>
-			</div>
 			
 			<div class='control-group'>
 				<label class='control-label' for='category'>
@@ -97,6 +81,24 @@ echo "
 					<input type='file' name='photo_upload' id='photo_upload' size=5>
 				</div>
 			</div>
+
+			<div class='control-group'>
+				<label class='control-label' for='address'>
+					Address
+				</label>
+				<div class='controls'>
+					<input type='text' maxlength=100 name='address' id='address' placeholder='Address of your business...' class='span11'>
+				</div>
+   			</div>
+
+			<div class='control-group'>
+				<div class='controls'>
+					<input type='text' maxlength=32 name='city' id='city' placeholder='City...' class='span5'>
+					<input type='text' maxlength=2 name='state' id='state' placeholder='State...' class='span2'>
+					<input type='text' maxlength=5 name='zip' id='zip' placeholder='Zip...' class='span4'>
+				</div>
+			</div>
+
 			<div class='control-group'>
 				<label class='control-label' for='number'>
 					Number

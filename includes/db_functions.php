@@ -18,7 +18,7 @@ function analyze_user()
 		$sid = $session[1];
 		$email = $session[0];
 
-		$query = "SELECT id, b_id, s_id FROM members WHERE email = '$email'";
+		$query = "SELECT id, b_id, s_id, type FROM members WHERE email = '$email'";
 		$result = query_db($query);
 		if(isset($result[0]))
 		  {
@@ -31,6 +31,7 @@ function analyze_user()
 				$GLOBALS['email'] = $email;
 				$GLOBALS['m_id'] = $id;
 				$GLOBALS['b_id'] = $b_id;
+				$GLOBALS['type'] = $type;
 			  }
 		  }
 		else
@@ -121,6 +122,31 @@ function push_old_post($b_id)
 		query_db($query);
 	  }
   }
+function deactivate_post($id)
+  {
+    $query = "SELECT active, b_id, tag_1, tag_2, tag_3 FROM postings WHERE id=$id";
+	$result = query_db($query);
+	if(isset($result[0]))
+	  {
+		extract($result[0]);
+		if($active == 1)
+		{
+			decrement_tag($tag_1);
+			decrement_tag($tag_2);
+			decrement_tag($tag_3);	
+			$query = "UPDATE postings SET active=0 WHERE id=$id";
+			query_db($query);
+			$query = "SELECT id FROM postings WHERE active=1 AND b_id=$b_id";
+			$result = query_db($query);
+			if(!isset($result[0]))
+			{
+				$query = "UPDATE business SET active_post=0, last_touched=CURRENT_TIMESTAMP WHERE id=$b_id";
+				query_db($query);
+			}
+		 }
+	  }
+  }
+
 function activate_post($p_id)
   {
     $query = "SELECT tag_1, tag_2, tag_3, b_id FROM postings WHERE id=$p_id";
@@ -131,7 +157,7 @@ function activate_post($p_id)
 		increment_tag($tag_1);
 		increment_tag($tag_2);
 		increment_tag($tag_3);	
-		$query = "UPDATE postings SET active=1 WHERE id=$p_id";
+		$query = "UPDATE postings SET active=1, posting_time=CURRENT_TIMESTAMP WHERE id=$p_id";
 		query_db($query);
 		$query = "UPDATE business SET active_post=1, last_touched=CURRENT_TIMESTAMP WHERE id=$b_id";
 		echo query_db($query);

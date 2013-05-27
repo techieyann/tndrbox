@@ -17,16 +17,18 @@ if(isset($_GET['id']))
 	analyze_user();
 	verify_logged_in();
 	check_admin() ? $admin_flag = true : $admin_flag = false;
-	$b_id=$_GET['id'];
-
-	if(!$admin_flag && $b_id != $GLOBALS['b_id'])
-	  {
-		disconnect_from_db();
-		return;
-	  }
-
-	push_old_post($b_id);
-	
+	$id=$_GET['id'];
+	$query = "SELECT b_id FROM postings WHERE id=$id";
+	$result = query_db($query);
+	if(isset($result[0]))
+	{
+		if(!$admin_flag && $result[0]['b_id'] != $GLOBALS['b_id'])
+		  {
+			disconnect_from_db();
+			return;
+		  }
+		deactivate_post($id);
+	}
 	disconnect_from_db();
   }
 ?>

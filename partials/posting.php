@@ -74,10 +74,14 @@ else
    	$tags[3] = get_tag($tag_3);
 
 
-	if($post['alt_address'] == "")
+	if($post['address'] == "")
       {
 		$alt_address = $business['address'].", ".$business['city'].", ".$business['state'].", ".$business['zip'];
 	  }
+	else
+	{
+		$alt_address = $post['address'].", ".$post['city'].", ".$post['zip'];
+	}
 	$date = format_date($id);
 	
 	echo "
@@ -109,7 +113,7 @@ else
 		echo "
 
 						<a class='btn btn-mini' title='Edit' href='#b=members&view=edit-post&id=$id'><i class='icon-pencil'></i></a>
-						<a class='btn btn-mini' title='Deactivate'  href='#b=members&view=deactivate-post&id=$b_id'><i class='icon-ban-circle'></i></a>
+						<a class='btn btn-mini' title='Deactivate'  href='#b=members&view=deactivate-post&id=$id'><i class='icon-ban-circle'></i></a>
 						<a class='btn btn-mini' title='Delete' href='#b=members&view=delete-post&id=$id'><i class='icon-trash'></i></a>";
 		}
 
@@ -184,8 +188,22 @@ else
 	  {
 		echo "
 								<div id='post-time'>
-									<div class='date pull-left'></div>
-									$date								
+									<div class='date";
+		if($start_time != "00:00:00")
+		{
+			echo "_time";
+		} 
+		echo " pull-left'></div>
+									$date";
+		if($start_time != "00:00:00")
+		{
+			echo "<br>".substr($start_time, 0, -3);
+			if($end_time != "00:00:00")
+			{
+				echo " - ".substr($end_time, 0, -3);
+			}
+		}
+			echo "
 								</div>";
 	  }
 

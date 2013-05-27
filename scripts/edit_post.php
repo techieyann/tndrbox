@@ -23,10 +23,7 @@ if(isset($_GET['id']))
 		$b_id = $GLOBALS['b_id'];
 	  }
 
-	$query = "SELECT tag_1, tag_2, tag_3".(check_admin() ? ", b_id":"")." FROM postings WHERE id='$id'";
-	$result = query_db($query);
 
-	extract($result[0]);
 	extract($_POST);
 
 	$title = add_slashes($title);
@@ -39,12 +36,11 @@ if(isset($_GET['id']))
 
 if($address == "")
   {
-	$query = "SELECT address, city, state, zip, lat, lon FROM business WHERE id=$b_id";
+	$query = "SELECT lat, lon FROM business WHERE id=$b_id";
 	$result = query_db($query);
 	if(isset($result[0]))
 	  {
 		extract($result[0]);
-		$address = "$address $city, $state, $zip";
 	  }
 	else
 	  {
@@ -53,7 +49,7 @@ if($address == "")
   }
 else
   {
-	$latlon = addr_to_latlon($address);
+	$latlon = addr_to_latlon($address.", ".$city.", ".$zip);
 	$lat = $latlon['lat'];
 	$lon = $latlon['lon'];
   }
@@ -91,14 +87,13 @@ else
 
 	$query = "UPDATE postings SET active=0, viewed=0, title='$title', blurb='$description', 
 			tag_1='$tag1_id', tag_2='$tag2_id', tag_3='$tag3_id',
-			date='$date', alt_address='$address', lat='$lat', lon='$lon', url='$url',
-			posting_time=CURRENT_TIMESTAMP"
+			date='$date', start_time='$start_time', end_time='$end_time', address='$address', city='$city', zip='$zip', lat='$lat', lon='$lon', url='$url'"
 	  .($image_upload_flag ? ", photo='img_$id.$ext'" : " ")
 			."WHERE id='$id'";
 
 	query_db($query);
 
-	echo "postId=$id";
+	echo "postId=".$id;
 
 	disconnect_from_db($link);
   }

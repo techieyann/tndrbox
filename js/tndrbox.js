@@ -12,7 +12,6 @@ var initialized = false;
 var activePostings = [];
 var lastURL = '';
 var oms = '';
-var markerSprites = [];
 var ogSearchPlaceholder = '';
 
 var activePost;
@@ -1142,24 +1141,24 @@ function scrollToActive()
 function initMarkerSprites()
 {
 	var path = 'images/tndr-sprites.png';
-	var size = new google.maps.Size(20, 13, 'px', 'px');
+	var size = new google.maps.Size(23, 15, 'px', 'px');
 
-	var origin = new google.maps.Point(295, 164);
+	var origin = new google.maps.Point(298, 170);
 	markerSprites['tndr'] = new google.maps.MarkerImage(path, size, origin, null, null);
 	
-	size = new google.maps.Size(30, 50, 'px', 'px');
-	var xPos = -29;
+	size = new google.maps.Size(40, 50, 'px', 'px');
+	var xPos = -40;
 	var yPos;
 
 	$.each(categories, function(index, value) {
-		yPos = 53;
-		xPos = xPos + 29;
+		yPos = 52;
+		xPos = xPos + 40;
 		var markerIndex = value.tag;			
 
 		origin = new google.maps.Point(xPos, yPos); // 0, 53
 		markerSprites[markerIndex] = new google.maps.MarkerImage(path, size, origin, null, null);
 
-		yPos = 105;
+		yPos = 104;
 		markerIndex += '_a';
 
 		origin = new google.maps.Point(xPos, yPos); // 0, 53

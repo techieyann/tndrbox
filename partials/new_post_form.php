@@ -17,10 +17,19 @@ verify_logged_in();
 $new_post_args = "";
 $business_select_box = "";
 $default_photo_html = "";
+$default_address = "";
+$tag2_example = "";
+$tag3_example = "";
+
 $image_label = "Image ";
 $result = get_most_popular_tags(2);
-$tag2_example = $result[0]['tag'];
-$tag3_example = $result[1]['tag'];
+if(isset($result[0]))
+{
+	$tag2_example = $result[0]['tag'];
+	$tag3_example = $result[1]['tag'];
+}
+
+
 if(check_admin())
 	{
 	  $category = 0;
@@ -50,6 +59,15 @@ if(check_admin())
 else
   {
 	$b_id = $GLOBALS['b_id'];
+
+	$query = "SELECT address, city, state, zip FROM business WHERE id=$b_id";
+	$result = query_db($query);
+	if(isset($result[0]))
+	{
+		extract($result[0]);
+		$default_address = "$address, $city, $state, $zip";
+	}
+
 	$query = "SELECT category, photo FROM business WHERE id=$b_id";
 	$result = query_db($query);
 	extract($result[0]);
@@ -64,6 +82,14 @@ disconnect_from_db();
 
 ?>
 		<script>
+			var eventDisplay = false;
+			$('#time-group').hide();
+			$('#end_time').hide();
+<?php if($default_address != ""){ print "$('#alternate-address').hide();";} ?>
+
+			toggleEventDisplay();
+			
+
 			$(function(){
 				$('#tag2').autocomplete({
 					source:'scripts/search_tag',
@@ -79,13 +105,26 @@ disconnect_from_db();
 						return false;
 					}
 				});	
+				
+
 
 					$('#date').datepicker({
 						dateFormat: 'yy-mm-dd',
 						minDate: 0,
-						maxDate: '+28D'
+						maxDate: '+28D',
+						onSelect: function(){
+							$('#time-group').show();
+						}
 					});
+					$('#start_time').timepicker({
+						onSelect: function(time){
+							$('#end_time').show();
+						}
+					});
+					$('#end_time').timepicker();
+
 				$('.new-post-form').ajaxForm({success: parseNewPostReturn});
+			});
 				function parseNewPostReturn(responseText, statusText, xhr, $form)
 				{
 				  if(statusText == 'success')
@@ -104,7 +143,18 @@ disconnect_from_db();
 					}
 
 				}
-			});
+
+			function toggleEventDisplay(){
+				if(eventDisplay)
+				{
+					$('#event-fields').show();
+				}
+				else
+				{
+					$('#event-fields').hide();
+				}
+				eventDisplay = !eventDisplay;
+			}
 		</script>
 		<div id="js-content">
 		<form name="new-post-form" class="new-post-form"  enctype="multipart/form-data" action="scripts/new_post<?php print $new_post_args ?>" method="post">
@@ -179,6 +229,10 @@ disconnect_from_db();
 					</div>
 			</div>
 
+			<input type="checkbox" name="event-check" onchange="toggleEventDisplay()"> Event <br>
+
+
+			<div id="event-fields">
 			<div class="control-group">
 				<label class="control-label" for="date">
 					Date 
@@ -187,18 +241,58 @@ disconnect_from_db();
 					<input type="text" name="date" id="date" placeholder="Click to add date..." class="span12">
 				</div>
 			</div>
+			
 
+			<div id="time-group">
 			<div class="control-group">
-				<label class="control-label" for="address">Address</label>
-					<div class="controls">
-						<input type="text" maxlength=250 name="address" id="address" placeholder="Insert address of event here..." class="span12">
-					</div>
+				<label class="control-label" for="start_time">
+					Time 
+				</label>
+				<div class="controls">
+					<input type="text" name="start_time" id="start_time" placeholder="Start" class="span5"> - <input type="text" name="end_time" id="end_time" placeholder="End" class="span5">
+				</div>
+			</div>
 			</div>
 
+
+
+			</div>
+			---------
+<?php
+	if($default_address != "")
+	{
+		echo "
+			<div id='default-address'>
+				<button type='button' class='btn-mini' onclick=\"$('#default-address').hide(); $('#alternate-address').show();\">Change Address</button><br>
+					$address<br>
+					$city, $state, $zip
+			</div>";
+	}
+?>
+
+			<div id='alternate-address'>
+
 			<div class="control-group">
-				<label class="control-label" for="url">Purchase URL</label>
+				<label class="control-label" for="address">Alternate Address</label>
 					<div class="controls">
-					    <input type="text" maxlength=250 name="url" id="url" placeholder="Do not include \"http://\"" class="span12">
+						<input type="text" maxlength=250 name="address" id="address" placeholder="Nearest cross-street" class="span12">
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="controls">
+						<input type="text" maxlength=250 name="city" id="city" placeholder="<?php print ($default_address!="" ? $city:"City") ?>" class="span8">
+						<input type="text" maxlength=10 name="zip" id="zip" placeholder="<?php print ($default_address!="" ? $zip:"Zip") ?>" class="span4">
+					</div>
+			</div>
+			<div <?php print ($default_address=="" ? "class='hidden'":"")?>>
+			<button type='button' class='btn-mini' onclick="$('#alternate-address').hide(); $('#default-address').show(); $('#address, #city, #zip').val('');">Use Default Address</btn>
+			</div>
+			</div>
+			---------
+			<div class="control-group">
+				<label class="control-label" for="url">URL</label>
+					<div class="controls">
+					    <input type="text" maxlength=250 name="url" id="url" placeholder="Do not include 'http://'" class="span12">
 					</div>
 			</div>
 

@@ -71,7 +71,17 @@ echo "
 					<input required type='text' maxlength=50 name='email' id='email' placeholder='Email...' class='input-medium'>
 				</div>
 			</div>
-
+			<div class='control-group'>
+				<label class='control-label' for='member-type'>
+					Type *
+				</label>
+				<div class='controls'>
+					<select required name='member-type' id='member-type'>
+						<option selected='selected' value=1>1. Standard</option>
+						<option value=2>2. Organizer</option>
+					</select>
+				</div>
+			</div>
 			<div class='control-group'>
 				<label class='control-label' for='pass1'>
 					Password *

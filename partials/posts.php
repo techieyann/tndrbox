@@ -80,13 +80,21 @@ if(isset($_GET['id']))
 
 	echo "
 	<ul class='unstyled'>";
+$active_flag = 0;
 foreach($posts as $post)
   {
 	extract($post);
-	if($active == 1)
+	if($active == 1 && $active_flag == 0)
 	  {
+		$active_flag = 1;
 		echo "
    	   	<li class='post-list-element'><h3>Active Post</h3></li>";
+	  }
+	if($active == 0 && $active_flag == 1)
+	  {
+			$active_flag = 0;
+		echo "
+   	   	<li class='post-list-element'><h3>Archived Posts</h3></li>"; 
 	  }
 
 
@@ -98,8 +106,9 @@ foreach($posts as $post)
 <a class='btn' title='Edit' href='#b=members&view=edit-post&id=$id'><i class='icon-pencil'></i></a>";
 		if($active == 1)
 		  {
+
 			echo "
-<a class='btn' title='Deactivate' href='#b=members&view=deactivate-post&id=$b_id'><i class='icon-remove-sign'></i></a>";
+<a class='btn' title='Deactivate' href='#b=members&view=deactivate-post&id=$id'><i class='icon-remove-sign'></i></a>";
 		  }
 		else
 		  {
@@ -110,11 +119,7 @@ foreach($posts as $post)
 		echo "
 <a class='btn' title='Delete' href='#b=members&view=delete-post&id=$id'><i class='icon-trash'></i></a></div></li>
 			</ul></li>";
-	if($active == 1)
-	  {
-		echo "
-   	   	<li class='post-list-element'><h3>Archived Posts</h3></li>"; 
-	  }
+
 
 
 
@@ -219,7 +224,7 @@ else
 <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>					
 					<div class='btn-group pull-left'>
 						<button class='btn post-link' title='Edit' href='edit_post' id='$id'><i class='icon-pencil'></i></button>
-						<button class='btn post-link' title='Deactivate' href='deactivate_post' id=$b_id><i class='icon-ban-circle'></i></button>
+						<button class='btn post-link' title='Deactivate' href='deactivate_post' id=$id><i class='icon-ban-circle'></i></button>
 						<button class='btn post-link' title='Delete' href='delete_post' id='$id'><i class='icon-trash'></i></button>
 
 					</div>

@@ -349,6 +349,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
 			var categories = <?php print $json_categories ?>;
 			var postings;
+			var markerSprites = [];
 		</script>
 	</head>
 
