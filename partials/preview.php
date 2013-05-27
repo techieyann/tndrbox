@@ -63,17 +63,56 @@ else
 ?>
 
 <script>
+var previewMap, previewMarker, newLat, newLon;
 $(document).ready(function(){
-	var postPreviewDiv = $('#posting-content')
+	var postPreviewDiv = $('#posting-content');
+	$('#save-location').hide();
 	postPreviewDiv.hide();
 	postPreviewDiv.load('partials/posting?type=preview&p=<?php print $id ?>', function(){
 		$('#preview-loading').hide();
 		postPreviewDiv.show('slow', function(){
 			repositionContainers();
+
 		  });
 
 	  });
+	previewMapInit();	
+
+
  });
+function updateLocation(){
+	$.ajax({
+		url:'scripts/edit_post_location',
+		data: {'id': <?php print $id ?>, 'lat': newLat, 'lon': newLon},
+		type: 'get'
+	}).done(function(){
+		$('#save-location').hide();
+	});
+}
+
+function previewMapInit(){
+	var mapCenter = new google.maps.LatLng(<?php print $center ?>);
+	var mapOptions = {
+		zoom: 15,
+		center: mapCenter,
+		mapTypeId: google.maps.MapTypeId.ROADMAP 
+	}
+	previewMap = new google.maps.Map(document.getElementById('preview-map-canvas'), mapOptions);
+	previewMarker = new google.maps.Marker({
+
+		position: mapCenter,
+		map:previewMap,
+		draggable: true,
+		icon: markerSprites.<?php print $tag_1 ?>
+	});
+	google.maps.event.addListener(previewMarker, 'dragend', function(){
+		newLat = this.getPosition().lat();
+		newLon = this.getPosition().lng();
+		$('#save-location').show();
+	});
+
+}
+
 </script>
 
 <ul class="inline centered hidden-phone" style="padding-bottom:10px; border-bottom:solid 1px black;">
@@ -83,7 +122,7 @@ $(document).ready(function(){
   if($active == 1)
 	{
 	  echo "
-<li><a class='btn' title='Deactivate' href='#b=members&view=deactivate-post&id=$b_id'><i class='icon-remove-sign'></i> Deactivate</a></li>";
+<li><a class='btn' title='Deactivate' href='#b=members&view=deactivate-post&id=$id'><i class='icon-remove-sign'></i> Deactivate</a></li>";
 	}
    else
 	 {
@@ -113,20 +152,28 @@ $(document).ready(function(){
 <li><a class="btn" title="Delete" href="#b=members&view=delete-post&id=<?php print $id ?>"><i class="icon-trash"></i></a></li>
 </ul>
 <br>
-<ul class="inline">
-<li class="pull-left" style="max-width:100%"><?php print $map_preview ?></li>
+<ul class='unstyled'>
+<li>
+<ul class="inline" style="min-height:250px">
+<li class="pull-left">
+Drag marker to relocate.
+<button id="save-location" class="btn btn-primary" onclick="updateLocation()">Update</button>
+<div id="preview-map-canvas"></div>
+</li>
 <li><?php print $tile_button_preview ?></li>
 </ul>
+</li>
 
 
 
-<br><br><br>
-<div ><?php print $list_button_preview ?></div>
+<li><br><br><div><?php print $list_button_preview ?></div></li>
 
-<div id="posting-preview">
+<li><div id="posting-preview">
 <div id="posting-content" class="posting-list-button">
 
 </div>
+</li>
+</ul>
 <div id="preview-loading">
 	<img src="images/loading.gif" alt="loading...">
 </div>

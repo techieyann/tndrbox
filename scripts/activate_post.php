@@ -15,6 +15,7 @@ if(isset($_GET['id']))
 
 	analyze_user();
 	verify_logged_in();
+
 	check_admin() ? $admin_flag = true : $admin_flag = false;
 	$p_id=$_GET['id'];
 
@@ -30,7 +31,10 @@ if(isset($_GET['id']))
 			return;
 		  }
 
-		push_old_post($b_id);
+		if($GLOBALS['type'] == 1)
+		{
+			push_old_post($b_id);
+		}
 		activate_post($p_id);
 
 		disconnect_from_db();

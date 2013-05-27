@@ -32,29 +32,21 @@ if(check_admin())
 
 extract($_POST);
 
-
-if($address == "")
+if($address != "")
   {
-	$query = "SELECT address, city, state, zip, lat, lon FROM business WHERE id=$business_id";
-	$result = query_db($query);
-	if(isset($result[0]))
-	  {
-		extract($result[0]);
-		$address = "$address $city, $state, $zip";
-	  }
-	else
-	  {
-		echo "error=business not found";
-		disconnect_from_db();
-		return;
-	  }
-  }
-else
-  {
-	$latlon = addr_to_latlon($address);
+	$latlon = addr_to_latlon("$address, $city, $zip");
 	$lat = $latlon['lat'];
 	$lon = $latlon['lon'];
   }
+else
+{
+	$query = "SELECT lat, lon FROM business WHERE id=$b_id";
+	$result = query_db($query);
+	if(isset($result[0]))
+	{
+		extract($result[0]);
+	}
+}
 
 $title = add_slashes($title);
 $description = add_slashes($description);
@@ -69,9 +61,9 @@ $tag3_id = add_tag($tag3);
 		
 	
 $query = "INSERT INTO postings (title, blurb, tag_1, tag_2, tag_3,
-								date, alt_address, lat, lon, url, b_id, a_id, posting_time) 
+								date, start_time, end_time, address, city, zip,  lat, lon, url, b_id, a_id) 
 VALUES ('$title', '$description', $tag1_id, $tag2_id, $tag3_id, 
-		'$date', '$address', $lat, $lon, '$url', $business_id, $author_id, CURRENT_TIMESTAMP)";
+		'$date', '$start_time', '$end_time', '$address', '$city', '$zip',  $lat, $lon, '$url', $business_id, $author_id)";
 
 $result = query_db($query);
 

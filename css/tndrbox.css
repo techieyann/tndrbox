@@ -13,6 +13,8 @@ body.inactive
 /*general*/
 /*map fix*/
 #map-canvas img{max-width:none}
+#preview-map-canvas img{max-width:none}
+
 /*tndr sprites*/
 .Advocacy, .Community, .Drinks, .Education, .Entertainment, .Fashion, .Food, .Health, .Music, .Other, .Recreation, .Spirituality, .date, .date_time, .email, .facebook, .google_plus, .time, .twitter, .Advocacy_sm, .Community_sm, .Drinks_sm, .Education_sm, .Entertainment_sm, .Fashion_sm, .Food_sm, .Health_sm, .Music_sm, .Other_sm, .Recreation_sm, .Spirituality_sm, .Art, .Art_sm, .target, .unlit, .lighting, .lit, .tinder, .sparked, .on-fiya {
 //	margin-top:2px;
@@ -222,42 +224,42 @@ body.inactive
 	width: 50px;
 	height: 50px;
 }
-
 .unlit{
-	background-position: 0 -203px ;
+	background-position: 0 -212px ;
 	width: 70px;
 	height: 44px;
 }
 
 .lighting{
-	background-position: -62px -203px ;
+	background-position: -65px -212px ;
 	width: 70px;
 	height: 44px;
 }
 
 .lit{
-	background-position: -126px -203px ;
+	background-position: -135px -212px ;
 	width: 70px;
 	height: 44px;
 }
 
-.tinder{
-	background-position: -295px -164px ;
-	width: 20px;
-	height: 13px;
+.tinder2{
+	background-position: -298px -170px ;
+	width: 23px;
+	height: 15px;
 }
 
 .sparked{
-	background-position: -319px -160px ;
-	width: 20px;
+	background-position: -322px -165px ;
+	width: 22px;
 	height: 25px;
 }
 
 .on-fiya{
-	background-position: -343px -161px ;
-	width: 20px;
+	background-position: -347px -166px ;
+	width: 22px;
 	height: 29px;
 }
+
 
 
 
@@ -595,6 +597,14 @@ min-height:100%;
 	width:100%;
 	height:100%;
 
+}
+
+#preview-map-canvas
+{
+	position:relative;
+	width:250px;
+	height:250px;
+	max-width:100%;
 }
 
 /*box styles*/
