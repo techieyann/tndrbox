@@ -142,79 +142,79 @@ body.inactive
 }
 
 .Advocacy_sm{
-	background-position: 0 -32px ;
-	width: 31px;
+	background-position: 0 -30px ;
+	width: 29px;
 	height: 19px;
 }
 
 .Art_sm{
-	background-position: -27px -32px ;
+	background-position: -27px -30px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Community_sm{
-	background-position: -56px -32px ;
+	background-position: -56px -30px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Drinks_sm{
-	background-position: -88px -32px ;
+	background-position: -88px -30px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Education_sm{
-	background-position: -117px -32px ;
+	background-position: -117px -30px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Entertainment_sm{
-	background-position: -146px -32px ;
+	background-position: -146px -30px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Fashion_sm{
-	background-position: -177px -34px ;
+	background-position: -177px -32px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Food_sm{
-	background-position: -208px -33px ;
+	background-position: -208px -31px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Health_sm{
-	background-position: -236px -32px ;
+	background-position: -236px -30px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Music_sm{
-	background-position: -266px -32px ;
+	background-position: -266px -30px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Other_sm{
-	background-position: -294px -32px ;
+	background-position: -294px -30px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Recreation_sm{
-	background-position: -322px -33px ;
+	background-position: -322px -31px ;
 	width: 31px;
 	height: 19px;
 }
 
 .Spirituality_sm{
-	background-position: -353px -34px ;
+	background-position: -353px -32px ;
 	width: 28px;
 	height: 16px;
 }
@@ -396,10 +396,12 @@ min-height:100%;
 }
 .post-interact
 {
-	position:relative;
-	max-width:100%;
+	position:absolute;
+	width:41%;
+	right:0px;
 	bottom:0px;
 	padding:1px;
+	padding-bottom:5px;
 	border-top:solid 2px #999999;
 	border-left:solid 2px #999999;
 	border-bottom:none;
@@ -411,7 +413,6 @@ min-height:100%;
 .post-spacetime
 {
 	max-width:100%;
-
 	text-align:right;
 	font-size:12px;
 	padding:5px;
@@ -422,6 +423,7 @@ min-height:100%;
           -moz-border-bottom-left-radius: 10px;
                border-bottom-left-radius: 10px;
 }
+
 @media all and (max-width:765px){
 .post-spacetime
 {
@@ -433,18 +435,21 @@ min-height:100%;
 }
 .post-interact
 {
+	width:100%;
 	border-left:none;
        -webkit-border-top-left-radius: 0px;
           -moz-border-top-left-radius: 0px;
                border-top-left-radius: 0px;
 }
 }
+
 #post-time
 {
 	border-top: dashed 2px #999999;
 	padding-top: 5px;
 	padding-bottom:10px;
 }
+
 #post-address
 {
 }
@@ -458,6 +463,7 @@ min-height:100%;
 {
 	padding-left: 10px;
 	padding-top: 10px;
+
 }
 
 .business-information
@@ -494,8 +500,6 @@ min-height:100%;
 }
 .post-big
 {
-
-
        -webkit-border-radius: 10px;
           -moz-border-radius: 10px;
                border-radius: 10px;
@@ -546,7 +550,7 @@ min-height:100%;
 {
 	background:#eee;
 	padding-right:5px;
-	margin-bottom:20px;
+	margin-bottom:120px;
         -webkit-border-radius: 2px;
            -moz-border-radius: 2px;
                 border-radius: 2px;
