@@ -1240,7 +1240,11 @@ function loadBoxContentByURL()
 						smartLoad('partials/new_post_form');
 						$('#new-post-li').addClass('active');
 					}
-
+					if(view == 'new-event')
+					{
+						smartLoad('partials/new_event_form');
+						$('#new-event-li').addClass('active');
+					}
 					if(view == 'edit-post')
 					{
 						smartLoad('partials/edit_post_form'+append_string);

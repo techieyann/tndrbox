@@ -11,6 +11,7 @@ require('includes/includes.php');
 require('includes/tags.php');
 
 $post_flag = false;
+$event_flag = false;
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 
@@ -44,6 +45,27 @@ if(isset($_GET['p']) && is_numeric($_GET['p']))
 			  {
 				$post_flag = true;
 				extract($result[0]);
+			  }
+		  }	  
+  }
+else if(isset($_GET['e']) && is_numeric($_GET['e']))
+  {
+		$e_id = $_GET['e'];
+		$query = "SELECT active, b_id FROM events WHERE id=$e_id";
+		$active_result = query_db($query);
+		if(isset($active_result[0]))
+		  {
+			extract($active_result[0]);
+			if($active == 1)
+			  {
+				$query = "SELECT title, blurb, date, events.photo, tag_1, tag_2, postings.lat, postings.lon, business.name FROM events INNER JOIN business ON events.b_id=business.id WHERE events.id='$e_id'";
+				$result = query_db($query);
+
+				if(isset($result[0]))
+				  {
+					$event_flag = true;
+					extract($result[0]);
+				  }
 			  }
 		  }	  
   }
@@ -332,12 +354,12 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		<meta name="viewport" content="user-scalable=false, width=device-width, initial-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<!-- Open Graph Data -->
-		<meta property="og:title" content="<?php print ($post_flag ? "$title at $name":"A posting board for Oakland") ?>">
-	    <meta property="og:description" content="<?php print ($post_flag ? substr($blurb, 0, 100)."...":"tndrbox is a community events board in Oakland. Come see what is happening around you!") ?>">
+		<meta property="og:title" content="<?php print ($post_flag|$event_flag ? "$title at $name":"A posting board for Oakland") ?>">
+	    <meta property="og:description" content="<?php print ($post_flag|$event_flag ? substr($blurb, 0, 100)."...":"tndrbox is a community events board in Oakland. Come see what is happening around you") ?>">
 		<meta property="og:site_name" content="tndrbox">
 		<meta property="og:type" content="website">
-		<meta property="og:url" content="tndrbox.com/<?php print ($post_flag ? "?p=$p_id":"") ?>">
-	    <meta property="og:image" content="<?php print ($post_flag ? "images/posts/$photo": "images/logo.png") ?>">
+		<meta property="og:url" content="tndrbox.com/<?php print ($post_flag|$event_flag ? "?p=$p_id":"") ?>">
+	    <meta property="og:image" content="<?php print ($post_flag|$event_flag ? "images/posts/$photo": "images/logo.png") ?>">
 
 	<!-- Icons -->
 		<link rel="icon" type="image/ico" href="images/favicon.ico">
@@ -347,6 +369,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		<script>
 			var loggedIn = <?php ($GLOBALS['logged_in'] ? print "true" : print "false") ?>;
 			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
+			var eventRequest = <?php ($event_flag ? print "true" : print "false") ?>;
 			var categories = <?php print $json_categories ?>;
 			var postings;
 			var markerSprites = [];
@@ -375,6 +398,8 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 			  <p class="pull-right"><?php print date('F jS, Y')?></p>
 			  <button class="btn btn-mini pull-left" id="welcome-close" onclick="$('#welcome-page').hide('fast')"><i class="icon-remove"></i></button>
 			</div><!-- #welcome-page -->
+			<div id="event">
+			</div><!-- #event -->
 
 				<div id="tndr-buttons">
 						<ul class="inline">

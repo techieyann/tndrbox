@@ -74,7 +74,7 @@ if(isset($_GET['id']))
 	echo "
 	<ul class='inline'>
 		<li><h3>$name:</h3></li>
-		<li class='pull-right'><button class='btn post-link' title='Edit' href='edit_profile' id='$b_id'><i class='icon-pencil'></i></button></li>
+		<li class='pull-right'><button class='btn post-link' title='Edit' href='edit-profile' id='$b_id'><i class='icon-pencil'></i></button></li>
 	</ul>";
   }
 
