@@ -406,7 +406,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 							<h4>Hello traveller, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
 						</div><!-- #welcome-page-content -->
 			  <p class="pull-right"><?php print date('F jS, Y')?></p>
-			  <button class="btn btn-mini pull-left" id="welcome-close" onclick="$('#welcome-page').hide('fast')"><i class="icon-remove"></i></button>
+			  <button class="btn btn-mini pull-left" id="welcome-close" onclick="$('#welcome-page').hide('fast', function(){scrollToActive();}); "><i class="icon-remove"></i></button>
 			</div><!-- #welcome-page -->
 			<div id="event">
 			</div><!-- #event -->

@@ -127,7 +127,7 @@ else
 <p class='post-title centered'><b>$title</b><p>
 
 				</div>
-				<div class='post-body'  onload=\"repositionContainers()\">
+				<div class='post-body'>
 					<div class='row-fluid'>
 						<div class='span7 top-left' id='post'>";
 
@@ -140,7 +140,7 @@ else
 
 
 
-									<a target='_blank' href='images/posts/$photo'><img src='slir/h250/images/posts/$photo' alt='photo for $title' class='posting-image'></a>
+									<a target='_blank' href='images/posts/$photo'><img src='slir/h250/images/posts/$photo' alt='photo for $title' class='posting-image' onload=\"$('#tiles').masonry('reload');\"></a>
 								</div>
 							</div>";
 
@@ -230,7 +230,7 @@ else
 	}
 	if($logo != "")
     {
- 		echo "<img src='images/logos/$logo' title='$name' alt='$name'>";
+ 		echo "<img src='slir/w250/images/logos/$logo' title='$name' alt='$name' onload=\"$('#tiles').masonry('reload');\">";
    	}
    	else
    	{
