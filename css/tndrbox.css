@@ -282,6 +282,7 @@ body.inactive
 /************* general*/
 
 /************* header*/
+
 #tndr
 {
 min-height:100%;
@@ -309,7 +310,7 @@ min-height:100%;
 .posting-list-button
 {
 	margin-bottom:10px;
-
+	color:#33333;
 	background:#999;
        -webkit-border-radius: 10px;
           -moz-border-radius: 10px;
@@ -333,6 +334,7 @@ min-height:100%;
 	margin-right:10px;
 	border:solid 2px #999;
 	background:#F4F2E6;
+	color:#333;
 }
 .posting-list-button.list.highlight
 {
@@ -376,6 +378,11 @@ min-height:100%;
                border-top-right-radius: 5px;
 	margin:2px;
 	
+}
+
+.front-page-list-text > li
+{
+		color:#333;
 }
 
 .front-page-button-text

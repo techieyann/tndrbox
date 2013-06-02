@@ -85,9 +85,9 @@ disconnect_from_db();
 			var eventDisplay = false;
 			$('#time-group').hide();
 			$('#end_time').hide();
-<?php if($default_address != ""){ print "$('#alternate-address').hide();";} ?>
+<?php if($default_address != ""){ print "$('#post-address').hide();";} ?>
 
-			toggleEventDisplay();
+
 			
 
 			$(function(){
@@ -117,11 +117,16 @@ disconnect_from_db();
 						}
 					});
 					$('#start_time').timepicker({
+						showPeriod: true,
+						showLeadingZero: true,
 						onSelect: function(time){
 							$('#end_time').show();
 						}
 					});
-					$('#end_time').timepicker();
+					$('#end_time').timepicker({
+						showPeriod: true,
+						showLeadingZero: true,
+					});
 
 				$('.new-post-form').ajaxForm({success: parseNewPostReturn});
 			});
@@ -144,17 +149,7 @@ disconnect_from_db();
 
 				}
 
-			function toggleEventDisplay(){
-				if(eventDisplay)
-				{
-					$('#event-fields').show();
-				}
-				else
-				{
-					$('#event-fields').hide();
-				}
-				eventDisplay = !eventDisplay;
-			}
+
 		</script>
 		<div id="js-content">
 		<form name="new-post-form" class="new-post-form"  enctype="multipart/form-data" action="scripts/new_post<?php print $new_post_args ?>" method="post">
@@ -171,7 +166,48 @@ disconnect_from_db();
 					<input type="text" maxlength=50 name="title" id="title" placeholder="Insert title here..." class="span12">
 				</div>
 			</div>
+<?php
+	if($default_address != "")
+	{
+		echo "
+			<div id='default-address'>
+				<button type='button' class='btn-mini' onclick=\"$('#default-address').hide(); $('#post-address').show(); $('#address, #city, #zip').val('');\">Change Address</button><br>
+					$address<br>
+					$city, $state, $zip
+			</div>";
+	}
+?>
 
+			<div id='post-address'>
+
+			<div class="control-group">
+				<label class="control-label" for="address">Address *</label>
+					<div class="controls">
+						<input required type="text" maxlength=250 name="address" id="address" <?php
+	if($default_address!="") echo "value='$address' ";
+						?>placeholder="Address" class="span12">
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="controls">
+						<input required type="text" maxlength=250 name="city" id="city" <?php
+	if($default_address!=""){ echo "value='$city' ";}
+						?> placeholder="City" class="span8">
+						<input required type="text" maxlength=10 name="zip" id="zip" <?php
+	if($default_address!=""){ echo "value='$zip' ";}
+						?> placeholder="Zip" class="span4">
+					</div>
+			</div>
+			<?php
+				if($default_address!="")
+				{
+					echo"
+				<button type='button' class='btn-mini' onclick=\"$('#post-address').hide(); $('#default-address').show(); $('#address').val('$address'); $('#city').val('$city'); $('#zip').val('$zip');\">Use Default Address</btn>";
+				}
+			?>
+
+			</div><!-- #post-address -->
+			---------
 			<div class="control-group">
 				<label class="control-label" for="description">
 					Description * 
@@ -201,8 +237,6 @@ disconnect_from_db();
 		print "
 						<option ".($category == $index ? "selected='selected'":"")."value='$index'>$cat</option>";
       }
-	
-
 ?>
 					</select>
 				</div>
@@ -228,11 +262,9 @@ disconnect_from_db();
 						<input type="file" name="image_upload" id="image_upload" size=05>
 					</div>
 			</div>
+			<input type="checkbox" id="photo_permission"> I certify that I have the rights to this image and am granting tndrbox permission to reproduce it.<br><br>
 
-			<input type="checkbox" name="event-check" onchange="toggleEventDisplay()"> Event <br>
 
-
-			<div id="event-fields">
 			<div class="control-group">
 				<label class="control-label" for="date">
 					Date 
@@ -256,39 +288,7 @@ disconnect_from_db();
 
 
 
-			</div>
-			---------
-<?php
-	if($default_address != "")
-	{
-		echo "
-			<div id='default-address'>
-				<button type='button' class='btn-mini' onclick=\"$('#default-address').hide(); $('#alternate-address').show();\">Change Address</button><br>
-					$address<br>
-					$city, $state, $zip
-			</div>";
-	}
-?>
 
-			<div id='alternate-address'>
-
-			<div class="control-group">
-				<label class="control-label" for="address">Alternate Address</label>
-					<div class="controls">
-						<input type="text" maxlength=250 name="address" id="address" placeholder="Nearest cross-street" class="span12">
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="controls">
-						<input type="text" maxlength=250 name="city" id="city" placeholder="<?php print ($default_address!="" ? $city:"City") ?>" class="span8">
-						<input type="text" maxlength=10 name="zip" id="zip" placeholder="<?php print ($default_address!="" ? $zip:"Zip") ?>" class="span4">
-					</div>
-			</div>
-			<div <?php print ($default_address=="" ? "class='hidden'":"")?>>
-			<button type='button' class='btn-mini' onclick="$('#alternate-address').hide(); $('#default-address').show(); $('#address, #city, #zip').val('');">Use Default Address</btn>
-			</div>
-			</div>
-			---------
 			<div class="control-group">
 				<label class="control-label" for="url">URL</label>
 					<div class="controls">

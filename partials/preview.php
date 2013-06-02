@@ -34,7 +34,7 @@ if(isset($_GET['id']))
 
 	$list_button_preview = "<div class='posting-list-button list'>
 						<div class='post-mini li'>
-							<ul class='inline'><li><div class='".$tag_1."_sm'></div></li><li>$title</li><li>by $name</li>".($date != null ? "<li>on $date</li>":"")."</ul>
+							<ul class='inline'><li><div class='".$tag_1."_sm'></div></li><li><h4>$title</h4></li><li class='muted'>by $name</li>".($date != null ? "<li>on $date</li>":"")."</ul>
 						</div></div>";
 
 	$tile_button_preview = "
@@ -42,7 +42,7 @@ if(isset($_GET['id']))
 						<div class='post-mini button'>
 							<div class='front-page-button-header'>$tag_1</div>
 							<div class='front-page-button-body'>
-								".($photo != "" ? "<img alt='photo for $title+' src='images/posts/$photo'>":"").
+								".($photo != "" ? "<img alt='photo for $title+' src='/slir/w200-q80/images/posts/$photo'>":"").
 								"<div class='front-page-button-text'>
 									<h4>$title</h4>
 									<p class='muted'>$name</p>

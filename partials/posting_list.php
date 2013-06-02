@@ -91,14 +91,14 @@ function process_posting($raw_post)
 		$date = $processed_post['date'];
 		$processed_post['list'] = "
 						<div class='post-mini li'>
-							<ul class='inline'><li><div class='".$tag_1."_sm'></div></li><li>$title</li><li>by $name</li>".($date != null ? "<li>on $date</li>":"")."</ul>
+							<ul class='inline'><li><div class='".$tag_1."_sm'></div></li><li><h4>$title</h4></li><li class='muted'>by $name</li>".($date != null ? "<li>on $date</li>":"")."</ul>
 						</div>";
 
 		$processed_post['tile'] = "
 						<div class='post-mini button'>
 							<div class='front-page-button-header'>$tag_1</div>
 							<div class='front-page-button-body'>
-								".($photo != "" ? "<img alt='photo for $title+' src='images/posts/$photo' onload='$(\"#tiles\").masonry(\"reload\")'>":"").
+								".($photo != "" ? "<img alt='photo for $title+' src='slir/w200-q80/images/posts/$photo' onload='$(\"#tiles\").masonry(\"reload\")'>":"").
 								"<div class='front-page-button-text'>
 									<h4>$title</h4>
 									<p class='muted'>$name</p>

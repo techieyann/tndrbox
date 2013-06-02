@@ -190,6 +190,7 @@ background:#aaa;
 	position:fixed;
 	top:0px;
 	left:70px;
+
 	z-index:600;
        -webkit-box-shadow: 0px 2px 2px rgba(0,0,0,.45);
            -moz-box-shadow: 0px 2px 2px rgba(0,0,0,.45);
@@ -201,6 +202,7 @@ background:#aaa;
 width:80%;
  
 }
+
 
 
 #tndr-header-filler
@@ -293,6 +295,7 @@ margin-top:0px;
 	color:white;
 	text-align:center;
 }
+
 @media all and (max-width:768px){
 	body
 	  {
@@ -309,13 +312,13 @@ margin-top:0px;
   left:0px;
   width:100%;
   }
-#tndr-header-filler
+#tndr-header-filler, #tndr-header
   {
-  height:25px;
+  height:40px;
   }
-#logo
+#logo-li
 {
-  max-width:70%;
+max-width:70%;
 }
 #welcome-page
   {
@@ -329,7 +332,6 @@ margin-top:0px;
 	#box
 	  {
 	  left:-65px;
-//	  bottom:-117px;
 	  }
 	#middle-box
 	  {
@@ -337,7 +339,12 @@ margin-top:0px;
 	  }
 	
 }
-
+@media all and (max-width:360px){
+	#logo-li
+	{
+		max-width:45%;
+	}
+}
 //bootstrap.min code
 
 
@@ -379,9 +386,12 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 	<body onload='loadTheRest()'>
 
 		<div id="body-container" class="">
-			<div id="tndr-header" class="rounded-top">
-				<ul class="inline">
-					<li><a href="index"><img id="logo" src="images/logo.png"></a></li>
+			<div id="tndr-header">
+				<ul class="inline centered">
+				<li class="visible-phone pull-left"><button class="btn btn-mini" id="activate-tndr" onclick="toggleActivePane();"><i class="icon-list"></i></button></li>
+				<li id="logo-li"><a href="index"><img id="logo" src="images/logo.png" alt="tndrbox"></a></li>
+				<li class="visible-phone pull-right"><button class="btn btn-mini" id="activate-map" onclick="toggleActivePane();"><i class="icon-globe"></i></button></li>
+
 				</ul>
 			</div><!-- #tndr-header -->
 

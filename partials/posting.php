@@ -140,7 +140,7 @@ else
 
 
 
-									<img src='images/posts/$photo' alt='photo for $title' class='posting-image'>
+									<a target='_blank' href='images/posts/$photo'><img src='slir/h250/images/posts/$photo' alt='photo for $title' class='posting-image'></a>
 								</div>
 							</div>";
 
