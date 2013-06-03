@@ -133,7 +133,7 @@ width:80%;
 width:90%;
 }
 
-#welcome-page
+#welcome-page, event
 {
 background:#d5d5d5;
 	max-width: 600px;
@@ -180,7 +180,7 @@ display:none;
 left:70px;
 width:80%;
 height:100%;
-	z-index:500;
+	z-index:5;
 background:#aaa;
 
 }
@@ -314,11 +314,11 @@ margin-top:0px;
   }
 #tndr-header-filler, #tndr-header
   {
-  height:40px;
+  height:25px;
   }
-#logo-li
+#logo
 {
-max-width:70%;
+	height:25px;
 }
 #welcome-page
   {
@@ -329,6 +329,13 @@ max-width:70%;
            -moz-box-shadow: inset 0px -10px 10px rgba(0,0,0,.25);
                 box-shadow: inset 0px -10px 10px rgba(0,0,0,.25);
   }
+#event
+{
+	max-width:100%;
+        -webkit-box-shadow: inset 0px -10px 10px rgba(0,0,0,.25);
+           -moz-box-shadow: inset 0px -10px 10px rgba(0,0,0,.25);
+                box-shadow: inset 0px -10px 10px rgba(0,0,0,.25);
+}
 	#box
 	  {
 	  left:-65px;
@@ -384,16 +391,22 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 	</head>
 
 	<body onload='loadTheRest()'>
+			<div id="posting" class="inactive">
+					<div id="posting-content">
+					</div><!-- #posting-content -->
+			</div><!-- #posting -->
 
-		<div id="body-container" class="">
 			<div id="tndr-header">
 				<ul class="inline centered">
 				<li class="visible-phone pull-left"><button class="btn btn-mini" id="activate-tndr" onclick="toggleActivePane();"><i class="icon-list"></i></button></li>
-				<li id="logo-li"><a href="index"><img id="logo" src="images/logo.png" alt="tndrbox"></a></li>
+				<li id="logo-li"><a href="index"><img id="logo" src="/slir/h40/images/logo.png" alt="tndrbox"></a></li>
 				<li class="visible-phone pull-right"><button class="btn btn-mini" id="activate-map" onclick="toggleActivePane();"><i class="icon-globe"></i></button></li>
 
 				</ul>
 			</div><!-- #tndr-header -->
+
+		<div id="body-container" class="">
+
 
 			<div id="tndr-header-filler">
 
@@ -482,7 +495,12 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 					<p>version <?php print $GLOBALS['version'] ?></p>
 				</div><!-- #footer -->
 
+
 			</div><!-- #left-pane -->
+
+
+
+		</div><!-- #body-container -->
 
 			<div id="right-pane" data-step="2" data-intro="This is our map. It maps things." data-position="left">
 					<div id="map-canvas">
@@ -490,8 +508,6 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 					</div><!-- #map-canvas -->
 
 			</div><!-- #right-pane -->
-
-		</div><!-- #body-container -->
 
 		<div id="box" class="inactive">
 			<div id="box-content">
@@ -515,7 +531,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 	<script>
 		function loadTheRest()
 		{
-	document.getElementById('welcome-page-content').innerHTML = "<h1 class='centered'>Welcome to tndrbox, Oakland's Community Events Board</h1><h4>Tap into local events and happenings posted by our neighborhood for our neighborhood</h4>";
+	document.getElementById('welcome-page-content').innerHTML = "<strong class='centered'><p>Welcome to tndrbox, Oakland's Community Events Board</strong></p>Tap into local events and happenings posted by our neighborhood for our neighborhood";
 
 			var boxImage = document.createElement('div');
 			boxImage.setAttribute('id', 'box-images');
