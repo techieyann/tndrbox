@@ -611,6 +611,13 @@ function displayPosts()
 		resetMarkers();
 		displayActiveMarkers();
 	}
+	else
+	{
+		if(tilesDisplayed)
+		{
+			$('#tiles').masonry();
+		}
+	}
 	repositionContainers();
 }
 
@@ -754,18 +761,15 @@ function repositionContainers()
 
 
 			$('#posting-content').css('width', (buttonWidth*numColumns)+(10*(numColumns-1))-10);
-
-		tiles.masonry({
-			itemSelector: '.active-brick',
-			isAnimated: true,
-			gutterWidth: 10,
-			columnWidth: buttonWidth
-		});
-	
-		if(tilesDisplayed)
+		if(initialized && tilesDisplayed)
 		{
-			tiles.masonry('reload');
+			tiles.masonry('option', {
+				columnWidth: buttonWidth
+			});
+
 		}
+	
+
 	}//window_width check
 
 	box.css('top',window_height-65);
@@ -821,11 +825,19 @@ function repositionContainers()
 		{
 			$(window).trigger('hashchange');	
 		}
+			tiles.masonry({
+	 			itemSelector: '.active-brick',
+				isAnimated: true,
+				gutterWidth: 10
+			});		
 	}
 	else
 	{
+		if(tilesDisplayed)
+		{
 
-
+			tiles.masonry('reload');
+		}		
 	}
 
 	lastWindowWidth = window_width;
@@ -1070,16 +1082,19 @@ function resetMarkers()
 
 function displayActiveMarkers()
 {
-	var currentMarker = '';
-	mapBounds = new google.maps.LatLngBounds();
-	for(var i=0; i<activePostings.length; i++)
+	if(activePostings.length > 0)
 	{
-		currentMarker =	postings[activePostings[i]]['marker'];
-		currentMarker.setMap(map);
+		var currentMarker = '';
+		mapBounds = new google.maps.LatLngBounds();
+		for(var i=0; i<activePostings.length; i++)
+		{
+			currentMarker =	postings[activePostings[i]]['marker'];
+			currentMarker.setMap(map);
 
-		mapBounds.extend(currentMarker.position);
+			mapBounds.extend(currentMarker.position);
+		}
+		map.fitBounds(mapBounds);
 	}
-	map.fitBounds(mapBounds);
 }
 
 function loadPost(id){
