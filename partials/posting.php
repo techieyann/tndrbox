@@ -266,19 +266,15 @@ else
 echo "
 <div class='post-interact'>
 <ul class='unstyled centered'>
-<li>
-<button class='btn btn-primary spark-button' id='spark-$p_id' onCLick='sparkPost($p_id)'><div class='unlit'></div></button>
-</li>
+<li><h5>Share:</h5></li>
 <li>
 <div class='share btn-group'>
 	<a class='btn' href=\"mailto:?to=&subject=$title @ $name&body=http://tndrbox.com/?p=$p_id\" target='_blank'><div class='email'></div></a>
 	<a class='btn' href=\"http://www.facebook.com/sharer.php?t=$title @ $name&u=$tndrbox_share\" target='_blank'><div class='facebook'></div></a>
 	<a class='btn' href=\"http://twitter.com/share?url=$tndrbox_share&text=$title @ $name\" target='_blank'><div class='twitter'></div></a>
 	<a class='btn' href=\"https://plus.google.com/share?url=$tndrbox_share\" target=_blank'><div class='google_plus'></div></a>
-</li>
+</div></li>
 </ul>
-</div>
-
 </div>";
 }
 	echo"
