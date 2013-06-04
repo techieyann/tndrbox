@@ -47,13 +47,13 @@ disconnect_from_db();
 					<a class='nav-link' href='new-post'><i class='icon-plus'></i> New Post</a>
 				</li>
 	<?php 
-			if($GLOBALS['type'] != 1)
+/*			if($GLOBALS['type'] != 1)
 			{
 				echo "
 				<li id='new-event-li'>
 					<a class='nav-link' href='new-event'><i class='icon-plus'></i> New Parent Event</a>
 				</li>";
-			}
+			}*/
 			if(check_admin())
 			{
 				echo "

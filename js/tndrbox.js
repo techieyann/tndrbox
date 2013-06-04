@@ -50,12 +50,11 @@ function initPage()
 
 
 	//prep the meta tndr buttons
-	$('#reset-filters-button').hide();
-	$('#search-options').hide();
-	$('#tndr-buttons').show();
-	$('#activate-tndr').hide();
+	$('#reset-filters-button, #search-options, #activate-tndr, #header-list').hide();
 
-	$('#welcome-close').show();
+	$('#tndr-buttons, #welcome-close').show();
+
+
 
 	//prep the box links
 	if(loggedIn)
@@ -346,6 +345,21 @@ $(document).ready(function(){
 
 
 	});
+	$('#activate-tndr').click(function(e){
+		if($('#left-pane').hasClass('active'))
+		{
+			if($('#posting').hasClass('active'))
+			{
+				closePostButton();
+			}
+		}
+		else
+		{
+			toggleActivePane();
+		}
+	});
+		
+
 	$('.ui-accordion').click(function(e){
 		repositionContainers();
 	});
@@ -462,7 +476,7 @@ $(document).ready(function(){
 			$(this).parent().addClass('active');
 		}
 	});
-	$('#body-container, #right-pane, #posting').click(function(e){
+	$('#body-container, #right-pane, #tndr-header, #posting').click(function(e){
 		if($('body').hasClass('inactive'))
 		   {
 			   e.preventDefault();
@@ -754,9 +768,10 @@ function repositionContainers()
 	$('.post-mini.button').css('width', buttonWidth);
 	rightPane.css('width', rightPaneWidth);
 	rightPane.css('left', rightPaneLeft);
-	if(rightPane.children().hasClass('initialized'))
+		if(rightPane.children().hasClass('initialized') && !$('body').hasClass('inactive'))
 	{
 		google.maps.event.trigger(map, 'resize');
+		displayActiveMarkers();
 	}
 
 
@@ -835,7 +850,6 @@ function repositionContainers()
 	{
 		if(tilesDisplayed)
 		{
-
 			tiles.masonry('reload');
 		}		
 	}
@@ -853,13 +867,13 @@ function activatePosting()
 
 	if(!posting.hasClass('active'))
 	{
-
 		posting.switchClass('inactive', 'active', function(){
-			$('body').addClass('inactive');
 			posting.show();
-	});
-
-
+			if(lastWindowWidth<768)
+			{
+				$('#activate-tndr').show();
+			}
+		});
 
 	}
 }
@@ -872,7 +886,10 @@ function deactivatePosting()
 	{
 		posting.switchClass('active', 'inactive', function(){
 			posting.hide();
-			$('body').removeClass('inactive');
+			if($(window).innerWidth()<768)
+			{
+				$('#activate-tndr').hide();
+			}
 	});
 
 
@@ -954,8 +971,11 @@ function toggleActivePane()
 	{
 		rightPane.removeClass('active');
 		leftPane.addClass('active');
+		if(lastWindowWidth < 768 && $('#posting').hasClass('inactive'))
+		{
+			$('#activate-tndr').hide();		
+		}
 
-		$('#activate-tndr').hide();		
 		$('#activate-map').show();
 	}
 }
@@ -964,7 +984,6 @@ function toggleViewFormat()
 {
 	var tileFormat = $('#tile-format');
 	var listFormat = $('#list-format');
-	var	tndr = $('#tndr');
 
 	if(tilesDisplayed)
     {
@@ -981,8 +1000,8 @@ function toggleViewFormat()
 			}
 			displayPosts();
 		}
-		$('#tiles').hide();
-		$('#list').show();
+		$('#tiles, #header-tiles').hide();
+		$('#list, #header-list').show();
 	}
 	else
 	{
@@ -1001,8 +1020,8 @@ function toggleViewFormat()
 
 		}
 
-		$('#list').hide();
-		$('#tiles').show();
+		$('#list, #header-list').hide();
+		$('#tiles, #header-tiles').show();
 
 
 		if(initialized)
@@ -1093,7 +1112,18 @@ function displayActiveMarkers()
 
 			mapBounds.extend(currentMarker.position);
 		}
+
 		map.fitBounds(mapBounds);
+
+
+		//from http://stackoverflow.com/a/4709017
+		zoomChangeBoundsListener = 
+		    google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
+		        if (this.getZoom()>16)
+				{
+		            this.setZoom(16);
+			    }
+		});//from http://stackoverflow.com/a/4709017
 	}
 }
 
@@ -1284,9 +1314,6 @@ function loadPost(id){
 function closePost(){
 	var id = activePostId;
 
-
-
-
 	if(id != 0)
 	{	
 		activePostId = 0;
@@ -1326,8 +1353,6 @@ function closePost(){
 		$('#posting-content').hide('fast', function(){
 			deactivatePosting();
 		});
-
-
 	}
 
 }

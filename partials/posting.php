@@ -2,10 +2,10 @@
 //expects $_GET[p] to be set as id of post
 if(isset($_GET['p']))
   {
-	$type = "";
+	$view_type = "";
 	if(isset($_GET['type']))
 	  {
-		$type = $_GET['type'];
+		$view_type = $_GET['type'];
 	  }
 	require('../includes/includes.php');
 	require('../includes/tags.php');
@@ -102,7 +102,7 @@ else
 					});
 				</script>
 				<div class='post-header'>";
-	if($type != "preview")
+	if($view_type != "preview")
 	  {
 		echo "
 					<div class='btn-group pull-right post-mod-buttons'>";
@@ -260,7 +260,7 @@ else
 
 						</div>
 						</div>";
-	if($type != "preview")
+	if($view_type != "preview")
 	  {
 	$tndrbox_share = urlencode('http://tndrbox.com/?p='.$p_id);
 echo "
@@ -276,7 +276,7 @@ echo "
 </div></li>
 </ul>
 </div>";
-}
+		}
 	echo"
    					</div>
 				</div>
