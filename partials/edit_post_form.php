@@ -32,6 +32,7 @@ if(isset($_GET['id']))
 	//check authorship of the post
 	if(!$admin_flag && $a_id != $GLOBALS['m_id'])
 	  {
+		return;
 		//		header('location:../settings');
 	  }
 

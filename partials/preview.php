@@ -65,20 +65,18 @@ else
 <script>
 var previewMap, previewMarker, newLat, newLon;
 $(document).ready(function(){
-	var postPreviewDiv = $('#posting-content');
+	var postPreviewDiv = $('#posting-preview-content');
 	$('#save-location').hide();
 	postPreviewDiv.hide();
-	postPreviewDiv.load('partials/posting?type=preview&p=<?php print $id ?>', function(){
+	$.get('partials/posting?type=preview&p=<?php print $id ?>', function(data){
 		$('#preview-loading').hide();
+		postPreviewDiv.html(data);
 		postPreviewDiv.show('slow', function(){
 			repositionContainers();
-
 		  });
 
 	  });
 	previewMapInit();	
-
-
  });
 function updateLocation(){
 	$.ajax({
@@ -169,7 +167,7 @@ Drag marker to relocate.
 <li><br><br><div><?php print $list_button_preview ?></div></li>
 
 <li><div id="posting-preview">
-<div id="posting-content" class="posting-list-button">
+<div id="posting-preview-content" class="posting-list-button">
 
 </div>
 </li>
