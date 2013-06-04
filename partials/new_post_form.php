@@ -262,7 +262,7 @@ disconnect_from_db();
 						<input type="file" name="image_upload" id="image_upload" size=05>
 					</div>
 			</div>
-			<input type="checkbox" id="photo_permission"> I certify that I have the rights to this image and am granting tndrbox permission to reproduce it.<br><br>
+			<input type="checkbox" id="photo_permission"> I certify that I have the rights to this image and grant tndrbox permission to reproduce it.<br><br>
 
 
 			<div class="control-group">

@@ -13,6 +13,7 @@ var activePostings = [];
 var lastURL = '';
 var oms = '';
 var ogSearchPlaceholder = '';
+var mapBounds = '';
 
 var activePost;
 var activePostId = 0;
@@ -461,7 +462,7 @@ $(document).ready(function(){
 			$(this).parent().addClass('active');
 		}
 	});
-	$('#body-container, #right-pane, #tndr-header, #posting').click(function(e){
+	$('#body-container, #right-pane, #posting').click(function(e){
 		if($('body').hasClass('inactive'))
 		   {
 			   e.preventDefault();
@@ -1069,10 +1070,16 @@ function resetMarkers()
 
 function displayActiveMarkers()
 {
+	var currentMarker = '';
+	mapBounds = new google.maps.LatLngBounds();
 	for(var i=0; i<activePostings.length; i++)
 	{
-		postings[activePostings[i]]['marker'].setMap(map);
+		currentMarker =	postings[activePostings[i]]['marker'];
+		currentMarker.setMap(map);
+
+		mapBounds.extend(currentMarker.position);
 	}
+	map.fitBounds(mapBounds);
 }
 
 function loadPost(id){
@@ -1370,7 +1377,8 @@ function initMarkerSprites()
 function mapInitialize(callback) {
 //location functionality
 //var myLatLon = new google.maps.LatLng(json_location.lat, json_location.lon);
-	var temescalLatLon = new google.maps.LatLng(37.833222, -122.264222);
+//	var temescalLatLon = new google.maps.LatLng(37.833222, -122.264222);
+	var defaultLatLon = new google.maps.LatLng(37.817311, -122.260923);
 	var style= [
 	{
     "featureType": "administrative",
@@ -1399,7 +1407,7 @@ function mapInitialize(callback) {
 		zoom: 15,
 		minZoom: 11,
 		maxZoom: 18,
-		center: temescalLatLon,//myLatLon,
+		center: defaultLatLon,//temescalLatLon,//myLatLon,
 //		disableDefaultUI: true,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 		styles: style
