@@ -16,7 +16,7 @@ body.inactive
 #preview-map-canvas img{max-width:none}
 
 /*tndr sprites*/
-.Advocacy, .Community, .Drinks, .Education, .Entertainment, .Fashion, .Food, .Health, .Music, .Other, .Recreation, .Spirituality, .date, .date_time, .email, .facebook, .google_plus, .time, .twitter, .Advocacy_sm, .Community_sm, .Drinks_sm, .Education_sm, .Entertainment_sm, .Fashion_sm, .Food_sm, .Health_sm, .Music_sm, .Other_sm, .Recreation_sm, .Spirituality_sm, .Art, .Art_sm, .target, .unlit, .lighting, .lit, .tinder, .sparked, .on-fiya {
+.Advocacy, .Community, .Drinks, .Education, .Entertainment, .Fashion, .Food, .Health, .Music, .Other, .Recreation, .Spirituality, .date, .date_time, .email, .facebook, .google_plus, .time, .twitter, .Advocacy_sm, .Community_sm, .Drinks_sm, .Education_sm, .Entertainment_sm, .Fashion_sm, .Food_sm, .Health_sm, .Music_sm, .Other_sm, .Recreation_sm, .Spirituality_sm, .Art, .Art_sm, .target, .unlit, .lighting, .lit, .tinder, .sparked, .on-fiya, .share-icon {
 //	margin-top:2px;
 	background: url('../images/tndr-sprites.png') no-repeat;
 }
@@ -260,7 +260,11 @@ body.inactive
 	height: 29px;
 }
 
-
+.share-icon{
+	background-position: -372px -168px;
+	width: 30px;
+	height: 30px;
+}
 
 
 
@@ -453,7 +457,7 @@ left:70px;
 	width:41%;
 	right:0px;
 	bottom:0px;
-	padding:1px;
+	padding:5px;
 	padding-bottom:5px;
 	border-top:solid 2px #999999;
 	border-left:solid 2px #999999;
@@ -496,7 +500,9 @@ left:0px;
 }
 .post-interact
 {
-	width:100%;
+
+	width:auto;
+	left:0px;
 	border-left:none;
        -webkit-border-top-left-radius: 0px;
           -moz-border-top-left-radius: 0px;
@@ -608,7 +614,7 @@ left:0px;
 {
 	background:#eee;
 	padding-right:5px;
-	margin-bottom:120px;
+	margin-bottom:75px;
         -webkit-border-radius: 2px;
            -moz-border-radius: 2px;
                 border-radius: 2px;
