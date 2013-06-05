@@ -30,7 +30,7 @@ if(isset($_GET['id']))
 	extract($result[0]);
 	
 	//check authorship of the post
-	if(!$admin_flag && $a_id != $GLOBALS['m_id'])
+	if(!$admin_flag && $a_id != $_SESSION['m_id'])
 	  {
 		return;
 		//		header('location:../settings');
@@ -64,7 +64,7 @@ if(isset($_GET['id']))
 
 	$tag2 = get_tag($tag_2);
 	$tag3 = get_tag($tag_3);
-	$b_id = $GLOBALS['b_id'];
+	$b_id = $_SESSION['b_id'];
 
 	$query = "SELECT address, city, state, zip FROM business WHERE id=$b_id";
 	$result = query_db($query);

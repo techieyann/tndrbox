@@ -21,7 +21,7 @@ if(check_admin() && isset($_GET['id']))
   }
 else
   {
-	$b_id = $GLOBALS['b_id'];
+	$b_id = $_SESSION['b_id'];
   }
 
 extract($_POST);

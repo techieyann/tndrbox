@@ -17,10 +17,10 @@ if(isset($_GET['id']))
 	verify_logged_in();
 
 	$id = $_GET['id'];
-	$m_id = $GLOBALS['m_id'];
+	$m_id = $_SESSION['m_id'];
 	if(!check_admin())
 	  {
-		$b_id = $GLOBALS['b_id'];
+		$b_id = $_SESSION['b_id'];
 	  }
 
 

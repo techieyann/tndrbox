@@ -3,13 +3,16 @@
 file: includes.php
 creator: Ian McEachern
 
-This creatively titled file is necessary the 
+This creatively titled file is the necessary
 first line of each php file generating a 
 website. It includes the necessary definitions 
-of globals, the interface to the database, and
-the functions used by every page. It then 
-initializes php settings.
+of globals, the interface to the database, 
+geocoding scripts, and the functions used by 
+every page. It then initializes php settings.
  ***********************************************/
+
+//start the session
+session_start();
 
 //Fail to load the page if it does not include the required files
 require('defines.php');

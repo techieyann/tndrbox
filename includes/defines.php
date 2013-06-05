@@ -6,7 +6,7 @@ creator: Ian McEachern
 This file defines global values for site usage.
  ***********************************************/
 //site metadata
-	$version	='0.3.1';
+	$version	='0.3.2';
 
 //mysql metadata
 	$mysql_user	='phpdaemon';
@@ -16,7 +16,7 @@ This file defines global values for site usage.
 //google analytics metadata
 	$GLOBALS['ga_account'] = 'UA-29414041-1';
 
-//google maps metadate
+//google maps metadata
 	$GLOBALS['gm_account'] = 'AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4';
 
 //mapquest metadata

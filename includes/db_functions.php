@@ -9,8 +9,13 @@ utilize information from the databases.
 
 function analyze_user()
 {
+	if(!isset($_SESSION['logged_in']))
+{
+	$_SESSION['logged_in'] = false;
+}
 	//check login cookie
-	$GLOBALS['logged_in'] = false;
+	if(!$_SESSION['logged_in'])
+{
 	if(isset($_COOKIE['login']))
 	{
 		$conc_cookie = $_COOKIE['login'];
@@ -27,11 +32,11 @@ function analyze_user()
 			  {
 				extract($result[0]);
 
-				$GLOBALS['logged_in'] = true;
-				$GLOBALS['email'] = $email;
-				$GLOBALS['m_id'] = $id;
-				$GLOBALS['b_id'] = $b_id;
-				$GLOBALS['type'] = $type;
+				$_SESSION['logged_in'] = true;
+				$_SESSION['email'] = $email;
+				$_SESSION['m_id'] = $id;
+				$_SESSION['b_id'] = $b_id;
+				$_SESSION['type'] = $type;
 			  }
 		  }
 		else
@@ -39,7 +44,7 @@ function analyze_user()
 			//fail and report
 		  }
 	}
-
+}
 	//check metadata cookies
 
 	//check location
@@ -48,16 +53,16 @@ function analyze_user()
 		$loc_json = $_COOKIE['location'];
 		$location = json_decode($loc_json, true);
 
-		$GLOBALS['lon'] = $location['lon'];
-		$GLOBALS['lat'] = $location['lat'];
-		$GLOBALS['latlon_source'] = $location['source'];
+		$_SESSION['lon'] = $location['lon'];
+		$_SESSION['lat'] = $location['lat'];
+		$_SESSION['latlon_source'] = $location['source'];
 	  }
 	else//get location from ip address
 	  {
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$latlon = ip_to_latlon($ip);
-		$GLOBALS['lat'] = $latlon['lat'];
-		$GLOBALS['lon'] = $latlon['lon'];
+		$_SESSION['lat'] = $latlon['lat'];
+		$_SESSION['lon'] = $latlon['lon'];
 		//set location
 		$cookie_val = $latlon;
 		$cookie_val['source'] = 'ip';
@@ -68,7 +73,7 @@ function analyze_user()
 
 function verify_logged_in()
 {
-	if($GLOBALS['logged_in'] == false)
+	if($_SESSION['logged_in'] == false)
 	{
 		header("location:#b=login");
 		$GLOBALS['DBH'] = null;
@@ -78,9 +83,9 @@ function verify_logged_in()
 
 function check_admin()
 {
-  if($GLOBALS['logged_in'])
+  if($_SESSION['logged_in'])
 	{
-	  if($GLOBALS['b_id'] == 0)
+	  if($_SESSION['b_id'] == 0)
 		{
 		  return true;
 		}
@@ -91,8 +96,8 @@ function check_admin()
 function default_front_page_posts()
 {
   /* Distance aware postings code:
-	$lat = $GLOBALS['lat'];
-	$lon = $GLOBALS['lon'];
+	$lat = $_SESSION['lat'];
+	$lon = $_SESSION['lon'];
 	$radius = $GLOBALS['default_latlon_delta']/2;
 	$lat_max = $lat+$radius;
 	$lat_min = $lat-$radius;

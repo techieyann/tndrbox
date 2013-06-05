@@ -7,6 +7,7 @@ This is the default page. It displays the most
 relevant data based on the function scrape_tags()
 in includes.php.
  ***********************************************/
+session_start();
 require('includes/includes.php');
 require('includes/tags.php');
 
@@ -381,7 +382,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 		<link rel="apple-touch-icon" href="images/touchicon.png">
 
 		<script>
-			var loggedIn = <?php ($GLOBALS['logged_in'] ? print "true" : print "false") ?>;
+			var loggedIn = <?php ($_SESSION['logged_in'] ? print "true" : print "false") ?>;
 			var postRequest = <?php ($post_flag ? print "true" : print "false") ?>;
 			var eventRequest = <?php ($event_flag ? print "true" : print "false") ?>;
 			var categories = <?php print $json_categories ?>;

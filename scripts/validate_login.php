@@ -12,9 +12,7 @@ login via a session id number.
 
 	require('../includes/includes.php');
 
-
 	connect_to_db($mysql_user, $mysql_pass, $mysql_db);
-
 	
 	extract($_POST);
 

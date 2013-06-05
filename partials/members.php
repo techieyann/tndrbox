@@ -1,4 +1,5 @@
 <?php
+
 require('../includes/includes.php');
 
 connect_to_db($mysql_user, $mysql_pass, $mysql_db);
@@ -47,7 +48,7 @@ disconnect_from_db();
 					<a class='nav-link' href='new-post'><i class='icon-plus'></i> New Post</a>
 				</li>
 	<?php 
-/*			if($GLOBALS['type'] != 1)
+/*			if($_SESSION['type'] != 1)
 			{
 				echo "
 				<li id='new-event-li'>

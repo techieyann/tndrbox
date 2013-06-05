@@ -74,7 +74,7 @@ function print_edit_business_form($id="")
   {
 	if($id=="")
 	  {
-		$b_id = $GLOBALS['b_id'];
+		$b_id = $_SESSION['b_id'];
 		$append_string = "";	
 	  }
 	else
@@ -270,7 +270,7 @@ function print_edit_user_form($id="")
   {
 	if($id == "")
 	  {
-		$id = $GLOBALS['m_id'];
+		$id = $_SESSION['m_id'];
 		$append_string = "";
 	  }
 	else

@@ -29,8 +29,6 @@ var firstFormatChange = true;
 var tilesDisplayed = true;
 var lastBoxState = '';
 
-
-
 var lastWindowWidth = 0;
 var lastWindowHeight = 0;
 
@@ -376,6 +374,7 @@ $(document).ready(function(){
 			toggleActivePane();
 		}
 	});
+
 		
 
 	$('.ui-accordion').click(function(e){
@@ -1020,9 +1019,14 @@ function toggleViewFormat()
 			if(firstFormatChange)
 			{
 				writePosts();
-				firstFormatChange = false;
 			}
 			displayPosts();
+			if(firstFormatChange)
+			{
+				lastWindowWidth = 0;
+				repositionContainers();
+				firstFormatChange = false;
+			}
 
 		}
 
@@ -1032,9 +1036,8 @@ function toggleViewFormat()
 
 		if(initialized)
 		{
-		$('#tiles').masonry('reload');
-//			lastWindowWidth = 0;
-//			repositionContainers();
+			$('#tiles').masonry('reload');
+
 		}
 	}
 	endLoading($('#tndr'));	

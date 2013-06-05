@@ -16,7 +16,7 @@ $link = connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 
 
-$business_id=$GLOBALS['b_id'];
+$business_id=$_SESSION['b_id'];
 push_old_post($business_id);
 
 $post_id = sanitize($_GET['p_id']);
