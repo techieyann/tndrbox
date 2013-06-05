@@ -28,7 +28,7 @@ if(isset($_GET['id']))
 
 		if(!check_admin())
 		  {	
-			if($GLOBALS['b_id'] != $b_id)
+			if($_SESSION['b_id'] != $b_id)
 			  {
 				disconnect_from_db();
 				return;

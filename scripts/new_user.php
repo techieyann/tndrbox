@@ -21,7 +21,7 @@ if(isset($_GET['admin']))
 	analyze_user();
 	verify_logged_in();
 
-	$b_id=$GLOBALS['b_id'];
+	$b_id=$_SESSION['b_id'];
 	if(check_admin())
 	  {
 		$b_id = $_POST['business'];

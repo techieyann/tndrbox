@@ -50,7 +50,7 @@ if(check_admin())
 	}
 else
   {
-	$b_id = $GLOBALS['b_id'];
+	$b_id = $_SESSION['b_id'];
 
 	$query = "SELECT address, city, state, zip FROM business WHERE id=$b_id";
 	$result = query_db($query);

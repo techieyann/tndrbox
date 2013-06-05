@@ -22,9 +22,9 @@ if(isset($_GET['p']))
 	$post = $result[0];
 
 	$owner_flag = false;
-	if(isset($GLOBALS['m_id']))
+	if(isset($_SESSION['m_id']))
 	  {
-		$m_id = $GLOBALS['m_id'];
+		$m_id = $_SESSION['m_id'];
 
 		if($m_id == $post['a_id'])
 		  {

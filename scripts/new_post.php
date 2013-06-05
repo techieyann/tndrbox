@@ -15,8 +15,8 @@ connect_to_db($mysql_user, $mysql_pass, $mysql_db);
 analyze_user();
 verify_logged_in();
 
-$business_id=$GLOBALS['b_id'];
-$author_id=$GLOBALS['m_id'];
+$business_id=$_SESSION['b_id'];
+$author_id=$_SESSION['m_id'];
 
 
 if(check_admin())

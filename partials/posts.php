@@ -51,7 +51,7 @@ if(check_admin() && isset($_GET['id']))
   }
 else
   {
-	$b_id = $GLOBALS['b_id'];
+	$b_id = $_SESSION['b_id'];
 	print_business_posts($b_id);
   }
 
@@ -176,9 +176,9 @@ function print_modal($id)
 		$active_flag = false;
 	  }
 	$owner_flag = false;
-	if(isset($GLOBALS['m_id']))
+	if(isset($_SESSION['m_id']))
 	  {
-		$m_id = $GLOBALS['m_id'];
+		$m_id = $_SESSION['m_id'];
 
 		if($m_id == $post['a_id'] || check_admin())
 		  {

@@ -22,7 +22,7 @@ if(isset($_GET['id']))
 	$result = query_db($query);
 	if(isset($result[0]))
 	{
-		if(!$admin_flag && $result[0]['b_id'] != $GLOBALS['b_id'])
+		if(!$admin_flag && $result[0]['b_id'] != $_SESSION['b_id'])
 		  {
 			disconnect_from_db();
 			return;

@@ -25,13 +25,13 @@ if(isset($_GET['id']))
 	if(isset($result[0]))
 	  {
 		extract($result[0]);
-		if(!$admin_flag && $b_id != $GLOBALS['b_id'])
+		if(!$admin_flag && $b_id != $_SESSION['b_id'])
 		  {
 			disconnect_from_db();
 			return;
 		  }
 
-		if($GLOBALS['type'] == 1)
+		if($_SESSION['type'] == 1)
 		{
 			push_old_post($b_id);
 		}
