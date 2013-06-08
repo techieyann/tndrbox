@@ -26,6 +26,7 @@ var activeTagOp = 'and';
 var tagOpChange = false;
 var welcomePageExpanded = true;
 var firstFormatChange = true;
+var firstGeoLocate = true;
 var tilesDisplayed = true;
 var lastBoxState = '';
 
@@ -34,15 +35,15 @@ var lastWindowHeight = 0;
 var lastInfoWindow = null;
 
 var selfMarker;
+var watchId;
 
 function initPage()
 {
 
 	mapInitialize(afterMapInitialize);
-	getPosts();
 	if(Modernizr.geolocation)
 	{
-		navigator.geolocation.watchPosition(geoSuccess, geoError, {enableHighAccuracy:true});
+		watchId = navigator.geolocation.watchPosition(geoSuccess, geoError, {enableHighAccuracy:true});
 	}
 
 	//prep the meta tndr buttons
@@ -522,18 +523,35 @@ $(document).ready(function(){
 
 function geoSuccess(position) 
 {
+	if(firstGeoLocate)
+	{
+		getPosts();
+	}
 	if(selfMarker!=undefined)
 	{
 		selfMarker.setMap();
 	}
-	setPosition(position);
+	setPosition(position.coords.latitude, position.coords.longitude);
 	var selfPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	var mobileTest = $(window).innerWidth() > 768;
 
 	selfMarker = new google.maps.Marker({
 		position: selfPos,
 		animation: google.maps.Animation.DROP,
-		title: 'You are here',
+		title: 'Your location'+(mobileTest ? '...':', drag to change...'),
+		draggable: (mobileTest ? true:false),
 		zIndex: 9999
+	});
+
+
+	google.maps.event.addListener(selfMarker, 'dragend', function(){
+		if(Modernizr.geolocation)
+		{
+			navigator.geolocation.clearWatch(watchId);
+		}
+		setPosition(this.getPosition().lat(), this.getPosition().lng());
+		sortPostings();
+		writePosts();
 	});
 
 	selfMarker.setMap(map);
@@ -546,8 +564,14 @@ function geoSuccess(position)
 			map.fitBounds(mapBound);
 		}
 	}
-
-	sortPostings();
+	if(!firstGeoLocate)
+	{
+		sortPostings();
+	}
+	else
+	{
+		firstGeoLocate = false;
+	}
 }
 
 function geoError(err){
@@ -566,14 +590,15 @@ function geoError(err){
 		console.log('error 3');
 		break;
 	}
-	
+	if(firstGeoLocate)
+	{
+		getPosts();
+		firstGeoLocate = false;
+	}	
 }
 
-function setPosition(position)
+function setPosition(latitude, longitude)
 {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-
         var json_location = {"lat": latitude, "lon": longitude, "source": "html5"};
         var str_location = JSON.stringify(json_location);
         
@@ -624,27 +649,61 @@ function getPosts()
 		postings = data;
 		for(var i=0; i<postings.length; i++)
 		{
+			postings[i]['sorted_delta'] = postings[i]['time_delta'];
 			activePostings[i] = i;
 		}
-		writePosts();
+		sortPostings();
 	});
 	
 }
 
 function sortPostings()
 {
-	if(initialized)
-	{
-		var postingsDiv = (tilesDisplayed ? $('#tiles'):$('#list'));
+	var distance, currPost, sortedPostings = new Array();
 
+	for(var i=0; i<postings.length; i++)
+	{
+		currPost = postings[i];
+		distance = calcDistance(currPost['lat'], currPost['lon']);
+		currPost['sorted_delta'] = currPost['time_delta']+distance;
+		if(i==0)
+		{
+			sortedPostings.push(currPost);
+		}
+		else
+		{
+			var insertedFlag = false;
+			for(var j=0; j<sortedPostings.length; j++)
+			{
+				if(currPost['sorted_delta'] < sortedPostings[j]['sorted_delta'])
+				{
+					sortedPostings.splice(j, 0, currPost);
+					insertedFlag = true;
+					break;
+				}
+			}
+			if(!insertedFlag)
+			{
+				sortedPostings.push(currPost);
+			}
+		}
 	}
-	return;
+	postings = sortedPostings;
+
+	writePosts();
+}
+
+function calcDistance(lat, lon)
+{
+	var selfLat = selfMarker.getPosition().lat();
+	var selfLon = selfMarker.getPosition().lng();
+	var distance = (((selfLat-lat)*110.54)^2 + ((selfLon-lon)*111.320*Math.cos(selfLat))^2)^.5;
+	return 60*20*distance;
 }
 
 function writePosts()
 {
-
-	var post, marker, infoWindow, list, button, tileLink, listLink, p_id, postLatLon;
+	var post, marker, infoWindow, list, button, tileLink, listLink, p_id, postLatLon, selector, divSelector;
 	var postingsIndex = postings.length;
 	var postingsLength = postings.length;
 
@@ -653,6 +712,15 @@ function writePosts()
 		post = postings[i];
 
 		p_id = post['id'];
+		console.log(p_id+': '+post['sorted_delta']);		
+		selector = (tilesDisplayed ? $('#tile-'+p_id):$('#list-'+p_id));
+		if(selector.length)
+		{
+			divSelector = (tilesDisplayed ? $('#tiles'):$('#list'));
+			divSelector.prepend(selector.parent());
+		}
+		else
+		{
 
 		if(tilesDisplayed)
 		{
@@ -669,8 +737,8 @@ function writePosts()
 			button.appendChild(tileLink);
 			button.innerHTML += "<div class='post-big'></div>";
 
-			document.getElementById('tiles').appendChild(button);
-			}
+			$('#tiles').prepend(button);
+		}
 
 		//lists displayed
 		else
@@ -689,7 +757,7 @@ function writePosts()
 		list.appendChild(listLink);
 		list.innerHTML += "<div class='post-big'></div>";
 
-		document.getElementById('list').appendChild(list);
+			$('#list').prepend(list);
 		}
 
 		if(!initialized)
@@ -727,7 +795,9 @@ function writePosts()
 		oms.addMarker(postings[i]['marker']);
 		}
 
-		postingsIndex++;
+
+
+		}
 /*	var postScript = document.createElement('script');
 	postScript.innerHTML = "$('.posting-list-button').hover(function(e){"
 		+"var i = $(this).children('.post-trigger').attr('index');"
@@ -1300,7 +1370,7 @@ function getPostInfo(post){
 	var link = (tilesDisplayed ? $('#tile-'+id):$('#list-'+id));
 	var postInfo = '<div class="post-info-window" id="piw-'+id+'">'+
 		'<h4><a href="'+link.attr('href')+'" class="iw-link">'+post['title']+'</a></h4>'+
-		'<a href="http://maps.google.com/?q='+post['lat']+','+post['lon']+'" target="_blank">('+post['lat']+', '+post['lon']+')</a>'+
+		'@ <a href="http://maps.google.com/?q='+post['lat']+','+post['lon']+'" target="_blank">('+post['lat']+', '+post['lon']+')</a>'+
 		'</div>';
 	return postInfo;
 }
