@@ -87,7 +87,7 @@ else
 	echo "
 				<script>
 					$(document).ready(function(){
-
+					$.ga.load('".$GLOBALS['ga_account']."');
 					$('a.tag').click(function(e){
 						if(!$('#filters').hasClass('disabled'))
 						{
@@ -179,7 +179,7 @@ else
 				 		</div>
 						<div class='span5'>
 							<div class='post-spacetime'>
-								<a href='http://maps.google.com/?q=".urlencode($alt_address)."' target='_blank'>
+								<a href='http://maps.google.com/?q=$lat,$lon' target='_blank'>
 								<div id='post-address'>
 									<div class='target pull-left'></div>
 									<address>$alt_address</address>

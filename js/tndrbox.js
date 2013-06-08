@@ -31,17 +31,24 @@ var lastBoxState = '';
 
 var lastWindowWidth = 0;
 var lastWindowHeight = 0;
+var lastInfoWindow = null;
 
+var selfMarker;
 
 function initPage()
 {
+
+	mapInitialize(afterMapInitialize);
+	getPosts();
+	if(Modernizr.geolocation)
+	{
+		navigator.geolocation.watchPosition(geoSuccess, geoError, {enableHighAccuracy:true});
+	}
 
 	//prep the meta tndr buttons
 	$('#reset-filters-button, #search-options, #activate-tndr, #header-list').hide();
 
 	$('#tndr-buttons, #welcome-close').show();
-
-
 
 	//prep the box links
 	if(loggedIn)
@@ -67,26 +74,34 @@ function initPage()
 		$('#header-list').show();
 		toggleViewFormat();
 	}
-	getPosts();
+
 	ogSearchPlaceholder = $('#search').attr('placeholder');
 
-	mapInitialize(afterMapInitialize);
 
-
-
-
-	
-
-
-
-	function afterMapInitialize(){
+	function afterMapInitialize(){	
 		initMarkerSprites();
+
 		oms = new OverlappingMarkerSpiderfier(map);
-
 		oms.addListener('click', function(marker) {
-			$.bbq.pushState('p='+marker.id);
-		});
+			var id = marker.id;
+			if($(window).innerWidth() < 768 && initialized)
+			{
+				var link = (tilesDisplayed ? $('#tile-'+id):$('#list-'+id));
+				var postingIndex = link.attr('index')
+				var post = postings[postingIndex];
+				if(lastInfoWindow != null)
+				{
+					lastInfoWindow.close();
+				}
+				postings[postingIndex]['infoWindow'].open(map,marker);
 
+				lastInfoWindow = postings[postingIndex]['infoWindow'];
+			}
+			else
+			{
+				$.bbq.pushState({'p':id}, 0);
+			}
+		});
 	}
 }
 
@@ -361,6 +376,8 @@ $(document).ready(function(){
 
 
 	});
+
+
 	$('#activate-tndr').click(function(e){
 		if($('#left-pane').hasClass('active'))
 		{
@@ -503,6 +520,97 @@ $(document).ready(function(){
 
 });
 
+function geoSuccess(position) 
+{
+	if(selfMarker!=undefined)
+	{
+		selfMarker.setMap();
+	}
+	setPosition(position);
+	var selfPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+	selfMarker = new google.maps.Marker({
+		position: selfPos,
+		animation: google.maps.Animation.DROP,
+		title: 'You are here',
+		zIndex: 9999
+	});
+
+	selfMarker.setMap(map);
+	if(initialized)
+	{
+		var mapBound = map.getBounds();
+		if(!mapBound.contains(selfPos))
+		{
+			mapBound.extend(selfPos);
+			map.fitBounds(mapBound);
+		}
+	}
+
+	sortPostings();
+}
+
+function geoError(err){
+	switch(err.code)
+	{
+	case 1:
+		//PERMISSION_DENIED
+		console.log('error 1');
+		break;
+	case 2:
+		//POSITION_UNAVAILABLE
+		console.log('error 2');
+		break;
+	case 3:
+		//TIMEOUT
+		console.log('error 3');
+		break;
+	}
+	
+}
+
+function setPosition(position)
+{
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        var json_location = {"lat": latitude, "lon": longitude, "source": "html5"};
+        var str_location = JSON.stringify(json_location);
+        
+        setCookie("location", str_location, 8);
+}
+
+function setCookie(name, value, hours)
+{
+        var date = new Date();
+        date.setTime(date.getTime()+(hours*3600000));
+        var expire = date.toGMTString();
+        var new_cookie = name+ "=";
+        new_cookie = new_cookie + value + "; expires="; 
+        new_cookie = new_cookie + expire + "; path=/";
+
+
+        document.cookie = new_cookie;
+}
+
+function getCookie(name){
+        var search_str = name + "=";
+        var cookies = document.cookie.split(';');
+        
+        for(var i=0; i<cookies.length; i++)
+        {
+                var cookie = cookies[i];
+                while(cookie.charAt(0) == ' ')
+                {
+                        cookie = cookie.substring(1, cookie.length);
+                }
+                if(cookie.indexOf(search_str) == 0)
+                {
+                        return cookie.substring(search_str.length, cookie.length);
+                }
+        }
+        return null;
+}
 
 function getPosts()
 {
@@ -514,89 +622,132 @@ function getPosts()
 	}
 	$.getJSON(url, function(data){
 		postings = data;
+		for(var i=0; i<postings.length; i++)
+		{
+			activePostings[i] = i;
+		}
 		writePosts();
 	});
+	
+}
 
+function sortPostings()
+{
+	if(initialized)
+	{
+		var postingsDiv = (tilesDisplayed ? $('#tiles'):$('#list'));
+
+	}
+	return;
 }
 
 function writePosts()
 {
 
-	var marker, list, button, tileLink, listLink, id, postLatLon;
+	var post, marker, infoWindow, list, button, tileLink, listLink, p_id, postLatLon;
+	var postingsIndex = postings.length;
+	var postingsLength = postings.length;
 
-	$.each(postings, function(index, post)
-			{
-				id = post['id'];
-				if(!initialized)
-				{
-					activePostings[index] = index;
+	for(var i=0; i<postingsLength; i++)
+	{
+		post = postings[i];
 
+		p_id = post['id'];
 
-					postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
+		if(tilesDisplayed)
+		{
+			button = document.createElement('div');
+			tileLink = document.createElement('a');
 
-					postings[index]['marker'] = new google.maps.Marker({
-					position: postLatLon,
-					title: post['title'],
-					id: post['id'],
-					icon: markerSprites[post.tag_1]
-				});
-				marker=postings[index]['marker'];
-				google.maps.event.addListener(marker, 'mouseover', function(e){highlightPosting(post.id);});
-				google.maps.event.addListener(marker, 'mouseout', function(e){lowlightPosting(post.id);});
+			tileLink.innerHTML = post['tile'];
+			tileLink.setAttribute('href','#p='+p_id);
+			tileLink.setAttribute('id', 'tile-'+p_id);
+			tileLink.setAttribute('class', 'post-trigger');
+			tileLink.setAttribute('index', i);
 
-				oms.addMarker(marker);
-				}
+			button.setAttribute('class', 'posting-list-button tile');
+			button.appendChild(tileLink);
+			button.innerHTML += "<div class='post-big'></div>";
 
-				if(tilesDisplayed)
-				{
-				button = document.createElement('div');
-				tileLink = document.createElement('a');
+			document.getElementById('tiles').appendChild(button);
+			}
 
-				tileLink.innerHTML = post['tile'];
-				tileLink.setAttribute('href','#p='+id);
-				tileLink.setAttribute('id', 'tile-'+id);
-				tileLink.setAttribute('class', 'post-trigger');
-				tileLink.setAttribute('index', index);
+		//lists displayed
+		else
+		{
+		list = document.createElement('div');
+		listLink = document.createElement('a');
 
-				button.setAttribute('class', 'posting-list-button tile');
-				button.appendChild(tileLink);
-				button.innerHTML += "<div class='post-big'></div>";
+		listLink.innerHTML = post['list'];
+		listLink.setAttribute('href','#p='+p_id);
+		listLink.setAttribute('id', 'list-'+p_id);
+		listLink.setAttribute('class', 'post-trigger');
+		listLink.setAttribute('index', i);
+		listLink.innerHTML = post['list'] + "<div class='post-big'></div>";
 
-				document.getElementById('tiles').appendChild(button);
-				}
+		list.setAttribute('class', 'posting-list-button list');
+		list.appendChild(listLink);
+		list.innerHTML += "<div class='post-big'></div>";
 
-				//lists displayed
-				else
-				{
-				list = document.createElement('div');
-				listLink = document.createElement('a');
+		document.getElementById('list').appendChild(list);
+		}
 
-				listLink.innerHTML = post['list'];
-				listLink.setAttribute('href','#p='+id);
-				listLink.setAttribute('id', 'list-'+id);
-				listLink.setAttribute('class', 'post-trigger');
-				listLink.setAttribute('index', index);
-				listLink.innerHTML = post['list'] + "<div class='post-big'></div>";
+		if(!initialized)
+		{
+		postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
 
-				list.setAttribute('class', 'posting-list-button list');
-				list.appendChild(listLink);
-				list.innerHTML += "<div class='post-big'></div>";
+		postings[i]['marker'] = new google.maps.Marker({
+			position: postLatLon,
+			title: post['title'],
+			id: p_id,
+			index: i,
+			icon: markerSprites[post.tag_1]
+		});
+		postInfo = getPostInfo(post);
+		postings[i]['infoWindow'] = new google.maps.InfoWindow({
+			content: postInfo
+		});
+		infoWindow = postings[i]
 
-				document.getElementById('list').appendChild(list);
-				}
+		$('.iw-link').click(function(e){
+				$(this).parent().close();
+			});
+		marker=postings[i]['marker'];
+			google.maps.event.addListener(postings[i]['marker'], 'mouseover', function(e){
+				var id = $(this).attr('id')
+
+				highlightPosting(id);
+
+			});
+			google.maps.event.addListener(postings[i]['marker'], 'mouseout', function(e){
+				var id = $(this).attr('id')
+				lowlightPosting(id);
 			});
 
-		
-		var postScript = document.createElement('script');
-		postScript.innerHTML = "$('.posting-list-button').hover(function(e){"
-			+"var i = $(this).children('.post-trigger').attr('index');"
-			+"highlightPosting($(this).children('.post-trigger').attr('id').substr(5));"
-			+"}, function(e){"
-			+"var i = $(this).children('.post-trigger').attr('index');"
-			+"lowlightPosting($(this).children('.post-trigger').attr('id').substr(5));"
-			+"});";
+		oms.addMarker(postings[i]['marker']);
+		}
+
+		postingsIndex++;
+/*	var postScript = document.createElement('script');
+	postScript.innerHTML = "$('.posting-list-button').hover(function(e){"
+		+"var i = $(this).children('.post-trigger').attr('index');"
+		+"highlightPosting("+postings[i]['id']+");"
+		+"}, function(e){"
+		+"var i = $(this).children('.post-trigger').attr('index');"
+		+"lowlightPosting(postings[i]['id']);"
+		+"});";
 	var ref = document.getElementsByTagName('script')[0];
-	ref.parentNode.insertBefore(postScript, ref);
+	ref.parentNode.insertBefore(postScript, ref);*/
+	}
+$('.posting-list-button').hover(function(e){
+		var i = $(this).children('.post-trigger').attr('index');
+		highlightPosting(postings[i]['id']);
+		}, function(e){
+		var i = $(this).children('.post-trigger').attr('index');
+		lowlightPosting(postings[i]['id']);
+		});
+		
+
 
 	displayPosts();
 	if(initialized)
@@ -635,7 +786,7 @@ function displayPosts()
 
 function startLoading(targetDiv)
 {
-	targetDiv.prepend('<div class="loading"><img src="images/loading.gif"></div>');
+	targetDiv.prepend('<div class="loading"><img src="images/loading.gif"><br>loading...</div>');
 }
 
 function endLoading(targetDiv)
@@ -1060,8 +1211,9 @@ function highlightPosting(id)
 	var link = (tilesDisplayed ? $('#tile-'+id):$('#list-'+id));
 
 	var index = link.attr('index');
+
 	var post = postings[index];
-	var marker = postings[index]['marker'];
+	var marker = post['marker'];
 	link.parent().addClass('highlight');
 
 	marker.setIcon(markerSprites[post.tag_1+'_a']);
@@ -1074,8 +1226,9 @@ function lowlightPosting(id)
 	var link = (tilesDisplayed ? $('#tile-'+id):$('#list-'+id));
 
 	var index = link.attr('index');
+
 	var post = postings[index];
-	var marker = postings[index]['marker'];
+	var marker = post['marker'];
 	link.parent().removeClass('highlight');
 
 
@@ -1122,7 +1275,13 @@ function displayActiveMarkers()
 
 			mapBounds.extend(currentMarker.position);
 		}
-
+		if(selfMarker != undefined)
+		{
+			if(!mapBounds.contains(selfMarker.position))
+			{
+				mapBounds.extend(selfMarker.position);
+			}
+		}
 		map.fitBounds(mapBounds);
 
 
@@ -1136,7 +1295,15 @@ function displayActiveMarkers()
 		});//from http://stackoverflow.com/a/4709017
 	}
 }
-
+function getPostInfo(post){
+	var id = post['id'];
+	var link = (tilesDisplayed ? $('#tile-'+id):$('#list-'+id));
+	var postInfo = '<div class="post-info-window" id="piw-'+id+'">'+
+		'<h4><a href="'+link.attr('href')+'" class="iw-link">'+post['title']+'</a></h4>'+
+		'<a href="http://maps.google.com/?q='+post['lat']+','+post['lon']+'" target="_blank">('+post['lat']+', '+post['lon']+')</a>'+
+		'</div>';
+	return postInfo;
+}
 function loadPost(id){
 
 /*	if(tilesDisplayed)
@@ -1280,7 +1447,11 @@ function loadPost(id){
 		postings[activeIndex]['loaded'] = $('#posting-content').html();
 		$('#posting-content').empty();
 	}
-
+	if(lastInfoWindow != null)
+	{
+		lastInfoWindow.close();
+		lastInfoWindow = null;
+	}
 	for(var i=0; i<postings.length; i++)
 	{
 		var currentPost = postings[i];
@@ -1455,7 +1626,6 @@ function mapInitialize(callback) {
 ]
 	var mapOptions = {
 		zoom: 15,
-		minZoom: 11,
 		maxZoom: 18,
 		center: defaultLatLon,//temescalLatLon,//myLatLon,
 //		disableDefaultUI: true,
@@ -1465,7 +1635,7 @@ function mapInitialize(callback) {
 
 	this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	$('#map-canvas').addClass('initialized');
-
+	
 	callback();
 }
 
