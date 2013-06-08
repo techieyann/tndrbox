@@ -1,10 +1,11 @@
 /*html styles*/
-@media all and (min-width:768px){
+@media all and (min-width:769px){
 	body
 	{
 		background:url('../images/bg-tile.png');
 	}
 }
+
 body.inactive
 {
 	overflow:hidden;
@@ -267,7 +268,6 @@ body.inactive
 }
 
 
-
 /*end sprites*/
 
 .content
@@ -481,34 +481,7 @@ left:70px;
                border-bottom-left-radius: 10px;
 }
 
-@media all and (max-width:765px){
-#posting
-{
-margin-left:0px;
-}
-#posting-background
-{
-left:0px;
-}
-.post-spacetime
-{
-	border-top:solid 2px #999999;
-	border-left:none;
-       -webkit-border-bottom-left-radius: 0px;
-          -moz-border-bottom-left-radius: 0px;
-               border-bottom-left-radius: 0px;
-}
-.post-interact
-{
 
-	width:auto;
-	left:0px;
-	border-left:none;
-       -webkit-border-top-left-radius: 0px;
-          -moz-border-top-left-radius: 0px;
-               border-top-left-radius: 0px;
-}
-}
 
 #post-time
 {
@@ -544,12 +517,15 @@ left:0px;
 	max-width:100%;
 
 }
-#posting-blurb
-{
-	padding-left:40px;
-	padding-right:40px;
-	text-align:left;
-}
+
+	#posting-blurb
+	{
+		padding-left:40px;
+		padding-right:40px;
+		text-align:left;
+	}
+
+
 .posting-time
 {
 	padding-right:15px;
@@ -732,4 +708,40 @@ z-index:1001;
 #box-links .active a
 {
 	color:#A33539;
+}
+
+
+@media all and (max-width:768px){
+#posting
+{
+margin-left:0px;
+}
+#posting-background
+{
+left:0px;
+}
+
+	#posting-blurb
+	{
+		padding:10px;
+	}
+
+.post-spacetime
+{
+	border-top:solid 2px #999999;
+	border-left:none;
+       -webkit-border-bottom-left-radius: 0px;
+          -moz-border-bottom-left-radius: 0px;
+               border-bottom-left-radius: 0px;
+}
+.post-interact
+{
+
+	width:auto;
+	left:0px;
+	border-left:none;
+       -webkit-border-top-left-radius: 0px;
+          -moz-border-top-left-radius: 0px;
+               border-top-left-radius: 0px;
+}
 }

@@ -558,7 +558,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 
 			var tndr = document.getElementById('tndr');
 			var loadingDiv = document.createElement('div');
-			loadingDiv.innerHTML = '<img src="images/loading.gif">';
+			loadingDiv.innerHTML = '<img src="images/loading.gif"><br>Loading...';
 			loadingDiv.setAttribute('class', 'loading');
 			tndr.insertBefore(loadingDiv, tndr.firstChild);
 
