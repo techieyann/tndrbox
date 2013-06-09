@@ -41,10 +41,7 @@ function initPage()
 {
 
 	mapInitialize(afterMapInitialize);
-	if(Modernizr.geolocation)
-	{
-		watchId = navigator.geolocation.watchPosition(geoSuccess, geoError, {enableHighAccuracy:true});
-	}
+
 
 	//prep the meta tndr buttons
 	$('#reset-filters-button, #search-options, #activate-tndr, #header-list').hide();
@@ -81,7 +78,14 @@ function initPage()
 
 	function afterMapInitialize(){	
 		initMarkerSprites();
-
+		if(Modernizr.geolocation)
+		{
+			watchId = navigator.geolocation.watchPosition(geoSuccess, geoError, {enableHighAccuracy:true});
+		}
+		else
+		{
+			getPosts();
+		}
 		oms = new OverlappingMarkerSpiderfier(map);
 		oms.addListener('click', function(marker) {
 			var id = marker.id;
@@ -551,7 +555,7 @@ function geoSuccess(position)
 		}
 		setPosition(this.getPosition().lat(), this.getPosition().lng());
 		sortPostings();
-		writePosts();
+
 	});
 
 	selfMarker.setMap(map);
@@ -659,46 +663,61 @@ function getPosts()
 
 function sortPostings()
 {
-	var distance, currPost, sortedPostings = new Array();
-
-	for(var i=0; i<postings.length; i++)
+	if(selfMarker != undefined)
 	{
-		currPost = postings[i];
-		distance = calcDistance(currPost['lat'], currPost['lon']);
-		currPost['sorted_delta'] = currPost['time_delta']+distance;
-		if(i==0)
+		var distance, currPost, sortedPostings = new Array();
+
+		for(var i=0; i<postings.length; i++)
 		{
-			sortedPostings.push(currPost);
-		}
-		else
-		{
-			var insertedFlag = false;
-			for(var j=0; j<sortedPostings.length; j++)
-			{
-				if(currPost['sorted_delta'] < sortedPostings[j]['sorted_delta'])
-				{
-					sortedPostings.splice(j, 0, currPost);
-					insertedFlag = true;
-					break;
-				}
-			}
-			if(!insertedFlag)
+			currPost = postings[i];
+
+			distance = calcDistance(currPost['lat'], currPost['lon']);
+			currPost['sorted_delta'] = currPost['time_delta']+distance;
+			if(i==0)
 			{
 				sortedPostings.push(currPost);
 			}
+			else
+			{
+				var insertedFlag = false;
+				for(var j=0; j<sortedPostings.length; j++)
+				{
+					if(currPost['sorted_delta'] < sortedPostings[j]['sorted_delta'])
+					{
+						sortedPostings.splice(j, 0, currPost);
+						insertedFlag = true;
+						break;
+					}
+				}
+				if(!insertedFlag)
+				{
+					sortedPostings.push(currPost);
+				}
+			}
 		}
-	}
-	postings = sortedPostings;
+		postings = sortedPostings;
 
+	}
 	writePosts();
 }
 
 function calcDistance(lat, lon)
 {
+	var distance = 0;
 	var selfLat = selfMarker.getPosition().lat();
 	var selfLon = selfMarker.getPosition().lng();
-	var distance = (((selfLat-lat)*110.54)^2 + ((selfLon-lon)*111.320*Math.cos(selfLat))^2)^.5;
-	return 60*20*distance;
+
+	var first = ((selfLat-lat)*69000000);
+	first = first*first;
+	var second = (((selfLon-lon)*Math.cos(selfLat))*69000000);
+	second = second*second;
+
+
+	distance = Math.pow((first + second), .5);
+
+	distance = 60*20*distance/1000000;
+
+	return distance;
 }
 
 function writePosts()
@@ -712,12 +731,16 @@ function writePosts()
 		post = postings[i];
 
 		p_id = post['id'];
-		console.log(p_id+': '+post['sorted_delta']);		
+
 		selector = (tilesDisplayed ? $('#tile-'+p_id):$('#list-'+p_id));
 		if(selector.length)
 		{
+
+			
+			postings[i]['marker'].setOptions({index:i});
+			selector.attr('index', i);
 			divSelector = (tilesDisplayed ? $('#tiles'):$('#list'));
-			divSelector.prepend(selector.parent());
+			divSelector.append(selector.parent());
 		}
 		else
 		{
@@ -737,7 +760,7 @@ function writePosts()
 			button.appendChild(tileLink);
 			button.innerHTML += "<div class='post-big'></div>";
 
-			$('#tiles').prepend(button);
+			$('#tiles').append(button);
 		}
 
 		//lists displayed
@@ -757,7 +780,7 @@ function writePosts()
 		list.appendChild(listLink);
 		list.innerHTML += "<div class='post-big'></div>";
 
-			$('#list').prepend(list);
+			$('#list').append(list);
 		}
 
 		if(!initialized)
@@ -1216,11 +1239,9 @@ function toggleViewFormat()
 		$(window).trigger('hashchange');	
 		if(initialized)
 		{
-			if(firstFormatChange)
-			{
+
 				writePosts();
-				firstFormatChange = false;
-			}
+
 			displayPosts();
 		}
 
@@ -1237,10 +1258,9 @@ function toggleViewFormat()
 		$(window).trigger('hashchange');	
 		if(initialized)
 		{
-			if(firstFormatChange)
-			{
+
 				writePosts();
-			}
+
 			displayPosts();
 			if(firstFormatChange)
 			{
@@ -1248,7 +1268,6 @@ function toggleViewFormat()
 				repositionContainers();
 				firstFormatChange = false;
 			}
-
 		}
 
 
