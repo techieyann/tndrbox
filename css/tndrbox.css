@@ -725,7 +725,7 @@ left:0px;
 	{
 		padding:10px;
 	}
-
+@media all and (max-width:767px){
 .post-spacetime
 {
 	border-top:solid 2px #999999;
@@ -743,5 +743,6 @@ left:0px;
        -webkit-border-top-left-radius: 0px;
           -moz-border-top-left-radius: 0px;
                border-top-left-radius: 0px;
+}
 }
 }

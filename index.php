@@ -402,8 +402,9 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 
 				<li class="pull-left"><button class="btn btn-mini" id="activate-tndr"><i id="header-list" class="icon-list"></i><i id="header-tiles" class="icon-th-large"></i></button></li>
 				<li id="logo-li"><a href="index"><img id="logo" src="slir/h40/images/logo.png" alt="tndrbox"></a></li>
-				<li class="pull-right"><button class="btn btn-mini" id="locate-button" onclick="getLocation();"><i class="icon-screenshot"></i></button></li>
 				<li class="pull-right"><button class="btn btn-mini" id="activate-map" onclick="toggleActivePane();"><i class="icon-globe"></i></button></li>
+				<li class="pull-right"><button class="btn btn-mini" id="locate-button" onclick="getLocation();"><i class="icon-screenshot"></i></button></li>
+
 
 				</ul>
 			</div><!-- #tndr-header -->
@@ -418,11 +419,12 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 			<div id="left-pane" data-step="1" data-intro="This where our posts go. Click one, they don't bite." data-position="right" class="active">
 
 			<div id="welcome-page">
+			  <button class="btn btn-mini pull-right" id="welcome-close" onclick="$('#welcome-page').hide('fast'); "><i class="icon-remove"></i></button>
 						<div id="welcome-page-content">
 							<h4>Hello traveller, we need javascript installed/enabled for our site to function properly. Please get back to us when you have done so.</h4>
 						</div><!-- #welcome-page-content -->
 			  <p class="pull-right"><?php print date('F jS, Y')?></p>
-			  <button class="btn btn-mini pull-left" id="welcome-close" onclick="$('#welcome-page').hide('fast'); "><i class="icon-remove"></i></button>
+
 			</div><!-- #welcome-page -->
 			<div id="event">
 			</div><!-- #event -->

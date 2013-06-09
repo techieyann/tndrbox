@@ -78,11 +78,15 @@ function initPage()
 
 	this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	$('#map-canvas').addClass('initialized');
-
+	if($(window).innerWidth() < 769)
+	{
+		$('#list-format').parent().hide();
+		toggleViewFormat();			
+	}
 	getPosts();
 
 	//prep the meta tndr buttons
-	$('#reset-filters-button, #search-options, #activate-tndr, #header-list').hide();
+	$('#reset-filters-button, #search-options, #activate-tndr').hide();
 
 
 	$('#tndr-buttons, #welcome-close').show();
@@ -98,25 +102,13 @@ function initPage()
 		$('#logout-link').hide();
 	}
 
+
 	$('#hide-box-button').hide();
 
 	$('#box-links').show();
-	if(!Modernizr.geolocation)
-	{
-		$('#locate-button').hide();
-	}
-	$('#activate-tndr').hide();
-	if($(window).innerWidth() < 769)
-	{
-		welcomePageExpanded = false;
-		$('#header-list').show();
-		$('#tile-format').parent().hide();		
-		toggleViewFormat();
-	}
-	else
-	{
-		$('#activate-tndr').hide();
-	}
+
+
+
 
 /*	if($(window).innerWidth()<360)
 	{
@@ -131,7 +123,7 @@ function initPage()
 		oms = new OverlappingMarkerSpiderfier(map);
 		oms.addListener('click', function(marker) {
 			var id = marker.id;
-			if($(window).innerWidth() < 768 && initialized)
+			if($(window).innerWidth() < 769 && initialized)
 			{
 				var link = (tilesDisplayed ? $('#tile-'+id):$('#list-'+id));
 				var postingIndex = link.attr('index')
@@ -467,7 +459,7 @@ $(document).ready(function(){
 	});
 
 	rightPane.click(function(e){
-		if(leftPane.hasClass('active') && ($(window).innerWidth() < 768))
+		if(leftPane.hasClass('active') && ($(window).innerWidth() < 769))
 		{
 			e.preventDefault();
 			toggleActivePane();
@@ -475,7 +467,7 @@ $(document).ready(function(){
 	});
 	
 	leftPane.click(function(e){
-		if(rightPane.hasClass('active')  && ($(window).innerWidth() < 768))
+		if(rightPane.hasClass('active')  && ($(window).innerWidth() < 769))
 		{
 			e.preventDefault();
 			toggleActivePane();
@@ -485,7 +477,7 @@ $(document).ready(function(){
 	});
 
 	$('#posting').click(function(e){
-		if(rightPane.hasClass('active')  && ($(window).innerWidth() < 768))
+		if(rightPane.hasClass('active')  && ($(window).innerWidth() < 769))
 		{
 			e.preventDefault();
 			toggleActivePane();
@@ -566,23 +558,77 @@ $(document).ready(function(){
 
 function getLocation()
 {
-	navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {enableHighAccuracy:true});
+	if(Modernizr.geolocation)
+	{
+		navigator.geolocation.getCurrentPosition(geoSuccess, geoError, {enableHighAccuracy:true});
+	}
+	else
+	{
+		setIPLocation();
+	}
+
 }
 
 function geoSuccess(position) 
 {
+	setPosition(position.coords.latitude, position.coords.longitude);
+}
+
+function geoError(err){
+	switch(err.code)
+	{
+	case 1:
+		//PERMISSION_DENIED
+		console.log('error 1');
+		break;
+	case 2:
+		//POSITION_UNAVAILABLE
+		console.log('error 2');
+		setIPLocation();
+		break;
+	case 3:
+		//TIMEOUT
+		console.log('error 3');
+		setIPLocation();
+		break;
+	}
+
+}
+
+function setIPLocation()
+{
+	console.log('getting ip');
+	ip_url = "http://api.hostip.info/get_json.php";
+	geo_url = "http://freegeoip.net/json/";
+	console.log('getting ip');
+	$.getJSON(ip_url, function(data){
+		console.log(data);
+		geo_url = geo_url + data.ip;
+		$.getJSON(geo_url, function(data){
+			console.log(data);
+			setPosition(data.latitude, data.longitude);
+		});
+	});
+}
+function setPosition(latitude, longitude)
+{
+        var json_location = {"lat": latitude, "lon": longitude, "source": "html5"};
+        var str_location = JSON.stringify(json_location);
+        
+        setCookie("location", str_location, 8);
+
 	if(selfMarker!=undefined)
 	{
 		selfMarker.setMap();
 	}
-	setPosition(position.coords.latitude, position.coords.longitude);
-	var selfPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+	var selfPos = new google.maps.LatLng(latitude, longitude);
 	var mobileTest = $(window).innerWidth() > 768;
 
 	selfMarker = new google.maps.Marker({
 		position: selfPos,
 		animation: google.maps.Animation.DROP,
-		title: 'Your location drag to change...',
+		title: 'Your location, drag to change...',
 		draggable: true,
 		zIndex: 9999
 	});
@@ -604,32 +650,6 @@ function geoSuccess(position)
 			map.fitBounds(mapBound);
 		}
 	}
-}
-
-function geoError(err){
-	switch(err.code)
-	{
-	case 1:
-		//PERMISSION_DENIED
-		console.log('error 1');
-		break;
-	case 2:
-		//POSITION_UNAVAILABLE
-		console.log('error 2');
-		break;
-	case 3:
-		//TIMEOUT
-		console.log('error 3');
-		break;
-	}
-}
-
-function setPosition(latitude, longitude)
-{
-        var json_location = {"lat": latitude, "lon": longitude, "source": "html5"};
-        var str_location = JSON.stringify(json_location);
-        
-        setCookie("location", str_location, 8);
 }
 
 function setCookie(name, value, hours)
@@ -839,6 +859,7 @@ function writePosts()
 			});
 
 		oms.addMarker(postings[i]['marker']);
+
 		}
 
 
@@ -1071,12 +1092,14 @@ function repositionContainers()
 		rightPane.css('height', window_height - (70 + header_height));
 		posting.css('height',window_height-header_height-70);
 		boxWings.show();
+		$('#activate-map, #activate-tndr').hide();
 	}
 	else
 	{
 		rightPane.css('height', window_height - (header_height+5));
 		posting.css('height',window_height-header_height-5);
 		box.css('top',window_height);
+
 		boxWings.hide();
 	}
 
@@ -1105,6 +1128,8 @@ function repositionContainers()
 		{
 			$(window).trigger('hashchange');	
 		}
+
+
 			tiles.masonry({
 	 			itemSelector: '.active-brick',
 				isAnimated: true,
@@ -1134,7 +1159,7 @@ function activatePosting()
 	{
 		posting.switchClass('inactive', 'active', function(){
 			posting.show();
-			if(lastWindowWidth<768)
+			if(lastWindowWidth<769)
 			{
 				$('#activate-tndr').show();
 			}
@@ -1151,7 +1176,7 @@ function deactivatePosting()
 	{
 		posting.switchClass('active', 'inactive', function(){
 			posting.hide();
-			if($(window).innerWidth()<768)
+			if($(window).innerWidth()<769)
 			{
 				$('#activate-tndr').hide();
 			}
@@ -1236,7 +1261,7 @@ function toggleActivePane()
 	{
 		rightPane.removeClass('active');
 		leftPane.addClass('active');
-		if(lastWindowWidth < 768 && $('#posting').hasClass('inactive'))
+		if(lastWindowWidth < 769 && $('#posting').hasClass('inactive'))
 		{
 			$('#activate-tndr').hide();		
 		}
@@ -1268,7 +1293,7 @@ function toggleViewFormat()
 
 		}
 
-		$('#list, #header-list').show();
+		$('#header-list, #list').show();
 	}
 	else
 	{
@@ -1294,7 +1319,7 @@ function toggleViewFormat()
 		}
 
 
-		$('#tiles, #header-tiles').show();
+		$('#header-tiles, #tiles').show();
 
 
 		if(initialized)
