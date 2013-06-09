@@ -66,12 +66,13 @@ function initPage()
 	if($(window).innerWidth() < 768)
 	{
 		welcomePageExpanded = false;
-	}
-	if($(window).innerWidth()<360)
-	{
 		$('#header-list').show();
 		toggleViewFormat();
 	}
+/*	if($(window).innerWidth()<360)
+	{
+
+	}*/
 
 	ogSearchPlaceholder = $('#search').attr('placeholder');
 
@@ -1242,7 +1243,7 @@ function toggleViewFormat()
 
 				writePosts();
 
-			displayPosts();
+
 		}
 
 		$('#list, #header-list').show();
@@ -1261,7 +1262,7 @@ function toggleViewFormat()
 
 				writePosts();
 
-			displayPosts();
+
 			if(firstFormatChange)
 			{
 				lastWindowWidth = 0;
