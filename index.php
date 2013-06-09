@@ -402,6 +402,7 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 
 				<li class="visible-phone pull-left"><button class="btn btn-mini" id="activate-tndr"><i id="header-list" class="icon-list"></i><i id="header-tiles" class="icon-th-large"></i></button></li>
 				<li id="logo-li"><a href="index"><img id="logo" src="slir/h40/images/logo.png" alt="tndrbox"></a></li>
+				<li class="pull-right"><button class="btn btn-mini" id="locate-button" onclick="getLocation();"><i class="icon-screenshot"></i></button></li>
 				<li class="visible-phone pull-right"><button class="btn btn-mini" id="activate-map" onclick="toggleActivePane();"><i class="icon-globe"></i></button></li>
 
 				</ul>
