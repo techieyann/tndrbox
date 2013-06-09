@@ -101,8 +101,11 @@ function initPage()
 	$('#hide-box-button').hide();
 
 	$('#box-links').show();
-
-	if($(window).innerWidth() < 768)
+	if(!Modernizr.geolocation)
+	{
+		$('#locate-button').hide();
+	}
+	if($(window).innerWidth() < 769)
 	{
 		welcomePageExpanded = false;
 		$('#header-list').show();
