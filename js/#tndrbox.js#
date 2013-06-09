@@ -106,17 +106,7 @@ function initPage()
 		$('#locate-button').hide();
 	}
 	$('#activate-tndr').hide();
-	if($(window).innerWidth() < 769)
-	{
-		welcomePageExpanded = false;
-		$('#header-list').show();
-		$('#tile-format').parent().hide();		
-		toggleViewFormat();
-	}
-	else
-	{
-		$('#activate-tndr').hide();
-	}
+
 
 /*	if($(window).innerWidth()<360)
 	{
