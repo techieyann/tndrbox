@@ -24,6 +24,7 @@ var lastTag = 0;
 
 var activeTagOp = 'and';
 var tagOpChange = false;
+var masonryInitReload = false;
 var welcomePageExpanded = true;
 var firstFormatChange = true;
 var firstGeoLocate = true;
@@ -859,7 +860,10 @@ function writePosts()
 			});
 
 		oms.addMarker(postings[i]['marker']);
-
+			if(tilesDisplayed)
+			{
+				masonryInitReload = true;
+			}
 		}
 
 
@@ -1128,13 +1132,15 @@ function repositionContainers()
 		{
 			$(window).trigger('hashchange');	
 		}
-
-
 			tiles.masonry({
 	 			itemSelector: '.active-brick',
 				isAnimated: true,
 				gutterWidth: 10
 			});		
+		if(masonryInitReload)
+		{
+			window.setTimeout(function(){tiles.masonry('reload');window.setTimeout(function(){tiles.masonry('reload');}, 5000);}, 5000);
+		}
 	}
 	else
 	{
