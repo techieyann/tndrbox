@@ -725,6 +725,8 @@ left:0px;
 	{
 		padding:10px;
 	}
+
+}
 @media all and (max-width:767px){
 .post-spacetime
 {
@@ -745,4 +747,11 @@ left:0px;
                border-top-left-radius: 0px;
 }
 }
+
+#about
+{
+	width:61%;
+	margin: 0px auto;
+	padding-left:20px;
+	padding-right:20px;
 }

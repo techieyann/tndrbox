@@ -82,7 +82,8 @@ function initPage()
 	if($(window).innerWidth() < 769)
 	{
 		$('#list-format').parent().hide();
-		toggleViewFormat();			
+		toggleViewFormat();	
+		welcomePageExpanded = false;		
 	}
 	getPosts();
 
@@ -111,7 +112,7 @@ function initPage()
 
 
 
-/*	if($(window).innerWidth()<360)
+/*	If($(window).innerWidth()<360)
 	{
 
 	}*/
@@ -601,7 +602,7 @@ function setIPLocation()
 	console.log('getting ip');
 	ip_url = "http://api.hostip.info/get_json.php";
 	geo_url = "http://freegeoip.net/json/";
-	console.log('getting ip');
+
 	$.getJSON(ip_url, function(data){
 		console.log(data);
 		geo_url = geo_url + data.ip;
@@ -651,6 +652,7 @@ function setPosition(latitude, longitude)
 			map.fitBounds(mapBound);
 		}
 	}
+	sortPostings();
 }
 
 function setCookie(name, value, hours)
@@ -700,7 +702,7 @@ function getPosts()
 			postings[i]['sorted_delta'] = postings[i]['time_delta'];
 			activePostings[i] = i;
 		}
-		sortPostings();
+		writePosts();
 	});
 	
 }
@@ -1118,7 +1120,7 @@ function repositionContainers()
 
 	if(!initialized)
 	{
-		endLoading($('#tndr'));
+endLoading($('#tndr'));
 
 		initialized = true;
 
@@ -1139,7 +1141,7 @@ function repositionContainers()
 			});		
 		if(masonryInitReload)
 		{
-			window.setTimeout(function(){tiles.masonry('reload');window.setTimeout(function(){tiles.masonry('reload');}, 5000);}, 5000);
+			window.setTimeout(function(){tiles.masonry('reload');window.setTimeout(function(){tiles.masonry('reload'); }, 3000);}, 3000);
 		}
 	}
 	else
