@@ -19,8 +19,6 @@ This file defines global values for site usage.
 //google maps metadata
 	$GLOBALS['gm_account'] = 'AIzaSyD0LQT5KDi_tPDcJPP8Rxlj6hOdifAyNO4';
 
-//mapquest metadata
-	$GLOBALS['mapquest_key'] = 'Fmjtd%7Cluub21u2lu%2Cb2%3Do5-96t2da';
 
 //distance metadata
 	$GLOBALS['default_latlon_delta'] = .1; //~6 miles

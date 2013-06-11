@@ -162,10 +162,10 @@ function activate_post($p_id)
 		increment_tag($tag_1);
 		increment_tag($tag_2);
 		increment_tag($tag_3);	
-		$query = "UPDATE postings SET active=1, posting_time=CURRENT_TIMESTAMP WHERE id=$p_id";
+		$query = "UPDATE postings SET active=1, viewed=0, posting_time=CURRENT_TIMESTAMP WHERE id=$p_id";
 		query_db($query);
 		$query = "UPDATE business SET active_post=1, last_touched=CURRENT_TIMESTAMP WHERE id=$b_id";
-		echo query_db($query);
+		query_db($query);
 		
 	  }
   }

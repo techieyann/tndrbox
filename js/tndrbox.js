@@ -937,6 +937,25 @@ function endLoading(targetDiv)
 
 	targetDiv.children('.loading').remove();
 }
+function addAlert(targetDiv, connotation, text)
+{
+	var alertHTML = document.createElement('div');
+	var classString = 'alert alert-'+connotation;
+	if(text.length > 62)
+	{
+		classString += ' alert block';
+	}
+	alertHTML.setAttribute('class', classString);
+	alertHTML.innerHTML = '<button type="button" class="close" onclick="$(\'.alert\').remove();">&times;</button>'
+		+'<h4>'+connotation+'!</h4>'
+		+text;
+
+
+	$('.alert').remove();
+	var documentTarget = document.getElementById(targetDiv);
+	documentTarget.insertBefore(alertHTML, 	documentTarget.firstChild);
+
+}
 
 function repositionContainers()
 {

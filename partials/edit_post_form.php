@@ -52,6 +52,7 @@ if(isset($_GET['id']))
 	if($address != "")
 	{
 		$alt_address_flag = true;
+		
 	}
 
 	$image_label = "Image ";
@@ -66,12 +67,14 @@ if(isset($_GET['id']))
 	$tag3 = get_tag($tag_3);
 	$b_id = $_SESSION['b_id'];
 
-	$query = "SELECT address, city, state, zip FROM business WHERE id=$b_id";
+	$query = "SELECT address, city, zip FROM business WHERE id=$b_id";
 	$result = query_db($query);
 	if(isset($result[0]))
 	{
 		$business = $result[0];
-		$default_address = $business['address'].", ".$business['city'].", ".$business['state'].", ".$business['zip'];
+		$default_address = $business['address'];
+		$default_city = $business['city'];
+		$default_zip = $business['zip'];
 	}
 	  }
   }
@@ -81,15 +84,13 @@ disconnect_from_db();
 
 
 		<script>
-			var eventDisplay = <?php print $event_flag?>;
+
 			$(document).ready(function(){
-			toggleEventDisplay();
-			if(eventDisplay)
-			{
-				$('#time-group').hide();
-			}
-			<?php print ($end_flag ? "":"$('#end_time').hide();")?>
+			<?php if(!$event_flag){ echo "$('#time-group').hide();";} ?>
+			<?php print ($start_flag ? "":"$('#end_time').hide();")?>
 			<?php print ($alt_address_flag ? "$('#default-address').hide(); $('#alternate-address').show();":"$('#default-address').show(); $('#alternate-address').hide();") ?>
+
+						$('#photo_perm_text').hide();
 
 				$('#tag2').autocomplete({
 					source:'scripts/search_tag',
@@ -108,7 +109,6 @@ disconnect_from_db();
 				$('#date').datepicker({
 					dateFormat: 'yy-mm-dd',
 					minDate: 0,
-					maxDate: '+28D',
 					onSelect: function(){
 						$('#time-group').show();
 					}
@@ -119,7 +119,10 @@ disconnect_from_db();
 					}
 				});
 				$('#end_time').timepicker();
-
+					$('#image_upload').change(function(){
+						$('#photo_permission').attr('checked', false);
+						$('#photo_perm_text').show();
+					});
 				$('.edit-post-form').ajaxForm({success: parseEditPostReturn});
 				function parseEditPostReturn(responseText, statusText, xhr, $form)
 				{
@@ -130,28 +133,20 @@ disconnect_from_db();
 							
 						  var id = responseText.substring(7);
 						  $.bbq.pushState({'b':'members','view':'preview-post', 'id':id});
+						  addAlert('settings-container', 'success', 'Please review your post information and location.<br> Then <strong>activate</strong> it to make it public!');
 						}
 						  else if(responseText.substring(0,6) == 'error=')
 							{
 							  var errorCode = responseText.substring(6);
-							  console.log(errorCode)
+							  addAlert('settings-container', 'error', 'code #'+errorCode);
+
 							}
 					  
 					}
 
 				}
 			});
-			function toggleEventDisplay(){
-				if(eventDisplay == true)
-				{
-					$('#event-fields').show();
-				}
-				else
-				{
-					$('#event-fields').hide();
-				}
-				eventDisplay = !eventDisplay;
-			}
+
 		</script>
 		<div id='js-content'>
 		<form class='edit-post-form' name='edit-post-form'  enctype='multipart/form-data' action='scripts/edit_post?id=<?php print $id ?>' method='post'>
@@ -164,9 +159,29 @@ disconnect_from_db();
 					Title *
 				</label>
 				<div class="controls">
-					<input type="text" maxlength=50 name="title" id="title" value="<?php print $title?>" placeholder="Insert title here..." class="span12">
+					<input required type="text" maxlength=50 name="title" id="title" value="<?php print $title?>" placeholder="Insert title here..." class="span12">
 				</div>
 			</div>
+
+			<div id='post-address'>
+
+			<div class="control-group">
+				<label class="control-label" for="address">Address * <?php print ($default_address=="" ?  "":"<button type='button' class='btn-mini' onclick=\"$('#address').val('$default_address'); $('#city').val('$default_city'); $('#zip').val('$default_zip');\">Use Default Address</button>");?>
+			</label>
+					<div class="controls">
+						<input required type="text" maxlength=250 name="address" id="address" <?php print ($alt_address_flag ? "value='$address'" : "") ?> placeholder="Nearest cross-street" class="span12">
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="controls">
+						<input required type="text" maxlength=250 name="city" id="city" <?php print ($alt_address_flag ? "value='$city'" : "") ?> placeholder="<?php print ($default_address!="" ? $business['city']:"City") ?>" class="span8">
+						<input required type="text" maxlength=10 name="zip" id="zip" <?php print ($alt_address_flag ? "value='$zip'" : "") ?> placeholder="<?php print ($default_address!="" ? $business['zip']:"Zip") ?>" class="span4">
+					</div>
+			</div>
+
+			</div>
+			---------
+
 
 			<div class="control-group">
 				<label class="control-label" for="description">
@@ -215,10 +230,11 @@ disconnect_from_db();
 				<label class="control-label" for="image_upload"><?php print $image_label ?> (must be less than 2Mb)</label>
 					<div class="controls">
 						<input type="file" name="image_upload" id="image_upload" size=05>
+						<p id="photo_perm_text"><input required type="checkbox" id="photo_permission" value="photo_perm" checked> I certify that I have the rights to this image and grant tndrbox permission to reproduce it.</p>
 					</div>
 			</div>
 
-			<input type="checkbox" name="event-check" onchange="toggleEventDisplay()" <?php print ($event_flag ? "checked=true":"")?>> Event <br>
+
 
 
 			<div id="event-fields">
@@ -227,10 +243,9 @@ disconnect_from_db();
 					Date 
 				</label>
 				<div class="controls">
-					<input type="text" name="date" id="date" <?php print ($event_flag ? "value='$date'": "") ?> placeholder="Click to add date..." class="span12">
+					<input type="text" name="date" id="date" value='<?php if($event_flag) {print $date;} ?>' placeholder="Click to add date..." class="span12">
 				</div>
-			</div>
-			
+			</div>			
 
 			<div id="time-group">
 			<div class="control-group">
@@ -247,37 +262,7 @@ disconnect_from_db();
 
 			</div>
 			---------
-<?php
-	if($default_address != "")
-	{
-		echo "
-			<div id='default-address'>
-				<button type='button' class='btn-mini' onclick=\"$('#default-address').hide(); $('#alternate-address').show();\">Change Address</button><br>
-					".$business['address']."<br>
-					".$business['city'].", ".$business['state'].", ".$business['zip']."
-			</div>";
-	}
-?>
 
-			<div id='alternate-address'>
-
-			<div class="control-group">
-				<label class="control-label" for="address">Alternate Address</label>
-					<div class="controls">
-						<input type="text" maxlength=250 name="address" id="address" <?php print ($alt_address_flag ? "value='$address'" : "") ?> placeholder="Nearest cross-street" class="span12">
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="controls">
-						<input type="text" maxlength=250 name="city" id="city" <?php print ($alt_address_flag ? "value='$city'" : "") ?> placeholder="<?php print ($default_address!="" ? $business['city']:"City") ?>" class="span8">
-						<input type="text" maxlength=10 name="zip" id="zip" <?php print ($alt_address_flag ? "value='$zip'" : "") ?> placeholder="<?php print ($default_address!="" ? $business['zip']:"Zip") ?>" class="span4">
-					</div>
-			</div>
-			<div <?php print ($default_address=="" ? "class='hidden'":"")?>>
-			<button type='button' class='btn-mini' onclick="$('#alternate-address').hide(); $('#default-address').show(); $('#address, #city, #zip').val('');">Use Default Address</btn>
-			</div>
-			</div>
-			---------
 			<div class="control-group">
 				<label class="control-label" for="url">URL</label>
 					<div class="controls">

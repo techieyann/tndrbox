@@ -83,9 +83,11 @@ disconnect_from_db();
 			} ?>
 			</ul>
 		</div>
-		<div id='settings-content' class='span9 content rounded'>
+		<div id='settings-container' class='span9 content rounded'>
+		<div id='settings-content'>
 			<div id='loading' class='centered'>
 				<img src='images/loading.gif' alt='Loading...'>
 			</div>
+		</div>
 		</div>
 	</div>

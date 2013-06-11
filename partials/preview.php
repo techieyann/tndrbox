@@ -114,8 +114,6 @@ function previewMapInit(){
 </script>
 
 <ul class="inline centered hidden-phone" style="padding-bottom:10px; border-bottom:solid 1px black;">
-<li><a class="btn" title="Save" href="#b=members&view=posts"><i class="icon-folder-close"></i> Save</a></li>
-<li><a class="btn" title="Edit" href="#b=members&view=edit-post&id=<?php print $id ?>"><i class="icon-pencil"></i> Edit</a></li>
 <?php 
   if($active == 1)
 	{
@@ -128,6 +126,9 @@ function previewMapInit(){
 <li><a class='btn' title='Activate' href='#b=members&view=activate-post&id=$id'><i class='icon-check'></i> Activate</a></li>";
 	 }
 ?>
+<li><a class="btn" title="Save" href="#b=members&view=posts"><i class="icon-folder-close"></i> Save</a></li>
+<li><a class="btn" title="Edit" href="#b=members&view=edit-post&id=<?php print $id ?>"><i class="icon-pencil"></i> Edit</a></li>
+
 <li><a class="btn" title="Delete" href="#b=members&view=delete-post&id=<?php print $id ?>"><i class="icon-trash"></i> Delete</a></li>
 
 </ul>

@@ -90,7 +90,8 @@ disconnect_from_db();
 
 			
 
-			$(function(){
+			$(document).ready(function(){
+				$('#photo_perm_text').hide();
 				$('#tag2').autocomplete({
 					source:'scripts/search_tag',
 					select: function(event, ui){
@@ -111,25 +112,24 @@ disconnect_from_db();
 					$('#date').datepicker({
 						dateFormat: 'yy-mm-dd',
 						minDate: 0,
-						maxDate: '+28D',
 						onSelect: function(){
 							$('#time-group').show();
 						}
 					});
 					$('#start_time').timepicker({
-						showPeriod: true,
-						showLeadingZero: true,
 						onSelect: function(time){
 							$('#end_time').show();
 						}
 					});
-					$('#end_time').timepicker({
-						showPeriod: true,
-						showLeadingZero: true,
+					$('#end_time').timepicker();
+					$('#image_upload').change(function(){
+						$('#photo_permission').attr('checked', false);
+						$('#photo_perm_text').show();
 					});
-
 				$('.new-post-form').ajaxForm({success: parseNewPostReturn});
 			});
+
+
 				function parseNewPostReturn(responseText, statusText, xhr, $form)
 				{
 				  if(statusText == 'success')
@@ -138,11 +138,12 @@ disconnect_from_db();
 						{
 						  var id = responseText.substring(7);
 						  $.bbq.pushState({'b':'members','view':'preview-post', 'id':id});
+						  addAlert('settings-container', 'success', 'Please review your post information and location.<br> Then <strong>activate</strong> it to make it public!');
 						}
 						  else if(responseText.substring(0,6) == 'error=')
 							{
 							  var errorCode = responseText.substring(6);
-							  console.log(errorCode)
+							  addAlert('settings-container', 'error', 'code #'+errorCode);
 							}
 					  
 					}
@@ -163,7 +164,7 @@ disconnect_from_db();
 					Title *
 				</label>
 				<div class="controls">
-					<input type="text" maxlength=50 name="title" id="title" placeholder="Insert title here..." class="span12">
+					<input required type="text" maxlength=50 name="title" id="title" placeholder="Insert title here..." class="span12">
 				</div>
 			</div>
 <?php
@@ -181,7 +182,14 @@ disconnect_from_db();
 			<div id='post-address'>
 
 			<div class="control-group">
-				<label class="control-label" for="address">Address *</label>
+				<label class="control-label" for="address">Address * 			<?php
+				if($default_address!="")
+				{
+					echo"
+				<button type='button' class='btn-mini' onclick=\"$('#post-address').hide(); $('#default-address').show(); $('#address').val('$address'); $('#city').val('$city'); $('#zip').val('$zip');\">Use Default Address</button>";
+				}
+			?>
+				<!--<button type="button" class="btn-mini" onclick="">Pick on Map</button>--></label>
 					<div class="controls">
 						<input required type="text" maxlength=250 name="address" id="address" <?php
 	if($default_address!="") echo "value='$address' ";
@@ -198,13 +206,6 @@ disconnect_from_db();
 						?> placeholder="Zip" class="span4">
 					</div>
 			</div>
-			<?php
-				if($default_address!="")
-				{
-					echo"
-				<button type='button' class='btn-mini' onclick=\"$('#post-address').hide(); $('#default-address').show(); $('#address').val('$address'); $('#city').val('$city'); $('#zip').val('$zip');\">Use Default Address</btn>";
-				}
-			?>
 
 			</div><!-- #post-address -->
 			---------
@@ -213,7 +214,7 @@ disconnect_from_db();
 					Description * 
 				</label>
 					<div class="controls">
-					    <textarea name="description" rows=5 maxlength=255 placeholder="Write a description here in less than 250 characters" class="span12"></textarea>
+					    <textarea required name="description" rows=5 maxlength=255 placeholder="Write a description here in less than 250 characters" class="span12"></textarea>
 					</div>
 			</div>
 			<div class="control-group">
@@ -260,9 +261,10 @@ disconnect_from_db();
 				<label class="control-label" for="image_upload"><?php print $image_label ?> (must be less than 2Mb)</label>
 					<div class="controls">
 						<input type="file" name="image_upload" id="image_upload" size=05>
+						<p id="photo_perm_text"><input required type="checkbox" id="photo_permission" value="photo_perm" checked> I certify that I have the rights to this image and grant tndrbox permission to reproduce it.</p>
+
 					</div>
 			</div>
-			<input type="checkbox" id="photo_permission"> I certify that I have the rights to this image and grant tndrbox permission to reproduce it.<br><br>
 
 
 			<div class="control-group">
@@ -302,7 +304,7 @@ disconnect_from_db();
 
 			<div class="form-actions">				
 				<button type="button" class="btn pull-left" id="cancel-button" onclick="$.bbq.pushState({'b':'members', 'view':'posts'})" tabindex=-1>Cancel</button>
-				<button type="submit" class="btn btn-primary pull-right" id="add-submit">Submit</button>
+				<button type="submit" class="btn btn-primary pull-right" id="add-submit">Next</button>
 			</div>
 			</fieldset>
 			</form>

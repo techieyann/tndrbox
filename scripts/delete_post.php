@@ -20,7 +20,7 @@ if(isset($_GET['id']))
 
 	$id = $_GET['id'];
 
-	$query = "SELECT b_id, photo FROM postings WHERE id=$id";
+	$query = "SELECT b_id, photo, active FROM postings WHERE id=$id";
 	$result = query_db($query);
 	if(isset($result[0]))
 	  {
@@ -34,13 +34,13 @@ if(isset($_GET['id']))
 				return;
 			  }
 		  }
+		if($active)
+		{
+			deactivate_post($id);
+		}
 		push_old_post($b_id);
 		$query = "DELETE FROM postings WHERE id=$id";
 		$result = query_db($query);
-		if($photo != "")
-		  {
-			//			unlink('../images/posts/'.$photo);
-		  }
 	  }
 	disconnect_from_db($link);
   }

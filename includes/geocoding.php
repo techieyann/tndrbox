@@ -17,9 +17,9 @@ function addr_to_latlon($address_input)
 	$json_response = file_get_contents($url);
 	$response = json_decode($json_response, true);
 
-	
-	$return['lat'] = $response['results']['geometry']['location']['lat'];
-	$return['lon'] = $response['results']['geometry']['location']['lng'];
+
+	$return['lat'] = $response['results'][0]['geometry']['location']['lat'];
+	$return['lon'] = $response['results'][0]['geometry']['location']['lng'];
 
 	return $return;
   }

@@ -5,7 +5,7 @@ creator: Ian McEachern
 
 This script activates the indicated post
  ***********************************************/
-echo "hello world";
+
 if(isset($_GET['id']))
   {
 	require('../includes/includes.php');
