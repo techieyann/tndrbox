@@ -153,8 +153,8 @@ else
 
 
 
-   							<div id='posting-blurb' class='posting-blurb content'>
-								<strong>$blurb</strong>";
+   							<div id='posting-blurb' class='posting-blurb'>
+								$blurb";
 	if($url!="")
 	  {
 		echo "
@@ -209,7 +209,7 @@ else
 
 	echo "
 							</div>
-							<div class='row'>
+							<div class='row post-tags'>
 							<ul class='inline tags centered'>
 								<li><a href='#t=$tag_2' class='tag'>$tags[2]</a></li>
 								<li><a href='#t=$tag_3' class='tag'>$tags[3]</a></li>

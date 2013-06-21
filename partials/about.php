@@ -8,7 +8,7 @@
 
 <p>Gardeners discovering a local guerilla gardening spree, beer lovers knowing a new brew just came in on tap around the corner. A place online where common interests and neighborhoods intersect, where neighbors and common goals spark new action and forge stronger communities.</p>
 
-<p>We didn’t built tndrbox to be another social network—we built it because we know there’s a better way to discover and participate for every block.</p>
+<p>We didn’t build tndrbox to be another social network—we built it because we know there’s a better way to discover and participate for every block.</p>
 
 <p><strong>Contact us</strong> to participate at <a href="mailto:tndrbox@gmail.com">tndrbox@gmail.com</a></p>
 
