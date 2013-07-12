@@ -479,7 +479,18 @@ ul.inline,ol.inline{margin-left:0;list-style:none;}ul.inline>li,ol.inline>li{dis
 									</div><!-- .input-prepend -->
 								</form>
 							</li>
+								<br>
+							<li>
+
+								<form id='date-bar' class='form-inline'>
+									<div class='input-prepend'>
+										<span class='add-on'><i class='icon-calendar'></i></span>
+										<input type='text' id='date-search' name='date-search' class='span3' placeholder='Click to filter by date'>
+									</div><!-- .input-prepend -->
+								</form>
+							</li>
 						</ul>
+
 				</div><!-- tndr-buttons -->
 				<div id="tndr">
 

@@ -76,10 +76,11 @@ function process_posting($raw_post)
 
 		$processed_post['id'] = $id;
 		$processed_post['title'] = $title;
-		$processed_post['date'] = format_date($id);
+		$processed_post['date'] = $date;
+		$processed_post['formatted_date'] = format_date($id);
 		if($date == "0000-00-00")
 		{
-			$processed_post['time_delta'] = abs($now-strtotime($posting_time));
+			$processed_post['time_delta'] = abs($now-strtotime('yesterday midnight'));
 		}
 		else
 		{
@@ -98,10 +99,10 @@ function process_posting($raw_post)
 		//need to calculate speed here
 		//		$processed_post['speed'] = 1;
 		$tag_1 = $processed_post['tag_1'];
-		$date = $processed_post['date'];
-		$processed_post['list'] = "<div class='post-mini li'><ul class='inline'><li><div class='".$tag_1."_sm'></div></li><li><h4>$title</h4></li><li class='muted'>by $name</li>".($date != null ? "<li>on $date</li>":"")."</ul></div>";
+		$formatted_date = $processed_post['formatted_date'];
+		$processed_post['list'] = "<div class='post-mini li'><ul class='inline'><li><div class='".$tag_1."_sm'></div></li><li><h4>$title</h4></li><li class='muted'>by $name</li>".($formatted_date != null ? "<li>on $formatted_date</li>":"")."</ul></div>";
 
-		$processed_post['tile'] = "<div class='post-mini button'><div class='front-page-button-header'>$tag_1</div><div class='front-page-button-body'>".($photo != "" ? "<img alt='photo for $title+' src='slir/w200-q80/images/posts/$photo'>":"")."<div class='front-page-button-text'><h4>$title</h4><p class='muted'>$name</p>".($date != null ? "<p>$date</p>":"")."</div></div></div>";
+		$processed_post['tile'] = "<div class='post-mini button'><div class='front-page-button-header'>$tag_1</div><div class='front-page-button-body'>".($photo != "" ? "<img alt='photo for $title+' src='slir/w200-q80/images/posts/$photo'>":"")."<div class='front-page-button-text'><h4>$title</h4><p class='muted'>$name</p>".($formatted_date != null ? "<p>$formatted_date</p>":"")."</div></div></div>";
 		return $processed_post;
 }
 

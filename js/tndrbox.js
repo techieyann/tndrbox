@@ -19,8 +19,10 @@ var activePost;
 var activePostId = 0;
 var activeCat = 0;
 var activeTag = 0;
+var activeDate = 0;
 var lastCat = 0;
 var lastTag = 0;
+var lastDate = 0;
 
 var activeTagOp = 'and';
 var tagOpChange = false;
@@ -109,17 +111,7 @@ function initPage()
 
 	$('#box-links').show();
 
-
-
-
-/*	If($(window).innerWidth()<360)
-	{
-
-	}*/
-
 	ogSearchPlaceholder = $('#search').attr('placeholder');
-
-
 
 		initMarkerSprites();
 		oms = new OverlappingMarkerSpiderfier(map);
@@ -199,24 +191,27 @@ $(document).ready(function(){
 		{
  			$('#reset-filters-button').hide();	
 		}
-		if(categoryFlag && query.c!=lastCat)
+		if(categoryFlag)
 		{
-			var dropdownList = $('#categories-dropdown>ul').children();
-			var categoryHtml = $('#categories-dropdown>a').html()
-			$.each(dropdownList.children(), function(index)
+			if(query.c!=activeCat)
 			{
-				if($.deparam($(this).attr('href').substring(1)).c == query.c)
+				var dropdownList = $('#categories-dropdown>ul').children();
+				var categoryHtml = $('#categories-dropdown>a').html()
+				$.each(dropdownList.children(), function(index)
 				{
-					categoryHtml = $(this).html();
-					category = categoryHtml.substr(categoryHtml.lastIndexOf('>')+1)
+					if($.deparam($(this).attr('href').substring(1)).c == query.c)
+					{
+						categoryHtml = $(this).html();
+						category = categoryHtml.substr(categoryHtml.lastIndexOf('>')+1)
 			
-					categoryHtml = "<div class='pull-left "+category+"_sm'></div> "+category+" <span class='caret'>";
-				}
-			});
-			$('#categories-dropdown>a').html(categoryHtml);
+						categoryHtml = "<div class='pull-left "+category+"_sm'></div> "+category+" <span class='caret'>";
+					}
+				});
+				$('#categories-dropdown>a').html(categoryHtml);
 				activeCat = query.c;
 				$('.tags a').fragment({'c':''+activeCat}, 0);
 				filterFlag = true;
+			}
 		}
 		else
 		{
@@ -228,7 +223,6 @@ $(document).ready(function(){
 		{
 			if(query.t != activeTag)
 			{
-
 				activeTag = query.t;
 				filterFlag = true;
 			}
@@ -240,11 +234,23 @@ $(document).ready(function(){
 			$('#categories-ul a').fragment({'t':''}, 0);
 		}
 		
-/*		if(dateFlag && (query.d != activeDate))
+		if(dateFlag)
 		{
-
-			filterFlag = true;
-		}*/
+			if(query.d != activeDate)
+			{
+				$('#date-search').attr('value', query.d);
+				activeDate = query.d;
+				filterFlag = true;
+			}
+			$('.tags a').fragment({'d':''+activeDate}, 0);
+			$('#categories-ul a').fragment({'d':''+activeDate}, 0);
+		}
+		else
+		{
+			activeDate = 0;
+			$('#categories-ul a').fragment({'d':''}, 0);
+			$('.tags a').fragment({'d':''}, 0);
+		}
 
 		if(!filterFlag)
 		{
@@ -268,38 +274,83 @@ $(document).ready(function(){
 					{
 						if((query.t == postings[i]['tag_2_id'])||(query.t == postings[i]['tag_3_id']))
 						{
-
-							currentPostActive = true;
+							if(dateFlag)
+							{
+								if(postings[i]['date'] == query.d || postings[i]['date'] == '0000-00-00')
+								{
+									currentPostActive = true;
+								}			
+							}
+							else
+							{
+								currentPostActive = true;
+							}
+						}
+						else
+						{
+							if(dateFlag)
+							{
+								if(postings[i]['date'] == query.d || postings[i]['date'] == '0000-00-00')
+								{
+									currentPostActive = true;
+								}								
+							}
+							else
+							{
+								currentPostActive = true;
+							}
 						}
 					}
 					else
 					{
+							if(dateFlag)
+							{
+								if(postings[i]['date'] == query.d || postings[i]['date'] == '0000-00-00')
+								{
+									currentPostActive = true;
+								}								
+							}
+							else
+							{
+								currentPostActive = true;
+							}
 
+					}
+				}
+
+					if(activeTagOp == 'or' || !categoryFlag)
+					{
+
+						if(tagFlag && (query.t == postings[i]['tag_2_id'])||(query.t == postings[i]['tag_3_id']))
+						{
+
+							if(dateFlag)
+							{
+								if(postings[i]['date'] == query.d || postings[i]['date'] == '0000-00-00')
+								{
+									currentPostActive = true;
+								}			
+							}
+							else
+							{
+								currentPostActive = true;
+							}
+						}
+					}
+				if(!categoryFlag && !tagFlag)
+				{
+					if(dateFlag && postings[i]['date'] == query.d || postings[i]['date'] == '0000-00-00')
+					{
 						currentPostActive = true;
 					}
 				}
 
-				if(activeTagOp == 'or' || !categoryFlag)
-				{
-
-				if(tagFlag && (query.t == postings[i]['tag_2_id'])||(query.t == postings[i]['tag_3_id']))
-				{
-
-					currentPostActive = true;
-				}
-				}
-
-
-/*				else if(dateFlag)
-				{
-
-				}*/
 				if(currentPostActive)
 				{
 					activePostings[j] = i;
 					j++;
 					postId = postings[i]['id'];
-					$('#tile-'+postId+', #list-'+postId).fragment({'c':query.c, 't': query.t});
+					$('#tile-'+postId+', #list-'+postId).fragment({'c':query.c, 't': query.t, 'd': query.d});
 				}
 			}
 			displayPosts();
@@ -314,11 +365,12 @@ $(document).ready(function(){
 			{
 				postId = postings[i]['id'];
 				activePostings[i] = i;
-				$('#tile-'+postId+', #list-'+postId).fragment({'c':'', 't':''});
+				$('#tile-'+postId+', #list-'+postId).fragment({'c':'', 't':'', 'd':''});
 			}
 			activeCat = 0;
 			activeTag = 0;
-			if(activeCat != lastCat || activeTag != lastTag)
+			activeDate = 0;
+			if(activeCat != lastCat || activeTag != lastTag || activeDate != lastDate)
 			{
 				displayPosts();
 				if(initialized)
@@ -399,6 +451,10 @@ $(document).ready(function(){
 		{
 			$('#search').attr('placeholder', ogSearchPlaceholder);
 		}
+		if(activeDate == 0)
+		{
+			$('#date-search').attr('value', '');
+		}
 		if(categoryFlag == 0 && tagFlag == 0)
 		{
 			$('#tag-op').hide();
@@ -409,10 +465,8 @@ $(document).ready(function(){
 		}
 		lastCat = activeCat;
 		lastTag = activeTag;
+		lastDate = activeDate;
 		lastURL = window.location.hash;
-
-
-
 	});
 
 
@@ -499,7 +553,7 @@ $(document).ready(function(){
 	});
 
 	$('#reset-filters-button').click(function(){
-		$.bbq.pushState({'c':'', 't':''});
+		$.bbq.pushState({'c':'', 't':'', 'd':''});
 	});
 
 	$('#tag-op').click(function(e){
@@ -538,6 +592,14 @@ $(document).ready(function(){
 		{
 			e.preventDefault();
 			return false;
+		}
+	});
+
+	$('#date-search').datepicker({
+		dateFormat: 'yy-mm-dd',
+		minDate: 0,
+		onSelect: function(data){
+			$.bbq.pushState('d='+data, 0);
 		}
 	});
 
@@ -769,7 +831,6 @@ function calcDistance(lat, lon)
 function writePosts()
 {
 	var post, marker, infoWindow, list, button, tileLink, listLink, p_id, postLatLon, selector, divSelector;
-	var postingsIndex = postings.length;
 	var postingsLength = postings.length;
 
 	for(var i=0; i<postingsLength; i++)
@@ -779,97 +840,94 @@ function writePosts()
 		p_id = post['id'];
 
 		selector = (tilesDisplayed ? $('#tile-'+p_id):$('#list-'+p_id));
+
+		//if we already wrote the element, update the index
 		if(selector.length)
 		{
-
-			
 			postings[i]['marker'].setOptions({index:i});
 			selector.attr('index', i);
 			divSelector = (tilesDisplayed ? $('#tiles'):$('#list'));
 			divSelector.append(selector.parent());
 		}
+		//otherwise create the appropriate element
 		else
 		{
-
-		if(tilesDisplayed)
-		{
-			button = document.createElement('div');
-			tileLink = document.createElement('a');
-
-			tileLink.innerHTML = post['tile'];
-			tileLink.setAttribute('href','#p='+p_id);
-			tileLink.setAttribute('id', 'tile-'+p_id);
-			tileLink.setAttribute('class', 'post-trigger');
-			tileLink.setAttribute('index', i);
-
-			button.setAttribute('class', 'posting-list-button tile');
-			button.appendChild(tileLink);
-			button.innerHTML += "<div class='post-big'></div>";
-
-			$('#tiles').append(button);
-		}
-
-		//lists displayed
-		else
-		{
-		list = document.createElement('div');
-		listLink = document.createElement('a');
-
-		listLink.innerHTML = post['list'];
-		listLink.setAttribute('href','#p='+p_id);
-		listLink.setAttribute('id', 'list-'+p_id);
-		listLink.setAttribute('class', 'post-trigger');
-		listLink.setAttribute('index', i);
-		listLink.innerHTML = post['list'] + "<div class='post-big'></div>";
-
-		list.setAttribute('class', 'posting-list-button list');
-		list.appendChild(listLink);
-		list.innerHTML += "<div class='post-big'></div>";
-
-			$('#list').append(list);
-		}
-
-		if(!initialized)
-		{
-		postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
-
-		postings[i]['marker'] = new google.maps.Marker({
-			position: postLatLon,
-			title: post['title'],
-			id: p_id,
-			index: i,
-			icon: markerSprites[post.tag_1]
-		});
-		postInfo = getPostInfo(post);
-		postings[i]['infoWindow'] = new google.maps.InfoWindow({
-			content: postInfo
-		});
-		infoWindow = postings[i]
-
-		$('.iw-link').click(function(e){
-				$(this).parent().close();
-			});
-		marker=postings[i]['marker'];
-			google.maps.event.addListener(postings[i]['marker'], 'mouseover', function(e){
-				var id = $(this).attr('id')
-
-				highlightPosting(id);
-
-			});
-			google.maps.event.addListener(postings[i]['marker'], 'mouseout', function(e){
-				var id = $(this).attr('id')
-				lowlightPosting(id);
-			});
-
-		oms.addMarker(postings[i]['marker']);
 			if(tilesDisplayed)
 			{
-				masonryInitReload = true;
+				button = document.createElement('div');
+				tileLink = document.createElement('a');
+	
+				tileLink.innerHTML = post['tile'];
+				tileLink.setAttribute('href','#p='+p_id);
+				tileLink.setAttribute('id', 'tile-'+p_id);
+				tileLink.setAttribute('class', 'post-trigger');
+				tileLink.setAttribute('index', i);
+	
+				button.setAttribute('class', 'posting-list-button tile');
+				button.appendChild(tileLink);
+				button.innerHTML += "<div class='post-big'></div>";
+	
+				$('#tiles').append(button);
 			}
-		}
-
-
-
+	
+			//lists displayed
+			else
+			{
+				list = document.createElement('div');
+				listLink = document.createElement('a');
+		
+				listLink.innerHTML = post['list'];
+				listLink.setAttribute('href','#p='+p_id);
+				listLink.setAttribute('id', 'list-'+p_id);
+				listLink.setAttribute('class', 'post-trigger');
+				listLink.setAttribute('index', i);
+				listLink.innerHTML = post['list'] + "<div class='post-big'></div>";
+		
+				list.setAttribute('class', 'posting-list-button list');
+				list.appendChild(listLink);
+				list.innerHTML += "<div class='post-big'></div>";
+	
+				$('#list').append(list);
+			}
+	
+			if(!initialized)
+			{
+				postLatLon = new google.maps.LatLng(post['lat'], post['lon']);
+		
+				postings[i]['marker'] = new google.maps.Marker({
+					position: postLatLon,
+					title: post['title'],
+					id: p_id,
+					index: i,
+					icon: markerSprites[post.tag_1]
+				});
+				postInfo = getPostInfo(post);
+				postings[i]['infoWindow'] = new google.maps.InfoWindow({
+					content: postInfo
+				});
+				infoWindow = postings[i]
+		
+				$('.iw-link').click(function(e){
+					$(this).parent().close();
+				});
+				marker=postings[i]['marker'];
+				google.maps.event.addListener(postings[i]['marker'], 'mouseover', function(e){
+					var id = $(this).attr('id')
+	
+					highlightPosting(id);
+	
+				});
+				google.maps.event.addListener(postings[i]['marker'], 'mouseout', function(e){
+					var id = $(this).attr('id')
+					lowlightPosting(id);
+				});
+	
+				oms.addMarker(postings[i]['marker']);
+				if(tilesDisplayed)
+				{
+					masonryInitReload = true;
+				}
+			}
 		}
 /*	var postScript = document.createElement('script');
 	postScript.innerHTML = "$('.posting-list-button').hover(function(e){"
@@ -882,15 +940,13 @@ function writePosts()
 	var ref = document.getElementsByTagName('script')[0];
 	ref.parentNode.insertBefore(postScript, ref);*/
 	}
-$('.posting-list-button').hover(function(e){
+	$('.posting-list-button').hover(function(e){
 		var i = $(this).children('.post-trigger').attr('index');
 		highlightPosting(postings[i]['id']);
 		}, function(e){
 		var i = $(this).children('.post-trigger').attr('index');
 		lowlightPosting(postings[i]['id']);
-		});
-		
-
+	});
 
 	displayPosts();
 	if(initialized)
@@ -899,6 +955,7 @@ $('.posting-list-button').hover(function(e){
 		displayActiveMarkers();
 	}
 }
+
 function displayPosts()
 {
 	var post, link, id, activePost;
@@ -934,7 +991,6 @@ function startLoading(targetDiv)
 
 function endLoading(targetDiv)
 {
-
 	targetDiv.children('.loading').remove();
 }
 function addAlert(targetDiv, connotation, text)
