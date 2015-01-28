@@ -1,35 +1,6 @@
-Cream README
+tndrbox README
 ----------------------------------
 
 This is the source code repository for the cream engine
-of tinderbox. This engine consists of two different user
-models: consumer and business. Businesses can edit their
-relevant data and display page aesthetics, as well as 
-submit and edit postings. Consumers can edit their list
-of prioritized tags, and edit their relevant data.
-
-Consumers and businesses interact through the tag engine.
-Businesses choose (3) relevant tags for each post and (2)
-for themselves. Consumers input tags they are interested
-in finding more about. An individuals homepage then 
-consists of a list of postings from businesses ranked by
-distance and correlation to interest. If the individual 
-is linked to a business the relevant statistics and 
-options are displayed as well.
-
-The default landing page consists of a search bar and
-listing of posts sorted by trending tags and distance.
-The search bar allows a user to enter a tag they want
-to filter for.
-
-Presently, the file structure of the source tree is as
-follows:
-
-/
-/includes/
-/scripts/
-
-The root dir is for css and web page scripts. /includes/
-contains the global definitions of variables and 
-functions, and /scripts/ contains the code which
-interacts with the databases.
+of tndrbox. You can access the running version at
+tndrbox.com
